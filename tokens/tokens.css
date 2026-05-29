@@ -358,4 +358,8 @@
   --hbd-input-min-height: 44px;
   --hbd-input-font-size: var(--hbd-font-size-body);
   --hbd-input-border-width: var(--hbd-border-width-hairline);
+
+  /* ── textarea ──────────────────────────────────────────── */
+  --hbd-textarea-min-height: 96px;
+  --hbd-textarea-max-height: 400px;
 }

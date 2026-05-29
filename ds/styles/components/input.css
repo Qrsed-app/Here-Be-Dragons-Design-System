@@ -65,8 +65,11 @@
   padding-right: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
 }
 
-/* ── 2d · Native input ──────────────────────────────────────────────── */
-.hbd-field__input {
+/* ── 2d · Native input + textarea (shared field surface) ────────────── */
+/* Shared across .hbd-field__input and .hbd-field__textarea — textarea
+   overrides min-height / adds resize at the end of this file. */
+.hbd-field__input,
+.hbd-field__textarea {
   width: 100%;
   min-height: var(--hbd-input-min-height);
   padding: var(--hbd-input-padding-y) var(--hbd-input-padding-x);
@@ -83,26 +86,31 @@
   transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
               box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
 }
-.hbd-field__input::placeholder {
+.hbd-field__input::placeholder,
+.hbd-field__textarea::placeholder {
   color: var(--hbd-color-text-muted);
   opacity: 1;
 }
-.hbd-field__input:hover {
+.hbd-field__input:hover,
+.hbd-field__textarea:hover {
   border-color: var(--hbd-color-border-strong);
 }
-.hbd-field__input:focus-visible {
+.hbd-field__input:focus-visible,
+.hbd-field__textarea:focus-visible {
   border-color: var(--hbd-color-input-focus-border);
   outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
   outline-offset: var(--hbd-focus-offset);
 }
 
 /* ── 2e · Size modifiers ────────────────────────────────────────────── */
-.hbd-field--sm .hbd-field__input {
+.hbd-field--sm .hbd-field__input,
+.hbd-field--sm .hbd-field__textarea {
   min-height: var(--hbd-space-8);
   font-size: var(--hbd-font-size-label);
   padding: var(--hbd-space-1) var(--hbd-space-2);
 }
-.hbd-field--lg .hbd-field__input {
+.hbd-field--lg .hbd-field__input,
+.hbd-field--lg .hbd-field__textarea {
   min-height: calc(var(--hbd-input-min-height) + var(--hbd-space-2));
   font-size: var(--hbd-font-size-body);
   padding: var(--hbd-space-3) var(--hbd-space-4);
@@ -111,12 +119,14 @@
 /* ── 2f · Validation / interaction states ───────────────────────────── */
 
 /* Error */
-.hbd-field--error .hbd-field__input {
+.hbd-field--error .hbd-field__input,
+.hbd-field--error .hbd-field__textarea {
   border-color: var(--hbd-color-status-error-border);
   /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant error tint */
   color: var(--hbd-color-text-emphasis);
 }
-.hbd-field--error .hbd-field__input:focus-visible {
+.hbd-field--error .hbd-field__input:focus-visible,
+.hbd-field--error .hbd-field__textarea:focus-visible {
   border-color: var(--hbd-color-status-error-border);
   outline-color: var(--hbd-color-status-error-border);
 }
@@ -124,12 +134,14 @@
 .hbd-field--error .hbd-field__hint  { display: none; }
 
 /* Success */
-.hbd-field--success .hbd-field__input {
+.hbd-field--success .hbd-field__input,
+.hbd-field--success .hbd-field__textarea {
   border-color: var(--hbd-color-status-success-border);
   /* forest-700 (~5.5:1 on parchment) — AA-compliant dark green */
   color: var(--hbd-color-forest-700);
 }
-.hbd-field--success .hbd-field__input:focus-visible {
+.hbd-field--success .hbd-field__input:focus-visible,
+.hbd-field--success .hbd-field__textarea:focus-visible {
   border-color: var(--hbd-color-status-success-border);
   outline-color: var(--hbd-color-status-success-border);
 }
@@ -137,7 +149,8 @@
 .hbd-field--success .hbd-field__hint    { display: none; }
 
 /* Disabled */
-.hbd-field--disabled .hbd-field__input {
+.hbd-field--disabled .hbd-field__input,
+.hbd-field--disabled .hbd-field__textarea {
   background: var(--hbd-color-surface-subtle);
   color: var(--hbd-color-text-disabled);
   border-color: var(--hbd-color-border-subtle);
@@ -147,16 +160,19 @@
   color: var(--hbd-color-text-disabled);
   cursor: not-allowed;
 }
-.hbd-field--disabled .hbd-field__input:hover {
+.hbd-field--disabled .hbd-field__input:hover,
+.hbd-field--disabled .hbd-field__textarea:hover {
   border-color: var(--hbd-color-border-subtle);
 }
 
 /* Readonly — muted surface, default cursor; border/label unchanged */
-.hbd-field--readonly .hbd-field__input {
+.hbd-field--readonly .hbd-field__input,
+.hbd-field--readonly .hbd-field__textarea {
   background: var(--hbd-color-surface-subtle);
   cursor: default;
 }
-.hbd-field--readonly .hbd-field__input:hover {
+.hbd-field--readonly .hbd-field__input:hover,
+.hbd-field--readonly .hbd-field__textarea:hover {
   border-color: var(--hbd-color-border-strong);
 }
 
@@ -219,4 +235,47 @@
 /* When a password toggle occupies the suffix, reserve trailing room. */
 .hbd-field--with-toggle .hbd-field__input {
   padding-right: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
+}
+
+/* ── 2h · Textarea (multiline) — extends the shared input surface ───── */
+/* Inherits all base / state / size rules from the combined
+   .hbd-field__input,.hbd-field__textarea selectors above. Only the
+   multiline-specific properties are declared here. */
+.hbd-field__textarea {
+  min-height: var(--hbd-textarea-min-height);
+  max-height: var(--hbd-textarea-max-height);
+  resize: vertical;
+  overflow-y: auto;
+  line-height: var(--hbd-line-height-body);
+}
+
+/* Auto-resize: JS sizes the height inline; CSS only removes the manual
+   handle and the scrollbar so growth is seamless. */
+.hbd-field--autoresize .hbd-field__textarea {
+  resize: none;
+  overflow: hidden;
+  height: auto;
+}
+
+/* ── 2i · Footer row (hint/error/success + char-count) ──────────────── */
+/* Allows the message to sit left and the counter to sit right. */
+.hbd-field__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--hbd-space-2);
+}
+
+/* ── 2j · Character-count warning / over-limit states ───────────────── */
+/* Same rationale as the error/success message colours: the status-*-text
+   tokens are near-white (for text on a saturated surface) and would be
+   invisible on the parchment page. Using on-page dark colours instead. */
+.hbd-field__char-count--warning {
+  /* gold-deep (~5.6:1 on parchment) — AA-compliant warning tint */
+  color: var(--hbd-color-gold-deep);
+}
+.hbd-field__char-count--over {
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant over-limit tint */
+  color: var(--hbd-color-text-emphasis);
+  font-weight: var(--hbd-font-weight-medium);
 }

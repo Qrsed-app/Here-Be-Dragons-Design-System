@@ -2100,6 +2100,7 @@
           <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
           <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
           <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
+          <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -4495,6 +4496,130 @@
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="11" y="17" width="22" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <line x1="15" y1="19.5" x2="15" y2="24.5" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TEXTAREA ══════════════════════ -->
+    <section class="ds-section" id="component-textarea" aria-labelledby="heading-textarea">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·11</span>
+        <h2 class="ds-section__heading" id="heading-textarea">Textarea</h2>
+        <p class="ds-section__description">
+          Textareas allow users to enter multiple lines of free-form text. Use auto-resize for
+          content that varies in length; use a fixed height with manual resize for inputs where
+          length can be predicted. Rendered as <code>&lt;hbd-textarea&gt;</code> — shares the
+          <code>.hbd-field</code> wrapper, label, hint, error, and validation pattern with
+          <code>&lt;hbd-input&gt;</code>.
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-textarea label="Spell description" rows="4"
+              placeholder="When you cast this spell..."
+              hint="Describe what the spell does, its visual effect, and any special conditions."></hbd-textarea>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-textarea label="Spell description" rows="4"
+  placeholder="When you cast this spell..."
+  hint="Describe what the spell does, its visual effect, and any special conditions."&gt;&lt;/hbd-textarea&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Auto-resize -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Auto-resize</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-textarea autoresize label="Session notes" rows="2"
+              hint="This textarea grows as you type."
+              value="The party arrived at the inn at dusk.
+The barkeep eyed them warily."></hbd-textarea>
+
+            <hbd-textarea autoresize label="Session notes — grown"
+              hint="Example showing the auto-grown state."
+              value="The party arrived at the inn at dusk.
+The barkeep eyed them warily and motioned toward the back room.
+A hooded figure sat by the fire, nursing a tankard of dark ale.
+Thorin recognised the sigil on the figure's cloak — the seal of the
+Iron Vow, an order long thought disbanded.
+Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-textarea autoresize label="Session notes" rows="2"
+  hint="This textarea grows as you type."
+  value="…"&gt;&lt;/hbd-textarea&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-textarea size="sm" rows="2" label="Adventure notes" placeholder="Small"></hbd-textarea>
+            <hbd-textarea size="md" rows="4" label="Adventure notes" placeholder="Medium (default)"></hbd-textarea>
+            <hbd-textarea size="lg" rows="6" label="Adventure notes" placeholder="Large"></hbd-textarea>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-textarea size="sm" rows="2" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;
+&lt;hbd-textarea size="md" rows="4" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;
+&lt;hbd-textarea size="lg" rows="6" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · With character count -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With character count</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — default"
+              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn."></hbd-textarea>
+
+            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — warning"
+              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn. Bring an offering for the spirits, and prepare for the season's grand toast led by the lord himself."></hbd-textarea>
+
+            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — over limit"
+              error="Announcement exceeds the maximum length"
+              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn. Bring an offering for the spirits, and prepare for the season's grand toast led by the lord himself, in honour of the bountiful harvest reaped this year."></hbd-textarea>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-textarea maxlength="280" rows="4" label="Town crier announcement"&gt;&lt;/hbd-textarea&gt;
+&lt;!-- Counter colour: default (under 80%) → warning (≥80%) → over (≥100%) --&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-textarea label="Disabled" rows="3" value="Cannot edit this passage." disabled></hbd-textarea>
+            <hbd-textarea label="Readonly" rows="3" value="Read-only passage from the codex." readonly></hbd-textarea>
+            <hbd-textarea label="Error" rows="3" value="Goblin" error="Notes must be at least 20 characters"></hbd-textarea>
+            <hbd-textarea label="Success" rows="3" value="The party defeated the goblin scouts at the old bridge." success="Notes saved"></hbd-textarea>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-textarea label="Disabled" disabled&gt;&lt;/hbd-textarea&gt;
+&lt;hbd-textarea label="Readonly" readonly&gt;&lt;/hbd-textarea&gt;
+&lt;hbd-textarea label="Error" error="Notes must be at least 20 characters"&gt;&lt;/hbd-textarea&gt;
+&lt;hbd-textarea label="Success" success="Notes saved"&gt;&lt;/hbd-textarea&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Textarea divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="13" width="24" height="18" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <line x1="14" y1="18" x2="30" y2="18" stroke="#7a1212" stroke-width="1.2"/>
+        <line x1="14" y1="22" x2="30" y2="22" stroke="#7a1212" stroke-width="1.2"/>
+        <line x1="14" y1="26" x2="22" y2="26" stroke="#7a1212" stroke-width="1.2"/>
       </svg>
     </div>
 
