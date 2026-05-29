@@ -350,4 +350,12 @@
   --hbd-stat-block-name-gap: 2px;
   --hbd-stat-block-feature-gap: 0.375rem;
   --hbd-stat-block-feature-leading: 1.55;
+
+  /* ── input ─────────────────────────────────────────────── */
+  --hbd-input-border-radius: var(--hbd-radius-md);
+  --hbd-input-padding-x: var(--hbd-space-3);
+  --hbd-input-padding-y: var(--hbd-space-2);
+  --hbd-input-min-height: 44px;
+  --hbd-input-font-size: var(--hbd-font-size-body);
+  --hbd-input-border-width: var(--hbd-border-width-hairline);
 }

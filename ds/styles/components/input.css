@@ -1,0 +1,217 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/input.css
+ *
+ * Text input field — the first form input in the DS. Establishes the field
+ * pattern (label + input + hint/error/success + char-count) reused by all
+ * later form inputs. Every value references a --hbd-* token.
+ *
+ * Notes:
+ * - Error/success BORDER colours use the dedicated --hbd-color-status-*-border
+ *   tokens. The MESSAGE text uses on-page dark colours (error = text-emphasis
+ *   = blood; success = forest-700) because the status-*-text tokens are near
+ *   white (meant for text on a saturated surface) and would be invisible on the
+ *   parchment page. forest-700 is a primitive — no dark-green semantic exists.
+ * - Spacing tokens are --hbd-space-{n} ('spacing' is emitted as 'space').
+ */
+
+/* ── 2a · Field wrapper ─────────────────────────────────────────────── */
+.hbd-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+  width: 100%;
+  font-family: var(--hbd-font-family-ui);
+}
+
+/* ── 2b · Label ─────────────────────────────────────────────────────── */
+.hbd-field__label {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-primary);
+  cursor: pointer;
+}
+.hbd-field__label-required {
+  color: var(--hbd-color-text-emphasis);
+  margin-left: var(--hbd-space-1);
+}
+
+/* ── 2c · Input wrapper + prefix/suffix ─────────────────────────────── */
+.hbd-field__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.hbd-field__prefix,
+.hbd-field__suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-input-font-size);
+  color: var(--hbd-color-text-muted);
+  pointer-events: none;
+}
+.hbd-field__prefix { left: var(--hbd-input-padding-x); }
+.hbd-field__suffix { right: var(--hbd-input-padding-x); }
+
+.hbd-field--with-prefix .hbd-field__input {
+  padding-left: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
+}
+.hbd-field--with-suffix .hbd-field__input {
+  padding-right: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
+}
+
+/* ── 2d · Native input ──────────────────────────────────────────────── */
+.hbd-field__input {
+  width: 100%;
+  min-height: var(--hbd-input-min-height);
+  padding: var(--hbd-input-padding-y) var(--hbd-input-padding-x);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-input-font-size);
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-default);
+  /* border-strong (ink-700, ~11:1 on parchment) meets SC 1.4.11 (≥3:1) */
+  border: var(--hbd-input-border-width) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-input-border-radius);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-field__input::placeholder {
+  color: var(--hbd-color-text-muted);
+  opacity: 1;
+}
+.hbd-field__input:hover {
+  border-color: var(--hbd-color-border-strong);
+}
+.hbd-field__input:focus-visible {
+  border-color: var(--hbd-color-input-focus-border);
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* ── 2e · Size modifiers ────────────────────────────────────────────── */
+.hbd-field--sm .hbd-field__input {
+  min-height: var(--hbd-space-8);
+  font-size: var(--hbd-font-size-label);
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+}
+.hbd-field--lg .hbd-field__input {
+  min-height: calc(var(--hbd-input-min-height) + var(--hbd-space-2));
+  font-size: var(--hbd-font-size-body);
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+}
+
+/* ── 2f · Validation / interaction states ───────────────────────────── */
+
+/* Error */
+.hbd-field--error .hbd-field__input {
+  border-color: var(--hbd-color-status-error-border);
+}
+.hbd-field--error .hbd-field__input:focus-visible {
+  border-color: var(--hbd-color-status-error-border);
+  outline-color: var(--hbd-color-status-error-border);
+}
+.hbd-field--error .hbd-field__error { display: block; }
+.hbd-field--error .hbd-field__hint  { display: none; }
+
+/* Success */
+.hbd-field--success .hbd-field__input {
+  border-color: var(--hbd-color-status-success-border);
+}
+.hbd-field--success .hbd-field__input:focus-visible {
+  border-color: var(--hbd-color-status-success-border);
+  outline-color: var(--hbd-color-status-success-border);
+}
+.hbd-field--success .hbd-field__success { display: block; }
+.hbd-field--success .hbd-field__hint    { display: none; }
+
+/* Disabled */
+.hbd-field--disabled .hbd-field__input {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-disabled);
+  border-color: var(--hbd-color-border-subtle);
+  cursor: not-allowed;
+}
+.hbd-field--disabled .hbd-field__label {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+}
+.hbd-field--disabled .hbd-field__input:hover {
+  border-color: var(--hbd-color-border-subtle);
+}
+
+/* Readonly — muted surface, default cursor; border/label unchanged */
+.hbd-field--readonly .hbd-field__input {
+  background: var(--hbd-color-surface-subtle);
+  cursor: default;
+}
+.hbd-field--readonly .hbd-field__input:hover {
+  border-color: var(--hbd-color-border-strong);
+}
+
+/* ── 2g · Messages (hint / error / success / char-count) ────────────── */
+.hbd-field__hint,
+.hbd-field__error,
+.hbd-field__success,
+.hbd-field__char-count {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  line-height: var(--hbd-line-height-body);
+}
+.hbd-field__hint {
+  color: var(--hbd-color-text-muted);
+  display: block;
+}
+.hbd-field__error {
+  color: var(--hbd-color-text-emphasis);
+  display: none;
+}
+.hbd-field__success {
+  /* forest-700 primitive: no dark-green semantic exists; readable on parchment */
+  color: var(--hbd-color-forest-700);
+  display: none;
+}
+.hbd-field__char-count {
+  color: var(--hbd-color-text-muted);
+  text-align: right;
+  margin-left: auto;
+}
+.hbd-field__char-count.is-at-limit {
+  color: var(--hbd-color-text-emphasis);
+  font-weight: var(--hbd-font-weight-bold);
+}
+
+/* ── Password show/hide toggle (suffix slot) ────────────────────────── */
+.hbd-field__toggle {
+  position: absolute;
+  right: var(--hbd-input-padding-x);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--hbd-space-6);
+  min-height: var(--hbd-space-6);
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+}
+.hbd-field__toggle:hover { color: var(--hbd-color-text-primary); }
+.hbd-field__toggle:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+  border-radius: var(--hbd-radius-sm);
+}
+/* When a password toggle occupies the suffix, reserve trailing room. */
+.hbd-field--with-toggle .hbd-field__input {
+  padding-right: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
+}

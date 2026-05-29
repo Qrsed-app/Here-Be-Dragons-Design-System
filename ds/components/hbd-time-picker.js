@@ -210,19 +210,36 @@ class HbdTimePicker extends HTMLElement {
 
   // ── Open / close ──────────────────────────────────────────────────────
   _openPanel() {
+    if (this._open) return;
     this._open = true;
     this._render();
+    // Remove first to guarantee a single registration even if state drifted.
+    document.removeEventListener('mousedown', this._onDocMouseDown);
+    document.removeEventListener('keydown', this._onDocKeydown);
     document.addEventListener('mousedown', this._onDocMouseDown);
     document.addEventListener('keydown', this._onDocKeydown);
     this.dispatchEvent(new CustomEvent('hbd:open', { bubbles: true, composed: true }));
   }
   _closePanel() {
+    // Guard: if already closed, do nothing. Without this, a stray call would
+    // re-run the body and yank focus to the trigger.
+    if (!this._open) return;
+
+    // Only return focus to the trigger if focus is currently inside this
+    // picker (closed via Escape / by clicking away while focused in the panel).
+    // If the user clicked an unrelated element, leave focus where they put it.
+    const focusWasInside = this.contains(document.activeElement) ||
+      (this.shadowRoot.activeElement != null);
+
     this._open = false;
     document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('keydown', this._onDocKeydown);
     this._render();
-    const trigger = this.shadowRoot.querySelector('.hbd-time-picker__trigger');
-    if (trigger) trigger.focus({ preventScroll: true });
+
+    if (focusWasInside) {
+      const trigger = this.shadowRoot.querySelector('.hbd-time-picker__trigger');
+      if (trigger) trigger.focus({ preventScroll: true });
+    }
     this.dispatchEvent(new CustomEvent('hbd:close', { bubbles: true, composed: true }));
   }
 

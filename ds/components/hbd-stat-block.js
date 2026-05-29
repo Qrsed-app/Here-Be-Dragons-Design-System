@@ -41,15 +41,21 @@ class HbdStatBlock extends HTMLElement {
   constructor() {
     super();
     this._slots = null;
+    this._ready = false;
   }
 
   connectedCallback() {
+    // First connection: capture slotted children (now present) then render.
     if (!this._slots) this._captureSlots();
+    this._ready = true;
     this._render();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    if (oldVal !== newVal && this.isConnected) this._render();
+    // Ignore attribute changes until the first connectedCallback has run: during
+    // upgrade this can fire before children/slots exist. The initial render in
+    // connectedCallback already reflects all current attributes.
+    if (oldVal !== newVal && this._ready) this._render();
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────
@@ -87,6 +93,10 @@ class HbdStatBlock extends HTMLElement {
 
   // ── Render ──────────────────────────────────────────────────────────────
   _render() {
+    // attributeChangedCallback can fire before connectedCallback during upgrade,
+    // so slots may not be captured yet. Capture lazily before reading them.
+    if (!this._slots) this._captureSlots();
+
     const name = this.getAttribute('creature-name') || '';
     const isLegendary = this.hasAttribute('legendary');
     const isCompact = this.hasAttribute('compact');

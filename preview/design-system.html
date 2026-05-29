@@ -2099,11 +2099,10 @@
           <li><a class="ds-toc__link" href="#component-time-picker">Time Picker</a></li>
           <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
           <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
+          <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
-          <li><a class="ds-toc__link" href="#form-controls">Form Controls</a></li>
-          <li><a class="ds-toc__link" href="#time-picker">Time Picker</a></li>
           <li><a class="ds-toc__link" href="#elevation">Elevation</a></li>
           <li><a class="ds-toc__link" href="#motion">Motion</a></li>
           <li><a class="ds-toc__link" href="#radius">Radius</a></li>
@@ -2207,6 +2206,32 @@
               <span class="swatch__chip" style="background:#1e3a5f;" aria-label="Sapphire — divine magic. Never use with Emerald on same component."></span>
               <span class="swatch__name">Sapphire</span>
               <span class="swatch__value">--sapphire · #1e3a5f</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swatch-group">
+          <span class="swatch-group__label">Validation — Form States</span>
+          <div class="swatch-row" role="list">
+            <div class="swatch" role="listitem">
+              <span class="swatch__chip" style="background:#c0392b;" aria-label="Crimson 600 — error input border"></span>
+              <span class="swatch__name">Error Border</span>
+              <span class="swatch__value">--hbd-color-status-error-border · #c0392b</span>
+            </div>
+            <div class="swatch" role="listitem">
+              <span class="swatch__chip" style="background:#27832e;" aria-label="Forest 600 — success input border"></span>
+              <span class="swatch__name">Success Border</span>
+              <span class="swatch__value">--hbd-color-status-success-border · #27832e</span>
+            </div>
+            <div class="swatch" role="listitem">
+              <span class="swatch__chip" style="background:#1e6624;" aria-label="Forest 700 — success message text on parchment"></span>
+              <span class="swatch__name">Success Text</span>
+              <span class="swatch__value">--hbd-color-forest-700 · #1e6624</span>
+            </div>
+            <div class="swatch" role="listitem">
+              <span class="swatch__chip" style="background:#7a1212;" aria-label="Blood — error message text on parchment"></span>
+              <span class="swatch__name">Error Text</span>
+              <span class="swatch__value">--hbd-color-text-emphasis · #7a1212</span>
             </div>
           </div>
         </div>
@@ -4344,6 +4369,135 @@
       </svg>
     </div>
 
+    <!-- ══════════════════════ COMPONENT · TEXT INPUT ══════════════════════ -->
+    <section class="ds-section" id="component-input" aria-labelledby="heading-input">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·10</span>
+        <h2 class="ds-section__heading" id="heading-input">Text Input</h2>
+        <p class="ds-section__description">
+          Text inputs allow users to enter a single line of free-form text. Use specific types
+          (email, password, search) to trigger appropriate keyboard layouts on mobile. Rendered as
+          <code>&lt;hbd-input&gt;</code>. Each field pairs a <code>&lt;label&gt;</code> with the input
+          via <code>for</code>/<code>id</code>, links hint/error messages with
+          <code>aria-describedby</code>, and sets <code>aria-invalid</code> in the error state.
+        </p>
+
+        <!-- Group 1 · Types -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Types</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-input type="text" label="Character name" placeholder="Thorin Oakenshield"></hbd-input>
+            <hbd-input type="email" label="Scroll delivery" placeholder="wizard@tower.realm"></hbd-input>
+            <hbd-input type="password" label="Vault passphrase"></hbd-input>
+            <hbd-input type="number" label="Gold pieces" placeholder="0"></hbd-input>
+            <hbd-input type="search" label="Search the compendium"></hbd-input>
+            <hbd-input type="url" label="Sourcebook URL"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input type="text" label="Character name" placeholder="Thorin Oakenshield"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="email" label="Scroll delivery" placeholder="wizard@tower.realm"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="password" label="Vault passphrase"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="number" label="Gold pieces" placeholder="0"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="search" label="Search the compendium"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="url" label="Sourcebook URL"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-input size="sm" type="text" label="Spell name" placeholder="Small"></hbd-input>
+            <hbd-input size="md" type="text" label="Spell name" placeholder="Medium (default)"></hbd-input>
+            <hbd-input size="lg" type="text" label="Spell name" placeholder="Large"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input size="sm" type="text" label="Spell name"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input size="md" type="text" label="Spell name"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input size="lg" type="text" label="Spell name"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With prefix and suffix -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With prefix and suffix</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-input type="number" prefix="$" label="Bounty reward" placeholder="0"></hbd-input>
+            <hbd-input type="number" suffix="gp" label="Item cost" placeholder="0"></hbd-input>
+            <hbd-input type="text" prefix="@" label="Player tag" placeholder="adventurer"></hbd-input>
+            <hbd-input type="text" suffix=".realm" label="Domain" placeholder="mytower"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input type="number" prefix="$" label="Bounty reward"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="number" suffix="gp" label="Item cost"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="text" prefix="@" label="Player tag"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="text" suffix=".realm" label="Domain"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-input type="text" label="Default" placeholder="Type here"></hbd-input>
+            <hbd-input type="text" label="Hover" hint="Hover state is CSS-only — point at the input"></hbd-input>
+            <hbd-input type="text" label="Focused" hint="Tab to this field to see the focus ring"></hbd-input>
+            <hbd-input type="text" label="Disabled" value="Cannot edit" disabled></hbd-input>
+            <hbd-input type="text" label="Readonly" value="Read-only value" readonly></hbd-input>
+            <hbd-input type="text" label="Error" value="Bilbo" error="That name is already taken"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input type="text" label="Default"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="text" label="Disabled" value="Cannot edit" disabled&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="text" label="Readonly" value="Read-only value" readonly&gt;&lt;/hbd-input&gt;
+&lt;hbd-input type="text" label="Error" value="Bilbo" error="That name is already taken"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Validation -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Validation</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-input type="text" label="Character name" required error="Character name is required"></hbd-input>
+            <hbd-input type="text" label="Character name" value="Aragorn" success="Name is available"></hbd-input>
+            <hbd-input type="text" label="Character name" hint="Use your character's full name as it appears on your sheet"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input label="Character name" required error="Character name is required"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input label="Character name" value="Aragorn" success="Name is available"&gt;&lt;/hbd-input&gt;
+&lt;hbd-input label="Character name" hint="Use your character's full name…"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · With character count -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With character count</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-input type="text" label="Battle cry" maxlength="50" value="For Gondor and the realms of free folk!"></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input type="text" label="Battle cry" maxlength="50" value="For Gondor and the realms of free folk!"&gt;&lt;/hbd-input&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Text Input divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="11" y="17" width="22" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <line x1="15" y1="19.5" x2="15" y2="24.5" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
       <div class="container">
@@ -4865,8 +5019,11 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       </svg>
     </div>
 
-    <!-- ══════════════════════ VIII. FORM CONTROLS ══════════════════════ -->
-    <section class="ds-section" id="form-controls" aria-labelledby="form-controls-title">
+    <!-- ══════════════════════ VIII. FORM CONTROLS (LEGACY — REMOVED) ══════════════════════ -->
+    <!-- Legacy hand-built form-control demos, superseded by migrated web components
+         (<hbd-input>, etc.). Hidden from render/tab order/AT. Safe to delete this
+         entire <section> in a cleanup pass. -->
+    <section class="ds-section" id="form-controls" aria-labelledby="form-controls-title" hidden>
       <div class="container">
         <span class="section-numeral" aria-hidden="true">VIII</span>
         <h2 class="section-title" id="form-controls-title">Form Controls</h2>
@@ -5543,8 +5700,10 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       </svg>
     </div>
 
-    <!-- ══════════════════════ XI. TIME PICKER ══════════════════════ -->
-    <section class="ds-section" id="time-picker" aria-labelledby="time-picker-title">
+    <!-- ══════════════════════ XI. TIME PICKER (LEGACY — REMOVED) ══════════════════════ -->
+    <!-- Legacy hand-built time-picker demo, superseded by <hbd-time-picker>.
+         Hidden from render/tab order/AT. Safe to delete this entire <section>. -->
+    <section class="ds-section" id="time-picker" aria-labelledby="time-picker-title" hidden>
       <div class="container">
         <span class="section-numeral" aria-hidden="true">XI</span>
         <h2 class="section-title" id="time-picker-title">Time Picker</h2>
@@ -5894,7 +6053,19 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       var a = e.target.closest('a[href="#"]');
       if (a) e.preventDefault();
     });
+  </script>
 
+  <!-- ───────────────────────────────────────────────────────────────────
+       LEGACY DEMO SCRIPT — DISABLED
+       The hand-built date-picker / dropdown / time-picker / autocomplete
+       demos below are superseded by the migrated web components. Their JS
+       registered document-level click/keydown listeners whose close()
+       functions called trigger.focus() on EVERY click, stealing focus from
+       the new inputs/components. The block is parked in a non-executing
+       <script type="text/plain"> so none of it runs. Safe to delete entirely
+       (this opening tag through its </script>) in a cleanup pass.
+  ──────────────────────────────────────────────────────────────────── -->
+  <script type="text/plain" data-legacy-disabled>
     /* ─────────────────────────────────────────────────
        DROPDOWN — toggle, keyboard, click-outside
     ───────────────────────────────────────────────── */
