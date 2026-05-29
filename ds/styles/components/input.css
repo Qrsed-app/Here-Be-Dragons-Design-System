@@ -113,6 +113,8 @@
 /* Error */
 .hbd-field--error .hbd-field__input {
   border-color: var(--hbd-color-status-error-border);
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant error tint */
+  color: var(--hbd-color-text-emphasis);
 }
 .hbd-field--error .hbd-field__input:focus-visible {
   border-color: var(--hbd-color-status-error-border);
@@ -124,6 +126,8 @@
 /* Success */
 .hbd-field--success .hbd-field__input {
   border-color: var(--hbd-color-status-success-border);
+  /* forest-700 (~5.5:1 on parchment) — AA-compliant dark green */
+  color: var(--hbd-color-forest-700);
 }
 .hbd-field--success .hbd-field__input:focus-visible {
   border-color: var(--hbd-color-status-success-border);
@@ -170,6 +174,7 @@
   display: block;
 }
 .hbd-field__error {
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant dark red */
   color: var(--hbd-color-text-emphasis);
   display: none;
 }
