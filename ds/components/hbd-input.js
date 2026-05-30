@@ -5,9 +5,13 @@
 // text, validation states (error/success), ARIA error linking, character count,
 // password show/hide, and form association for all later form inputs.
 //
-// Shadow DOM (per task): styles are encapsulated and loaded via <link> tags to
-// /tokens/tokens.css + /ds/styles/components/input.css. The native <input>
-// lives in the shadow root; form association is bridged with ElementInternals.
+// Shadow DOM (per task). Styles are loaded via adopted stylesheets
+// (see ../utils/shared-styles.js), NOT via per-render <link> tags — adopting
+// once eliminates the FOUC "blink" that would otherwise happen on every
+// re-render when innerHTML is replaced. The native <input> lives in the shadow
+// root; form association is bridged with ElementInternals.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 const ALLOWED_TYPES = new Set([
   'text', 'email', 'password', 'search', 'tel', 'url', 'number',
@@ -39,6 +43,10 @@ class HbdInput extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/input.css',
+    ]);
     this._render();
     this._internals.setFormValue(this._value);
   }
@@ -148,9 +156,8 @@ class HbdInput extends HTMLElement {
                  ${disabled ? 'disabled' : ''}>${this._passwordVisible ? this._eyeOff() : this._eye()}</button>`
       : '';
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/input.css">
       <div class="${classes.join(' ')}">
         ${label ? `
         <label class="hbd-field__label" for="${uid}">

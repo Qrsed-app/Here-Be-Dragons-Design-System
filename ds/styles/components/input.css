@@ -65,11 +65,13 @@
   padding-right: calc(var(--hbd-input-padding-x) + var(--hbd-space-6));
 }
 
-/* ── 2d · Native input + textarea (shared field surface) ────────────── */
-/* Shared across .hbd-field__input and .hbd-field__textarea — textarea
-   overrides min-height / adds resize at the end of this file. */
+/* ── 2d · Native input + textarea + select trigger (shared field surface) */
+/* Shared across .hbd-field__input, .hbd-field__textarea, and the custom
+   .hbd-field__select-trigger. Per-control overrides (textarea resize,
+   select-trigger flex layout) live further down in this file. */
 .hbd-field__input,
-.hbd-field__textarea {
+.hbd-field__textarea,
+.hbd-field__select-trigger {
   width: 100%;
   min-height: var(--hbd-input-min-height);
   padding: var(--hbd-input-padding-y) var(--hbd-input-padding-x);
@@ -92,11 +94,13 @@
   opacity: 1;
 }
 .hbd-field__input:hover,
-.hbd-field__textarea:hover {
+.hbd-field__textarea:hover,
+.hbd-field__select-trigger:hover {
   border-color: var(--hbd-color-border-strong);
 }
 .hbd-field__input:focus-visible,
-.hbd-field__textarea:focus-visible {
+.hbd-field__textarea:focus-visible,
+.hbd-field__select-trigger:focus-visible {
   border-color: var(--hbd-color-input-focus-border);
   outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
   outline-offset: var(--hbd-focus-offset);
@@ -104,13 +108,15 @@
 
 /* ── 2e · Size modifiers ────────────────────────────────────────────── */
 .hbd-field--sm .hbd-field__input,
-.hbd-field--sm .hbd-field__textarea {
+.hbd-field--sm .hbd-field__textarea,
+.hbd-field--sm .hbd-field__select-trigger {
   min-height: var(--hbd-space-8);
   font-size: var(--hbd-font-size-label);
   padding: var(--hbd-space-1) var(--hbd-space-2);
 }
 .hbd-field--lg .hbd-field__input,
-.hbd-field--lg .hbd-field__textarea {
+.hbd-field--lg .hbd-field__textarea,
+.hbd-field--lg .hbd-field__select-trigger {
   min-height: calc(var(--hbd-input-min-height) + var(--hbd-space-2));
   font-size: var(--hbd-font-size-body);
   padding: var(--hbd-space-3) var(--hbd-space-4);
@@ -120,13 +126,15 @@
 
 /* Error */
 .hbd-field--error .hbd-field__input,
-.hbd-field--error .hbd-field__textarea {
+.hbd-field--error .hbd-field__textarea,
+.hbd-field--error .hbd-field__select-trigger {
   border-color: var(--hbd-color-status-error-border);
   /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant error tint */
   color: var(--hbd-color-text-emphasis);
 }
 .hbd-field--error .hbd-field__input:focus-visible,
-.hbd-field--error .hbd-field__textarea:focus-visible {
+.hbd-field--error .hbd-field__textarea:focus-visible,
+.hbd-field--error .hbd-field__select-trigger:focus-visible {
   border-color: var(--hbd-color-status-error-border);
   outline-color: var(--hbd-color-status-error-border);
 }
@@ -135,13 +143,15 @@
 
 /* Success */
 .hbd-field--success .hbd-field__input,
-.hbd-field--success .hbd-field__textarea {
+.hbd-field--success .hbd-field__textarea,
+.hbd-field--success .hbd-field__select-trigger {
   border-color: var(--hbd-color-status-success-border);
   /* forest-700 (~5.5:1 on parchment) — AA-compliant dark green */
   color: var(--hbd-color-forest-700);
 }
 .hbd-field--success .hbd-field__input:focus-visible,
-.hbd-field--success .hbd-field__textarea:focus-visible {
+.hbd-field--success .hbd-field__textarea:focus-visible,
+.hbd-field--success .hbd-field__select-trigger:focus-visible {
   border-color: var(--hbd-color-status-success-border);
   outline-color: var(--hbd-color-status-success-border);
 }
@@ -150,7 +160,8 @@
 
 /* Disabled */
 .hbd-field--disabled .hbd-field__input,
-.hbd-field--disabled .hbd-field__textarea {
+.hbd-field--disabled .hbd-field__textarea,
+.hbd-field--disabled .hbd-field__select-trigger {
   background: var(--hbd-color-surface-subtle);
   color: var(--hbd-color-text-disabled);
   border-color: var(--hbd-color-border-subtle);
@@ -161,7 +172,8 @@
   cursor: not-allowed;
 }
 .hbd-field--disabled .hbd-field__input:hover,
-.hbd-field--disabled .hbd-field__textarea:hover {
+.hbd-field--disabled .hbd-field__textarea:hover,
+.hbd-field--disabled .hbd-field__select-trigger:hover {
   border-color: var(--hbd-color-border-subtle);
 }
 
@@ -278,4 +290,222 @@
   /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant over-limit tint */
   color: var(--hbd-color-text-emphasis);
   font-weight: var(--hbd-font-weight-medium);
+}
+
+/* ── 2k · Select (custom) — extends the shared field surface ────────── */
+/* Inherits base / hover / focus / size / state rules from the combined
+   .hbd-field__input,.hbd-field__textarea,.hbd-field__select-trigger
+   selectors above. Only select-specific properties live below. */
+
+/* Trigger button: lay out value + chevron horizontally. */
+.hbd-field__select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  min-height: var(--hbd-input-min-height);
+  text-align: left;
+}
+
+/* Chevron icon — flips when the panel is open. */
+.hbd-field__select-chevron {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hbd-color-text-muted);
+  transition: transform var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-field--open .hbd-field__select-chevron {
+  transform: rotate(180deg);
+}
+
+/* Selected value display.
+   - Placeholder mode: plain muted text, truncated.
+   - Selected mode: styled as a DS chip (parchment-300 bg, ink-brown border,
+     display font, offset shadow) — matches the manuscript tag/badge pattern
+     used elsewhere in the system. */
+.hbd-field__select-value {
+  flex: 1;
+  min-width: 0; /* allow ellipsis inside flex */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hbd-field__select-value--placeholder {
+  color: var(--hbd-color-text-muted);
+}
+.hbd-field__select-value--chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-1);
+  align-self: center;
+  flex: 0 1 auto;
+  max-width: 100%;
+  padding: var(--hbd-space-1) var(--hbd-space-1) var(--hbd-space-1) var(--hbd-space-2);
+  background: var(--hbd-color-surface-raised);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-ink-brown);
+  border-radius: var(--hbd-radius-sm);
+  box-shadow: var(--hbd-border-width-hairline) var(--hbd-border-width-hairline) 0 var(--hbd-color-parchment-400);
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wider);
+  color: var(--hbd-color-text-primary);
+}
+/* Chip label text — truncates if the chip is wider than its container. */
+.hbd-field__select-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* Clear (×) affordance — lives INSIDE the chip. HTML disallows nested
+   <button>s (the chip is inside the trigger <button>), so this is a
+   focusable role="button" span with explicit keyboard handling in JS.
+   Pointerdown stops propagation so the chip click doesn't also toggle
+   the panel via the trigger. */
+.hbd-field__select-chip-clear {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  margin-left: var(--hbd-space-1);
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--hbd-radius-sm);
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-field__select-chip-clear:hover {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-field__select-chip-clear:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Dropdown panel — absolutely positioned within the field wrapper.
+   Slide-open animation: max-height + opacity, --hbd-duration-slow (350ms),
+   --hbd-ease-out. The global prefers-reduced-motion override in
+   foundations/motion.css collapses transitions to 0.01ms automatically. */
+.hbd-field__select-panel {
+  position: absolute;
+  z-index: var(--hbd-z-dropdown);
+  top: calc(100% + var(--hbd-space-1));
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--hbd-color-surface-raised);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  border-radius: var(--hbd-radius-md);
+  box-shadow: var(--hbd-shadow-lg);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /* Closed state: collapsed to zero height + invisible + no padding. */
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity var(--hbd-duration-slow) var(--hbd-ease-out),
+              padding var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-field--open .hbd-field__select-panel {
+  max-height: var(--hbd-select-panel-max-height);
+  opacity: 1;
+  pointer-events: auto;
+  padding: var(--hbd-space-1) 0;
+  overflow-y: auto;
+}
+
+/* Option group (presentational wrapper + label). */
+.hbd-field__option-group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hbd-field__option-group-label {
+  display: block;
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-muted);
+  letter-spacing: var(--hbd-letter-spacing-label);
+  text-transform: uppercase;
+}
+.hbd-field__option-group > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual option row. */
+.hbd-field__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  min-height: var(--hbd-select-option-height);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-field__option:hover {
+  background: var(--hbd-color-surface-subtle);
+}
+/* Selected row: parchment-tinted background + gold left-edge accent —
+   the manuscript "marked entry" treatment, consistent with the DS aesthetic
+   (instead of a saturated blood action fill that would shout in the panel). */
+.hbd-field__option.is-selected {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+  font-weight: var(--hbd-font-weight-medium);
+  box-shadow: inset var(--hbd-border-width-medium) 0 0 var(--hbd-color-gold-deep);
+}
+/* Inset outline so focus ring doesn't overflow the row's bounds. */
+.hbd-field__option.is-focused,
+.hbd-field__option:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: calc(-1 * var(--hbd-border-width-thin));
+}
+.hbd-field__option.is-disabled,
+.hbd-field__option[aria-disabled="true"] {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Checkmark beside the selected option — gold-deep matches the accent edge. */
+.hbd-field__option-check {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--hbd-color-gold-deep);
+}
+.hbd-field__option:not(.is-selected) .hbd-field__option-check {
+  display: none;
+}
+
+/* Hidden native <select> — form-submission fallback only. The 1px/-1px
+   visually-hidden technique requires literal pixels (it cannot be tokenised);
+   the canonical implementation lives in foundations/accessibility.css under
+   .hbd-sr-only, which the validator exempts from Check 2. The native select
+   element is given that class directly in hbd-select.js to avoid duplicating
+   the literal here. This rule only adds component-specific guarantees that
+   are independent of the sr-only sizing. */
+.hbd-field__select-native {
+  pointer-events: none;
 }

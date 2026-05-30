@@ -7,6 +7,11 @@
 // (and Tab) move between columns, Escape closes. A click-to-type hour header
 // gives fast numeric entry. Value commits to the HH:MM (24h) `value` attribute
 // on Confirm; Clear emits null.
+//
+// Styles are loaded via adopted stylesheets (../utils/shared-styles.js) so the
+// per-keypress re-renders don't re-fetch <link> tags and cause FOUC.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 class HbdTimePicker extends HTMLElement {
   static formAssociated = true;
@@ -30,6 +35,10 @@ class HbdTimePicker extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/time-picker.css',
+    ]);
     this._parseValue();
     this._render();
     this._internals.setFormValue(this._committedValue());
@@ -135,9 +144,8 @@ class HbdTimePicker extends HTMLElement {
         </div>
       </div>` : '';
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/time-picker.css">
       <div class="${classes.join(' ')}">
         <button type="button" class="hbd-time-picker__trigger"
                 aria-haspopup="dialog" aria-expanded="${this._open}"

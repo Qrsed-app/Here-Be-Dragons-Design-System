@@ -1,5 +1,9 @@
 // ds/components/hbd-callout.js
 // Here Be Dragons DS — <hbd-callout> custom element (CLAUDE.md §7).
+// Styles via adopted stylesheets (../utils/shared-styles.js) — no FOUC on
+// re-render when attributes change.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 let hbdCalloutUid = 0;
 
@@ -35,6 +39,10 @@ class HbdCallout extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/callout.css',
+    ]);
     this._render();
     this.shadowRoot.addEventListener('click', this._handleDismissClick);
   }
@@ -61,9 +69,8 @@ class HbdCallout extends HTMLElement {
       ? `<button class="hbd-callout__dismiss" type="button" aria-label="Dismiss ${variant} message">✕</button>`
       : '';
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/callout.css">
       <div
         class="${classes.join(' ')}"
         role="${role}"

@@ -9,7 +9,10 @@
 // PARALLEL TO hbd-input.js — same shadow-DOM structure, formAssociated,
 // per-instance uid, dynamic aria-describedby, and value/validity sync. Web
 // Components do not support clean cross-element class inheritance, so the
-// shared logic is copied rather than imported.
+// shared logic is copied rather than imported. Styles are loaded via
+// adopted stylesheets (../utils/shared-styles.js) to avoid FOUC on re-render.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 let uidCounter = 0;
 
@@ -35,6 +38,10 @@ class HbdTextarea extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/input.css',
+    ]);
     this._render();
     this._internals.setFormValue(this._value);
     if (this.hasAttribute('autoresize')) this._autoResize();
@@ -126,9 +133,8 @@ class HbdTextarea extends HTMLElement {
 
     const hasFooter = hasHint || hasError || hasSuccess || maxlength;
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/input.css">
       <div class="${classes.join(' ')}">
         ${label ? `
         <label class="hbd-field__label" for="${uid}">

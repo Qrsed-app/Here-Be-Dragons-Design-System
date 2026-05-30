@@ -2,6 +2,10 @@
 // Here Be Dragons DS — <hbd-checkbox> custom element (CLAUDE.md §7).
 // Wraps a native <input type="checkbox"> in Shadow DOM for full a11y,
 // keyboard, and form-association support — no role="checkbox" emulation.
+// Styles via adopted stylesheets (../utils/shared-styles.js) — no FOUC on
+// re-render when attributes change.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 class HbdCheckbox extends HTMLElement {
   static formAssociated = true;
@@ -18,6 +22,10 @@ class HbdCheckbox extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/checkbox.css',
+    ]);
     this._render();
     this._input = this.shadowRoot.querySelector('input');
     this._label = this.shadowRoot.querySelector('.hbd-checkbox');
@@ -53,9 +61,8 @@ class HbdCheckbox extends HTMLElement {
     if (disabled) classes.push('hbd-checkbox--disabled');
     if (error) classes.push('hbd-checkbox--error');
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/checkbox.css">
       <label class="${classes.join(' ')}">
         <input
           class="hbd-checkbox__input"

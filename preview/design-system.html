@@ -2101,6 +2101,7 @@
           <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
           <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
           <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
+          <li><a class="ds-toc__link" href="#component-select">Select</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -4620,6 +4621,190 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <line x1="14" y1="18" x2="30" y2="18" stroke="#7a1212" stroke-width="1.2"/>
         <line x1="14" y1="22" x2="30" y2="22" stroke="#7a1212" stroke-width="1.2"/>
         <line x1="14" y1="26" x2="22" y2="26" stroke="#7a1212" stroke-width="1.2"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SELECT ══════════════════════ -->
+    <section class="ds-section" id="component-select" aria-labelledby="heading-select">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·12</span>
+        <h2 class="ds-section__heading" id="heading-select">Select</h2>
+        <p class="ds-section__description">
+          Select allows users to choose one option from a list. Use when there are five or more
+          options. For fewer options, use a radio group; for searchable lists, use a combobox.
+          Rendered as <code>&lt;hbd-select&gt;</code> with <code>&lt;hbd-option&gt;</code> and
+          <code>&lt;hbd-option-group&gt;</code> children. A hidden native <code>&lt;select&gt;</code>
+          is kept in the shadow root as a form-submission fallback; ElementInternals carries the
+          canonical value.
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-select label="Spell school" placeholder="Choose a school...">
+              <hbd-option value="abjuration">Abjuration</hbd-option>
+              <hbd-option value="conjuration">Conjuration</hbd-option>
+              <hbd-option value="divination">Divination</hbd-option>
+              <hbd-option value="enchantment">Enchantment</hbd-option>
+              <hbd-option value="evocation">Evocation</hbd-option>
+              <hbd-option value="illusion">Illusion</hbd-option>
+              <hbd-option value="necromancy">Necromancy</hbd-option>
+              <hbd-option value="transmutation">Transmutation</hbd-option>
+            </hbd-select>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-select label="Spell school" placeholder="Choose a school..."&gt;
+  &lt;hbd-option value="abjuration"&gt;Abjuration&lt;/hbd-option&gt;
+  &lt;hbd-option value="conjuration"&gt;Conjuration&lt;/hbd-option&gt;
+  &lt;hbd-option value="divination"&gt;Divination&lt;/hbd-option&gt;
+  &lt;hbd-option value="enchantment"&gt;Enchantment&lt;/hbd-option&gt;
+  &lt;hbd-option value="evocation"&gt;Evocation&lt;/hbd-option&gt;
+  &lt;hbd-option value="illusion"&gt;Illusion&lt;/hbd-option&gt;
+  &lt;hbd-option value="necromancy"&gt;Necromancy&lt;/hbd-option&gt;
+  &lt;hbd-option value="transmutation"&gt;Transmutation&lt;/hbd-option&gt;
+&lt;/hbd-select&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · With option groups -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With option groups</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-select label="Character class" value="wizard">
+              <hbd-option-group label="Martial">
+                <hbd-option value="fighter">Fighter</hbd-option>
+                <hbd-option value="ranger">Ranger</hbd-option>
+                <hbd-option value="paladin">Paladin</hbd-option>
+                <hbd-option value="barbarian">Barbarian</hbd-option>
+                <hbd-option value="monk">Monk</hbd-option>
+              </hbd-option-group>
+              <hbd-option-group label="Arcane">
+                <hbd-option value="wizard">Wizard</hbd-option>
+                <hbd-option value="sorcerer">Sorcerer</hbd-option>
+                <hbd-option value="warlock">Warlock</hbd-option>
+                <hbd-option value="artificer">Artificer</hbd-option>
+              </hbd-option-group>
+            </hbd-select>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-select label="Character class" value="wizard"&gt;
+  &lt;hbd-option-group label="Martial"&gt;
+    &lt;hbd-option value="fighter"&gt;Fighter&lt;/hbd-option&gt;
+    &lt;!-- … --&gt;
+  &lt;/hbd-option-group&gt;
+  &lt;hbd-option-group label="Arcane"&gt;
+    &lt;hbd-option value="wizard"&gt;Wizard&lt;/hbd-option&gt;
+    &lt;!-- … --&gt;
+  &lt;/hbd-option-group&gt;
+&lt;/hbd-select&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-select size="sm" label="Damage type" placeholder="Choose a damage type...">
+              <hbd-option value="fire">Fire</hbd-option>
+              <hbd-option value="cold">Cold</hbd-option>
+              <hbd-option value="lightning">Lightning</hbd-option>
+              <hbd-option value="acid">Acid</hbd-option>
+              <hbd-option value="poison">Poison</hbd-option>
+            </hbd-select>
+            <hbd-select size="md" label="Damage type" placeholder="Choose a damage type...">
+              <hbd-option value="fire">Fire</hbd-option>
+              <hbd-option value="cold">Cold</hbd-option>
+              <hbd-option value="lightning">Lightning</hbd-option>
+              <hbd-option value="acid">Acid</hbd-option>
+              <hbd-option value="poison">Poison</hbd-option>
+            </hbd-select>
+            <hbd-select size="lg" label="Damage type" placeholder="Choose a damage type...">
+              <hbd-option value="fire">Fire</hbd-option>
+              <hbd-option value="cold">Cold</hbd-option>
+              <hbd-option value="lightning">Lightning</hbd-option>
+              <hbd-option value="acid">Acid</hbd-option>
+              <hbd-option value="poison">Poison</hbd-option>
+            </hbd-select>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-select size="sm" label="Damage type"&gt;…&lt;/hbd-select&gt;
+&lt;hbd-select size="md" label="Damage type"&gt;…&lt;/hbd-select&gt;
+&lt;hbd-select size="lg" label="Damage type"&gt;…&lt;/hbd-select&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-select label="Default" placeholder="Choose…">
+              <hbd-option value="a">Adept</hbd-option>
+              <hbd-option value="b">Bard</hbd-option>
+              <hbd-option value="c">Cleric</hbd-option>
+            </hbd-select>
+            <hbd-select label="Disabled" value="b" disabled>
+              <hbd-option value="a">Adept</hbd-option>
+              <hbd-option value="b">Bard</hbd-option>
+              <hbd-option value="c">Cleric</hbd-option>
+            </hbd-select>
+            <hbd-select label="Error" placeholder="Choose…" required error="Selection is required">
+              <hbd-option value="a">Adept</hbd-option>
+              <hbd-option value="b">Bard</hbd-option>
+              <hbd-option value="c">Cleric</hbd-option>
+            </hbd-select>
+            <hbd-select label="With hint" placeholder="Choose…" hint="Picks affect downstream features.">
+              <hbd-option value="a">Adept</hbd-option>
+              <hbd-option value="b">Bard</hbd-option>
+              <hbd-option value="c">Cleric</hbd-option>
+            </hbd-select>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-select label="Default" placeholder="Choose…"&gt;…&lt;/hbd-select&gt;
+&lt;hbd-select label="Disabled" value="b" disabled&gt;…&lt;/hbd-select&gt;
+&lt;hbd-select label="Error" required error="Selection is required"&gt;…&lt;/hbd-select&gt;
+&lt;hbd-select label="With hint" hint="Picks affect downstream features."&gt;…&lt;/hbd-select&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With disabled options -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled options</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-select label="Available patrons" placeholder="Choose a patron..."
+              hint="Disabled options are skipped by keyboard navigation.">
+              <hbd-option value="archfey">Archfey</hbd-option>
+              <hbd-option value="fiend" disabled>Fiend (forbidden)</hbd-option>
+              <hbd-option value="celestial">Celestial</hbd-option>
+              <hbd-option value="great-old-one" disabled>Great Old One (forbidden)</hbd-option>
+              <hbd-option value="hexblade">Hexblade</hbd-option>
+              <hbd-option value="genie">Genie</hbd-option>
+            </hbd-select>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-select label="Available patrons" placeholder="Choose a patron..."&gt;
+  &lt;hbd-option value="archfey"&gt;Archfey&lt;/hbd-option&gt;
+  &lt;hbd-option value="fiend" disabled&gt;Fiend (forbidden)&lt;/hbd-option&gt;
+  &lt;hbd-option value="celestial"&gt;Celestial&lt;/hbd-option&gt;
+  &lt;!-- … --&gt;
+&lt;/hbd-select&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Select divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="17" width="24" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M27 21l-2.5 2.5L22 21" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </div>
 

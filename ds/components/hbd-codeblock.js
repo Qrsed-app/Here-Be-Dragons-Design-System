@@ -1,7 +1,10 @@
 // ds/components/hbd-codeblock.js
 // Here Be Dragons DS — <hbd-codeblock> custom element (CLAUDE.md §7).
 // Display-only: dark code surface, optional filename/language header,
-// optional line numbers, and a copy-to-clipboard button.
+// optional line numbers, and a copy-to-clipboard button. Styles via adopted
+// stylesheets (../utils/shared-styles.js) — no FOUC on re-render.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 class HbdCodeblock extends HTMLElement {
   static get observedAttributes() {
@@ -16,6 +19,10 @@ class HbdCodeblock extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/codeblock.css',
+    ]);
     this._render();
     this._wireUp();
   }
@@ -74,9 +81,8 @@ class HbdCodeblock extends HTMLElement {
     // role=region only when the block is a labelled landmark (has a header).
     const regionAttrs = hasHeader ? ' role="region" aria-label="Code block"' : '';
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/codeblock.css">
       <div class="${classes.join(' ')}"${regionAttrs}>
         ${header}
         <div class="hbd-codeblock__body">

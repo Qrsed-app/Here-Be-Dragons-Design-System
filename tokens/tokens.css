@@ -362,4 +362,8 @@
   /* ── textarea ──────────────────────────────────────────── */
   --hbd-textarea-min-height: 96px;
   --hbd-textarea-max-height: 400px;
+
+  /* ── select ────────────────────────────────────────────── */
+  --hbd-select-option-height: 40px;
+  --hbd-select-panel-max-height: 280px;
 }
