@@ -384,4 +384,10 @@
   --hbd-switch-lg-height: 28px;
   --hbd-switch-lg-thumb-size: 22px;
   --hbd-switch-lg-thumb-offset: 3px;
+
+  /* ── slider ────────────────────────────────────────────── */
+  --hbd-slider-track-height: 4px;
+  --hbd-slider-thumb-size: 20px;
+  --hbd-slider-thumb-size-sm: 16px;
+  --hbd-slider-thumb-size-lg: 24px;
 }

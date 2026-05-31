@@ -2104,6 +2104,7 @@
           <li><a class="ds-toc__link" href="#component-select">Select</a></li>
           <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
           <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
+          <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5077,6 +5078,114 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="12" y="18" width="20" height="8" rx="4" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="26" cy="22" r="3" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SLIDER ══════════════════════ -->
+    <section class="ds-section" id="component-slider" aria-labelledby="heading-slider">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·15</span>
+        <h2 class="ds-section__heading" id="heading-slider">Slider</h2>
+        <p class="ds-section__description">
+          Sliders allow users to select a value or range from a continuous or stepped scale. Use
+          when approximate values are acceptable; use <code>&lt;hbd-input type="number"&gt;</code>
+          when precision is required. Rendered as <code>&lt;hbd-slider&gt;</code>. The native
+          <code>input[type="range"]</code> sits invisibly on top of a styled track + thumb so
+          all native keyboard (Arrows / Home / End / PageUp / PageDown) and pointer interactions
+          work without custom JS.
+        </p>
+
+        <!-- Group 1 · Single — default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Single — default</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-slider min="0" max="100" value="40" label="Volume" show-value></hbd-slider>
+            <hbd-slider min="1" max="20" step="1" value="5" label="Spell level" show-value></hbd-slider>
+            <hbd-slider min="0" max="1000" step="50" value="250" label="Gold pieces" show-value></hbd-slider>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-slider min="0" max="100" value="40" label="Volume" show-value&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider min="1" max="20" step="1" value="5" label="Spell level" show-value&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider min="0" max="1000" step="50" value="250" label="Gold pieces" show-value&gt;&lt;/hbd-slider&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Range -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Range</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-slider range min="1" max="9" value-low="2" value-high="6"
+              label="Spell slot range" show-value></hbd-slider>
+            <hbd-slider range min="0" max="100" value-low="20" value-high="80"
+              label="Encounter difficulty" show-value></hbd-slider>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-slider range min="1" max="9" value-low="2" value-high="6"
+  label="Spell slot range" show-value&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider range min="0" max="100" value-low="20" value-high="80"
+  label="Encounter difficulty" show-value&gt;&lt;/hbd-slider&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With ticks -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With ticks</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-slider min="0" max="20" step="1" value="10"
+              label="Proficiency bonus" show-ticks tick-count="5" show-value></hbd-slider>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-slider min="0" max="20" step="1" value="10"
+  label="Proficiency bonus" show-ticks tick-count="5"&gt;&lt;/hbd-slider&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-slider size="sm" min="0" max="100" value="40" label="Small" show-value></hbd-slider>
+            <hbd-slider size="md" min="0" max="100" value="40" label="Medium" show-value></hbd-slider>
+            <hbd-slider size="lg" min="0" max="100" value="40" label="Large" show-value></hbd-slider>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-slider size="sm" min="0" max="100" value="40" label="Small"&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider size="md" min="0" max="100" value="40" label="Medium"&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider size="lg" min="0" max="100" value="40" label="Large"&gt;&lt;/hbd-slider&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-slider min="0" max="100" value="40" label="Default" show-value></hbd-slider>
+            <hbd-slider min="0" max="100" value="40" label="Disabled" show-value disabled></hbd-slider>
+            <hbd-slider min="0" max="100" value="40" label="Error" show-value
+              error="Value must be set before continuing"></hbd-slider>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-slider min="0" max="100" value="40" label="Default" show-value&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider min="0" max="100" value="40" label="Disabled" show-value disabled&gt;&lt;/hbd-slider&gt;
+&lt;hbd-slider min="0" max="100" value="40" label="Error" show-value
+  error="Value must be set before continuing"&gt;&lt;/hbd-slider&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Slider divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <line x1="10" y1="22" x2="34" y2="22" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="26" cy="22" r="3.5" fill="#7a1212" stroke="#4a0808" stroke-width="1"/>
       </svg>
     </div>
 

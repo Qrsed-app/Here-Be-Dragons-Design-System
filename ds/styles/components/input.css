@@ -24,8 +24,9 @@
   font-family: var(--hbd-font-family-ui);
 }
 
-/* ── 2b · Label ─────────────────────────────────────────────────────── */
-.hbd-field__label {
+/* ── 2b · Label (shared with .hbd-slider-field) ─────────────────────── */
+.hbd-field__label,
+.hbd-slider-field__label {
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-label);
   font-weight: var(--hbd-font-weight-medium);
@@ -785,4 +786,162 @@
   --hbd-switch-height: var(--hbd-switch-lg-height);
   --hbd-switch-thumb-size: var(--hbd-switch-lg-thumb-size);
   --hbd-switch-thumb-offset: var(--hbd-switch-lg-thumb-offset);
+}
+
+/* ── 2n · Slider (single + range) ───────────────────────────────────── */
+/* Custom track + thumb layered on top of native input[type="range"]
+   (the input is fully transparent on top; native handles keyboard +
+   pointer interactions). For the range variant the JS positions two
+   overlapping inputs and renders two thumbs. Inline styles for
+   fill width/left and thumb left positions are a documented exception
+   (parallel to the auto-resize textarea height) — value-driven layout
+   that cannot be expressed in pure CSS. */
+
+.hbd-slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  width: 100%;
+}
+.hbd-slider-field__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.hbd-slider-field__value-display {
+  font-family: var(--hbd-font-family-mono);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-muted);
+  min-width: var(--hbd-space-8);
+  text-align: right;
+}
+
+/* Track container — also the tap surface. min-height lifts the
+   interaction area to the SC 2.5.8 minimum even though the visible
+   track is a thin hairline strip. */
+.hbd-slider__track-container {
+  position: relative;
+  min-height: var(--hbd-space-12); /* 48px — clears the 44px minimum */
+  height: var(--hbd-space-8);
+  display: flex;
+  align-items: center;
+}
+
+.hbd-slider__track {
+  position: relative;
+  width: 100%;
+  height: var(--hbd-slider-track-height);
+  /* border-strong (ink-700, ~11.4:1 on parchment) used as a surface —
+     same precedent as input/checkbox/radio/switch borders. The spec's
+     border-default would be ~2.06:1 and fail SC 1.4.11. */
+  background: var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-full);
+}
+
+/* Fill — JS sets left + width inline (value-driven, CSS cannot express). */
+.hbd-slider__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--hbd-color-surface-action);
+  border-radius: var(--hbd-radius-full);
+  pointer-events: none;
+}
+
+/* Native range input — visually invisible, fully interactive. opacity:0
+   (not the clip technique) so pointer events still hit it. */
+.hbd-slider__input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+  z-index: var(--hbd-z-raised);
+}
+.hbd-slider__input:disabled { cursor: not-allowed; }
+
+/* Custom thumb wrapper + thumb. JS sets the wrapper's left inline. */
+.hbd-slider__thumb-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.hbd-slider__thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--hbd-slider-thumb-size);
+  height: var(--hbd-slider-thumb-size);
+  background: var(--hbd-color-surface-default);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-surface-action);
+  border-radius: var(--hbd-radius-full);
+  box-shadow: var(--hbd-shadow-sm);
+  pointer-events: none;
+  transition: box-shadow var(--hbd-duration-fast) var(--hbd-ease-out),
+              transform var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-slider__thumb.is-active {
+  box-shadow: var(--hbd-shadow-md);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* Focus ring — placed on the thumb via a JS-applied .is-focused class
+   (a CSS sibling/descendant selector wouldn't reliably reach the thumb
+   inside the wrapper across the range variant's two-input layout). */
+.hbd-slider__thumb.is-focused {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Optional tick marks below the track. The hairline mark uses the
+   --hbd-border-width-hairline token so the literal in the spec is
+   fully tokenised. */
+.hbd-slider__ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 calc(var(--hbd-slider-thumb-size) / 2);
+  margin-top: var(--hbd-space-1);
+}
+.hbd-slider__tick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hbd-space-1);
+}
+.hbd-slider__tick-mark {
+  width: var(--hbd-border-width-hairline);
+  height: var(--hbd-space-1);
+  background: var(--hbd-color-border-strong);
+}
+.hbd-slider__tick-label {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+  white-space: nowrap;
+}
+
+/* Disabled state. */
+.hbd-slider-field--disabled .hbd-slider__track,
+.hbd-slider-field--disabled .hbd-slider__thumb { opacity: 0.5; }
+.hbd-slider-field--disabled .hbd-slider__input { cursor: not-allowed; }
+
+/* Size modifiers — re-point the thumb-size custom property at the
+   per-size token. Track height stays constant across sizes. */
+.hbd-slider-field--sm { --hbd-slider-thumb-size: var(--hbd-slider-thumb-size-sm); }
+.hbd-slider-field--lg { --hbd-slider-thumb-size: var(--hbd-slider-thumb-size-lg); }
+
+/* Error state — tint the track + thumb border. */
+.hbd-slider-field--error .hbd-slider__fill {
+  background: var(--hbd-color-status-error-border);
+}
+.hbd-slider-field--error .hbd-slider__thumb {
+  border-color: var(--hbd-color-status-error-border);
+}
+.hbd-slider-field--error .hbd-slider-field__label {
+  color: var(--hbd-color-text-emphasis);
 }

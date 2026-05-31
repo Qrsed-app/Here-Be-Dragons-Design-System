@@ -25,6 +25,7 @@ import './components/hbd-divider.js';
 import './components/hbd-input.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
+import './components/hbd-slider.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-stat-block.js';
 import './components/hbd-switch.js';
