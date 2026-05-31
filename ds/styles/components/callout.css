@@ -39,6 +39,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Center the icon vertically against the whole callout while the body
+     + dismiss button stay anchored at the top (the parent uses
+     align-items: flex-start). */
+  align-self: center;
   width: var(--hbd-space-6);
   height: var(--hbd-space-6);
   color: currentColor;
