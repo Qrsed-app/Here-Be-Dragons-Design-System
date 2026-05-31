@@ -2107,6 +2107,7 @@
           <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
           <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
           <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
+          <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5443,6 +5444,211 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <path d="M14 28h16" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M22 12v14M16 18l6-6 6 6" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <circle cx="22" cy="32" r="1.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · COMBOBOX ══════════════════════ -->
+    <section class="ds-section" id="component-combobox" aria-labelledby="heading-combobox">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·18</span>
+        <h2 class="ds-section__heading" id="heading-combobox">Combobox</h2>
+        <p class="ds-section__description">
+          Combobox combines a text input with a filterable suggestion list. Use
+          <code>autocomplete</code> mode for large option sets where the user may also type a
+          custom value, <code>strict</code> mode when only listed values are valid, and
+          <code>multi</code> mode for tag-style multi-selection rendered as chips. Rendered as
+          <code>&lt;hbd-combobox&gt;</code> with <code>&lt;hbd-option&gt;</code> children. For
+          async lists, set the <code>no-filter</code> attribute and call
+          <code>setOptions(results)</code> in response to the <code>hbd:search</code> event.
+        </p>
+
+        <!-- Group 1 · Autocomplete -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Autocomplete</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-combobox id="demo-combo-autocomplete"
+              label="Spell name"
+              placeholder="Type to search...">
+              <hbd-option value="fireball">Fireball</hbd-option>
+              <hbd-option value="fire-bolt">Fire Bolt</hbd-option>
+              <hbd-option value="fire-shield">Fire Shield</hbd-option>
+              <hbd-option value="firestorm">Firestorm</hbd-option>
+              <hbd-option value="cure-wounds">Cure Wounds</hbd-option>
+              <hbd-option value="mage-hand">Mage Hand</hbd-option>
+              <hbd-option value="magic-missile">Magic Missile</hbd-option>
+              <hbd-option value="shield">Shield</hbd-option>
+            </hbd-combobox>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-combobox label="Spell name" placeholder="Type to search..."&gt;
+  &lt;hbd-option value="fireball"&gt;Fireball&lt;/hbd-option&gt;
+  &lt;hbd-option value="fire-bolt"&gt;Fire Bolt&lt;/hbd-option&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-combobox&gt;</code></pre>
+          </details>
+          <script>
+            /* Pre-fill the input with "fire" to demonstrate filtering on load. */
+            (function () {
+              function seed() {
+                var el = document.getElementById('demo-combo-autocomplete');
+                if (!el || !el.shadowRoot) return setTimeout(seed, 50);
+                var input = el.shadowRoot.querySelector('.hbd-combobox__input');
+                if (!input) return setTimeout(seed, 50);
+                input.value = 'fire';
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+              }
+              seed();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 2 · Strict mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Strict mode</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-combobox label="Monster type" mode="strict"
+              placeholder="Select a type..."
+              hint="Free text not allowed — pick from the list.">
+              <hbd-option>Aberration</hbd-option>
+              <hbd-option>Beast</hbd-option>
+              <hbd-option>Celestial</hbd-option>
+              <hbd-option>Construct</hbd-option>
+              <hbd-option>Dragon</hbd-option>
+              <hbd-option>Elemental</hbd-option>
+              <hbd-option>Fey</hbd-option>
+              <hbd-option>Fiend</hbd-option>
+              <hbd-option>Giant</hbd-option>
+              <hbd-option>Humanoid</hbd-option>
+              <hbd-option>Monstrosity</hbd-option>
+              <hbd-option>Ooze</hbd-option>
+              <hbd-option>Plant</hbd-option>
+              <hbd-option>Undead</hbd-option>
+            </hbd-combobox>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-combobox label="Monster type" mode="strict" placeholder="Select a type..."&gt;
+  &lt;hbd-option&gt;Aberration&lt;/hbd-option&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-combobox&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Multi mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multi mode</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-combobox label="Damage types"
+              mode="multi"
+              placeholder="Add damage types..."
+              values='[{"value":"Fire","label":"Fire"},{"value":"Lightning","label":"Lightning"}]'>
+              <hbd-option>Acid</hbd-option>
+              <hbd-option>Bludgeoning</hbd-option>
+              <hbd-option>Cold</hbd-option>
+              <hbd-option>Fire</hbd-option>
+              <hbd-option>Force</hbd-option>
+              <hbd-option>Lightning</hbd-option>
+              <hbd-option>Necrotic</hbd-option>
+              <hbd-option>Piercing</hbd-option>
+              <hbd-option>Poison</hbd-option>
+              <hbd-option>Psychic</hbd-option>
+              <hbd-option>Radiant</hbd-option>
+              <hbd-option>Slashing</hbd-option>
+              <hbd-option>Thunder</hbd-option>
+            </hbd-combobox>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-combobox label="Damage types" mode="multi"
+  placeholder="Add damage types..."
+  values='[{"value":"Fire","label":"Fire"},{"value":"Lightning","label":"Lightning"}]'&gt;
+  &lt;hbd-option&gt;Acid&lt;/hbd-option&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-combobox&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Async / server-side -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Async / server-side search</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-combobox id="demo-combo-async"
+              label="Search compendium"
+              placeholder="Search for spells, items, monsters..."
+              no-filter></hbd-combobox>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-combobox label="Search compendium" placeholder="..." no-filter&gt;&lt;/hbd-combobox&gt;
+&lt;script&gt;
+  combo.addEventListener('hbd:search', async (e) =&gt; {
+    const results = await fetch(`/api/search?q=${e.detail.query}`).then(r =&gt; r.json());
+    combo.setOptions(results);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            /* Simulate a 500ms async backend that returns three matching results. */
+            (function () {
+              function wire() {
+                var el = document.getElementById('demo-combo-async');
+                if (!el || typeof el.setOptions !== 'function') return setTimeout(wire, 50);
+                el.addEventListener('hbd:search', function (e) {
+                  var q = (e.detail.query || '').trim();
+                  setTimeout(function () {
+                    if (!q) { el.setOptions([]); return; }
+                    el.setOptions([
+                      { value: q + '-spell',   label: q + ' (spell)' },
+                      { value: q + '-monster', label: q + ' (monster)' },
+                      { value: q + '-item',    label: q + ' (item)' },
+                    ]);
+                  }, 500);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-combobox label="Default" placeholder="Type to search...">
+              <hbd-option>Alpha</hbd-option>
+              <hbd-option>Beta</hbd-option>
+              <hbd-option>Gamma</hbd-option>
+            </hbd-combobox>
+            <hbd-combobox label="Disabled" placeholder="Cannot search" disabled>
+              <hbd-option>Alpha</hbd-option>
+              <hbd-option>Beta</hbd-option>
+              <hbd-option>Gamma</hbd-option>
+            </hbd-combobox>
+            <hbd-combobox label="Error" placeholder="Type to search..." error="A selection is required.">
+              <hbd-option>Alpha</hbd-option>
+              <hbd-option>Beta</hbd-option>
+              <hbd-option>Gamma</hbd-option>
+            </hbd-combobox>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-combobox label="Default"&gt;…&lt;/hbd-combobox&gt;
+&lt;hbd-combobox label="Disabled" disabled&gt;…&lt;/hbd-combobox&gt;
+&lt;hbd-combobox label="Error" error="A selection is required."&gt;…&lt;/hbd-combobox&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Combobox divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="16" width="24" height="12" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <line x1="14" y1="22" x2="22" y2="22" stroke="#7a1212" stroke-width="1.2"/>
+        <path d="M27 21l2 2 2-2" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </div>
 

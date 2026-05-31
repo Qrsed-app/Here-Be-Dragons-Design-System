@@ -1070,3 +1070,194 @@
 .hbd-field--error .hbd-stepper__input {
   color: var(--hbd-color-text-emphasis);
 }
+
+/* ── 2p · Combobox (autocomplete / strict / multi) ──────────────────── */
+/* Combobox combines a text input with a filterable suggestion list.
+   The wrapper hosts chips (multi mode) + the native <input>, with a clear
+   (×) button on the right when there is something to clear. The dropdown
+   panel reuses the select panel + option styles defined above —
+   .hbd-field__select-panel, .hbd-field__option(-group)(-label). The new
+   classes below cover only the parts unique to combobox.
+   Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N. */
+
+/* Shell — positioning context for the absolutely-positioned panel.
+   The combobox itself needs overflow:auto (multi mode), which would clip
+   the popover, so the panel is a SIBLING of the combobox inside this
+   shell rather than a child of it. */
+.hbd-combobox__shell {
+  position: relative;
+  width: 100%;
+}
+
+.hbd-combobox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--hbd-space-1);
+  width: 100%;
+  min-height: var(--hbd-input-min-height);
+  padding: var(--hbd-space-1) var(--hbd-space-3);
+  background: var(--hbd-color-surface-default);
+  /* border-strong (ink-700, ~11.4:1 on parchment) — same SC 1.4.11 precedent
+     as the other input borders. border-default would be ~2.06:1. */
+  border: var(--hbd-input-border-width) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-input-border-radius);
+  cursor: text;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-combobox:focus-within {
+  border-color: var(--hbd-color-input-focus-border);
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Field-level error / disabled — same convention as the other inputs. */
+.hbd-field--error .hbd-combobox {
+  border-color: var(--hbd-color-status-error-border);
+}
+/* Error: tint the typed value AND the placeholder so they match the label
+   + error message. Same precedent as input/textarea/select/stepper. */
+.hbd-field--error .hbd-combobox__input {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-field--error .hbd-combobox__input::placeholder {
+  color: var(--hbd-color-text-emphasis);
+  opacity: 1;
+}
+.hbd-field--disabled .hbd-combobox {
+  background: var(--hbd-color-surface-subtle);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Internal text input — borderless, fills remaining flex track. */
+.hbd-combobox__input {
+  flex: 1;
+  min-width: var(--hbd-combobox-min-input-width);
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  padding: var(--hbd-space-1) 0;
+}
+.hbd-combobox__input::placeholder {
+  color: var(--hbd-color-text-muted);
+  opacity: 1;
+}
+
+/* Multi mode — cap visible chip area to ~3 rows; overflow scrolls
+   vertically. The input always sits after the last chip in source order
+   and wraps with them, so it appears at the end of the chip flow. */
+.hbd-combobox--multi {
+  max-height: var(--hbd-combobox-multi-max-height);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Chips (multi mode) — pill-shaped selection tokens. */
+.hbd-combobox__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-1);
+  height: var(--hbd-combobox-chip-height);
+  padding: 0 var(--hbd-space-2);
+  background: var(--hbd-color-surface-raised);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-ink-brown);
+  border-radius: var(--hbd-radius-full);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-primary);
+  max-width: var(--hbd-combobox-chip-max-width);
+}
+.hbd-combobox__chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hbd-combobox__chip-remove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--hbd-color-text-muted);
+  padding: 0;
+  line-height: 1;
+  border-radius: var(--hbd-radius-full);
+}
+.hbd-combobox__chip-remove:hover {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-combobox__chip-remove:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Clear (×) button — visible only when there is content to clear. */
+.hbd-combobox__clear {
+  flex-shrink: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--hbd-color-text-muted);
+  padding: var(--hbd-space-1);
+  border-radius: var(--hbd-radius-sm);
+}
+.hbd-combobox--has-value .hbd-combobox__clear {
+  display: inline-flex;
+}
+.hbd-combobox__clear:hover {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-combobox__clear:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Dropdown panel — inherits the select-panel slide animation + structure.
+   Override max-height so combobox can tune it independently from select. */
+.hbd-combobox__panel {
+  max-height: 0;
+}
+.hbd-field--open .hbd-combobox__panel {
+  max-height: var(--hbd-combobox-panel-max-height);
+}
+
+/* Empty / loading states inside the panel. */
+.hbd-combobox__no-results {
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-muted);
+  text-align: center;
+}
+.hbd-combobox__loading-row {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-muted);
+}
+
+/* Spinner — pure CSS, derived from tokenised border widths + colours. */
+.hbd-combobox__spinner {
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-border-subtle);
+  border-top-color: var(--hbd-color-text-emphasis);
+  border-radius: var(--hbd-radius-full);
+  animation: hbd-combobox-spin var(--hbd-duration-slower) linear infinite;
+}
+@keyframes hbd-combobox-spin {
+  to { transform: rotate(360deg); }
+}

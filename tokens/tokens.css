@@ -398,4 +398,11 @@
   --hbd-file-upload-dropzone-min-height: 160px;
   --hbd-file-upload-preview-size: 64px;
   --hbd-file-upload-progress-height: 4px;
+
+  /* ── combobox ──────────────────────────────────────────── */
+  --hbd-combobox-chip-height: 24px;
+  --hbd-combobox-panel-max-height: 280px;
+  --hbd-combobox-min-input-width: 120px;
+  --hbd-combobox-chip-max-width: 200px;
+  --hbd-combobox-multi-max-height: 96px;
 }
