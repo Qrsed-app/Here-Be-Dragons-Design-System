@@ -2105,6 +2105,7 @@
           <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
           <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
           <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
+          <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5186,6 +5187,114 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <line x1="10" y1="22" x2="34" y2="22" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round"/>
         <circle cx="26" cy="22" r="3.5" fill="#7a1212" stroke="#4a0808" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · NUMERIC STEPPER ══════════════════════ -->
+    <section class="ds-section" id="component-stepper" aria-labelledby="heading-stepper">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·16</span>
+        <h2 class="ds-section__heading" id="heading-stepper">Numeric Stepper</h2>
+        <p class="ds-section__description">
+          Numeric steppers allow users to increment or decrement a value by a fixed step. Use for
+          small integer ranges where up/down navigation is more intuitive than free text entry
+          (spell slot level, character level, quantity). For larger ranges or precision-driven
+          inputs, prefer <code>&lt;hbd-input type="number"&gt;</code>. Rendered as
+          <code>&lt;hbd-stepper&gt;</code> — the native <code>input[type="number"]</code> is the
+          sole Tab stop; ± buttons are reached by pointer.
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-stepper min="1" max="9" value="3" step="1" label="Spell level"></hbd-stepper>
+            <hbd-stepper min="1" max="20" value="1" step="1" label="Character level"></hbd-stepper>
+            <hbd-stepper min="0" max="999" value="50" step="1" label="Gold pieces"></hbd-stepper>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper min="1" max="9"  value="3"  step="1" label="Spell level"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper min="1" max="20" value="1"  step="1" label="Character level"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper min="0" max="999" value="50" step="1" label="Gold pieces"&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Decimal step -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Decimal step</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-stepper min="0" max="10" value="1.5" step="0.5" label="Encumbrance multiplier"></hbd-stepper>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper min="0" max="10" value="1.5" step="0.5"
+  label="Encumbrance multiplier"&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-stepper size="sm" min="0" max="100" value="10" label="Small"></hbd-stepper>
+            <hbd-stepper size="md" min="0" max="100" value="10" label="Medium"></hbd-stepper>
+            <hbd-stepper size="lg" min="0" max="100" value="10" label="Large"></hbd-stepper>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper size="sm" min="0" max="100" value="10" label="Small"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper size="md" min="0" max="100" value="10" label="Medium"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper size="lg" min="0" max="100" value="10" label="Large"&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-stepper min="1" max="9" value="5" step="1" label="Default"></hbd-stepper>
+            <hbd-stepper min="1" max="9" value="1" step="1" label="At minimum"></hbd-stepper>
+            <hbd-stepper min="1" max="9" value="9" step="1" label="At maximum"></hbd-stepper>
+            <hbd-stepper min="1" max="9" value="3" step="1" label="Disabled" disabled></hbd-stepper>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper min="1" max="9" value="1" label="At minimum"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper min="1" max="9" value="9" label="At maximum"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper min="1" max="9" value="3" label="Disabled" disabled&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With hint and error -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With hint and error</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-stepper min="1" max="9" value="3" step="1"
+              label="Spell slot level" hint="Valid range: 1–9"></hbd-stepper>
+            <hbd-stepper min="1" max="9" value="12" step="1"
+              label="Spell slot level" error="Value must be between 1 and 9"></hbd-stepper>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper min="1" max="9" value="3" label="Spell slot level"
+  hint="Valid range: 1–9"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper min="1" max="9" value="12" label="Spell slot level"
+  error="Value must be between 1 and 9"&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Numeric Stepper divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="14" y="17" width="16" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <line x1="11" y1="22" x2="14" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="30" y1="22" x2="33" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="31.5" y1="20.5" x2="31.5" y2="23.5" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </div>
 

@@ -390,4 +390,7 @@
   --hbd-slider-thumb-size: 20px;
   --hbd-slider-thumb-size-sm: 16px;
   --hbd-slider-thumb-size-lg: 24px;
+
+  /* ── stepper ───────────────────────────────────────────── */
+  --hbd-stepper-button-width: 40px;
 }

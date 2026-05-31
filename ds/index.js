@@ -28,6 +28,7 @@ import './components/hbd-select.js';
 import './components/hbd-slider.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-stat-block.js';
+import './components/hbd-stepper.js';
 import './components/hbd-switch.js';
 import './components/hbd-textarea.js';
 import './components/hbd-time-picker.js';
