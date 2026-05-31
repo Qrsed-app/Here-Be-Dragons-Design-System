@@ -145,11 +145,13 @@
   margin-top: var(--hbd-space-1);
 }
 
-/* ── Label + hint (shared with .hbd-radio) ──────────────────────────── */
-/* The radio inherits these rules — kept here as the single source of truth
-   so any future tweak (font, spacing) applies to both controls. */
+/* ── Label + hint (shared with .hbd-radio + .hbd-switch) ────────────── */
+/* Radio and switch both inherit these rules — kept here as the single
+   source of truth so any future tweak (font, spacing) applies to all
+   three controls. */
 .hbd-checkbox__label,
-.hbd-radio__label {
+.hbd-radio__label,
+.hbd-switch__label {
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-body);
   color: var(--hbd-color-text-primary);
@@ -157,7 +159,8 @@
   cursor: pointer;
 }
 .hbd-checkbox__hint,
-.hbd-radio__hint {
+.hbd-radio__hint,
+.hbd-switch__hint {
   display: block;
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-label);

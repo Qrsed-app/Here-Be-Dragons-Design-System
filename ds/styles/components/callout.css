@@ -12,11 +12,11 @@
 
 /* ── Base ───────────────────────────────────────────────────────────── */
 /* Dismiss animation: opacity + max-height + padding collapse, on
-   --hbd-duration-slow (350ms) + --hbd-ease-out — matches the panel-slide
-   timing used by select / time-picker for visual consistency across the DS.
-   The max-height: 1000px ceiling is a known compromise (CSS cannot transition
-   to/from `auto`); any real callout fits well under this. Reduced-motion
-   override in foundations/motion.css collapses transitions to 0.01ms. */
+   --hbd-duration-slow + --hbd-ease-out — matches the panel-slide timing
+   used by select / time-picker for visual consistency across the DS.
+   --hbd-callout-dismiss-max-height is the open-state ceiling (CSS cannot
+   transition to or from auto); any real callout fits comfortably under it.
+   Reduced-motion override in foundations/motion.css collapses transitions. */
 .hbd-callout {
   display: flex;
   align-items: flex-start;
@@ -26,7 +26,7 @@
   border-left: var(--hbd-border-width-thick) solid transparent;
   font-family: var(--hbd-font-family-ui);
   overflow: hidden;
-  max-height: 1000px;
+  max-height: var(--hbd-callout-dismiss-max-height);
   transition: opacity var(--hbd-duration-slow) var(--hbd-ease-out),
               max-height var(--hbd-duration-slow) var(--hbd-ease-out),
               padding var(--hbd-duration-slow) var(--hbd-ease-out),

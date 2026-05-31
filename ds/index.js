@@ -27,5 +27,6 @@ import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-stat-block.js';
+import './components/hbd-switch.js';
 import './components/hbd-textarea.js';
 import './components/hbd-time-picker.js';

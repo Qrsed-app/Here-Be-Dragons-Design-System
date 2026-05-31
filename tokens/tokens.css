@@ -309,6 +309,7 @@
   /* ── callout ───────────────────────────────────────────── */
   --hbd-callout-sage-advice-bg: rgba(184, 137, 59, 0.08);
   --hbd-callout-sage-advice-border: var(--hbd-color-gold-deep);
+  --hbd-callout-dismiss-max-height: 1000px;
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
@@ -369,4 +370,18 @@
 
   /* ── time-picker ───────────────────────────────────────── */
   --hbd-time-picker-panel-max-height: 320px;
+
+  /* ── switch ────────────────────────────────────────────── */
+  --hbd-switch-width: 44px;
+  --hbd-switch-height: 24px;
+  --hbd-switch-thumb-size: 18px;
+  --hbd-switch-thumb-offset: 3px;
+  --hbd-switch-sm-width: 36px;
+  --hbd-switch-sm-height: 20px;
+  --hbd-switch-sm-thumb-size: 14px;
+  --hbd-switch-sm-thumb-offset: 3px;
+  --hbd-switch-lg-width: 52px;
+  --hbd-switch-lg-height: 28px;
+  --hbd-switch-lg-thumb-size: 22px;
+  --hbd-switch-lg-thumb-offset: 3px;
 }

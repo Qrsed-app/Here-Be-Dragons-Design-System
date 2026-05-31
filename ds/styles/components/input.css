@@ -570,7 +570,7 @@
 .hbd-radio-group--error .hbd-radio-group__hint  { display: none; }
 
 /* Individual radio — same wrapper shape + hidden-input pattern as
-   .hbd-checkbox (see checkbox.css for the rationale on the 1px clip). */
+   .hbd-checkbox (see checkbox.css for the rationale on the hairline clip). */
 .hbd-radio {
   position: relative;
   display: inline-flex;
@@ -669,4 +669,120 @@
   display: flex;
   flex-direction: column;
   gap: var(--hbd-space-1);
+}
+
+/* ── 2m · Switch (binary on/off, immediate effect) ──────────────────── */
+/* Pill-shaped track + circular thumb that slides on check. Uses the same
+   visually-hidden-input pattern as checkbox/radio (input is the focus
+   target + form value carrier; visible track/thumb are pure presentation).
+   Label/hint styles live under the combined selector in checkbox.css. */
+
+.hbd-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hbd-space-3);
+  /* Vertical padding lifts the total tap area to ≥44px (SC 2.5.8):
+     track height + 2× space-3 padding clears the minimum on all sizes. */
+  padding: var(--hbd-space-3) 0;
+  cursor: pointer;
+}
+.hbd-switch--label-left {
+  flex-direction: row-reverse;
+}
+
+/* Visually-hidden native input — same clip technique as checkbox/radio. */
+.hbd-switch__input {
+  position: absolute;
+  width: var(--hbd-border-width-hairline);
+  height: var(--hbd-border-width-hairline);
+  margin: calc(-1 * var(--hbd-border-width-hairline));
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Track — pill-shaped outer container. border-strong (ink-700, ~11.4:1
+   on parchment) is used as a SURFACE for the "off" state — matches the
+   precedent set on input/checkbox/radio borders for SC 1.4.11 (the
+   spec's border-default would be ~2.06:1 and fail). */
+.hbd-switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--hbd-switch-width);
+  height: var(--hbd-switch-height);
+  background: var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-full);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-in-out);
+}
+
+/* Thumb — circular indicator that translates on check. */
+.hbd-switch__thumb {
+  position: absolute;
+  top: var(--hbd-switch-thumb-offset);
+  left: var(--hbd-switch-thumb-offset);
+  width: var(--hbd-switch-thumb-size);
+  height: var(--hbd-switch-thumb-size);
+  background: var(--hbd-color-surface-default);
+  border-radius: var(--hbd-radius-full);
+  box-shadow: var(--hbd-shadow-sm);
+  transition: transform var(--hbd-duration-fast) var(--hbd-ease-in-out);
+}
+
+/* Checked — track tints to action, thumb slides right. */
+.hbd-switch--checked .hbd-switch__track {
+  background: var(--hbd-color-surface-action);
+}
+.hbd-switch--checked .hbd-switch__thumb {
+  transform: translateX(calc(
+    var(--hbd-switch-width)
+    - var(--hbd-switch-thumb-size)
+    - (2 * var(--hbd-switch-thumb-offset))
+  ));
+}
+
+/* Focus ring via adjacent-sibling pattern. */
+.hbd-switch__input:focus-visible + .hbd-switch__track {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Hover — single brightness filter covers both off + on states. */
+.hbd-switch:not(.hbd-switch--disabled):hover .hbd-switch__track {
+  filter: brightness(0.92);
+}
+
+/* Disabled — visual + cursor only; native input carries the actual
+   disabled HTML attribute. */
+.hbd-switch--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.hbd-switch--disabled .hbd-switch__track {
+  pointer-events: none;
+}
+
+/* Label + hint stack — vertical column when both are present. */
+.hbd-switch__label-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+}
+
+/* Size modifiers — re-point the four switch custom properties at the
+   per-size tokens. Same custom-property override technique, but every
+   value still resolves through a --hbd-* token (no hard-coded literals). */
+.hbd-switch--sm {
+  --hbd-switch-width: var(--hbd-switch-sm-width);
+  --hbd-switch-height: var(--hbd-switch-sm-height);
+  --hbd-switch-thumb-size: var(--hbd-switch-sm-thumb-size);
+  --hbd-switch-thumb-offset: var(--hbd-switch-sm-thumb-offset);
+}
+.hbd-switch--lg {
+  --hbd-switch-width: var(--hbd-switch-lg-width);
+  --hbd-switch-height: var(--hbd-switch-lg-height);
+  --hbd-switch-thumb-size: var(--hbd-switch-lg-thumb-size);
+  --hbd-switch-thumb-offset: var(--hbd-switch-lg-thumb-offset);
 }
