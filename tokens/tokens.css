@@ -366,4 +366,7 @@
   /* ── select ────────────────────────────────────────────── */
   --hbd-select-option-height: 40px;
   --hbd-select-panel-max-height: 280px;
+
+  /* ── time-picker ───────────────────────────────────────── */
+  --hbd-time-picker-panel-max-height: 320px;
 }

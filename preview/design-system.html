@@ -2102,6 +2102,7 @@
           <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
           <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
           <li><a class="ds-toc__link" href="#component-select">Select</a></li>
+          <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -4805,6 +4806,168 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="10" y="17" width="24" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <path d="M27 21l-2.5 2.5L22 21" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · RADIO GROUP ══════════════════════ -->
+    <section class="ds-section" id="component-radio-group" aria-labelledby="heading-radio-group">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·13</span>
+        <h2 class="ds-section__heading" id="heading-radio-group">Radio Group</h2>
+        <p class="ds-section__description">
+          Radio groups allow users to select exactly one option from a set. Always use within a
+          group with a clear question as the legend. Use <code>&lt;hbd-select&gt;</code> when
+          there are more than six options. Rendered as <code>&lt;hbd-radio-group&gt;</code> with
+          <code>&lt;hbd-radio&gt;</code> children. Arrow keys move between options and select on
+          focus (ARIA radiogroup pattern); Tab moves focus in and out of the group as a whole.
+        </p>
+
+        <!-- Group 1 · Default — vertical -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default — vertical</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-radio-group name="ability" label="Ability score" value="int">
+              <hbd-radio value="str" label="Strength"></hbd-radio>
+              <hbd-radio value="dex" label="Dexterity"></hbd-radio>
+              <hbd-radio value="con" label="Constitution"></hbd-radio>
+              <hbd-radio value="int" label="Intelligence"></hbd-radio>
+              <hbd-radio value="wis" label="Wisdom"></hbd-radio>
+              <hbd-radio value="cha" label="Charisma"></hbd-radio>
+            </hbd-radio-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-radio-group name="ability" label="Ability score" value="int"&gt;
+  &lt;hbd-radio value="str" label="Strength"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="dex" label="Dexterity"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="con" label="Constitution"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="int" label="Intelligence"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="wis" label="Wisdom"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="cha" label="Charisma"&gt;&lt;/hbd-radio&gt;
+&lt;/hbd-radio-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Horizontal layout -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal layout</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-radio-group name="slot-level" label="Spell slot level" orientation="horizontal" value="3">
+              <hbd-radio value="1" label="1st"></hbd-radio>
+              <hbd-radio value="2" label="2nd"></hbd-radio>
+              <hbd-radio value="3" label="3rd"></hbd-radio>
+              <hbd-radio value="4" label="4th"></hbd-radio>
+              <hbd-radio value="5" label="5th"></hbd-radio>
+            </hbd-radio-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-radio-group name="slot-level" label="Spell slot level"
+  orientation="horizontal" value="3"&gt;
+  &lt;hbd-radio value="1" label="1st"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="2" label="2nd"&gt;&lt;/hbd-radio&gt;
+  &lt;!-- … --&gt;
+&lt;/hbd-radio-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With hints on options -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With hints on options</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-radio-group name="rest" label="Resting type" value="short">
+              <hbd-radio value="short" label="Short Rest"
+                hint="1 hour. Spend Hit Dice to recover HP."></hbd-radio>
+              <hbd-radio value="long" label="Long Rest"
+                hint="8 hours. Fully recover HP and spell slots."></hbd-radio>
+              <hbd-radio value="none" label="No rest"
+                hint="Continue without resting."></hbd-radio>
+            </hbd-radio-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-radio-group name="rest" label="Resting type" value="short"&gt;
+  &lt;hbd-radio value="short" label="Short Rest"
+    hint="1 hour. Spend Hit Dice to recover HP."&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="long" label="Long Rest"
+    hint="8 hours. Fully recover HP and spell slots."&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="none" label="No rest"
+    hint="Continue without resting."&gt;&lt;/hbd-radio&gt;
+&lt;/hbd-radio-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-radio-group name="state-default" label="Default" value="a">
+              <hbd-radio value="a" label="Option A"></hbd-radio>
+              <hbd-radio value="b" label="Option B"></hbd-radio>
+              <hbd-radio value="c" label="Option C"></hbd-radio>
+            </hbd-radio-group>
+
+            <hbd-radio-group name="state-disabled" label="Disabled" value="b" disabled>
+              <hbd-radio value="a" label="Option A"></hbd-radio>
+              <hbd-radio value="b" label="Option B"></hbd-radio>
+              <hbd-radio value="c" label="Option C"></hbd-radio>
+            </hbd-radio-group>
+
+            <hbd-radio-group name="state-error" label="Error" required error="A selection is required">
+              <hbd-radio value="a" label="Option A"></hbd-radio>
+              <hbd-radio value="b" label="Option B"></hbd-radio>
+              <hbd-radio value="c" label="Option C"></hbd-radio>
+            </hbd-radio-group>
+
+            <hbd-radio-group name="state-hint" label="With group hint" value="a"
+              hint="Picks affect downstream features.">
+              <hbd-radio value="a" label="Option A"></hbd-radio>
+              <hbd-radio value="b" label="Option B"></hbd-radio>
+              <hbd-radio value="c" label="Option C"></hbd-radio>
+            </hbd-radio-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-radio-group label="Disabled" value="b" disabled&gt;…&lt;/hbd-radio-group&gt;
+&lt;hbd-radio-group label="Error" required error="A selection is required"&gt;…&lt;/hbd-radio-group&gt;
+&lt;hbd-radio-group label="With group hint" hint="Picks affect downstream features."&gt;…&lt;/hbd-radio-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With disabled option -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled option</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-radio-group name="alignment" label="Alignment" value="lg">
+              <hbd-radio value="lg" label="Lawful Good"></hbd-radio>
+              <hbd-radio value="ng" label="Neutral Good"></hbd-radio>
+              <hbd-radio value="cg" label="Chaotic Good"></hbd-radio>
+              <hbd-radio value="tn" label="True Neutral" disabled></hbd-radio>
+              <hbd-radio value="ce" label="Chaotic Evil"></hbd-radio>
+            </hbd-radio-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-radio-group name="alignment" label="Alignment" value="lg"&gt;
+  &lt;hbd-radio value="lg" label="Lawful Good"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="ng" label="Neutral Good"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="cg" label="Chaotic Good"&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="tn" label="True Neutral" disabled&gt;&lt;/hbd-radio&gt;
+  &lt;hbd-radio value="ce" label="Chaotic Evil"&gt;&lt;/hbd-radio&gt;
+&lt;/hbd-radio-group&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Radio Group divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="16" cy="22" r="5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="28" cy="22" r="5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="16" cy="22" r="2" fill="#7a1212"/>
       </svg>
     </div>
 

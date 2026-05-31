@@ -191,11 +191,17 @@ class HbdTimePicker extends HTMLElement {
     const trigger = this.shadowRoot.querySelector('.hbd-time-picker__trigger');
     trigger.addEventListener('click', () => { if (!disabled) this._openPanel(); });
 
-    if (this._open) {
-      const panel = this.shadowRoot.querySelector('.hbd-time-picker__panel');
+    // The panel is ALWAYS present in the shadow root (slide controlled by
+    // the .hbd-time-picker--open class). Wire panel listeners once per render.
+    const panel = this.shadowRoot.querySelector('.hbd-time-picker__panel');
+    if (panel) {
       panel.addEventListener('click', this._onPanelClick);
       panel.addEventListener('keydown', this._onPanelKeydown);
-      // Scroll the active cells into view and move focus into the hour column.
+    }
+
+    // If we're rendering while already open (rare — e.g. attribute change
+    // mid-open), restore the in-panel focus.
+    if (this._open) {
       this._scrollActiveIntoView();
       const firstStop = this.shadowRoot.querySelector('[data-scroll="hour"] .hbd-time-picker__cell[tabindex="0"]');
       if (firstStop) firstStop.focus({ preventScroll: false });
@@ -217,15 +223,31 @@ class HbdTimePicker extends HTMLElement {
   }
 
   // ── Open / close ──────────────────────────────────────────────────────
+  // Toggle the wrapper's open class + aria-expanded WITHOUT rebuilding the
+  // shadow DOM. CSS transitions on .hbd-time-picker__panel require the
+  // panel <div> to persist across the open/close — calling _render() here
+  // would destroy and recreate the panel and the slide would not run.
+  _setOpenClass(isOpen) {
+    const wrapper = this.shadowRoot.querySelector('.hbd-time-picker');
+    if (!wrapper) return;
+    wrapper.classList.toggle('hbd-time-picker--open', isOpen);
+    const trigger = wrapper.querySelector('.hbd-time-picker__trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
   _openPanel() {
     if (this._open) return;
     this._open = true;
-    this._render();
+    this._setOpenClass(true);
     // Remove first to guarantee a single registration even if state drifted.
     document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('keydown', this._onDocKeydown);
     document.addEventListener('mousedown', this._onDocMouseDown);
     document.addEventListener('keydown', this._onDocKeydown);
+    // Scroll selected cells into view + move focus into the hour column.
+    this._scrollActiveIntoView();
+    const firstStop = this.shadowRoot.querySelector('[data-scroll="hour"] .hbd-time-picker__cell[tabindex="0"]');
+    if (firstStop) firstStop.focus({ preventScroll: false });
     this.dispatchEvent(new CustomEvent('hbd:open', { bubbles: true, composed: true }));
   }
   _closePanel() {
@@ -242,7 +264,7 @@ class HbdTimePicker extends HTMLElement {
     this._open = false;
     document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('keydown', this._onDocKeydown);
-    this._render();
+    this._setOpenClass(false);
 
     if (focusWasInside) {
       const trigger = this.shadowRoot.querySelector('.hbd-time-picker__trigger');
@@ -319,20 +341,85 @@ class HbdTimePicker extends HTMLElement {
 
   _selectHour(v) {
     this._h24 = this._is12 ? this._toH24(v, this._ampm) : v;
-    this._render();
+    this._syncSelectionUI();
     this._refocus('hour', v);
   }
   _selectMinute(v) {
     this._minute = v;
-    this._render();
+    this._syncSelectionUI();
     this._refocus('minute', v);
   }
   _selectAmpm(ap) {
     this._ampm = ap;
     if (this._h24 !== null) this._h24 = this._toH24(this._toDisp12(this._h24), ap);
-    this._render();
+    this._syncSelectionUI();
     const btn = this.shadowRoot.querySelector(`.hbd-time-picker__ampm-btn[data-ampm="${ap}"]`);
     if (btn) btn.focus();
+  }
+
+  // Mutate the existing panel's header text + cell .is-selected classes +
+  // ampm button state in place — avoids a full _render() so the open panel
+  // stays mounted and the close-slide can run when Confirm/Clear is hit.
+  _syncSelectionUI() {
+    const root = this.shadowRoot;
+    const selHr = this._selDispHr();
+    const curAmpm = this._h24 !== null ? (this._h24 >= 12 ? 'PM' : 'AM') : this._ampm;
+    const headerH = this._h24 !== null ? String(selHr).padStart(2, '0') : '––';
+    const headerM = this._minute !== null ? String(this._minute).padStart(2, '0') : '––';
+
+    // Update header text content.
+    const editHourEl = root.querySelector('[data-edit-hour]');
+    if (editHourEl) {
+      editHourEl.textContent = headerH;
+      editHourEl.setAttribute('aria-label', `Hour ${headerH}, activate to type`);
+    }
+    // The second .hbd-time-picker__display-num (non-editable) is the minute.
+    const numEls = root.querySelectorAll('.hbd-time-picker__display-num');
+    const minEl = numEls[numEls.length - 1];
+    if (minEl && !minEl.hasAttribute('data-edit-hour')) {
+      minEl.textContent = headerM;
+      minEl.setAttribute('aria-label', `Minute ${headerM}`);
+    }
+    const ampmEl = root.querySelector('.hbd-time-picker__display-ampm');
+    if (ampmEl) ampmEl.textContent = curAmpm;
+
+    // Update hour cell selection.
+    root.querySelectorAll('[data-scroll="hour"] .hbd-time-picker__cell').forEach((c) => {
+      const val = parseInt(c.getAttribute('data-val'), 10);
+      const isSel = selHr !== null && val === selHr;
+      c.classList.toggle('is-selected', isSel);
+      c.setAttribute('aria-selected', isSel ? 'true' : 'false');
+    });
+    // Update minute cell selection.
+    root.querySelectorAll('[data-scroll="minute"] .hbd-time-picker__cell').forEach((c) => {
+      const val = parseInt(c.getAttribute('data-val'), 10);
+      const isSel = this._minute !== null && val === this._minute;
+      c.classList.toggle('is-selected', isSel);
+      c.setAttribute('aria-selected', isSel ? 'true' : 'false');
+    });
+    // Update AM/PM button active state.
+    root.querySelectorAll('.hbd-time-picker__ampm-btn').forEach((b) => {
+      const isActive = b.getAttribute('data-ampm') === curAmpm;
+      b.classList.toggle('is-active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+
+  // Update the closed-trigger's display label (called after Confirm/Clear).
+  _syncTriggerLabel() {
+    const root = this.shadowRoot;
+    const labelEl = root.querySelector('.hbd-time-picker__trigger-label');
+    if (!labelEl) return;
+    const display = this._displayStr();
+    const placeholder = this.getAttribute('placeholder') || 'Select the hour…';
+    labelEl.textContent = display || placeholder;
+    labelEl.classList.toggle('hbd-time-picker__trigger-label--placeholder', !display);
+    // aria-label on the trigger button.
+    const trigger = root.querySelector('.hbd-time-picker__trigger');
+    if (trigger) {
+      const aria = this.getAttribute('aria-label') || 'Time picker';
+      trigger.setAttribute('aria-label', `${aria}${display ? `, current value ${display}` : ''}`);
+    }
   }
 
   // Re-focus the cell for `val` after a re-render (keeps keyboard position).
@@ -364,22 +451,36 @@ class HbdTimePicker extends HTMLElement {
     const commit = () => this._commitHrDraft(input.value);
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.stopPropagation(); commit(); }
-      if (e.key === 'Escape') { e.stopPropagation(); this._render(); }
+      if (e.key === 'Escape') { e.stopPropagation(); this._restoreHourHeader(); }
     });
     input.addEventListener('blur', commit);
   }
 
+  // Restore the header <span data-edit-hour> after an inline-edit input is
+  // cancelled or committed. Avoids _render() so the panel stays mounted.
+  _restoreHourHeader() {
+    const input = this.shadowRoot.querySelector('.hbd-time-picker__header-input');
+    if (!input) return;
+    const span = document.createElement('span');
+    span.className = 'hbd-time-picker__display-num hbd-time-picker__display-num--editable';
+    span.setAttribute('role', 'button');
+    span.setAttribute('tabindex', '0');
+    span.setAttribute('data-edit-hour', '');
+    input.replaceWith(span);
+    this._syncSelectionUI();
+  }
+
   _commitHrDraft(raw) {
     const n = parseInt((raw || '').trim(), 10);
-    if (isNaN(n)) { this._render(); return; }
+    if (isNaN(n)) { this._restoreHourHeader(); return; }
     if (this._is12) {
-      if (n < 1 || n > 12) { this._render(); return; }
+      if (n < 1 || n > 12) { this._restoreHourHeader(); return; }
       this._h24 = this._toH24(n, this._ampm);
     } else {
-      if (n < 0 || n > 23) { this._render(); return; }
+      if (n < 0 || n > 23) { this._restoreHourHeader(); return; }
       this._h24 = n;
     }
-    this._render();
+    this._restoreHourHeader();
   }
 
   _confirm() {
@@ -391,6 +492,9 @@ class HbdTimePicker extends HTMLElement {
         detail: { value: val }, bubbles: true, composed: true,
       }));
     }
+    // Update trigger label imperatively, then close (slide). Avoids
+    // _render() so the close-slide on the panel is not aborted.
+    this._syncTriggerLabel();
     this._closePanel();
   }
 
@@ -403,6 +507,9 @@ class HbdTimePicker extends HTMLElement {
     this.dispatchEvent(new CustomEvent('hbd:change', {
       detail: { value: null }, bubbles: true, composed: true,
     }));
+    // Sync panel selection (clears highlights) + trigger label, then close.
+    this._syncSelectionUI();
+    this._syncTriggerLabel();
     this._closePanel();
   }
 }

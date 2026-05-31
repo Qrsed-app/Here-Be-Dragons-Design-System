@@ -132,6 +132,10 @@
   /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant error tint */
   color: var(--hbd-color-text-emphasis);
 }
+/* Label text matches the error message colour for visual consistency. */
+.hbd-field--error .hbd-field__label {
+  color: var(--hbd-color-text-emphasis);
+}
 .hbd-field--error .hbd-field__input:focus-visible,
 .hbd-field--error .hbd-field__textarea:focus-visible,
 .hbd-field--error .hbd-field__select-trigger:focus-visible {
@@ -508,4 +512,161 @@
    are independent of the sr-only sizing. */
 .hbd-field__select-native {
   pointer-events: none;
+}
+
+/* ── 2l · Radio group ───────────────────────────────────────────────── */
+/* Radio groups are the primary unit — a lone radio is invalid. The group
+   wrapper uses a real <fieldset> + <legend> for native semantics; the
+   individual .hbd-radio reuses the checkbox visually-hidden-input pattern
+   (see checkbox.css) with a circular control + inner dot. Label and hint
+   styles live in checkbox.css under a combined selector. */
+
+.hbd-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--hbd-font-family-ui);
+}
+.hbd-radio-group__legend {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-primary);
+  margin-bottom: var(--hbd-space-2);
+  padding: 0;
+}
+.hbd-radio-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-3);
+}
+.hbd-radio-group__options--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--hbd-space-4);
+}
+
+.hbd-radio-group__hint {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-muted);
+  margin-top: var(--hbd-space-1);
+}
+.hbd-radio-group__error {
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant on-page
+     error tint. status-error-text resolves to parchment-50 (near-white)
+     and would be invisible here; same on-page-dark precedent as the
+     input/textarea/select messages. */
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-emphasis);
+  margin-top: var(--hbd-space-1);
+  display: none;
+}
+.hbd-radio-group--error .hbd-radio-group__error { display: block; }
+.hbd-radio-group--error .hbd-radio-group__hint  { display: none; }
+
+/* Individual radio — same wrapper shape + hidden-input pattern as
+   .hbd-checkbox (see checkbox.css for the rationale on the 1px clip). */
+.hbd-radio {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hbd-space-2);
+  cursor: pointer;
+}
+.hbd-radio__input {
+  position: absolute;
+  width: var(--hbd-border-width-hairline);
+  height: var(--hbd-border-width-hairline);
+  margin: calc(-1 * var(--hbd-border-width-hairline));
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visible control — circular, with an inner dot that scales in on check. */
+.hbd-radio__control {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  /* border-strong (ink-700, ~11.4:1 on parchment) meets SC 1.4.11 — same
+     precedent as the input border (the spec's border-default would be
+     ~2.06:1 and fail). */
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-full);
+  background: var(--hbd-color-surface-default);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              border-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-radio__control::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--hbd-space-2) - var(--hbd-border-width-thin));
+  height: calc(var(--hbd-space-2) - var(--hbd-border-width-thin));
+  border-radius: var(--hbd-radius-full);
+  background: var(--hbd-color-text-on-action);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+/* Checked — filled action background + inner dot scales in. */
+.hbd-radio--checked .hbd-radio__control {
+  background: var(--hbd-color-surface-action);
+  border-color: var(--hbd-color-surface-action);
+}
+.hbd-radio--checked .hbd-radio__control::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Hover — only when the radio isn't disabled. */
+.hbd-radio:not(.hbd-radio--disabled):hover .hbd-radio__control {
+  border-color: var(--hbd-color-border-strong);
+}
+
+/* Focus ring via the native input's :focus-visible (adjacent sibling). */
+.hbd-radio__input:focus-visible + .hbd-radio__control {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Disabled — visual + cursor only; native input carries the actual
+   disabled attribute, JS adds the modifier class. The :disabled selector
+   on .hbd-radio__input also fires when the parent <fieldset disabled> is
+   set (group-level disabled), so both individual + group disable look the
+   same without the JS having to add the class in the group case. */
+.hbd-radio--disabled,
+.hbd-radio:has(.hbd-radio__input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.hbd-radio--disabled .hbd-radio__label,
+.hbd-radio:has(.hbd-radio__input:disabled) .hbd-radio__label {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Error — radios inside an errored group get a tinted border, and each
+   option's label matches the error message colour for visual consistency. */
+.hbd-radio-group--error .hbd-radio__control {
+  border-color: var(--hbd-color-status-error-surface);
+}
+.hbd-radio-group--error .hbd-radio__label {
+  color: var(--hbd-color-text-emphasis);
+}
+
+/* Vertical stack for the per-option label + optional hint. */
+.hbd-radio__label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
 }
