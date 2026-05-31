@@ -393,4 +393,9 @@
 
   /* ── stepper ───────────────────────────────────────────── */
   --hbd-stepper-button-width: 40px;
+
+  /* ── file-upload ───────────────────────────────────────── */
+  --hbd-file-upload-dropzone-min-height: 160px;
+  --hbd-file-upload-preview-size: 64px;
+  --hbd-file-upload-progress-height: 4px;
 }

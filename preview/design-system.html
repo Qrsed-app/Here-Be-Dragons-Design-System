@@ -2106,6 +2106,7 @@
           <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
           <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
           <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
+          <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5295,6 +5296,153 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <line x1="11" y1="22" x2="14" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="30" y1="22" x2="33" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="31.5" y1="20.5" x2="31.5" y2="23.5" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · FILE UPLOAD ══════════════════════ -->
+    <section class="ds-section" id="component-file-upload" aria-labelledby="heading-file-upload">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·17</span>
+        <h2 class="ds-section__heading" id="heading-file-upload">File Upload</h2>
+        <p class="ds-section__description">
+          File upload allows users to attach one or more files via drag-and-drop or the system
+          file browser. Use <code>accept</code> to restrict file types and <code>max-size</code>
+          to prevent oversized uploads. Rendered as <code>&lt;hbd-file-upload&gt;</code>. The
+          dropzone is a keyboard-reachable <code>role="button"</code>; the native file input is
+          visually hidden and triggered programmatically. Image files are previewed inline via
+          FileReader.
+        </p>
+
+        <!-- Group 1 · Default — single file -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default — single file</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-file-upload
+              label="Character portrait"
+              hint="Upload a portrait image for your character sheet."
+              accept="image/*"
+              max-size="5242880"></hbd-file-upload>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-file-upload
+  label="Character portrait"
+  hint="Upload a portrait image for your character sheet."
+  accept="image/*"
+  max-size="5242880"&gt;&lt;/hbd-file-upload&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Multiple files (demo-seeded) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multiple files</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-file-upload id="demo-multi"
+              label="Spell scroll attachments"
+              hint="Drop up to 5 files. Allowed: PDF, PNG, JPG."
+              accept=".pdf,.png,.jpg"
+              multiple
+              max-files="5"></hbd-file-upload>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-file-upload
+  label="Spell scroll attachments"
+  accept=".pdf,.png,.jpg"
+  multiple
+  max-files="5"&gt;&lt;/hbd-file-upload&gt;</code></pre>
+          </details>
+          <script>
+            /* Demo-seed: synthesise two files (in-progress + complete) so the
+               file-list states are visible without requiring a real drop. */
+            (function () {
+              function seed() {
+                var el = document.getElementById('demo-multi');
+                if (!el || typeof el.setProgress !== 'function') {
+                  return setTimeout(seed, 50);
+                }
+                var f1 = new File(
+                  [new Uint8Array(420 * 1024)],
+                  'arcane-glyph.png',
+                  { type: 'image/png' }
+                );
+                var f2 = new File(
+                  [new Uint8Array(1.2 * 1024 * 1024)],
+                  'scroll-of-fireball.pdf',
+                  { type: 'application/pdf' }
+                );
+                el._handleFiles([f1, f2]);
+                /* The internal records pick up sequential ids — read them
+                   from the rendered DOM so we don't have to track them here. */
+                var ids = Array.from(
+                  el.shadowRoot.querySelectorAll('.hbd-file-upload__file-item')
+                ).map(function (li) { return li.getAttribute('data-file-id'); });
+                if (ids[0]) el.setProgress(ids[0], 60);
+                if (ids[1]) el.setProgress(ids[1], 100);
+              }
+              seed();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 3 · Drag-over state (static mockup) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Drag-over state</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;flex-direction:column;gap:var(--hbd-space-3);">
+            <hbd-file-upload id="demo-drag"
+              label="Drop zone"
+              hint="Drag a file onto the dropzone to see this state live."></hbd-file-upload>
+            <p class="hbd-text-micro hbd-text-muted" style="margin:0;">
+              The dropzone above is force-set to <code>--drag-over</code> for illustration.
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- Live drag-over: drag a file onto a dropzone --&gt;
+&lt;!-- Static mockup: add class hbd-file-upload--drag-over to the inner wrapper --&gt;
+&lt;hbd-file-upload label="Drop zone"&gt;&lt;/hbd-file-upload&gt;</code></pre>
+          </details>
+          <script>
+            /* Apply the drag-over modifier class once the component is ready. */
+            (function () {
+              function force() {
+                var el = document.getElementById('demo-drag');
+                if (!el || !el.shadowRoot) return setTimeout(force, 50);
+                var inner = el.shadowRoot.querySelector('.hbd-file-upload');
+                if (!inner) return setTimeout(force, 50);
+                inner.classList.add('hbd-file-upload--drag-over');
+              }
+              force();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
+            <hbd-file-upload label="Default" hint="Standard dropzone."></hbd-file-upload>
+            <hbd-file-upload label="Disabled" hint="Cannot accept files." disabled></hbd-file-upload>
+            <hbd-file-upload label="Error" error="At least one file is required."></hbd-file-upload>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-file-upload label="Default"&gt;&lt;/hbd-file-upload&gt;
+&lt;hbd-file-upload label="Disabled" disabled&gt;&lt;/hbd-file-upload&gt;
+&lt;hbd-file-upload label="Error" error="At least one file is required."&gt;&lt;/hbd-file-upload&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · File Upload divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M14 28h16" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M22 12v14M16 18l6-6 6 6" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="22" cy="32" r="1.5" fill="#7a1212"/>
       </svg>
     </div>
 
