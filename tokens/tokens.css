@@ -405,4 +405,9 @@
   --hbd-combobox-min-input-width: 120px;
   --hbd-combobox-chip-max-width: 200px;
   --hbd-combobox-multi-max-height: 96px;
+
+  /* ── date-picker ───────────────────────────────────────── */
+  --hbd-date-picker-cell-size: 36px;
+  --hbd-date-picker-panel-width: 280px;
+  --hbd-date-picker-nav-button-size: 32px;
 }

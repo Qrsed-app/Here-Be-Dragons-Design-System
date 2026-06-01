@@ -247,9 +247,34 @@
 }
 .hbd-time-picker__clear:hover { color: var(--hbd-color-text-primary); }
 .hbd-time-picker__clear:focus-visible,
+.hbd-time-picker__cancel:focus-visible,
 .hbd-time-picker__confirm:focus-visible {
   outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
   outline-offset: var(--hbd-focus-offset);
+}
+
+/* Cancel — muted text button next to Confirm. Same visual weight as Clear,
+   sits on the right next to the prominent Confirm action. */
+.hbd-time-picker__cancel {
+  background: none;
+  border: none;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  min-height: var(--hbd-space-12);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__cancel:hover { color: var(--hbd-color-text-primary); }
+
+/* Right-side group: Cancel + Confirm clustered together. */
+.hbd-time-picker__footer-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
 }
 .hbd-time-picker__confirm {
   background: var(--hbd-color-surface-action);

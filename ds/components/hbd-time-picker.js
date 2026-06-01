@@ -25,9 +25,17 @@ class HbdTimePicker extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this._internals = this.attachInternals();
     this._open = false;
+    // Working state — also the saved value when the panel is closed. While
+    // open, cell selection / typing mutates these directly; the trigger
+    // label is NOT updated until _syncTriggerLabel runs (which happens
+    // only on commit). Escape / Cancel restore from the backup below.
     this._h24 = null;
     this._minute = null;
     this._ampm = 'AM';
+    // Snapshot taken on open, used to restore on Escape / Cancel.
+    this._savedH24 = null;
+    this._savedMinute = null;
+    this._savedAmpm = 'AM';
     this._onDocMouseDown = this._onDocMouseDown.bind(this);
     this._onDocKeydown = this._onDocKeydown.bind(this);
     this._onPanelClick = this._onPanelClick.bind(this);
@@ -161,7 +169,9 @@ class HbdTimePicker extends HTMLElement {
                   role="button" tabindex="0"
                   aria-label="Hour ${headerH}, activate to type" data-edit-hour>${headerH}</span>
             <span class="hbd-time-picker__display-sep" aria-hidden="true">:</span>
-            <span class="hbd-time-picker__display-num" aria-label="Minute ${headerM}">${headerM}</span>
+            <span class="hbd-time-picker__display-num hbd-time-picker__display-num--editable"
+                  role="button" tabindex="0"
+                  aria-label="Minute ${headerM}, activate to type" data-edit-minute>${headerM}</span>
             ${is12 ? `<span class="hbd-time-picker__display-ampm">${curAmpm}</span>` : ''}
           </div>
 
@@ -180,7 +190,10 @@ class HbdTimePicker extends HTMLElement {
 
           <div class="hbd-time-picker__footer">
             <button type="button" class="hbd-time-picker__clear">Clear</button>
-            <button type="button" class="hbd-time-picker__confirm">Confirm</button>
+            <div class="hbd-time-picker__footer-group">
+              <button type="button" class="hbd-time-picker__cancel">Cancel</button>
+              <button type="button" class="hbd-time-picker__confirm">Confirm</button>
+            </div>
           </div>
         </div>
 
@@ -238,6 +251,10 @@ class HbdTimePicker extends HTMLElement {
   _openPanel() {
     if (this._open) return;
     this._open = true;
+    // Snapshot the current saved state so Escape / Cancel can restore it.
+    this._savedH24 = this._h24;
+    this._savedMinute = this._minute;
+    this._savedAmpm = this._ampm;
     this._setOpenClass(true);
     // Remove first to guarantee a single registration even if state drifted.
     document.removeEventListener('mousedown', this._onDocMouseDown);
@@ -274,10 +291,15 @@ class HbdTimePicker extends HTMLElement {
   }
 
   _onDocMouseDown(e) {
-    if (!e.composedPath().includes(this)) this._closePanel();
+    // Outside-click DISCARDS the working selection (restore from the
+    // open-time snapshot) and closes. The previously-saved value is
+    // kept. Matches hbd-date-picker's outside-click behaviour.
+    if (!e.composedPath().includes(this)) this._discardAndClose();
   }
   _onDocKeydown(e) {
-    if (e.key === 'Escape') { e.preventDefault(); this._closePanel(); }
+    // Escape: discard the working selection (restore the open-time
+    // snapshot) and close. Same as Cancel.
+    if (e.key === 'Escape') { e.preventDefault(); this._discardAndClose(); }
   }
 
   // ── Roving-tabindex keyboard navigation inside the panel ───────────────
@@ -328,8 +350,10 @@ class HbdTimePicker extends HTMLElement {
     const ampm = e.target.closest('.hbd-time-picker__ampm-btn');
     if (ampm) { this._selectAmpm(ampm.getAttribute('data-ampm')); return; }
     if (e.target.closest('.hbd-time-picker__clear')) { this._clear(); return; }
+    if (e.target.closest('.hbd-time-picker__cancel')) { this._cancel(); return; }
     if (e.target.closest('.hbd-time-picker__confirm')) { this._confirm(); return; }
     if (e.target.closest('[data-edit-hour]')) { this._editHour(); return; }
+    if (e.target.closest('[data-edit-minute]')) { this._editMinute(); return; }
   }
 
   _selectCell(cell) {
@@ -373,12 +397,10 @@ class HbdTimePicker extends HTMLElement {
       editHourEl.textContent = headerH;
       editHourEl.setAttribute('aria-label', `Hour ${headerH}, activate to type`);
     }
-    // The second .hbd-time-picker__display-num (non-editable) is the minute.
-    const numEls = root.querySelectorAll('.hbd-time-picker__display-num');
-    const minEl = numEls[numEls.length - 1];
-    if (minEl && !minEl.hasAttribute('data-edit-hour')) {
+    const minEl = root.querySelector('[data-edit-minute]');
+    if (minEl) {
       minEl.textContent = headerM;
-      minEl.setAttribute('aria-label', `Minute ${headerM}`);
+      minEl.setAttribute('aria-label', `Minute ${headerM}, activate to type`);
     }
     const ampmEl = root.querySelector('.hbd-time-picker__display-ampm');
     if (ampmEl) ampmEl.textContent = curAmpm;
@@ -434,7 +456,7 @@ class HbdTimePicker extends HTMLElement {
     }
   }
 
-  _editHour() {
+  _editHour(opts = {}) {
     const headerNum = this.shadowRoot.querySelector('[data-edit-hour]');
     if (!headerNum) return;
     const cur = this._selDispHr() !== null ? this._selDispHr() : '';
@@ -442,30 +464,120 @@ class HbdTimePicker extends HTMLElement {
     input.type = 'text';
     input.inputMode = 'numeric';
     input.maxLength = 2;
-    input.value = String(cur);
+    input.value = opts.startEmpty ? '' : String(cur);
     input.className = 'hbd-time-picker__header-input';
+    input.dataset.role = 'hour-input';
     input.setAttribute('aria-label', `Type hour, ${this._is12 ? '1 to 12' : '0 to 23'}`);
     headerNum.replaceWith(input);
     input.focus();
     input.select();
-    const commit = () => this._commitHrDraft(input.value);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.stopPropagation(); commit(); }
-      if (e.key === 'Escape') { e.stopPropagation(); this._restoreHourHeader(); }
+
+    let advancedAlready = false;
+    const commitAndAdvance = () => {
+      if (advancedAlready) return;
+      advancedAlready = true;
+      // commit hour, then jump to minute input with empty buffer.
+      this._commitHrDraft(input.value, /*skipRestore*/ false);
+      // _commitHrDraft restores the span; now open the minute editor.
+      this._editMinute({ startEmpty: true });
+    };
+
+    input.addEventListener('input', () => {
+      const v = input.value.replace(/\D/g, '').slice(0, 2);
+      if (v !== input.value) input.value = v;
+      // Auto-advance when we have a complete 2-digit value, OR a single
+      // digit that cannot be extended to a valid 2-digit value (e.g. in
+      // 24h: typing "3" — the max valid 2-digit hours starting with 3
+      // would be 30+, all invalid, so commit immediately). This matches
+      // the typing UX of native time inputs.
+      if (v.length === 2) { commitAndAdvance(); return; }
+      if (v.length === 1) {
+        const d = parseInt(v, 10);
+        const maxFirstDigit = this._is12 ? 1 : 2;
+        if (d > maxFirstDigit) commitAndAdvance();
+      }
     });
-    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.stopPropagation();
+        e.preventDefault();
+        commitAndAdvance();
+      }
+      if (e.key === 'Escape') { e.stopPropagation(); this._restoreHourHeader(); }
+      if (e.key === 'Tab' && !e.shiftKey) {
+        // Tab from hour input → minute input.
+        e.preventDefault();
+        commitAndAdvance();
+      }
+    });
+    input.addEventListener('blur', () => {
+      if (advancedAlready) return;
+      this._commitHrDraft(input.value);
+    });
+  }
+
+  _editMinute(opts = {}) {
+    const headerNum = this.shadowRoot.querySelector('[data-edit-minute]');
+    if (!headerNum) return;
+    const cur = this._minute !== null ? this._minute : '';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.inputMode = 'numeric';
+    input.maxLength = 2;
+    input.value = opts.startEmpty ? '' : String(cur).padStart(2, '0');
+    input.className = 'hbd-time-picker__header-input';
+    input.dataset.role = 'minute-input';
+    input.setAttribute('aria-label', 'Type minute, 0 to 59');
+    headerNum.replaceWith(input);
+    input.focus();
+    input.select();
+
+    let committed = false;
+    const commit = () => {
+      if (committed) return;
+      committed = true;
+      this._commitMinuteDraft(input.value);
+    };
+
+    input.addEventListener('input', () => {
+      const v = input.value.replace(/\D/g, '').slice(0, 2);
+      if (v !== input.value) input.value = v;
+      // Auto-commit on 2 digits, or on a leading digit > 5 (cannot extend
+      // to a valid 2-digit minute starting with 6+).
+      if (v.length === 2) { commit(); return; }
+      if (v.length === 1) {
+        const d = parseInt(v, 10);
+        if (d > 5) commit();
+      }
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.stopPropagation(); e.preventDefault(); commit(); }
+      if (e.key === 'Escape') { e.stopPropagation(); this._restoreMinuteHeader(); }
+    });
+    input.addEventListener('blur', () => { if (!committed) commit(); });
   }
 
   // Restore the header <span data-edit-hour> after an inline-edit input is
   // cancelled or committed. Avoids _render() so the panel stays mounted.
   _restoreHourHeader() {
-    const input = this.shadowRoot.querySelector('.hbd-time-picker__header-input');
+    const input = this.shadowRoot.querySelector('input[data-role="hour-input"]');
     if (!input) return;
     const span = document.createElement('span');
     span.className = 'hbd-time-picker__display-num hbd-time-picker__display-num--editable';
     span.setAttribute('role', 'button');
     span.setAttribute('tabindex', '0');
     span.setAttribute('data-edit-hour', '');
+    input.replaceWith(span);
+    this._syncSelectionUI();
+  }
+  _restoreMinuteHeader() {
+    const input = this.shadowRoot.querySelector('input[data-role="minute-input"]');
+    if (!input) return;
+    const span = document.createElement('span');
+    span.className = 'hbd-time-picker__display-num hbd-time-picker__display-num--editable';
+    span.setAttribute('role', 'button');
+    span.setAttribute('tabindex', '0');
+    span.setAttribute('data-edit-minute', '');
     input.replaceWith(span);
     this._syncSelectionUI();
   }
@@ -482,34 +594,59 @@ class HbdTimePicker extends HTMLElement {
     }
     this._restoreHourHeader();
   }
+  _commitMinuteDraft(raw) {
+    const n = parseInt((raw || '').trim(), 10);
+    if (isNaN(n) || n < 0 || n > 59) { this._restoreMinuteHeader(); return; }
+    this._minute = n;
+    this._restoreMinuteHeader();
+  }
 
   _confirm() {
+    // Commit the current working selection (which may have been cleared
+    // via the Clear button → commits null) and close. The "saved" value
+    // and the working value are the same field set, so this is just the
+    // "stop snapshotting; persist what's here" step.
     const val = this._committedValue();
+    const prevAttr = this.getAttribute('value') || null;
+    const changed = (val || null) !== prevAttr;
     if (val !== null) {
       this.setAttribute('value', val);
       this._internals.setFormValue(val);
+    } else {
+      this.removeAttribute('value');
+      this._internals.setFormValue(null);
+    }
+    if (changed) {
       this.dispatchEvent(new CustomEvent('hbd:change', {
         detail: { value: val }, bubbles: true, composed: true,
       }));
     }
-    // Update trigger label imperatively, then close (slide). Avoids
-    // _render() so the close-slide on the panel is not aborted.
     this._syncTriggerLabel();
     this._closePanel();
   }
 
+  // Clear: wipe the working selection only — the panel STAYS OPEN. The
+  // user can pick a new value or Confirm the cleared state (= save null).
+  // Cancel/Escape will still restore the originally-saved value because
+  // the snapshot was taken on open.
   _clear() {
     this._h24 = null;
     this._minute = null;
     this._ampm = 'AM';
-    this.removeAttribute('value');
-    this._internals.setFormValue(null);
-    this.dispatchEvent(new CustomEvent('hbd:change', {
-      detail: { value: null }, bubbles: true, composed: true,
-    }));
-    // Sync panel selection (clears highlights) + trigger label, then close.
     this._syncSelectionUI();
-    this._syncTriggerLabel();
+  }
+
+  // Cancel: discard any working changes (restore from the open-time
+  // snapshot) and close.
+  _cancel() {
+    this._discardAndClose();
+  }
+
+  _discardAndClose() {
+    this._h24 = this._savedH24;
+    this._minute = this._savedMinute;
+    this._ampm = this._savedAmpm;
+    this._syncSelectionUI();
     this._closePanel();
   }
 }
