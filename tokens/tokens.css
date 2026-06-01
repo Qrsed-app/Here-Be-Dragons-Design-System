@@ -410,4 +410,8 @@
   --hbd-date-picker-cell-size: 36px;
   --hbd-date-picker-panel-width: 280px;
   --hbd-date-picker-nav-button-size: 32px;
+
+  /* ── otp ───────────────────────────────────────────────── */
+  --hbd-otp-cell-size: 48px;
+  --hbd-otp-gap: var(--hbd-space-2);
 }

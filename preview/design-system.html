@@ -2109,6 +2109,7 @@
           <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
           <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
           <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
+          <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5763,6 +5764,171 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <line x1="16" y1="11" x2="16" y2="16" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="28" y1="11" x2="28" y2="16" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
         <circle cx="22" cy="26" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · OTP INPUT ══════════════════════ -->
+    <section class="ds-section" id="component-otp-input" aria-labelledby="heading-otp-input">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·20</span>
+        <h2 class="ds-section__heading" id="heading-otp-input">OTP Input</h2>
+        <p class="ds-section__description">
+          OTP inputs capture short verification codes entered one character at a time. Focus
+          advances automatically on entry, Backspace on an empty cell jumps back, Arrow keys move
+          between cells, and pasting a code splits it across cells. Rendered as
+          <code>&lt;hbd-otp-input&gt;</code>. The first cell carries <code>autocomplete</code> for
+          OS-level autofill of SMS codes.
+        </p>
+
+        <!-- Group 1 · 6-digit numeric (default) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">6-digit numeric (default)</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-otp-input
+              length="6"
+              label="Verification code"
+              hint="Enter the 6-digit code sent to your spellbook."
+              autocomplete="one-time-code"></hbd-otp-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input length="6" label="Verification code"
+  hint="Enter the 6-digit code sent to your spellbook."
+  autocomplete="one-time-code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · 4-digit numeric -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">4-digit numeric</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-otp-input
+              length="4"
+              label="PIN"
+              hint="Enter your 4-digit adventurer PIN."></hbd-otp-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input length="4" label="PIN"
+  hint="Enter your 4-digit adventurer PIN."&gt;&lt;/hbd-otp-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With separator -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With separator</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-otp-input
+              length="6"
+              separator
+              label="Access code"
+              hint="A dash separates the two groups of three digits."></hbd-otp-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input length="6" separator label="Access code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Alphanumeric -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Alphanumeric</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-otp-input
+              length="6"
+              type="alphanumeric"
+              label="Invite code"
+              hint="Enter the alphanumeric code from your invitation scroll."></hbd-otp-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input length="6" type="alphanumeric" label="Invite code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr;gap:var(--hbd-space-6);align-items:start;">
+            <hbd-otp-input id="otp-partial"
+              length="6"
+              label="Partially filled"
+              hint="The first 3 cells are pre-populated via setValue()."></hbd-otp-input>
+            <hbd-otp-input
+              length="6"
+              label="Error"
+              error="Invalid code. Please try again."></hbd-otp-input>
+            <hbd-otp-input
+              length="6"
+              label="Disabled"
+              disabled></hbd-otp-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input length="6" label="Error" error="Invalid code. Please try again."&gt;&lt;/hbd-otp-input&gt;
+&lt;hbd-otp-input length="6" label="Disabled" disabled&gt;&lt;/hbd-otp-input&gt;</code></pre>
+          </details>
+          <script>
+            /* Pre-fill the first three cells via the public setValue() API. */
+            (function () {
+              function seed() {
+                var el = document.getElementById('otp-partial');
+                if (!el || typeof el.setValue !== 'function') return setTimeout(seed, 50);
+                el.setValue('123');
+              }
+              seed();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 6 · Success -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Success</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <hbd-otp-input id="otp-success"
+              length="6"
+              label="Verification code"
+              hint="Try entering any 6 digits to see the success state."></hbd-otp-input>
+            <span id="otp-success-msg" class="hbd-text-label" style="display:none;color:var(--hbd-color-forest-700);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);">Code accepted.</span>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-otp-input id="otp-success" length="6" label="Verification code"&gt;&lt;/hbd-otp-input&gt;
+&lt;script&gt;
+  document.getElementById('otp-success').addEventListener('hbd:complete', (e) =&gt; {
+    e.target.setAttribute('success', '');
+    document.getElementById('otp-success-msg').style.display = 'inline';
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('otp-success');
+                if (!el) return setTimeout(wire, 50);
+                el.addEventListener('hbd:complete', function () {
+                  el.setAttribute('success', '');
+                  var msg = document.getElementById('otp-success-msg');
+                  if (msg) msg.style.display = 'inline';
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · OTP divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="19" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="28" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="13" cy="22" r="1" fill="#7a1212"/>
+        <circle cx="22" cy="22" r="1" fill="#7a1212"/>
       </svg>
     </div>
 

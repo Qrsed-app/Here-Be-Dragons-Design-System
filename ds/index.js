@@ -28,6 +28,7 @@ import './components/hbd-date-picker.js';
 import './components/hbd-divider.js';
 import './components/hbd-file-upload.js';
 import './components/hbd-input.js';
+import './components/hbd-otp-input.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
 import './components/hbd-slider.js';

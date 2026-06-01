@@ -1131,6 +1131,91 @@
   cursor: not-allowed;
 }
 
+/* ── 2q · OTP input (one-time password) ─────────────────────────────── */
+/* A row of single-character inputs for verification codes. Reuses the
+   .hbd-field label / hint / error / footer scaffolding; the cells live
+   inside .hbd-otp__cells. Cell size meets SC 2.5.8 (48px ≥ 44px). */
+
+.hbd-otp-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+}
+
+.hbd-otp__cells {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-otp-gap);
+}
+
+/* Optional inline separator (e.g. between two groups of three cells). */
+.hbd-otp__separator {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-h3);
+  color: var(--hbd-color-text-muted);
+  padding: 0 var(--hbd-space-1);
+  user-select: none;
+}
+
+.hbd-otp__cell {
+  width: var(--hbd-otp-cell-size);
+  height: var(--hbd-otp-cell-size);
+  text-align: center;
+  font-family: var(--hbd-font-family-mono);
+  font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-default);
+  /* border-strong (ink-700, ~11.4:1 on parchment) — same SC 1.4.11
+     precedent as the other input borders. border-default would be ~2.06:1. */
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  outline: none;
+  caret-color: var(--hbd-color-surface-action);
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-otp__cell:hover {
+  border-color: var(--hbd-color-border-strong);
+}
+.hbd-otp__cell:focus-visible {
+  border-color: var(--hbd-color-input-focus-border);
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Filled cell: subtle background to mark the cell as occupied. */
+.hbd-otp__cell.is-filled {
+  background: var(--hbd-color-surface-subtle);
+}
+
+/* Field-level error / disabled / success — wrap-level modifier classes
+   apply to every cell within the row. */
+.hbd-otp-field--error .hbd-otp__cell {
+  border-color: var(--hbd-color-status-error-border);
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-otp-field--error .hbd-otp__cell:focus-visible {
+  border-color: var(--hbd-color-status-error-border);
+  outline-color: var(--hbd-color-status-error-border);
+}
+.hbd-otp-field--disabled .hbd-otp__cell {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.hbd-otp-field--success .hbd-otp__cell.is-filled {
+  border-color: var(--hbd-color-status-success-border);
+}
+/* Tint the typed characters to match the success message colour
+   (forest-700 — same on-page-dark green used by .hbd-field__success). */
+.hbd-otp-field--success .hbd-otp__cell {
+  color: var(--hbd-color-forest-700);
+}
+
 /* Internal text input — borderless, fills remaining flex track. */
 .hbd-combobox__input {
   flex: 1;
