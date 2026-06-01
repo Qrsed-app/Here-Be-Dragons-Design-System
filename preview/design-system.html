@@ -2114,6 +2114,7 @@
           <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
           <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
           <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+          <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -6632,6 +6633,229 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <path d="M14 22l5 5 11-11" stroke="#b8893b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <circle cx="22" cy="22" r="13" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TABS ══════════════════════ -->
+    <section class="ds-section" id="component-tabs" aria-labelledby="heading-tabs">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·1</span>
+        <h2 class="ds-section__heading" id="heading-tabs">Tabs</h2>
+        <p class="ds-section__description">
+          Tabs divide content into labelled sections; only one section is visible at a time.
+          Use tabs when sections are parallel and users need to switch between them frequently.
+          Rendered as <code>&lt;hbd-tabs&gt;</code> with <code>&lt;hbd-tab&gt;</code> +
+          <code>&lt;hbd-tab-panel&gt;</code> children. Arrow keys move and activate;
+          <code>Home</code>/<code>End</code> jump; <code>Tab</code> moves focus into the active
+          panel. Lazy mode keeps only the active panel in the DOM; eager mode keeps them all.
+          This is the first navigation component — the same tablist + roving tabindex pattern
+          will recur in Navbar, Drawer, and Stepper Navigation.
+        </p>
+
+        <!-- Group 1 · Horizontal (default) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal (default)</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs active="stats" label="Character sheet sections">
+              <hbd-tab value="stats" label="Stats"></hbd-tab>
+              <hbd-tab value="spells" label="Spells" badge="12"></hbd-tab>
+              <hbd-tab value="equipment" label="Equipment"></hbd-tab>
+              <hbd-tab value="notes" label="Notes"></hbd-tab>
+
+              <hbd-tab-panel value="stats">
+                <p>STR 16 · DEX 14 · CON 15 · INT 18 · WIS 12 · CHA 10. Hit points 38/45.
+                Proficiency bonus +3. Speed 30 ft.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="spells">
+                <p>Twelve prepared spells across cantrips and 1st–3rd level slots. Concentration
+                tracked in the encounter log. Rituals annotated with a quill icon.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="equipment">
+                <p>Mage armour set, staff of withering, two healing potions, a shard of true
+                silver, and a sealed scroll of unknown origin.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="notes">
+                <p>Session 17: the hooded figure at the Tarnished Anvil offered information for
+                500gp. The party declined. The figure noted the rejection in a leatherbound book.</p>
+              </hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs active="stats" label="Character sheet sections"&gt;
+  &lt;hbd-tab value="stats" label="Stats"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="spells" label="Spells" badge="12"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="equipment" label="Equipment"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="notes" label="Notes"&gt;&lt;/hbd-tab&gt;
+
+  &lt;hbd-tab-panel value="stats"&gt;…&lt;/hbd-tab-panel&gt;
+  &lt;hbd-tab-panel value="spells"&gt;…&lt;/hbd-tab-panel&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Vertical -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs variant="vertical" active="stats" label="Character sheet sections">
+              <hbd-tab value="stats" label="Stats"></hbd-tab>
+              <hbd-tab value="spells" label="Spells" badge="12"></hbd-tab>
+              <hbd-tab value="equipment" label="Equipment"></hbd-tab>
+              <hbd-tab value="notes" label="Notes"></hbd-tab>
+
+              <hbd-tab-panel value="stats"><p>STR 16 · DEX 14 · CON 15 · INT 18 · WIS 12 · CHA 10.</p></hbd-tab-panel>
+              <hbd-tab-panel value="spells"><p>Twelve prepared spells. Concentration tracked.</p></hbd-tab-panel>
+              <hbd-tab-panel value="equipment"><p>Mage armour, staff of withering, two healing potions.</p></hbd-tab-panel>
+              <hbd-tab-panel value="notes"><p>Session 17: the hooded figure at the Tarnished Anvil.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs variant="vertical" active="stats" label="Character sheet sections"&gt;…&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Scrollable (horizontal) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Scrollable — horizontal</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Eight tabs in a constrained row force overflow. Scroll arrows appear at the edges
+            when content extends past the visible area. The component stays bounded by its
+            parent — it never pushes the page wider.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;max-width:560px;overflow:hidden;">
+            <hbd-tabs scrollable active="abjuration" label="Spell schools (horizontal)">
+              <hbd-tab value="abjuration" label="Abjuration"></hbd-tab>
+              <hbd-tab value="conjuration" label="Conjuration"></hbd-tab>
+              <hbd-tab value="divination" label="Divination"></hbd-tab>
+              <hbd-tab value="enchantment" label="Enchantment"></hbd-tab>
+              <hbd-tab value="evocation" label="Evocation"></hbd-tab>
+              <hbd-tab value="illusion" label="Illusion"></hbd-tab>
+              <hbd-tab value="necromancy" label="Necromancy"></hbd-tab>
+              <hbd-tab value="transmutation" label="Transmutation"></hbd-tab>
+
+              <hbd-tab-panel value="abjuration"><p>Protective wards and bindings.</p></hbd-tab-panel>
+              <hbd-tab-panel value="conjuration"><p>Summoning and teleportation.</p></hbd-tab-panel>
+              <hbd-tab-panel value="divination"><p>Knowledge of the past, present, and future.</p></hbd-tab-panel>
+              <hbd-tab-panel value="enchantment"><p>Charms that beguile the mind.</p></hbd-tab-panel>
+              <hbd-tab-panel value="evocation"><p>Raw magical energy: fire, frost, lightning.</p></hbd-tab-panel>
+              <hbd-tab-panel value="illusion"><p>Deceptions of the senses.</p></hbd-tab-panel>
+              <hbd-tab-panel value="necromancy"><p>Manipulation of life and death.</p></hbd-tab-panel>
+              <hbd-tab-panel value="transmutation"><p>Alteration of matter and form.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs scrollable active="abjuration" label="Spell schools"&gt;
+  &lt;hbd-tab value="abjuration" label="Abjuration"&gt;&lt;/hbd-tab&gt;
+  &lt;!-- ... eight tabs total ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3b · Scrollable (vertical) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Scrollable — vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>scrollable</code> composes with <code>variant="vertical"</code>. Constrain the
+            container's height; scroll arrows appear above and below the tablist when the column
+            overflows. The component never grows past the parent's height.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;max-width:560px;height:240px;overflow:hidden;">
+            <hbd-tabs scrollable variant="vertical" active="abjuration" label="Spell schools (vertical)">
+              <hbd-tab value="abjuration" label="Abjuration"></hbd-tab>
+              <hbd-tab value="conjuration" label="Conjuration"></hbd-tab>
+              <hbd-tab value="divination" label="Divination"></hbd-tab>
+              <hbd-tab value="enchantment" label="Enchantment"></hbd-tab>
+              <hbd-tab value="evocation" label="Evocation"></hbd-tab>
+              <hbd-tab value="illusion" label="Illusion"></hbd-tab>
+              <hbd-tab value="necromancy" label="Necromancy"></hbd-tab>
+              <hbd-tab value="transmutation" label="Transmutation"></hbd-tab>
+
+              <hbd-tab-panel value="abjuration"><p>Protective wards and bindings.</p></hbd-tab-panel>
+              <hbd-tab-panel value="conjuration"><p>Summoning and teleportation.</p></hbd-tab-panel>
+              <hbd-tab-panel value="divination"><p>Knowledge of the past, present, and future.</p></hbd-tab-panel>
+              <hbd-tab-panel value="enchantment"><p>Charms that beguile the mind.</p></hbd-tab-panel>
+              <hbd-tab-panel value="evocation"><p>Raw magical energy: fire, frost, lightning.</p></hbd-tab-panel>
+              <hbd-tab-panel value="illusion"><p>Deceptions of the senses.</p></hbd-tab-panel>
+              <hbd-tab-panel value="necromancy"><p>Manipulation of life and death.</p></hbd-tab-panel>
+              <hbd-tab-panel value="transmutation"><p>Alteration of matter and form.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs scrollable variant="vertical" active="abjuration"
+  label="Spell schools (vertical)"&gt;
+  &lt;hbd-tab value="abjuration" label="Abjuration"&gt;&lt;/hbd-tab&gt;
+  &lt;!-- ... eight tabs total ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · With disabled tab -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled tab</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs active="open" label="Quest log">
+              <hbd-tab value="open" label="Open"></hbd-tab>
+              <hbd-tab value="completed" label="Completed"></hbd-tab>
+              <hbd-tab value="failed" label="Failed"></hbd-tab>
+              <hbd-tab value="locked" label="Locked content" disabled></hbd-tab>
+
+              <hbd-tab-panel value="open"><p>Three quests in progress.</p></hbd-tab-panel>
+              <hbd-tab-panel value="completed"><p>Eleven quests completed this season.</p></hbd-tab-panel>
+              <hbd-tab-panel value="failed"><p>One failed quest: the lost caravan.</p></hbd-tab-panel>
+              <hbd-tab-panel value="locked"><p>Reach level 10 to unlock this section.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tab value="locked" label="Locked content" disabled&gt;&lt;/hbd-tab&gt;
+&lt;!-- Arrow navigation skips disabled tabs. --&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Eager mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Eager mode</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All panels are in the DOM — switching is instant and the layout doesn't shift.
+            Use when panels are cheap to render and you want them ready (e.g. tracking forms
+            across tabs). Lazy mode (default) keeps only the active panel rendered.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs mode="eager" active="overview" label="Encounter details">
+              <hbd-tab value="overview" label="Overview"></hbd-tab>
+              <hbd-tab value="log" label="Combat log"></hbd-tab>
+
+              <hbd-tab-panel value="overview">
+                <p>Encounter against three goblin scouts in the foothills west of Drakenmir.
+                Three rounds. No casualties.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="log">
+                <p>R1: Bilbo initiative 18, Aragorn 14, Goblin A 11. Bilbo casts Sleep — Goblin B
+                and C fall. Aragorn charges Goblin A — hit, 8 damage. Goblin A swings — miss.</p>
+              </hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs mode="eager" active="overview" label="Encounter details"&gt;…&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Tabs divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M10 18h7v6h-7zM18 18h7v6h-7zM26 18h7v6h-7z" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M10 26h23" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M10 18h7" stroke="#7a1212" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </div>
 

@@ -16,6 +16,7 @@ preloadStyles([
   '/ds/styles/components/file-upload.css',
   '/ds/styles/components/form-validation.css',
   '/ds/styles/components/input.css',
+  '/ds/styles/components/tabs.css',
   '/ds/styles/components/time-picker.css',
 ]);
 
@@ -38,6 +39,7 @@ import './components/hbd-split-button.js';
 import './components/hbd-stat-block.js';
 import './components/hbd-stepper.js';
 import './components/hbd-switch.js';
+import './components/hbd-tabs.js';
 import './components/hbd-textarea.js';
 import './components/hbd-time-picker.js';
 import './components/hbd-toggle-group.js';

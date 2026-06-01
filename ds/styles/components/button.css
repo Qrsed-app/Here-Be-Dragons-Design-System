@@ -350,8 +350,8 @@
 /* Left half — strip the right radius and the offset drop shadow on
    the inner button. Stripping the shadow removes the visible
    "stair-step" that would otherwise appear at the join (each inner
-   button paints its OWN 3px offset shadow; the action's shadow used
-   to bleed under the trigger). The wrapper carries one shadow below. */
+   button paints its OWN offset shadow; the action's shadow used to
+   bleed under the trigger). The wrapper carries one shadow below. */
 :host(.hbd-split-button__action) .hbd-button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

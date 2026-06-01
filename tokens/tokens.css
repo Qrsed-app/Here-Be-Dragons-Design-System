@@ -414,4 +414,9 @@
   /* ── otp ───────────────────────────────────────────────── */
   --hbd-otp-cell-size: 48px;
   --hbd-otp-gap: var(--hbd-space-2);
+
+  /* ── tabs ──────────────────────────────────────────────── */
+  --hbd-tabs-indicator-height: 2px;
+  --hbd-tabs-indicator-width: 3px;
+  --hbd-tabs-vertical-min-width: 160px;
 }
