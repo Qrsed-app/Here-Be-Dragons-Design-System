@@ -1,0 +1,178 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/drawer.css
+ *
+ * Sliding panel that overlays the page from one of four edges. The
+ * drawer establishes the focus-trap + scroll-lock + transitionend
+ * patterns that Modal/Dialog will reuse — implemented correctly here
+ * once.
+ *
+ * Notes:
+ * - All values via --hbd-* tokens.
+ * - The backdrop scrim uses rgba(ink-900, 0.6). A semi-transparent
+ *   scrim can't be expressed as a single CSS custom property without
+ *   color-mix (which we already use elsewhere with a @supports
+ *   fallback), so this is the documented inline-rgba exception.
+ * - Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+/* The wrapper is `display: contents` when closed so it occupies no
+   layout space, then becomes a fixed overlay when open. The .is-open
+   / .is-closing modifiers drive the visible transitions on the
+   backdrop + panel children. */
+.hbd-drawer {
+  display: contents;
+}
+
+/* When the host is closed, both backdrop and panel are non-interactive
+   and transparent. is-closing keeps them in the DOM during exit so
+   transitionend can fire. */
+
+/* ── 2 · Backdrop ─────────────────────────────────────────────────── */
+/* Semi-transparent scrim covering the viewport. Documented rgba
+   exception — a 60% ink-900 overlay is not representable as a single
+   --hbd-color-* token without color-mix at the call site. */
+.hbd-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hbd-z-overlay);
+  background: rgba(26, 20, 16, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer.is-open .hbd-drawer__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hbd-drawer.is-closing .hbd-drawer__backdrop {
+  opacity: 0;
+  /* Keep pointer-events on briefly so a backdrop click during the exit
+     animation doesn't fall through to the page underneath. */
+  pointer-events: auto;
+}
+
+/* ── 3 · Panel ────────────────────────────────────────────────────── */
+.hbd-drawer__panel {
+  position: fixed;
+  z-index: var(--hbd-z-modal);
+  background: var(--hbd-color-surface-default);
+  box-shadow: var(--hbd-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* All placements share the same transition timing on transform. The
+     prefers-reduced-motion global override collapses this to ~0ms. */
+  transition: transform var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+
+/* Left placement (default). */
+.hbd-drawer--left .hbd-drawer__panel {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--hbd-drawer-width);
+  transform: translateX(-100%);
+}
+.hbd-drawer--left.is-open .hbd-drawer__panel { transform: translateX(0); }
+.hbd-drawer--left.is-closing .hbd-drawer__panel { transform: translateX(-100%); }
+.hbd-drawer--left.hbd-drawer--wide .hbd-drawer__panel { width: var(--hbd-drawer-width-wide); }
+
+/* Right placement. */
+.hbd-drawer--right .hbd-drawer__panel {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--hbd-drawer-width);
+  transform: translateX(100%);
+}
+.hbd-drawer--right.is-open .hbd-drawer__panel { transform: translateX(0); }
+.hbd-drawer--right.is-closing .hbd-drawer__panel { transform: translateX(100%); }
+.hbd-drawer--right.hbd-drawer--wide .hbd-drawer__panel { width: var(--hbd-drawer-width-wide); }
+
+/* Top placement. */
+.hbd-drawer--top .hbd-drawer__panel {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--hbd-drawer-height);
+  transform: translateY(-100%);
+  border-radius: 0 0 var(--hbd-radius-lg) var(--hbd-radius-lg);
+}
+.hbd-drawer--top.is-open .hbd-drawer__panel { transform: translateY(0); }
+.hbd-drawer--top.is-closing .hbd-drawer__panel { transform: translateY(-100%); }
+.hbd-drawer--top.hbd-drawer--tall .hbd-drawer__panel { height: var(--hbd-drawer-height-tall); }
+
+/* Bottom placement. */
+.hbd-drawer--bottom .hbd-drawer__panel {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--hbd-drawer-height);
+  transform: translateY(100%);
+  border-radius: var(--hbd-radius-lg) var(--hbd-radius-lg) 0 0;
+}
+.hbd-drawer--bottom.is-open .hbd-drawer__panel { transform: translateY(0); }
+.hbd-drawer--bottom.is-closing .hbd-drawer__panel { transform: translateY(100%); }
+.hbd-drawer--bottom.hbd-drawer--tall .hbd-drawer__panel { height: var(--hbd-drawer-height-tall); }
+
+/* ── 4 · Header / body / footer ───────────────────────────────────── */
+.hbd-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-3);
+  padding: var(--hbd-space-4) var(--hbd-space-4) var(--hbd-space-3);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+
+.hbd-drawer__title {
+  font-family: var(--hbd-font-family-accent);
+  font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-semibold);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  color: var(--hbd-color-text-primary);
+  margin: 0;
+}
+
+.hbd-drawer__close {
+  flex-shrink: 0;
+}
+
+.hbd-drawer__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--hbd-space-4);
+  overscroll-behavior: contain;
+  color: var(--hbd-color-text-primary);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  line-height: var(--hbd-line-height-body);
+}
+
+.hbd-drawer__footer {
+  display: flex;
+  gap: var(--hbd-space-2);
+  justify-content: flex-end;
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+/* Hide the footer row entirely when nothing is slotted in. The JS sets
+   data-empty="true" by inspecting the assigned-elements count on
+   slotchange, since :has() against a slot's distributed content is
+   not reliably supported across engines yet. */
+.hbd-drawer__footer[data-empty="true"] {
+  display: none;
+}
+
+/* ── 5 · Sidebar mode ─────────────────────────────────────────────── */
+/* When the host has the no-backdrop attribute the drawer behaves as a
+   sidebar: no scrim, no pointer-blocking, but the same transform
+   transitions. The host's pointer-events stay default. */
+.hbd-drawer.hbd-drawer--no-backdrop .hbd-drawer__backdrop {
+  display: none;
+}
