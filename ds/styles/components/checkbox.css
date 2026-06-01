@@ -129,23 +129,38 @@
 .hbd-checkbox--error .hbd-checkbox__control {
   border-color: var(--hbd-color-status-error-surface);
 }
+/* Label text matches the error message colour for visual consistency. */
+.hbd-checkbox--error .hbd-checkbox__label {
+  color: var(--hbd-color-text-emphasis);
+}
 .hbd-checkbox__error {
   display: block;
-  color: var(--hbd-color-status-error-text);
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant dark red.
+     status-error-text resolves to parchment-50 (near-white, for use on a
+     saturated surface) and would be invisible on the parchment page;
+     same on-page-dark precedent as input/textarea/select/radio-group. */
+  color: var(--hbd-color-text-emphasis);
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-label);
   margin-top: var(--hbd-space-1);
 }
 
-/* ── Label + hint ───────────────────────────────────────────────────── */
-.hbd-checkbox__label {
+/* ── Label + hint (shared with .hbd-radio + .hbd-switch) ────────────── */
+/* Radio and switch both inherit these rules — kept here as the single
+   source of truth so any future tweak (font, spacing) applies to all
+   three controls. */
+.hbd-checkbox__label,
+.hbd-radio__label,
+.hbd-switch__label {
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-body);
   color: var(--hbd-color-text-primary);
   line-height: var(--hbd-line-height-body);
   cursor: pointer;
 }
-.hbd-checkbox__hint {
+.hbd-checkbox__hint,
+.hbd-radio__hint,
+.hbd-switch__hint {
   display: block;
   font-family: var(--hbd-font-family-ui);
   font-size: var(--hbd-font-size-label);

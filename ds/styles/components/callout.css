@@ -11,6 +11,12 @@
  */
 
 /* ── Base ───────────────────────────────────────────────────────────── */
+/* Dismiss animation: opacity + max-height + padding collapse, on
+   --hbd-duration-slow + --hbd-ease-out — matches the panel-slide timing
+   used by select / time-picker for visual consistency across the DS.
+   --hbd-callout-dismiss-max-height is the open-state ceiling (CSS cannot
+   transition to or from auto); any real callout fits comfortably under it.
+   Reduced-motion override in foundations/motion.css collapses transitions. */
 .hbd-callout {
   display: flex;
   align-items: flex-start;
@@ -19,7 +25,12 @@
   border-radius: var(--hbd-radius-md);
   border-left: var(--hbd-border-width-thick) solid transparent;
   font-family: var(--hbd-font-family-ui);
-  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out);
+  overflow: hidden;
+  max-height: var(--hbd-callout-dismiss-max-height);
+  transition: opacity var(--hbd-duration-slow) var(--hbd-ease-out),
+              max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              padding var(--hbd-duration-slow) var(--hbd-ease-out),
+              margin var(--hbd-duration-slow) var(--hbd-ease-out);
 }
 
 /* ── Icon ───────────────────────────────────────────────────────────── */
@@ -28,6 +39,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Center the icon vertically against the whole callout while the body
+     + dismiss button stay anchored at the top (the parent uses
+     align-items: flex-start). */
+  align-self: center;
   width: var(--hbd-space-6);
   height: var(--hbd-space-6);
   color: currentColor;
@@ -138,7 +153,12 @@
   outline-offset: var(--hbd-focus-offset);
 }
 
-/* ── Dismissed state ────────────────────────────────────────────────── */
+/* ── Dismissed state — opacity + height collapse together ───────────── */
 .hbd-callout.is-dismissed {
   opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }

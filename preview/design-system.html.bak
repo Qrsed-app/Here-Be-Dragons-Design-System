@@ -2100,17 +2100,6 @@
           <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
           <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
           <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
-          <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
-          <li><a class="ds-toc__link" href="#component-select">Select</a></li>
-          <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
-          <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
-          <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
-          <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
-          <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
-          <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
-          <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
-          <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
-          <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -4509,1654 +4498,6 @@
       </svg>
     </div>
 
-    <!-- ══════════════════════ COMPONENT · TEXTAREA ══════════════════════ -->
-    <section class="ds-section" id="component-textarea" aria-labelledby="heading-textarea">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·11</span>
-        <h2 class="ds-section__heading" id="heading-textarea">Textarea</h2>
-        <p class="ds-section__description">
-          Textareas allow users to enter multiple lines of free-form text. Use auto-resize for
-          content that varies in length; use a fixed height with manual resize for inputs where
-          length can be predicted. Rendered as <code>&lt;hbd-textarea&gt;</code> — shares the
-          <code>.hbd-field</code> wrapper, label, hint, error, and validation pattern with
-          <code>&lt;hbd-input&gt;</code>.
-        </p>
-
-        <!-- Group 1 · Default -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-textarea label="Spell description" rows="4"
-              placeholder="When you cast this spell..."
-              hint="Describe what the spell does, its visual effect, and any special conditions."></hbd-textarea>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-textarea label="Spell description" rows="4"
-  placeholder="When you cast this spell..."
-  hint="Describe what the spell does, its visual effect, and any special conditions."&gt;&lt;/hbd-textarea&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Auto-resize -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Auto-resize</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-textarea autoresize label="Session notes" rows="2"
-              hint="This textarea grows as you type."
-              value="The party arrived at the inn at dusk.
-The barkeep eyed them warily."></hbd-textarea>
-
-            <hbd-textarea autoresize label="Session notes — grown"
-              hint="Example showing the auto-grown state."
-              value="The party arrived at the inn at dusk.
-The barkeep eyed them warily and motioned toward the back room.
-A hooded figure sat by the fire, nursing a tankard of dark ale.
-Thorin recognised the sigil on the figure's cloak — the seal of the
-Iron Vow, an order long thought disbanded.
-Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-textarea autoresize label="Session notes" rows="2"
-  hint="This textarea grows as you type."
-  value="…"&gt;&lt;/hbd-textarea&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · Sizes -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Sizes</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
-            <hbd-textarea size="sm" rows="2" label="Adventure notes" placeholder="Small"></hbd-textarea>
-            <hbd-textarea size="md" rows="4" label="Adventure notes" placeholder="Medium (default)"></hbd-textarea>
-            <hbd-textarea size="lg" rows="6" label="Adventure notes" placeholder="Large"></hbd-textarea>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-textarea size="sm" rows="2" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;
-&lt;hbd-textarea size="md" rows="4" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;
-&lt;hbd-textarea size="lg" rows="6" label="Adventure notes"&gt;&lt;/hbd-textarea&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · With character count -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With character count</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — default"
-              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn."></hbd-textarea>
-
-            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — warning"
-              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn. Bring an offering for the spirits, and prepare for the season's grand toast led by the lord himself."></hbd-textarea>
-
-            <hbd-textarea maxlength="280" rows="4" label="Town crier announcement — over limit"
-              error="Announcement exceeds the maximum length"
-              value="Hear ye, hear ye! On the morrow's eve, the harvest festival shall commence at the great hall, with feasting and song until dawn. Bring an offering for the spirits, and prepare for the season's grand toast led by the lord himself, in honour of the bountiful harvest reaped this year."></hbd-textarea>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-textarea maxlength="280" rows="4" label="Town crier announcement"&gt;&lt;/hbd-textarea&gt;
-&lt;!-- Counter colour: default (under 80%) → warning (≥80%) → over (≥100%) --&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
-            <hbd-textarea label="Disabled" rows="3" value="Cannot edit this passage." disabled></hbd-textarea>
-            <hbd-textarea label="Readonly" rows="3" value="Read-only passage from the codex." readonly></hbd-textarea>
-            <hbd-textarea label="Error" rows="3" value="Goblin" error="Notes must be at least 20 characters"></hbd-textarea>
-            <hbd-textarea label="Success" rows="3" value="The party defeated the goblin scouts at the old bridge." success="Notes saved"></hbd-textarea>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-textarea label="Disabled" disabled&gt;&lt;/hbd-textarea&gt;
-&lt;hbd-textarea label="Readonly" readonly&gt;&lt;/hbd-textarea&gt;
-&lt;hbd-textarea label="Error" error="Notes must be at least 20 characters"&gt;&lt;/hbd-textarea&gt;
-&lt;hbd-textarea label="Success" success="Notes saved"&gt;&lt;/hbd-textarea&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Textarea divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="10" y="13" width="24" height="18" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <line x1="14" y1="18" x2="30" y2="18" stroke="#7a1212" stroke-width="1.2"/>
-        <line x1="14" y1="22" x2="30" y2="22" stroke="#7a1212" stroke-width="1.2"/>
-        <line x1="14" y1="26" x2="22" y2="26" stroke="#7a1212" stroke-width="1.2"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · SELECT ══════════════════════ -->
-    <section class="ds-section" id="component-select" aria-labelledby="heading-select">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·12</span>
-        <h2 class="ds-section__heading" id="heading-select">Select</h2>
-        <p class="ds-section__description">
-          Select allows users to choose one option from a list. Use when there are five or more
-          options. For fewer options, use a radio group; for searchable lists, use a combobox.
-          Rendered as <code>&lt;hbd-select&gt;</code> with <code>&lt;hbd-option&gt;</code> and
-          <code>&lt;hbd-option-group&gt;</code> children. A hidden native <code>&lt;select&gt;</code>
-          is kept in the shadow root as a form-submission fallback; ElementInternals carries the
-          canonical value.
-        </p>
-
-        <!-- Group 1 · Default -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-select label="Spell school" placeholder="Choose a school...">
-              <hbd-option value="abjuration">Abjuration</hbd-option>
-              <hbd-option value="conjuration">Conjuration</hbd-option>
-              <hbd-option value="divination">Divination</hbd-option>
-              <hbd-option value="enchantment">Enchantment</hbd-option>
-              <hbd-option value="evocation">Evocation</hbd-option>
-              <hbd-option value="illusion">Illusion</hbd-option>
-              <hbd-option value="necromancy">Necromancy</hbd-option>
-              <hbd-option value="transmutation">Transmutation</hbd-option>
-            </hbd-select>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-select label="Spell school" placeholder="Choose a school..."&gt;
-  &lt;hbd-option value="abjuration"&gt;Abjuration&lt;/hbd-option&gt;
-  &lt;hbd-option value="conjuration"&gt;Conjuration&lt;/hbd-option&gt;
-  &lt;hbd-option value="divination"&gt;Divination&lt;/hbd-option&gt;
-  &lt;hbd-option value="enchantment"&gt;Enchantment&lt;/hbd-option&gt;
-  &lt;hbd-option value="evocation"&gt;Evocation&lt;/hbd-option&gt;
-  &lt;hbd-option value="illusion"&gt;Illusion&lt;/hbd-option&gt;
-  &lt;hbd-option value="necromancy"&gt;Necromancy&lt;/hbd-option&gt;
-  &lt;hbd-option value="transmutation"&gt;Transmutation&lt;/hbd-option&gt;
-&lt;/hbd-select&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · With option groups -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With option groups</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-select label="Character class" value="wizard">
-              <hbd-option-group label="Martial">
-                <hbd-option value="fighter">Fighter</hbd-option>
-                <hbd-option value="ranger">Ranger</hbd-option>
-                <hbd-option value="paladin">Paladin</hbd-option>
-                <hbd-option value="barbarian">Barbarian</hbd-option>
-                <hbd-option value="monk">Monk</hbd-option>
-              </hbd-option-group>
-              <hbd-option-group label="Arcane">
-                <hbd-option value="wizard">Wizard</hbd-option>
-                <hbd-option value="sorcerer">Sorcerer</hbd-option>
-                <hbd-option value="warlock">Warlock</hbd-option>
-                <hbd-option value="artificer">Artificer</hbd-option>
-              </hbd-option-group>
-            </hbd-select>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-select label="Character class" value="wizard"&gt;
-  &lt;hbd-option-group label="Martial"&gt;
-    &lt;hbd-option value="fighter"&gt;Fighter&lt;/hbd-option&gt;
-    &lt;!-- … --&gt;
-  &lt;/hbd-option-group&gt;
-  &lt;hbd-option-group label="Arcane"&gt;
-    &lt;hbd-option value="wizard"&gt;Wizard&lt;/hbd-option&gt;
-    &lt;!-- … --&gt;
-  &lt;/hbd-option-group&gt;
-&lt;/hbd-select&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · Sizes -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Sizes</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
-            <hbd-select size="sm" label="Damage type" placeholder="Choose a damage type...">
-              <hbd-option value="fire">Fire</hbd-option>
-              <hbd-option value="cold">Cold</hbd-option>
-              <hbd-option value="lightning">Lightning</hbd-option>
-              <hbd-option value="acid">Acid</hbd-option>
-              <hbd-option value="poison">Poison</hbd-option>
-            </hbd-select>
-            <hbd-select size="md" label="Damage type" placeholder="Choose a damage type...">
-              <hbd-option value="fire">Fire</hbd-option>
-              <hbd-option value="cold">Cold</hbd-option>
-              <hbd-option value="lightning">Lightning</hbd-option>
-              <hbd-option value="acid">Acid</hbd-option>
-              <hbd-option value="poison">Poison</hbd-option>
-            </hbd-select>
-            <hbd-select size="lg" label="Damage type" placeholder="Choose a damage type...">
-              <hbd-option value="fire">Fire</hbd-option>
-              <hbd-option value="cold">Cold</hbd-option>
-              <hbd-option value="lightning">Lightning</hbd-option>
-              <hbd-option value="acid">Acid</hbd-option>
-              <hbd-option value="poison">Poison</hbd-option>
-            </hbd-select>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-select size="sm" label="Damage type"&gt;…&lt;/hbd-select&gt;
-&lt;hbd-select size="md" label="Damage type"&gt;…&lt;/hbd-select&gt;
-&lt;hbd-select size="lg" label="Damage type"&gt;…&lt;/hbd-select&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
-            <hbd-select label="Default" placeholder="Choose…">
-              <hbd-option value="a">Adept</hbd-option>
-              <hbd-option value="b">Bard</hbd-option>
-              <hbd-option value="c">Cleric</hbd-option>
-            </hbd-select>
-            <hbd-select label="Disabled" value="b" disabled>
-              <hbd-option value="a">Adept</hbd-option>
-              <hbd-option value="b">Bard</hbd-option>
-              <hbd-option value="c">Cleric</hbd-option>
-            </hbd-select>
-            <hbd-select label="Error" placeholder="Choose…" required error="Selection is required">
-              <hbd-option value="a">Adept</hbd-option>
-              <hbd-option value="b">Bard</hbd-option>
-              <hbd-option value="c">Cleric</hbd-option>
-            </hbd-select>
-            <hbd-select label="With hint" placeholder="Choose…" hint="Picks affect downstream features.">
-              <hbd-option value="a">Adept</hbd-option>
-              <hbd-option value="b">Bard</hbd-option>
-              <hbd-option value="c">Cleric</hbd-option>
-            </hbd-select>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-select label="Default" placeholder="Choose…"&gt;…&lt;/hbd-select&gt;
-&lt;hbd-select label="Disabled" value="b" disabled&gt;…&lt;/hbd-select&gt;
-&lt;hbd-select label="Error" required error="Selection is required"&gt;…&lt;/hbd-select&gt;
-&lt;hbd-select label="With hint" hint="Picks affect downstream features."&gt;…&lt;/hbd-select&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · With disabled options -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With disabled options</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-select label="Available patrons" placeholder="Choose a patron..."
-              hint="Disabled options are skipped by keyboard navigation.">
-              <hbd-option value="archfey">Archfey</hbd-option>
-              <hbd-option value="fiend" disabled>Fiend (forbidden)</hbd-option>
-              <hbd-option value="celestial">Celestial</hbd-option>
-              <hbd-option value="great-old-one" disabled>Great Old One (forbidden)</hbd-option>
-              <hbd-option value="hexblade">Hexblade</hbd-option>
-              <hbd-option value="genie">Genie</hbd-option>
-            </hbd-select>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-select label="Available patrons" placeholder="Choose a patron..."&gt;
-  &lt;hbd-option value="archfey"&gt;Archfey&lt;/hbd-option&gt;
-  &lt;hbd-option value="fiend" disabled&gt;Fiend (forbidden)&lt;/hbd-option&gt;
-  &lt;hbd-option value="celestial"&gt;Celestial&lt;/hbd-option&gt;
-  &lt;!-- … --&gt;
-&lt;/hbd-select&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Select divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="10" y="17" width="24" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <path d="M27 21l-2.5 2.5L22 21" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · RADIO GROUP ══════════════════════ -->
-    <section class="ds-section" id="component-radio-group" aria-labelledby="heading-radio-group">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·13</span>
-        <h2 class="ds-section__heading" id="heading-radio-group">Radio Group</h2>
-        <p class="ds-section__description">
-          Radio groups allow users to select exactly one option from a set. Always use within a
-          group with a clear question as the legend. Use <code>&lt;hbd-select&gt;</code> when
-          there are more than six options. Rendered as <code>&lt;hbd-radio-group&gt;</code> with
-          <code>&lt;hbd-radio&gt;</code> children. Arrow keys move between options and select on
-          focus (ARIA radiogroup pattern); Tab moves focus in and out of the group as a whole.
-        </p>
-
-        <!-- Group 1 · Default — vertical -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default — vertical</h3>
-          <div class="ds-preview-canvas" style="align-items:flex-start;">
-            <hbd-radio-group name="ability" label="Ability score" value="int">
-              <hbd-radio value="str" label="Strength"></hbd-radio>
-              <hbd-radio value="dex" label="Dexterity"></hbd-radio>
-              <hbd-radio value="con" label="Constitution"></hbd-radio>
-              <hbd-radio value="int" label="Intelligence"></hbd-radio>
-              <hbd-radio value="wis" label="Wisdom"></hbd-radio>
-              <hbd-radio value="cha" label="Charisma"></hbd-radio>
-            </hbd-radio-group>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-radio-group name="ability" label="Ability score" value="int"&gt;
-  &lt;hbd-radio value="str" label="Strength"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="dex" label="Dexterity"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="con" label="Constitution"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="int" label="Intelligence"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="wis" label="Wisdom"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="cha" label="Charisma"&gt;&lt;/hbd-radio&gt;
-&lt;/hbd-radio-group&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Horizontal layout -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Horizontal layout</h3>
-          <div class="ds-preview-canvas" style="align-items:flex-start;">
-            <hbd-radio-group name="slot-level" label="Spell slot level" orientation="horizontal" value="3">
-              <hbd-radio value="1" label="1st"></hbd-radio>
-              <hbd-radio value="2" label="2nd"></hbd-radio>
-              <hbd-radio value="3" label="3rd"></hbd-radio>
-              <hbd-radio value="4" label="4th"></hbd-radio>
-              <hbd-radio value="5" label="5th"></hbd-radio>
-            </hbd-radio-group>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-radio-group name="slot-level" label="Spell slot level"
-  orientation="horizontal" value="3"&gt;
-  &lt;hbd-radio value="1" label="1st"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="2" label="2nd"&gt;&lt;/hbd-radio&gt;
-  &lt;!-- … --&gt;
-&lt;/hbd-radio-group&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · With hints on options -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With hints on options</h3>
-          <div class="ds-preview-canvas" style="align-items:flex-start;">
-            <hbd-radio-group name="rest" label="Resting type" value="short">
-              <hbd-radio value="short" label="Short Rest"
-                hint="1 hour. Spend Hit Dice to recover HP."></hbd-radio>
-              <hbd-radio value="long" label="Long Rest"
-                hint="8 hours. Fully recover HP and spell slots."></hbd-radio>
-              <hbd-radio value="none" label="No rest"
-                hint="Continue without resting."></hbd-radio>
-            </hbd-radio-group>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-radio-group name="rest" label="Resting type" value="short"&gt;
-  &lt;hbd-radio value="short" label="Short Rest"
-    hint="1 hour. Spend Hit Dice to recover HP."&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="long" label="Long Rest"
-    hint="8 hours. Fully recover HP and spell slots."&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="none" label="No rest"
-    hint="Continue without resting."&gt;&lt;/hbd-radio&gt;
-&lt;/hbd-radio-group&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-6);align-items:start;">
-            <hbd-radio-group name="state-default" label="Default" value="a">
-              <hbd-radio value="a" label="Option A"></hbd-radio>
-              <hbd-radio value="b" label="Option B"></hbd-radio>
-              <hbd-radio value="c" label="Option C"></hbd-radio>
-            </hbd-radio-group>
-
-            <hbd-radio-group name="state-disabled" label="Disabled" value="b" disabled>
-              <hbd-radio value="a" label="Option A"></hbd-radio>
-              <hbd-radio value="b" label="Option B"></hbd-radio>
-              <hbd-radio value="c" label="Option C"></hbd-radio>
-            </hbd-radio-group>
-
-            <hbd-radio-group name="state-error" label="Error" required error="A selection is required">
-              <hbd-radio value="a" label="Option A"></hbd-radio>
-              <hbd-radio value="b" label="Option B"></hbd-radio>
-              <hbd-radio value="c" label="Option C"></hbd-radio>
-            </hbd-radio-group>
-
-            <hbd-radio-group name="state-hint" label="With group hint" value="a"
-              hint="Picks affect downstream features.">
-              <hbd-radio value="a" label="Option A"></hbd-radio>
-              <hbd-radio value="b" label="Option B"></hbd-radio>
-              <hbd-radio value="c" label="Option C"></hbd-radio>
-            </hbd-radio-group>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-radio-group label="Disabled" value="b" disabled&gt;…&lt;/hbd-radio-group&gt;
-&lt;hbd-radio-group label="Error" required error="A selection is required"&gt;…&lt;/hbd-radio-group&gt;
-&lt;hbd-radio-group label="With group hint" hint="Picks affect downstream features."&gt;…&lt;/hbd-radio-group&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · With disabled option -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With disabled option</h3>
-          <div class="ds-preview-canvas" style="align-items:flex-start;">
-            <hbd-radio-group name="alignment" label="Alignment" value="lg">
-              <hbd-radio value="lg" label="Lawful Good"></hbd-radio>
-              <hbd-radio value="ng" label="Neutral Good"></hbd-radio>
-              <hbd-radio value="cg" label="Chaotic Good"></hbd-radio>
-              <hbd-radio value="tn" label="True Neutral" disabled></hbd-radio>
-              <hbd-radio value="ce" label="Chaotic Evil"></hbd-radio>
-            </hbd-radio-group>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-radio-group name="alignment" label="Alignment" value="lg"&gt;
-  &lt;hbd-radio value="lg" label="Lawful Good"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="ng" label="Neutral Good"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="cg" label="Chaotic Good"&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="tn" label="True Neutral" disabled&gt;&lt;/hbd-radio&gt;
-  &lt;hbd-radio value="ce" label="Chaotic Evil"&gt;&lt;/hbd-radio&gt;
-&lt;/hbd-radio-group&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Radio Group divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <circle cx="16" cy="22" r="5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <circle cx="28" cy="22" r="5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <circle cx="16" cy="22" r="2" fill="#7a1212"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · SWITCH ══════════════════════ -->
-    <section class="ds-section" id="component-switch" aria-labelledby="heading-switch">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·14</span>
-        <h2 class="ds-section__heading" id="heading-switch">Switch</h2>
-        <p class="ds-section__description">
-          Switches control a binary setting that takes effect immediately, without a submit
-          action. Use <code>&lt;hbd-checkbox&gt;</code> for form fields that require explicit
-          confirmation. Rendered as <code>&lt;hbd-switch&gt;</code>. The native input
-          <code>type="checkbox"</code> carries <code>role="switch"</code> so assistive tech
-          announces "switch" rather than "checkbox" while keeping all native keyboard +
-          form-submission behaviour.
-        </p>
-
-        <!-- Group 1 · Default -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-2);">
-            <hbd-switch label="Dark mode"></hbd-switch>
-            <hbd-switch label="Spell notifications" checked></hbd-switch>
-            <hbd-switch label="Auto-save notes"></hbd-switch>
-            <hbd-switch label="Show grid overlay" checked></hbd-switch>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-switch label="Dark mode"&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Spell notifications" checked&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Auto-save notes"&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Show grid overlay" checked&gt;&lt;/hbd-switch&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Sizes -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Sizes</h3>
-          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:center;">
-            <hbd-switch size="sm" label="Enable feature" checked></hbd-switch>
-            <hbd-switch size="md" label="Enable feature"></hbd-switch>
-            <hbd-switch size="lg" label="Enable feature" checked></hbd-switch>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-switch size="sm" label="Enable feature" checked&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch size="md" label="Enable feature"&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch size="lg" label="Enable feature" checked&gt;&lt;/hbd-switch&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · Label positions -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Label positions</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-2);">
-            <hbd-switch label="Show damage rolls" checked></hbd-switch>
-            <hbd-switch label="Show damage rolls" label-position="left" checked></hbd-switch>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-switch label="Show damage rolls" checked&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Show damage rolls" label-position="left" checked&gt;&lt;/hbd-switch&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · With hint -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With hint</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-4);">
-            <hbd-switch label="Critical hit alerts"
-              hint="Show a notification when a critical hit is rolled." checked></hbd-switch>
-            <hbd-switch label="Ambient sound"
-              hint="Play background audio during combat encounters."></hbd-switch>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-switch label="Critical hit alerts"
-  hint="Show a notification when a critical hit is rolled." checked&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Ambient sound"
-  hint="Play background audio during combat encounters."&gt;&lt;/hbd-switch&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:center;">
-            <hbd-switch label="Checked" checked></hbd-switch>
-            <hbd-switch label="Disabled unchecked" disabled></hbd-switch>
-            <hbd-switch label="Disabled checked" checked disabled></hbd-switch>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-switch label="Checked" checked&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Disabled unchecked" disabled&gt;&lt;/hbd-switch&gt;
-&lt;hbd-switch label="Disabled checked" checked disabled&gt;&lt;/hbd-switch&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Switch divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="12" y="18" width="20" height="8" rx="4" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <circle cx="26" cy="22" r="3" fill="#7a1212"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · SLIDER ══════════════════════ -->
-    <section class="ds-section" id="component-slider" aria-labelledby="heading-slider">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·15</span>
-        <h2 class="ds-section__heading" id="heading-slider">Slider</h2>
-        <p class="ds-section__description">
-          Sliders allow users to select a value or range from a continuous or stepped scale. Use
-          when approximate values are acceptable; use <code>&lt;hbd-input type="number"&gt;</code>
-          when precision is required. Rendered as <code>&lt;hbd-slider&gt;</code>. The native
-          <code>input[type="range"]</code> sits invisibly on top of a styled track + thumb so
-          all native keyboard (Arrows / Home / End / PageUp / PageDown) and pointer interactions
-          work without custom JS.
-        </p>
-
-        <!-- Group 1 · Single — default -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Single — default</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-slider min="0" max="100" value="40" label="Volume" show-value></hbd-slider>
-            <hbd-slider min="1" max="20" step="1" value="5" label="Spell level" show-value></hbd-slider>
-            <hbd-slider min="0" max="1000" step="50" value="250" label="Gold pieces" show-value></hbd-slider>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-slider min="0" max="100" value="40" label="Volume" show-value&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider min="1" max="20" step="1" value="5" label="Spell level" show-value&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider min="0" max="1000" step="50" value="250" label="Gold pieces" show-value&gt;&lt;/hbd-slider&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Range -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Range</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-slider range min="1" max="9" value-low="2" value-high="6"
-              label="Spell slot range" show-value></hbd-slider>
-            <hbd-slider range min="0" max="100" value-low="20" value-high="80"
-              label="Encounter difficulty" show-value></hbd-slider>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-slider range min="1" max="9" value-low="2" value-high="6"
-  label="Spell slot range" show-value&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider range min="0" max="100" value-low="20" value-high="80"
-  label="Encounter difficulty" show-value&gt;&lt;/hbd-slider&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · With ticks -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With ticks</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-slider min="0" max="20" step="1" value="10"
-              label="Proficiency bonus" show-ticks tick-count="5" show-value></hbd-slider>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-slider min="0" max="20" step="1" value="10"
-  label="Proficiency bonus" show-ticks tick-count="5"&gt;&lt;/hbd-slider&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · Sizes -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Sizes</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-slider size="sm" min="0" max="100" value="40" label="Small" show-value></hbd-slider>
-            <hbd-slider size="md" min="0" max="100" value="40" label="Medium" show-value></hbd-slider>
-            <hbd-slider size="lg" min="0" max="100" value="40" label="Large" show-value></hbd-slider>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-slider size="sm" min="0" max="100" value="40" label="Small"&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider size="md" min="0" max="100" value="40" label="Medium"&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider size="lg" min="0" max="100" value="40" label="Large"&gt;&lt;/hbd-slider&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-slider min="0" max="100" value="40" label="Default" show-value></hbd-slider>
-            <hbd-slider min="0" max="100" value="40" label="Disabled" show-value disabled></hbd-slider>
-            <hbd-slider min="0" max="100" value="40" label="Error" show-value
-              error="Value must be set before continuing"></hbd-slider>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-slider min="0" max="100" value="40" label="Default" show-value&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider min="0" max="100" value="40" label="Disabled" show-value disabled&gt;&lt;/hbd-slider&gt;
-&lt;hbd-slider min="0" max="100" value="40" label="Error" show-value
-  error="Value must be set before continuing"&gt;&lt;/hbd-slider&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Slider divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <line x1="10" y1="22" x2="34" y2="22" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="26" cy="22" r="3.5" fill="#7a1212" stroke="#4a0808" stroke-width="1"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · NUMERIC STEPPER ══════════════════════ -->
-    <section class="ds-section" id="component-stepper" aria-labelledby="heading-stepper">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·16</span>
-        <h2 class="ds-section__heading" id="heading-stepper">Numeric Stepper</h2>
-        <p class="ds-section__description">
-          Numeric steppers allow users to increment or decrement a value by a fixed step. Use for
-          small integer ranges where up/down navigation is more intuitive than free text entry
-          (spell slot level, character level, quantity). For larger ranges or precision-driven
-          inputs, prefer <code>&lt;hbd-input type="number"&gt;</code>. Rendered as
-          <code>&lt;hbd-stepper&gt;</code> — the native <code>input[type="number"]</code> is the
-          sole Tab stop; ± buttons are reached by pointer.
-        </p>
-
-        <!-- Group 1 · Default -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-stepper min="1" max="9" value="3" step="1" label="Spell level"></hbd-stepper>
-            <hbd-stepper min="1" max="20" value="1" step="1" label="Character level"></hbd-stepper>
-            <hbd-stepper min="0" max="999" value="50" step="1" label="Gold pieces"></hbd-stepper>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-stepper min="1" max="9"  value="3"  step="1" label="Spell level"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper min="1" max="20" value="1"  step="1" label="Character level"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper min="0" max="999" value="50" step="1" label="Gold pieces"&gt;&lt;/hbd-stepper&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Decimal step -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Decimal step</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-stepper min="0" max="10" value="1.5" step="0.5" label="Encumbrance multiplier"></hbd-stepper>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-stepper min="0" max="10" value="1.5" step="0.5"
-  label="Encumbrance multiplier"&gt;&lt;/hbd-stepper&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · Sizes -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Sizes</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-stepper size="sm" min="0" max="100" value="10" label="Small"></hbd-stepper>
-            <hbd-stepper size="md" min="0" max="100" value="10" label="Medium"></hbd-stepper>
-            <hbd-stepper size="lg" min="0" max="100" value="10" label="Large"></hbd-stepper>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-stepper size="sm" min="0" max="100" value="10" label="Small"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper size="md" min="0" max="100" value="10" label="Medium"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper size="lg" min="0" max="100" value="10" label="Large"&gt;&lt;/hbd-stepper&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-stepper min="1" max="9" value="5" step="1" label="Default"></hbd-stepper>
-            <hbd-stepper min="1" max="9" value="1" step="1" label="At minimum"></hbd-stepper>
-            <hbd-stepper min="1" max="9" value="9" step="1" label="At maximum"></hbd-stepper>
-            <hbd-stepper min="1" max="9" value="3" step="1" label="Disabled" disabled></hbd-stepper>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-stepper min="1" max="9" value="1" label="At minimum"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper min="1" max="9" value="9" label="At maximum"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper min="1" max="9" value="3" label="Disabled" disabled&gt;&lt;/hbd-stepper&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · With hint and error -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With hint and error</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-stepper min="1" max="9" value="3" step="1"
-              label="Spell slot level" hint="Valid range: 1–9"></hbd-stepper>
-            <hbd-stepper min="1" max="9" value="12" step="1"
-              label="Spell slot level" error="Value must be between 1 and 9"></hbd-stepper>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-stepper min="1" max="9" value="3" label="Spell slot level"
-  hint="Valid range: 1–9"&gt;&lt;/hbd-stepper&gt;
-&lt;hbd-stepper min="1" max="9" value="12" label="Spell slot level"
-  error="Value must be between 1 and 9"&gt;&lt;/hbd-stepper&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Numeric Stepper divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="14" y="17" width="16" height="10" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <line x1="11" y1="22" x2="14" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="30" y1="22" x2="33" y2="22" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="31.5" y1="20.5" x2="31.5" y2="23.5" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · FILE UPLOAD ══════════════════════ -->
-    <section class="ds-section" id="component-file-upload" aria-labelledby="heading-file-upload">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·17</span>
-        <h2 class="ds-section__heading" id="heading-file-upload">File Upload</h2>
-        <p class="ds-section__description">
-          File upload allows users to attach one or more files via drag-and-drop or the system
-          file browser. Use <code>accept</code> to restrict file types and <code>max-size</code>
-          to prevent oversized uploads. Rendered as <code>&lt;hbd-file-upload&gt;</code>. The
-          dropzone is a keyboard-reachable <code>role="button"</code>; the native file input is
-          visually hidden and triggered programmatically. Image files are previewed inline via
-          FileReader.
-        </p>
-
-        <!-- Group 1 · Default — single file -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Default — single file</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-file-upload
-              label="Character portrait"
-              hint="Upload a portrait image for your character sheet."
-              accept="image/*"
-              max-size="5242880"></hbd-file-upload>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-file-upload
-  label="Character portrait"
-  hint="Upload a portrait image for your character sheet."
-  accept="image/*"
-  max-size="5242880"&gt;&lt;/hbd-file-upload&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Multiple files (demo-seeded) -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Multiple files</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-file-upload id="demo-multi"
-              label="Spell scroll attachments"
-              hint="Drop up to 5 files. Allowed: PDF, PNG, JPG."
-              accept=".pdf,.png,.jpg"
-              multiple
-              max-files="5"></hbd-file-upload>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-file-upload
-  label="Spell scroll attachments"
-  accept=".pdf,.png,.jpg"
-  multiple
-  max-files="5"&gt;&lt;/hbd-file-upload&gt;</code></pre>
-          </details>
-          <script>
-            /* Demo-seed: synthesise two files (in-progress + complete) so the
-               file-list states are visible without requiring a real drop. */
-            (function () {
-              function seed() {
-                var el = document.getElementById('demo-multi');
-                if (!el || typeof el.setProgress !== 'function') {
-                  return setTimeout(seed, 50);
-                }
-                var f1 = new File(
-                  [new Uint8Array(420 * 1024)],
-                  'arcane-glyph.png',
-                  { type: 'image/png' }
-                );
-                var f2 = new File(
-                  [new Uint8Array(1.2 * 1024 * 1024)],
-                  'scroll-of-fireball.pdf',
-                  { type: 'application/pdf' }
-                );
-                el._handleFiles([f1, f2]);
-                /* The internal records pick up sequential ids — read them
-                   from the rendered DOM so we don't have to track them here. */
-                var ids = Array.from(
-                  el.shadowRoot.querySelectorAll('.hbd-file-upload__file-item')
-                ).map(function (li) { return li.getAttribute('data-file-id'); });
-                if (ids[0]) el.setProgress(ids[0], 60);
-                if (ids[1]) el.setProgress(ids[1], 100);
-              }
-              seed();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 3 · Drag-over state (static mockup) -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Drag-over state</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;flex-direction:column;gap:var(--hbd-space-3);">
-            <hbd-file-upload id="demo-drag"
-              label="Drop zone"
-              hint="Drag a file onto the dropzone to see this state live."></hbd-file-upload>
-            <p class="hbd-text-micro hbd-text-muted" style="margin:0;">
-              The dropzone above is force-set to <code>--drag-over</code> for illustration.
-            </p>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;!-- Live drag-over: drag a file onto a dropzone --&gt;
-&lt;!-- Static mockup: add class hbd-file-upload--drag-over to the inner wrapper --&gt;
-&lt;hbd-file-upload label="Drop zone"&gt;&lt;/hbd-file-upload&gt;</code></pre>
-          </details>
-          <script>
-            /* Apply the drag-over modifier class once the component is ready. */
-            (function () {
-              function force() {
-                var el = document.getElementById('demo-drag');
-                if (!el || !el.shadowRoot) return setTimeout(force, 50);
-                var inner = el.shadowRoot.querySelector('.hbd-file-upload');
-                if (!inner) return setTimeout(force, 50);
-                inner.classList.add('hbd-file-upload--drag-over');
-              }
-              force();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 4 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-file-upload label="Default" hint="Standard dropzone."></hbd-file-upload>
-            <hbd-file-upload label="Disabled" hint="Cannot accept files." disabled></hbd-file-upload>
-            <hbd-file-upload label="Error" error="At least one file is required."></hbd-file-upload>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-file-upload label="Default"&gt;&lt;/hbd-file-upload&gt;
-&lt;hbd-file-upload label="Disabled" disabled&gt;&lt;/hbd-file-upload&gt;
-&lt;hbd-file-upload label="Error" error="At least one file is required."&gt;&lt;/hbd-file-upload&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · File Upload divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <path d="M14 28h16" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M22 12v14M16 18l6-6 6 6" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="22" cy="32" r="1.5" fill="#7a1212"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · COMBOBOX ══════════════════════ -->
-    <section class="ds-section" id="component-combobox" aria-labelledby="heading-combobox">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·18</span>
-        <h2 class="ds-section__heading" id="heading-combobox">Combobox</h2>
-        <p class="ds-section__description">
-          Combobox combines a text input with a filterable suggestion list. Use
-          <code>autocomplete</code> mode for large option sets where the user may also type a
-          custom value, <code>strict</code> mode when only listed values are valid, and
-          <code>multi</code> mode for tag-style multi-selection rendered as chips. Rendered as
-          <code>&lt;hbd-combobox&gt;</code> with <code>&lt;hbd-option&gt;</code> children. For
-          async lists, set the <code>no-filter</code> attribute and call
-          <code>setOptions(results)</code> in response to the <code>hbd:search</code> event.
-        </p>
-
-        <!-- Group 1 · Autocomplete -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Autocomplete</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-combobox id="demo-combo-autocomplete"
-              label="Spell name"
-              placeholder="Type to search...">
-              <hbd-option value="fireball">Fireball</hbd-option>
-              <hbd-option value="fire-bolt">Fire Bolt</hbd-option>
-              <hbd-option value="fire-shield">Fire Shield</hbd-option>
-              <hbd-option value="firestorm">Firestorm</hbd-option>
-              <hbd-option value="cure-wounds">Cure Wounds</hbd-option>
-              <hbd-option value="mage-hand">Mage Hand</hbd-option>
-              <hbd-option value="magic-missile">Magic Missile</hbd-option>
-              <hbd-option value="shield">Shield</hbd-option>
-            </hbd-combobox>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-combobox label="Spell name" placeholder="Type to search..."&gt;
-  &lt;hbd-option value="fireball"&gt;Fireball&lt;/hbd-option&gt;
-  &lt;hbd-option value="fire-bolt"&gt;Fire Bolt&lt;/hbd-option&gt;
-  &lt;!-- ... --&gt;
-&lt;/hbd-combobox&gt;</code></pre>
-          </details>
-          <script>
-            /* Pre-fill the input with "fire" to demonstrate filtering on load. */
-            (function () {
-              function seed() {
-                var el = document.getElementById('demo-combo-autocomplete');
-                if (!el || !el.shadowRoot) return setTimeout(seed, 50);
-                var input = el.shadowRoot.querySelector('.hbd-combobox__input');
-                if (!input) return setTimeout(seed, 50);
-                input.value = 'fire';
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-              }
-              seed();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 2 · Strict mode -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Strict mode</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-combobox label="Monster type" mode="strict"
-              placeholder="Select a type..."
-              hint="Free text not allowed — pick from the list.">
-              <hbd-option>Aberration</hbd-option>
-              <hbd-option>Beast</hbd-option>
-              <hbd-option>Celestial</hbd-option>
-              <hbd-option>Construct</hbd-option>
-              <hbd-option>Dragon</hbd-option>
-              <hbd-option>Elemental</hbd-option>
-              <hbd-option>Fey</hbd-option>
-              <hbd-option>Fiend</hbd-option>
-              <hbd-option>Giant</hbd-option>
-              <hbd-option>Humanoid</hbd-option>
-              <hbd-option>Monstrosity</hbd-option>
-              <hbd-option>Ooze</hbd-option>
-              <hbd-option>Plant</hbd-option>
-              <hbd-option>Undead</hbd-option>
-            </hbd-combobox>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-combobox label="Monster type" mode="strict" placeholder="Select a type..."&gt;
-  &lt;hbd-option&gt;Aberration&lt;/hbd-option&gt;
-  &lt;!-- ... --&gt;
-&lt;/hbd-combobox&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · Multi mode -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Multi mode</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-combobox label="Damage types"
-              mode="multi"
-              placeholder="Add damage types..."
-              values='[{"value":"Fire","label":"Fire"},{"value":"Lightning","label":"Lightning"}]'>
-              <hbd-option>Acid</hbd-option>
-              <hbd-option>Bludgeoning</hbd-option>
-              <hbd-option>Cold</hbd-option>
-              <hbd-option>Fire</hbd-option>
-              <hbd-option>Force</hbd-option>
-              <hbd-option>Lightning</hbd-option>
-              <hbd-option>Necrotic</hbd-option>
-              <hbd-option>Piercing</hbd-option>
-              <hbd-option>Poison</hbd-option>
-              <hbd-option>Psychic</hbd-option>
-              <hbd-option>Radiant</hbd-option>
-              <hbd-option>Slashing</hbd-option>
-              <hbd-option>Thunder</hbd-option>
-            </hbd-combobox>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-combobox label="Damage types" mode="multi"
-  placeholder="Add damage types..."
-  values='[{"value":"Fire","label":"Fire"},{"value":"Lightning","label":"Lightning"}]'&gt;
-  &lt;hbd-option&gt;Acid&lt;/hbd-option&gt;
-  &lt;!-- ... --&gt;
-&lt;/hbd-combobox&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · Async / server-side -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Async / server-side search</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-combobox id="demo-combo-async"
-              label="Search compendium"
-              placeholder="Search for spells, items, monsters..."
-              no-filter></hbd-combobox>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-combobox label="Search compendium" placeholder="..." no-filter&gt;&lt;/hbd-combobox&gt;
-&lt;script&gt;
-  combo.addEventListener('hbd:search', async (e) =&gt; {
-    const results = await fetch(`/api/search?q=${e.detail.query}`).then(r =&gt; r.json());
-    combo.setOptions(results);
-  });
-&lt;/script&gt;</code></pre>
-          </details>
-          <script>
-            /* Simulate a 500ms async backend that returns three matching results. */
-            (function () {
-              function wire() {
-                var el = document.getElementById('demo-combo-async');
-                if (!el || typeof el.setOptions !== 'function') return setTimeout(wire, 50);
-                el.addEventListener('hbd:search', function (e) {
-                  var q = (e.detail.query || '').trim();
-                  setTimeout(function () {
-                    if (!q) { el.setOptions([]); return; }
-                    el.setOptions([
-                      { value: q + '-spell',   label: q + ' (spell)' },
-                      { value: q + '-monster', label: q + ' (monster)' },
-                      { value: q + '-item',    label: q + ' (item)' },
-                    ]);
-                  }, 500);
-                });
-              }
-              wire();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-combobox label="Default" placeholder="Type to search...">
-              <hbd-option>Alpha</hbd-option>
-              <hbd-option>Beta</hbd-option>
-              <hbd-option>Gamma</hbd-option>
-            </hbd-combobox>
-            <hbd-combobox label="Disabled" placeholder="Cannot search" disabled>
-              <hbd-option>Alpha</hbd-option>
-              <hbd-option>Beta</hbd-option>
-              <hbd-option>Gamma</hbd-option>
-            </hbd-combobox>
-            <hbd-combobox label="Error" placeholder="Type to search..." error="A selection is required.">
-              <hbd-option>Alpha</hbd-option>
-              <hbd-option>Beta</hbd-option>
-              <hbd-option>Gamma</hbd-option>
-            </hbd-combobox>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-combobox label="Default"&gt;…&lt;/hbd-combobox&gt;
-&lt;hbd-combobox label="Disabled" disabled&gt;…&lt;/hbd-combobox&gt;
-&lt;hbd-combobox label="Error" error="A selection is required."&gt;…&lt;/hbd-combobox&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Combobox divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="10" y="16" width="24" height="12" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <line x1="14" y1="22" x2="22" y2="22" stroke="#7a1212" stroke-width="1.2"/>
-        <path d="M27 21l2 2 2-2" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · DATE PICKER ══════════════════════ -->
-    <section class="ds-section" id="component-date-picker" aria-labelledby="heading-date-picker">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·19</span>
-        <h2 class="ds-section__heading" id="heading-date-picker">Date Picker</h2>
-        <p class="ds-section__description">
-          Date pickers allow users to select a date, a date and time, or a date range from a
-          calendar interface. Use for scheduled events, bookings, and any input where date
-          precision matters. Rendered as <code>&lt;hbd-date-picker&gt;</code>. Locale-aware
-          month/weekday/day labels via <code>Intl.DateTimeFormat</code>; grid keyboard pattern
-          per APG (Arrows / Home / End / PageUp / PageDown / Enter / Escape).
-        </p>
-
-        <!-- Group 1 · Single date -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Single date</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-date-picker
-              label="Session date"
-              value="2024-03-15"
-              hint="Pick the date for your next session."></hbd-date-picker>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-date-picker
-  label="Session date"
-  value="2024-03-15"
-  hint="Pick the date for your next session."&gt;&lt;/hbd-date-picker&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · Date range -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Date range</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-date-picker
-              variant="date-range"
-              label="Campaign duration"
-              value-start="2024-03-01"
-              value-end="2024-03-31"></hbd-date-picker>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-date-picker variant="date-range" label="Campaign duration"
-  value-start="2024-03-01" value-end="2024-03-31"&gt;&lt;/hbd-date-picker&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · With min and max -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With min and max</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-date-picker
-              label="Available dates"
-              value="2024-03-15"
-              min="2024-03-01"
-              max="2024-03-31"
-              hint="Only dates in March 2024 are selectable."></hbd-date-picker>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-date-picker label="Available dates"
-  min="2024-03-01" max="2024-03-31"&gt;&lt;/hbd-date-picker&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · Date-time -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Date and time</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-date-picker
-              variant="date-time"
-              label="Ritual scheduled for"
-              hint="Pick a date, then the time of day below the calendar."></hbd-date-picker>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-date-picker variant="date-time"
-  label="Ritual scheduled for"&gt;&lt;/hbd-date-picker&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--hbd-space-6);align-items:start;">
-            <hbd-date-picker label="Default" hint="Standard date picker."></hbd-date-picker>
-            <hbd-date-picker label="Disabled" value="2024-03-15" disabled></hbd-date-picker>
-            <hbd-date-picker label="Error" error="A date is required."></hbd-date-picker>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-date-picker label="Default"&gt;&lt;/hbd-date-picker&gt;
-&lt;hbd-date-picker label="Disabled" value="2024-03-15" disabled&gt;&lt;/hbd-date-picker&gt;
-&lt;hbd-date-picker label="Error" error="A date is required."&gt;&lt;/hbd-date-picker&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Date Picker divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="11" y="14" width="22" height="18" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <line x1="11" y1="20" x2="33" y2="20" stroke="#7a5a22" stroke-width="1.2"/>
-        <line x1="16" y1="11" x2="16" y2="16" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="28" y1="11" x2="28" y2="16" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="22" cy="26" r="2" fill="#7a1212"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ COMPONENT · OTP INPUT ══════════════════════ -->
-    <section class="ds-section" id="component-otp-input" aria-labelledby="heading-otp-input">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">C·20</span>
-        <h2 class="ds-section__heading" id="heading-otp-input">OTP Input</h2>
-        <p class="ds-section__description">
-          OTP inputs capture short verification codes entered one character at a time. Focus
-          advances automatically on entry, Backspace on an empty cell jumps back, Arrow keys move
-          between cells, and pasting a code splits it across cells. Rendered as
-          <code>&lt;hbd-otp-input&gt;</code>. The first cell carries <code>autocomplete</code> for
-          OS-level autofill of SMS codes.
-        </p>
-
-        <!-- Group 1 · 6-digit numeric (default) -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">6-digit numeric (default)</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-otp-input
-              length="6"
-              label="Verification code"
-              hint="Enter the 6-digit code sent to your spellbook."
-              autocomplete="one-time-code"></hbd-otp-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input length="6" label="Verification code"
-  hint="Enter the 6-digit code sent to your spellbook."
-  autocomplete="one-time-code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 2 · 4-digit numeric -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">4-digit numeric</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-otp-input
-              length="4"
-              label="PIN"
-              hint="Enter your 4-digit adventurer PIN."></hbd-otp-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input length="4" label="PIN"
-  hint="Enter your 4-digit adventurer PIN."&gt;&lt;/hbd-otp-input&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 3 · With separator -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">With separator</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-otp-input
-              length="6"
-              separator
-              label="Access code"
-              hint="A dash separates the two groups of three digits."></hbd-otp-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input length="6" separator label="Access code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 4 · Alphanumeric -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Alphanumeric</h3>
-          <div class="ds-preview-canvas" style="align-items:stretch;">
-            <hbd-otp-input
-              length="6"
-              type="alphanumeric"
-              label="Invite code"
-              hint="Enter the alphanumeric code from your invitation scroll."></hbd-otp-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input length="6" type="alphanumeric" label="Invite code"&gt;&lt;/hbd-otp-input&gt;</code></pre>
-          </details>
-        </div>
-
-        <!-- Group 5 · States -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">States</h3>
-          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:1fr;gap:var(--hbd-space-6);align-items:start;">
-            <hbd-otp-input id="otp-partial"
-              length="6"
-              label="Partially filled"
-              hint="The first 3 cells are pre-populated via setValue()."></hbd-otp-input>
-            <hbd-otp-input
-              length="6"
-              label="Error"
-              error="Invalid code. Please try again."></hbd-otp-input>
-            <hbd-otp-input
-              length="6"
-              label="Disabled"
-              disabled></hbd-otp-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input length="6" label="Error" error="Invalid code. Please try again."&gt;&lt;/hbd-otp-input&gt;
-&lt;hbd-otp-input length="6" label="Disabled" disabled&gt;&lt;/hbd-otp-input&gt;</code></pre>
-          </details>
-          <script>
-            /* Pre-fill the first three cells via the public setValue() API. */
-            (function () {
-              function seed() {
-                var el = document.getElementById('otp-partial');
-                if (!el || typeof el.setValue !== 'function') return setTimeout(seed, 50);
-                el.setValue('123');
-              }
-              seed();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 6 · Success -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Success</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
-            <hbd-otp-input id="otp-success"
-              length="6"
-              label="Verification code"
-              hint="Try entering any 6 digits to see the success state."></hbd-otp-input>
-            <span id="otp-success-msg" class="hbd-text-label" style="display:none;color:var(--hbd-color-forest-700);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);">Code accepted.</span>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-otp-input id="otp-success" length="6" label="Verification code"&gt;&lt;/hbd-otp-input&gt;
-&lt;script&gt;
-  document.getElementById('otp-success').addEventListener('hbd:complete', (e) =&gt; {
-    e.target.setAttribute('success', '');
-    document.getElementById('otp-success-msg').style.display = 'inline';
-  });
-&lt;/script&gt;</code></pre>
-          </details>
-          <script>
-            (function () {
-              function wire() {
-                var el = document.getElementById('otp-success');
-                if (!el) return setTimeout(wire, 50);
-                el.addEventListener('hbd:complete', function () {
-                  el.setAttribute('success', '');
-                  var msg = document.getElementById('otp-success-msg');
-                  if (msg) msg.style.display = 'inline';
-                });
-              }
-              wire();
-            })();
-          </script>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · OTP divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <rect x="10" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <rect x="19" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <rect x="28" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
-        <circle cx="13" cy="22" r="1" fill="#7a1212"/>
-        <circle cx="22" cy="22" r="1" fill="#7a1212"/>
-      </svg>
-    </div>
-
-    <!-- ══════════════════════ PATTERN · FORM VALIDATION ══════════════════════ -->
-    <section class="ds-section" id="pattern-form-validation" aria-labelledby="heading-form-validation">
-      <div class="container">
-        <span class="section-numeral" aria-hidden="true">P·1</span>
-        <h2 class="ds-section__heading" id="heading-form-validation">Form Validation</h2>
-        <p class="ds-section__description">
-          All form components use a consistent validation pattern. Errors appear inline below the
-          field, are linked to the input via <code>aria-describedby</code>, carry
-          <code>aria-invalid="true"</code>, and announce immediately via
-          <code>role="alert"</code>. Success and warning states follow the same structural pattern
-          (<code>role="status"</code> for non-urgent updates). This is a pattern, not a component
-          — every form input above already implements it.
-        </p>
-
-        <!-- Group 1 · Validation states -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Validation states</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
-            <hbd-input label="Default" placeholder="Type a character name…"
-              hint="No validation has run yet."></hbd-input>
-            <hbd-input label="Error" value="Bilbo"
-              error="That name is already taken."></hbd-input>
-            <hbd-input id="vp-warning-input" label="Warning" value="bilbo"
-              hint="Name should start with a capital letter."></hbd-input>
-            <hbd-input label="Success" value="Aragorn"
-              success="Name is available."></hbd-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-input label="Default" hint="No validation has run yet."&gt;&lt;/hbd-input&gt;
-&lt;hbd-input label="Error"   error="That name is already taken."&gt;&lt;/hbd-input&gt;
-&lt;hbd-input label="Success" success="Name is available."&gt;&lt;/hbd-input&gt;
-
-&lt;!-- Warning is a UI-only state (HTML5 has no native warning validity).
-     Apply the .hbd-field--warning class and a .hbd-field__warning span. --&gt;</code></pre>
-          </details>
-          <script>
-            /* Promote the Warning input into the warning state by reaching
-               into its shadow root and toggling the class + adding a
-               .hbd-field__warning span. Warning is intentionally a CSS-
-               only state — no native validity equivalent. */
-            (function () {
-              function applyWarning() {
-                var host = document.getElementById('vp-warning-input');
-                if (!host || !host.shadowRoot) return setTimeout(applyWarning, 50);
-                var field = host.shadowRoot.querySelector('.hbd-field');
-                if (!field) return setTimeout(applyWarning, 50);
-                field.classList.add('hbd-field--warning');
-                var footer = field.querySelector('.hbd-field__footer');
-                if (footer && !footer.querySelector('.hbd-field__warning')) {
-                  var w = document.createElement('span');
-                  w.className = 'hbd-field__warning';
-                  w.setAttribute('role', 'status');
-                  w.textContent = 'Name should start with a capital letter.';
-                  footer.appendChild(w);
-                }
-              }
-              applyWarning();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 2 · Validate on blur -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Validate on blur</h3>
-          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
-            Tab through these fields without filling them to trigger errors. The validation
-            message stays hidden until each field has been focused and blurred.
-          </p>
-          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:flex-start;flex-wrap:wrap;">
-            <hbd-input id="vp-blur-name" label="Character name" required
-              error="Character name is required."></hbd-input>
-            <hbd-input id="vp-blur-email" type="email" label="Scroll delivery" required
-              error="A valid email is required."></hbd-input>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-input label="Character name" required error="Required."&gt;&lt;/hbd-input&gt;
-
-&lt;!-- Add the .hbd-field--validate-on-blur modifier + add .hbd-field--touched
-     on first blur. The CSS hides the error/warning/success until touched. --&gt;</code></pre>
-          </details>
-          <script>
-            /* Apply validate-on-blur to two fields. Reach into the shadow
-               root once, add the modifier class to the .hbd-field wrapper,
-               and listen for blur on the native input to flip --touched. */
-            (function () {
-              function wire(hostId) {
-                var host = document.getElementById(hostId);
-                if (!host || !host.shadowRoot) return setTimeout(function () { wire(hostId); }, 50);
-                var field = host.shadowRoot.querySelector('.hbd-field');
-                var input = host.shadowRoot.querySelector('.hbd-field__input');
-                if (!field || !input) return setTimeout(function () { wire(hostId); }, 50);
-                field.classList.add('hbd-field--validate-on-blur');
-                input.addEventListener('blur', function () {
-                  field.classList.add('hbd-field--touched');
-                });
-              }
-              wire('vp-blur-name');
-              wire('vp-blur-email');
-            })();
-          </script>
-        </div>
-
-        <!-- Group 3 · Form error summary -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Form error summary</h3>
-          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
-            <div id="vp-error-summary" class="hbd-form-error-summary" role="alert" style="display:none;">
-              <h4 class="hbd-form-error-summary__heading">3 errors prevented this form from being submitted:</h4>
-              <ul class="hbd-form-error-summary__list">
-                <li class="hbd-form-error-summary__item">
-                  <a class="hbd-form-error-summary__link" href="#vp-form-name">Character name is required.</a>
-                </li>
-                <li class="hbd-form-error-summary__item">
-                  <a class="hbd-form-error-summary__link" href="#vp-form-email">A valid email is required.</a>
-                </li>
-                <li class="hbd-form-error-summary__item">
-                  <a class="hbd-form-error-summary__link" href="#vp-form-class">A character class must be chosen.</a>
-                </li>
-              </ul>
-            </div>
-            <hbd-input id="vp-form-name" label="Character name" required
-              error="Character name is required."></hbd-input>
-            <hbd-input id="vp-form-email" type="email" label="Email" required
-              error="A valid email is required."></hbd-input>
-            <hbd-select id="vp-form-class" label="Class" required
-              error="A character class must be chosen."
-              placeholder="Choose a class…">
-              <hbd-option value="wizard">Wizard</hbd-option>
-              <hbd-option value="rogue">Rogue</hbd-option>
-              <hbd-option value="paladin">Paladin</hbd-option>
-            </hbd-select>
-            <button type="button" id="vp-submit"
-                    class="hbd-button hbd-button--primary"
-                    style="align-self:flex-start;">Submit</button>
-          </div>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;div class="hbd-form-error-summary" role="alert"&gt;
-  &lt;h4 class="hbd-form-error-summary__heading"&gt;
-    3 errors prevented this form from being submitted:
-  &lt;/h4&gt;
-  &lt;ul class="hbd-form-error-summary__list"&gt;
-    &lt;li class="hbd-form-error-summary__item"&gt;
-      &lt;a class="hbd-form-error-summary__link" href="#field-id"&gt;Character name is required.&lt;/a&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/div&gt;</code></pre>
-          </details>
-          <script>
-            /* Show the summary on Submit, and make each link jump to the
-               actual native input INSIDE the shadow root (not just the
-               component host) so focus moves to the control itself. */
-            (function () {
-              function inputFor(hostId) {
-                var host = document.getElementById(hostId);
-                if (!host || !host.shadowRoot) return null;
-                return host.shadowRoot.querySelector('.hbd-field__input')
-                    || host.shadowRoot.querySelector('.hbd-field__select-trigger')
-                    || host.shadowRoot.querySelector('input,select,textarea,button');
-              }
-              function ready() {
-                var btn = document.getElementById('vp-submit');
-                if (!btn) return setTimeout(ready, 50);
-                var summary = document.getElementById('vp-error-summary');
-                btn.addEventListener('click', function () {
-                  summary.style.display = '';
-                  // Move focus to the summary so SR announces it.
-                  summary.setAttribute('tabindex', '-1');
-                  summary.focus();
-                });
-                ['vp-form-name', 'vp-form-email', 'vp-form-class'].forEach(function (id) {
-                  var link = document.querySelector('a.hbd-form-error-summary__link[href="#' + id + '"]');
-                  if (!link) return;
-                  link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    var target = inputFor(id);
-                    if (target) target.focus();
-                  });
-                });
-              }
-              ready();
-            })();
-          </script>
-        </div>
-
-        <!-- Group 4 · Required field convention -->
-        <div class="ds-preview-group">
-          <h3 class="ds-preview-group__label">Required field convention</h3>
-          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:flex-start;flex-wrap:wrap;">
-            <hbd-input label="Character name" required
-              hint="An asterisk marks required fields."></hbd-input>
-            <hbd-input label="Backstory (optional)"
-              hint="Optional fields show '(optional)' in the label."></hbd-input>
-          </div>
-          <p class="hbd-text-body" style="margin-top:var(--hbd-space-3);max-width:60ch;color:var(--hbd-color-text-secondary);">
-            <strong>Mark the minority.</strong> If most of your fields are required, mark only the
-            optional ones with <code>(optional)</code>. If most are optional, mark the required
-            ones with an asterisk. Required fields always carry <code>aria-required="true"</code>;
-            the asterisk has <code>aria-hidden="true"</code> so it isn't read aloud twice.
-          </p>
-          <details class="ds-preview-code">
-            <summary>View code</summary>
-            <pre><code>&lt;hbd-input label="Character name" required&gt;&lt;/hbd-input&gt;
-&lt;!-- Renders: label + visible "*" (aria-hidden) + aria-required="true" on input --&gt;
-
-&lt;hbd-input label="Backstory (optional)"&gt;&lt;/hbd-input&gt;
-&lt;!-- No required attribute, "(optional)" baked into the visible label --&gt;</code></pre>
-          </details>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── SIGIL · Form Validation divider ── -->
-    <div class="sigil-divider" role="presentation" aria-hidden="true">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
-        <path d="M14 22l5 5 11-11" stroke="#b8893b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <circle cx="22" cy="22" r="13" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
-      </svg>
-    </div>
-
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
       <div class="container">
@@ -6678,6 +5019,655 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       </svg>
     </div>
 
+    <!-- ══════════════════════ VIII. FORM CONTROLS (LEGACY — REMOVED) ══════════════════════ -->
+    <!-- Legacy hand-built form-control demos, superseded by migrated web components
+         (<hbd-input>, etc.). Hidden from render/tab order/AT. Safe to delete this
+         entire <section> in a cleanup pass. -->
+    <section class="ds-section" id="form-controls" aria-labelledby="form-controls-title" hidden>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">VIII</span>
+        <h2 class="section-title" id="form-controls-title">Form Controls</h2>
+
+        <p style="max-width:65ch;margin-bottom:var(--space-12);color:var(--ink-brown);">Every interactive control inscribed in iron-gall ink, anchored to the 4px grid, and bound to WCAG 2.2 AA. Each variant includes keyboard support, <code style="font-family:var(--font-mono);font-size:0.875rem;background:var(--shadow);color:#c4b89a;padding:1px 6px;">:focus-visible</code> outlines, and reduced-motion compliance.</p>
+
+        <!-- ── 1. Buttons: Icon · Split · Toggle ── -->
+        <h3 class="sub-head">Buttons — Icon · Split · Toggle</h3>
+        <div class="btn-row" style="flex-wrap:wrap;align-items:flex-start;gap:var(--space-8);">
+
+          <!-- Icon Buttons -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">Icon Button</span>
+            <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+              <button class="btn btn--icon" type="button" aria-label="Search the Compendium" title="Search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="btn btn--icon btn--primary" type="button" aria-label="Roll the dice" title="Roll">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M9 2L16 6V12L9 16L2 12V6L9 2Z" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
+                </svg>
+              </button>
+              <button class="btn btn--icon btn--gold" type="button" aria-label="Bookmark this entry" title="Bookmark">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M4 2H14V16L9 12.5L4 16V2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="btn btn--icon" type="button" aria-label="Close this panel" title="Close" disabled>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M4 4L14 14M14 4L4 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <p class="form-hint" style="margin-top:var(--space-3);">Always provide <code style="font-family:var(--font-mono);background:var(--shadow);color:#c4b89a;padding:1px 4px;font-size:0.75rem;">aria-label</code></p>
+          </div>
+
+          <!-- Split Buttons -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">Split Button</span>
+            <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+              <div class="split-btn" role="group" aria-label="Cast Spell options">
+                <button class="btn btn--primary" type="button">Cast Spell</button>
+                <button class="btn btn--primary btn--dropdown btn--icon" type="button" aria-label="More casting options" aria-haspopup="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="split-btn" role="group" aria-label="Add to collection options">
+                <button class="btn btn--gold" type="button">Add to Hoard</button>
+                <button class="btn btn--gold btn--dropdown btn--icon" type="button" aria-label="More collection options" aria-haspopup="true">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toggle Buttons -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">Toggle Button</span>
+            <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+              <button class="btn btn--toggle" type="button" aria-pressed="false"
+                      onclick="this.setAttribute('aria-pressed',this.getAttribute('aria-pressed')==='true'?'false':'true')">Arcane</button>
+              <button class="btn btn--toggle btn--primary" type="button" aria-pressed="true"
+                      onclick="this.setAttribute('aria-pressed',this.getAttribute('aria-pressed')==='true'?'false':'true')">Ritual</button>
+              <button class="btn btn--toggle" type="button" aria-pressed="false"
+                      onclick="this.setAttribute('aria-pressed',this.getAttribute('aria-pressed')==='true'?'false':'true')">Concentration</button>
+            </div>
+            <p class="form-hint" style="margin-top:var(--space-3);">Click to toggle — <code style="font-family:var(--font-mono);background:var(--shadow);color:#c4b89a;padding:1px 4px;font-size:0.75rem;">aria-pressed</code> updates on each interaction</p>
+          </div>
+        </div><!-- /btn-row -->
+
+        <!-- ── 2. Text Input · Textarea ── -->
+        <h3 class="sub-head">Text Input · Textarea</h3>
+        <div class="form-section-grid">
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="inp-char-name">Character Name</label>
+              <input class="form-input" id="inp-char-name" type="text" placeholder="e.g. Aldric Stormweave" autocomplete="off">
+              <span class="form-hint">Enter your adventurer's true name</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inp-filled">Race &amp; Class</label>
+              <input class="form-input" id="inp-filled" type="text" value="Half-Elf Wizard (level 10)">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inp-disabled" style="color:var(--ink-faded);">Locked Field <small style="font-size:0.7em;">(disabled)</small></label>
+              <input class="form-input" id="inp-disabled" type="text" value="Level 10" disabled>
+            </div>
+            <div class="form-group" aria-describedby="inp-err-msg">
+              <label class="form-label" for="inp-error" style="color:var(--blood);">Spell Save DC <span aria-hidden="true">✦</span></label>
+              <input class="form-input" id="inp-error" type="text" value="xyz" aria-invalid="true"
+                     style="border-color:var(--blood);box-shadow:2px 2px 0 var(--blood-deep);">
+              <span id="inp-err-msg" role="alert" style="font-family:var(--font-flavor);font-style:italic;font-size:0.8rem;color:var(--blood);">Numerals only — a DC must be a number (e.g. 15).</span>
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="textarea-backstory">Character Backstory</label>
+              <textarea class="form-textarea" id="textarea-backstory" rows="5" placeholder="Describe your adventurer's history, motivations, and secrets…"></textarea>
+              <span class="form-hint">Supports up to 2,000 characters</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="textarea-notes">Session Notes</label>
+              <textarea class="form-textarea" id="textarea-notes" rows="4">The party descended into the ruined library beneath Thornwall. Brom found a sealed phylactery — we agreed to leave it undisturbed until morning light.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. Select · Combobox ── -->
+        <h3 class="sub-head">Select · Combobox</h3>
+        <div class="form-section-grid">
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="sel-school">Spell School</label>
+              <div class="form-select-wrap">
+                <select class="form-select" id="sel-school">
+                  <option value="">— Choose a school —</option>
+                  <option value="abjuration">Abjuration</option>
+                  <option value="conjuration">Conjuration</option>
+                  <option value="divination">Divination</option>
+                  <option value="enchantment" selected>Enchantment</option>
+                  <option value="evocation">Evocation</option>
+                  <option value="illusion">Illusion</option>
+                  <option value="necromancy">Necromancy</option>
+                  <option value="transmutation">Transmutation</option>
+                </select>
+              </div>
+              <span class="form-hint">Filter the Compendium by school of magic</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sel-level">Spell Level</label>
+              <div class="form-select-wrap">
+                <select class="form-select" id="sel-level">
+                  <option value="0">Cantrip (0)</option>
+                  <option value="1">1st Level</option>
+                  <option value="2">2nd Level</option>
+                  <option value="3" selected>3rd Level</option>
+                  <option value="4">4th Level</option>
+                  <option value="5">5th Level</option>
+                  <option value="6">6th Level</option>
+                  <option value="7">7th Level</option>
+                  <option value="8">8th Level</option>
+                  <option value="9">9th Level</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="cmb-creature">Creature Search</label>
+              <div class="form-combobox-wrap">
+                <input class="form-input" id="cmb-creature" type="text"
+                       role="combobox" aria-expanded="true" aria-autocomplete="list"
+                       aria-controls="cmb-creature-list" aria-activedescendant="cbl-1"
+                       placeholder="Type a creature name…" value="dr" autocomplete="off">
+                <svg class="form-combobox-wrap__arrow" width="14" height="14" viewBox="0 0 14 14"
+                     fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2 5L7 10L12 5" stroke="#3d2817" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <ul id="cmb-creature-list" role="listbox" aria-label="Creature suggestions"
+                    class="form-combobox-list">
+                  <li role="option" aria-selected="true" id="cbl-1">Ancient Red Dragon</li>
+                  <li role="option" aria-selected="false" id="cbl-2">Drider</li>
+                  <li role="option" aria-selected="false" id="cbl-3">Drow Elite Warrior</li>
+                  <li role="option" aria-selected="false" id="cbl-4">Druid (NPC)</li>
+                </ul>
+              </div>
+              <span class="form-hint">Searches by name, creature type, or CR</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmb-spell">Spell Lookup</label>
+              <div class="form-combobox-wrap">
+                <input class="form-input" id="cmb-spell" type="text"
+                       role="combobox" aria-expanded="false" aria-autocomplete="list"
+                       aria-controls="cmb-spell-list" placeholder="Type a spell name…" autocomplete="off">
+                <svg class="form-combobox-wrap__arrow" width="14" height="14" viewBox="0 0 14 14"
+                     fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2 5L7 10L12 5" stroke="#3d2817" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <ul id="cmb-spell-list" role="listbox" aria-label="Spell suggestions"
+                    class="form-combobox-list" hidden></ul>
+              </div>
+              <span class="form-hint">Searches across all 8 schools and all levels</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 4. Checkbox · Radio · Switch ── -->
+        <h3 class="sub-head">Checkbox · Radio · Switch</h3>
+        <div class="form-section-grid">
+          <div>
+            <!-- Checkboxes -->
+            <fieldset style="border:none;padding:0;margin-bottom:var(--space-8);">
+              <legend class="form-label" style="margin-bottom:var(--space-4);">Weapon Proficiencies</legend>
+              <div class="form-checkbox-group">
+                <label class="form-checkbox-label">
+                  <input type="checkbox" checked>
+                  <span class="form-checkbox-custom" aria-hidden="true"></span>
+                  <span>Simple Weapons</span>
+                </label>
+                <label class="form-checkbox-label">
+                  <input type="checkbox" checked>
+                  <span class="form-checkbox-custom" aria-hidden="true"></span>
+                  <span>Martial Weapons</span>
+                </label>
+                <label class="form-checkbox-label">
+                  <input type="checkbox">
+                  <span class="form-checkbox-custom" aria-hidden="true"></span>
+                  <span>Exotic Weapons</span>
+                </label>
+                <label class="form-checkbox-label">
+                  <input type="checkbox" disabled>
+                  <span class="form-checkbox-custom" aria-hidden="true" style="opacity:0.45;cursor:not-allowed;"></span>
+                  <span style="opacity:0.45;cursor:not-allowed;">Improvised Weapons (class-locked)</span>
+                </label>
+              </div>
+            </fieldset>
+            <!-- Switches -->
+            <fieldset style="border:none;padding:0;">
+              <legend class="form-label" style="margin-bottom:var(--space-4);">Active Conditions</legend>
+              <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <label class="form-switch-label">
+                  <input type="checkbox" role="switch" aria-checked="true" checked>
+                  <span class="form-switch-track" aria-hidden="true"><span class="form-switch-thumb"></span></span>
+                  <span>Concentration</span>
+                </label>
+                <label class="form-switch-label">
+                  <input type="checkbox" role="switch" aria-checked="false">
+                  <span class="form-switch-track" aria-hidden="true"><span class="form-switch-thumb"></span></span>
+                  <span>Prone</span>
+                </label>
+                <label class="form-switch-label">
+                  <input type="checkbox" role="switch" aria-checked="true" checked>
+                  <span class="form-switch-track" aria-hidden="true"><span class="form-switch-thumb"></span></span>
+                  <span>Bardic Inspiration</span>
+                </label>
+                <label class="form-switch-label">
+                  <input type="checkbox" role="switch" aria-checked="false" disabled>
+                  <span class="form-switch-track" aria-hidden="true" style="opacity:0.45;cursor:not-allowed;"><span class="form-switch-thumb"></span></span>
+                  <span style="opacity:0.45;">Charmed (locked)</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+          <div>
+            <!-- Radio group -->
+            <fieldset style="border:none;padding:0;">
+              <legend class="form-label" style="margin-bottom:var(--space-4);">Character Alignment</legend>
+              <div class="form-radio-group">
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="lg">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Lawful Good</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="ng" checked>
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Neutral Good</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="cg">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Chaotic Good</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="tn">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>True Neutral</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="ln">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Lawful Neutral</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="ce">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Chaotic Evil</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="le">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Lawful Evil</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="ne">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Neutral Evil</span>
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alignment" value="cn">
+                  <span class="form-radio-custom" aria-hidden="true"></span>
+                  <span>Chaotic Neutral</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <!-- ── 5. Dropdown Menu ── -->
+        <h3 class="sub-head">Dropdown Menu</h3>
+        <div class="btn-row" style="flex-wrap:wrap;align-items:flex-start;gap:var(--space-8);margin-bottom:var(--space-12);">
+
+          <!-- Standard action dropdown -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">Actions Menu</span>
+            <div class="dropdown" id="dd-actions">
+              <button class="btn" type="button"
+                      aria-haspopup="menu" aria-expanded="true" aria-controls="dd-actions-menu"
+                      onclick="toggleDropdown('dd-actions')">
+                Spell Options
+                <svg style="margin-left:var(--space-2);vertical-align:middle;" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <ul id="dd-actions-menu" role="menu" aria-label="Spell Options" class="dropdown__menu">
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2L10 6H14L11 9L12 13L8 10.5L4 13L5 9L2 6H6Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                  </span>
+                  Cast at Higher Level
+                  <span class="dropdown__kbd">⌘↑</span>
+                </button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 5.5V8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="10.5" r="0.75" fill="currentColor"/></svg>
+                  </span>
+                  View Spell Details
+                  <span class="dropdown__kbd">⌘I</span>
+                </button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 2H12V14L8 11L4 14V2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                  </span>
+                  Add to Spellbook
+                </button></li>
+                <li role="separator"><hr class="dropdown__separator"></li>
+                <li role="none"><button class="dropdown__item dropdown__item--danger" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4H13M6 4V2H10V4M5 4L5.5 13H10.5L11 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Remove from Compendium
+                </button></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Grouped dropdown -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">Grouped Menu</span>
+            <div class="dropdown" id="dd-grouped">
+              <button class="btn btn--primary" type="button"
+                      aria-haspopup="menu" aria-expanded="false" aria-controls="dd-grouped-menu"
+                      onclick="toggleDropdown('dd-grouped')">
+                Add Creature
+                <svg style="margin-left:var(--space-2);vertical-align:middle;" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <ul id="dd-grouped-menu" role="menu" aria-label="Add Creature" class="dropdown__menu" hidden>
+                <li role="presentation"><span class="dropdown__group-label">By Type</span></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">Aberration</button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">Celestial</button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">Dragon</button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">Undead</button></li>
+                <li role="separator"><hr class="dropdown__separator"></li>
+                <li role="presentation"><span class="dropdown__group-label">By CR</span></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">CR 1–5</button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">CR 6–15</button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button" aria-disabled="true">CR 16–30 <em style="font-family:var(--font-flavor);font-style:italic;font-size:0.85em;color:var(--ink-faded);">(Legendary)</em></button></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Gold/loot dropdown -->
+          <div>
+            <span class="eyebrow" style="margin-bottom:var(--space-4);display:block;">With Keyboard Hints</span>
+            <div class="dropdown" id="dd-loot">
+              <button class="btn btn--gold" type="button"
+                      aria-haspopup="menu" aria-expanded="false" aria-controls="dd-loot-menu"
+                      onclick="toggleDropdown('dd-loot')">
+                Manage Hoard
+                <svg style="margin-left:var(--space-2);vertical-align:middle;" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <ul id="dd-loot-menu" role="menu" aria-label="Manage Hoard" class="dropdown__menu" hidden>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M5 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </span>
+                  Add Item <span class="dropdown__kbd">⌘N</span>
+                </button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M8 3L13 8L8 13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Transfer to Party <span class="dropdown__kbd">⌘T</span>
+                </button></li>
+                <li role="none"><button class="dropdown__item" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4L8 2L14 4M2 4V14M14 4V14M2 14H14M5 7V11M8 6V11M11 7V11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Sell All Items
+                </button></li>
+                <li role="separator"><hr class="dropdown__separator"></li>
+                <li role="none"><button class="dropdown__item dropdown__item--danger" role="menuitem" type="button">
+                  <span class="dropdown__item__icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 4H13M6 4V2H10V4M5 4L5.5 13H10.5L11 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  Clear Entire Hoard <span class="dropdown__kbd">⌫</span>
+                </button></li>
+              </ul>
+            </div>
+          </div>
+
+        </div><!-- /btn-row -->
+
+        <!-- ── 6. Stepper · Date Picker · Time Picker ── -->
+        <h3 class="sub-head">Stepper · Date Picker · Time Picker</h3>
+        <div class="form-section-grid">
+          <div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-hp">Hit Points Maximum</label>
+              <div class="form-stepper" role="group" aria-labelledby="lbl-hp">
+                <button class="form-stepper__btn" type="button" aria-label="Decrease hit points"
+                        onclick="var i=this.nextElementSibling;i.value=Math.max(0,parseInt(i.value||0)-1);">−</button>
+                <input class="form-stepper__input" type="number" value="86" min="0" max="999"
+                       aria-label="Hit points maximum value">
+                <button class="form-stepper__btn" type="button" aria-label="Increase hit points"
+                        onclick="var i=this.previousElementSibling;i.value=Math.min(999,parseInt(i.value||0)+1);">+</button>
+              </div>
+              <span class="form-hint">8d6 + 30 (Wizard 10, CON +3)</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-gp">Gold Pieces</label>
+              <div class="form-stepper" role="group" aria-labelledby="lbl-gp">
+                <button class="form-stepper__btn" type="button" aria-label="Decrease gold by 10"
+                        onclick="var i=this.nextElementSibling;i.value=Math.max(0,parseInt(i.value||0)-10);">−</button>
+                <input class="form-stepper__input" type="number" value="340" min="0" max="99999"
+                       aria-label="Gold pieces value" style="width:80px;">
+                <button class="form-stepper__btn" type="button" aria-label="Increase gold by 10"
+                        onclick="var i=this.previousElementSibling;i.value=Math.min(99999,parseInt(i.value||0)+10);">+</button>
+              </div>
+              <span class="form-hint">Increments by 10 gp per click</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-xp">Experience Points</label>
+              <div class="form-stepper" role="group" aria-labelledby="lbl-xp">
+                <button class="form-stepper__btn" type="button" aria-label="Decrease XP by 100"
+                        onclick="var i=this.nextElementSibling;i.value=Math.max(0,parseInt(i.value||0)-100);">−</button>
+                <input class="form-stepper__input" type="number" value="64000" min="0" max="355000"
+                       aria-label="Experience points value" style="width:90px;">
+                <button class="form-stepper__btn" type="button" aria-label="Increase XP by 100"
+                        onclick="var i=this.previousElementSibling;i.value=Math.min(355000,parseInt(i.value||0)+100);">+</button>
+              </div>
+              <span class="form-hint">Increments by 100 XP · Level 10 threshold: 64,000</span>
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-dp-session">Next Session Date</label>
+              <div class="date-picker" id="dp-session" data-value="2024-07-20" aria-labelledby="lbl-dp-session">
+                <button class="date-picker__trigger" type="button"
+                        aria-haspopup="dialog" aria-expanded="false" aria-labelledby="lbl-dp-session">
+                  <span class="date-picker__value">20 Jul 2024</span>
+                  <svg class="date-picker__icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                    <rect x="2" y="3" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M2 7H16" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M6 1V4M12 1V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </button>
+                <div class="date-picker__panel" role="dialog" aria-label="Choose a date" hidden>
+                  <div class="date-picker__header">
+                    <button class="date-picker__nav" type="button" aria-label="Previous month" data-dir="-1">‹</button>
+                    <span class="date-picker__month-year"></span>
+                    <button class="date-picker__nav" type="button" aria-label="Next month" data-dir="1">›</button>
+                  </div>
+                  <div class="date-picker__weekdays" aria-hidden="true">
+                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                  </div>
+                  <div class="date-picker__grid" role="grid" aria-label="Calendar"></div>
+                </div>
+              </div>
+              <span class="form-hint">When the adventuring party next convenes</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="time-session">Session Start Time</label>
+              <input class="form-input" id="time-session" type="time" value="19:00">
+              <span class="form-hint">Local time — doors open at dusk</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" id="lbl-dp-campaign">Campaign Start Date</label>
+              <div class="date-picker" id="dp-campaign" data-value="2023-10-13" aria-labelledby="lbl-dp-campaign">
+                <button class="date-picker__trigger" type="button"
+                        aria-haspopup="dialog" aria-expanded="false" aria-labelledby="lbl-dp-campaign">
+                  <span class="date-picker__value">13 Oct 2023</span>
+                  <svg class="date-picker__icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                    <rect x="2" y="3" width="14" height="13" rx="1" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M2 7H16" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M6 1V4M12 1V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </button>
+                <div class="date-picker__panel" role="dialog" aria-label="Choose a date" hidden>
+                  <div class="date-picker__header">
+                    <button class="date-picker__nav" type="button" aria-label="Previous month" data-dir="-1">‹</button>
+                    <span class="date-picker__month-year"></span>
+                    <button class="date-picker__nav" type="button" aria-label="Next month" data-dir="1">›</button>
+                  </div>
+                  <div class="date-picker__weekdays" aria-hidden="true">
+                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                  </div>
+                  <div class="date-picker__grid" role="grid" aria-label="Calendar"></div>
+                </div>
+              </div>
+              <span class="form-hint">In the world of mortals, circa Year 1489 DR</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="time-encounter">Encounter Timestamp</label>
+              <input class="form-input" id="time-encounter" type="time" value="23:47">
+              <span class="form-hint">Hour of the wolf — a dangerous time</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 7. Autocomplete ── -->
+        <h3 class="sub-head">Autocomplete</h3>
+        <p style="max-width:65ch;margin-bottom:var(--space-8);color:var(--ink-brown);font-family:var(--font-flavor);font-style:italic;font-size:var(--text-flavor);">
+          Three variants — single-select with school badges and match highlighting, multi-select token chips, and grouped results with a simulated async loading state. All three support full keyboard navigation and ARIA live-region announcements.
+        </p>
+
+        <div class="form-section-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+
+          <!-- ─ 7a. Spell Search — single-select ─ -->
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="ac-spell-input">Spell Search</label>
+              <div class="ac-wrap">
+                <div class="ac-field" id="ac-spell-field"
+                     onclick="document.getElementById('ac-spell-input').focus()">
+                  <input class="ac-input" id="ac-spell-input" type="text"
+                         role="combobox" aria-expanded="false"
+                         aria-autocomplete="list" aria-controls="ac-spell-list"
+                         aria-haspopup="listbox"
+                         placeholder="Search by name or school…"
+                         autocomplete="off">
+                </div>
+                <div class="ac-controls">
+                  <button class="ac-clear" type="button" id="ac-spell-clear"
+                          aria-label="Clear spell search" hidden>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <ul id="ac-spell-list" role="listbox" aria-label="Matching spells"
+                    class="ac-listbox" hidden></ul>
+                <div role="status" aria-live="polite" aria-atomic="true"
+                     class="ac-live" id="ac-spell-live"></div>
+              </div>
+              <span class="form-hint">Focus the field to browse · type to filter by name or school</span>
+            </div>
+          </div>
+
+          <!-- ─ 7b. Creature Encounter — multi-select tokens ─ -->
+          <div>
+            <div class="form-group">
+              <label class="form-label" id="ac-creature-label">Party Encounters</label>
+              <div class="ac-wrap">
+                <div class="ac-field" id="ac-creature-field"
+                     onclick="document.getElementById('ac-creature-input').focus()">
+                  <input class="ac-input" id="ac-creature-input" type="text"
+                         role="combobox" aria-expanded="false"
+                         aria-autocomplete="list" aria-controls="ac-creature-list"
+                         aria-haspopup="listbox" aria-labelledby="ac-creature-label"
+                         placeholder="Add creatures to encounter…"
+                         autocomplete="off">
+                </div>
+                <div class="ac-controls">
+                  <button class="ac-clear" type="button" id="ac-creature-clear"
+                          aria-label="Remove all creatures" hidden>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <ul id="ac-creature-list" role="listbox" aria-label="Creature options"
+                    class="ac-listbox" hidden></ul>
+                <div role="status" aria-live="polite" aria-atomic="true"
+                     class="ac-live" id="ac-creature-live"></div>
+              </div>
+              <span class="form-hint">Select multiple · Backspace removes last · click × to remove a tag</span>
+            </div>
+          </div>
+
+          <!-- ─ 7c. Item Finder — grouped results + async loading ─ -->
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="ac-item-input">Item Finder</label>
+              <div class="ac-wrap">
+                <div class="ac-field" id="ac-item-field"
+                     onclick="document.getElementById('ac-item-input').focus()">
+                  <input class="ac-input" id="ac-item-input" type="text"
+                         role="combobox" aria-expanded="false"
+                         aria-autocomplete="list" aria-controls="ac-item-list"
+                         aria-haspopup="listbox"
+                         placeholder="Search magical items…"
+                         autocomplete="off">
+                </div>
+                <div class="ac-controls">
+                  <span class="ac-spinner" id="ac-item-spinner"
+                        hidden role="status" aria-label="Searching…"></span>
+                  <button class="ac-clear" type="button" id="ac-item-clear"
+                          aria-label="Clear item search" hidden>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <ul id="ac-item-list" role="listbox" aria-label="Matching items"
+                    class="ac-listbox" hidden></ul>
+                <div role="status" aria-live="polite" aria-atomic="true"
+                     class="ac-live" id="ac-item-live"></div>
+              </div>
+              <span class="form-hint">Results grouped by category · rarity badges · simulated async delay</span>
+            </div>
+          </div>
+
+        </div><!-- /autocomplete grid -->
+
+      </div>
+    </section>
 
     <!-- ── SIGIL IX: Eight-Pointed Seal ── -->
     <div class="sigil-divider" role="presentation" aria-hidden="true">
@@ -6710,6 +5700,177 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       </svg>
     </div>
 
+    <!-- ══════════════════════ XI. TIME PICKER (LEGACY — REMOVED) ══════════════════════ -->
+    <!-- Legacy hand-built time-picker demo, superseded by <hbd-time-picker>.
+         Hidden from render/tab order/AT. Safe to delete this entire <section>. -->
+    <section class="ds-section" id="time-picker" aria-labelledby="time-picker-title" hidden>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">XI</span>
+        <h2 class="section-title" id="time-picker-title">Time Picker</h2>
+
+        <p style="max-width:65ch;margin-bottom:var(--space-8);color:var(--ink-brown);">Scrollable hour and minute columns with medieval canonical-hour presets. Supports 12- and 24-hour formats, configurable minute steps, and AM/PM toggle. Follows the WAI-ARIA dialog pattern for the open panel.</p>
+
+        <!-- ─ Interactive demos ─ -->
+        <h3 class="sub-head">Live Demos</h3>
+        <div class="tp-demo-row" style="margin-bottom:var(--space-12);">
+          <div class="tp-demo-unit">
+            <span class="tp-demo-caption">12-Hour (default)</span>
+            <div class="tp-wrap" id="tp-ds-1" data-format="12" data-step="5"></div>
+          </div>
+          <div class="tp-demo-unit">
+            <span class="tp-demo-caption">24-Hour · 15-min step · value 14:30</span>
+            <div class="tp-wrap" id="tp-ds-2" data-format="24" data-step="15" data-value="14:30"></div>
+          </div>
+          <div class="tp-demo-unit">
+            <span class="tp-demo-caption">Pre-filled · 09:30</span>
+            <div class="tp-wrap" id="tp-ds-3" data-format="12" data-step="5" data-value="09:30"></div>
+          </div>
+          <div class="tp-demo-unit">
+            <span class="tp-demo-caption">Disabled</span>
+            <button type="button" class="tp-trigger" disabled aria-label="Disabled time picker" aria-haspopup="dialog" aria-expanded="false">
+              <svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true" focusable="false">
+                <path d="M1.5 1h10M1.5 15h10" stroke="#6b4f35" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M2.5 1.5L6.5 8L10.5 1.5Z" fill="#b8893b" stroke="#7a5a22" stroke-width="0.75"/>
+                <path d="M2.5 14.5L6.5 8L10.5 14.5Z" fill="#a88d5a" stroke="#7a5a22" stroke-width="0.75"/>
+              </svg>
+              <span class="tp-trigger-label tp-trigger--placeholder">Select the hour…</span>
+              <span class="tp-trigger-arrow" aria-hidden="true">▾</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ─ Anatomy reference ─ -->
+        <h3 class="sub-head">Anatomy</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-8);margin-bottom:var(--space-12);align-items:flex-start;">
+          <!-- Static panel cross-section -->
+          <div>
+            <p style="font-family:var(--font-display);font-size:0.6875rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:var(--space-3);">Panel cross-section</p>
+            <div style="background:var(--parchment-200);border:1.5px solid var(--ink-brown);box-shadow:4px 4px 0 var(--parchment-400);width:264px;font-family:var(--font-display);">
+              <!-- Header -->
+              <div style="padding:12px 16px 10px;border-bottom:1px solid var(--parchment-400);background:var(--parchment-300);display:flex;align-items:baseline;gap:2px;">
+                <span style="font-size:1.75rem;letter-spacing:0.04em;color:var(--ink-black);line-height:1;">09</span>
+                <span style="font-size:1.5rem;color:var(--gold-deep);padding:0 2px;line-height:1;">:</span>
+                <span style="font-size:1.75rem;letter-spacing:0.04em;color:var(--ink-black);line-height:1;">30</span>
+                <span style="font-size:0.6875rem;letter-spacing:0.2em;color:var(--gold-deep);margin-left:6px;align-self:flex-end;padding-bottom:2px;">AM</span>
+              </div>
+              <!-- Columns -->
+              <div style="display:flex;border-bottom:1px solid var(--parchment-400);">
+                <!-- Hour col -->
+                <div style="flex:1;border-right:1px solid var(--parchment-400);">
+                  <div style="font-size:0.5625rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-deep);text-align:center;padding:6px 4px 4px;border-bottom:1px solid var(--parchment-300);">Hour</div>
+                  <div style="overflow:hidden;">
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-faded);font-size:0.9375rem;">08</div>
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;background:var(--blood);color:var(--parchment-100);font-size:0.9375rem;">09</div>
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-faded);font-size:0.9375rem;">10</div>
+                  </div>
+                </div>
+                <!-- Minute col -->
+                <div style="flex:1;border-right:1px solid var(--parchment-400);">
+                  <div style="font-size:0.5625rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-deep);text-align:center;padding:6px 4px 4px;border-bottom:1px solid var(--parchment-300);">Min</div>
+                  <div style="overflow:hidden;">
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-faded);font-size:0.9375rem;">25</div>
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;background:var(--blood);color:var(--parchment-100);font-size:0.9375rem;">30</div>
+                    <div style="height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-faded);font-size:0.9375rem;">35</div>
+                  </div>
+                </div>
+                <!-- AM/PM col -->
+                <div style="width:52px;display:flex;flex-direction:column;">
+                  <div style="font-size:0.5625rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-deep);text-align:center;padding:6px 4px 4px;border-bottom:1px solid var(--parchment-300);">AM·PM</div>
+                  <div style="display:flex;flex-direction:column;justify-content:center;gap:8px;padding:8px;height:108px;">
+                    <button type="button" class="tp-ampm-btn is-active" style="pointer-events:none;">AM</button>
+                    <button type="button" class="tp-ampm-btn" style="pointer-events:none;">PM</button>
+                  </div>
+                </div>
+              </div>
+              <!-- Footer -->
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-top:1px solid var(--parchment-400);">
+                <span class="tp-clear-btn" style="pointer-events:none;">Clear</span>
+                <span class="tp-confirm-btn" style="pointer-events:none;">Confirm</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ─ Code ─ -->
+        <h3 class="sub-head">JSX Usage</h3>
+        <pre class="code-block" data-lang="JSX" style="margin-bottom:var(--space-12);"><code>&lt;TimePicker
+  value="09:30"
+  format="12"
+  minuteStep={15}
+  onChange={(val) =&gt; console.log(val)} {/* "HH:MM" or null */}
+/&gt;
+
+{/* 24-hour, quarter-hour grid */}
+&lt;TimePicker format="24" minuteStep={15} value="14:00" /&gt;
+
+{/* Disabled */}
+&lt;TimePicker disabled value="18:00" /&gt;
+
+{/* With associated label */}
+&lt;label htmlFor="tp-depart"&gt;Departure Time&lt;/label&gt;
+&lt;TimePicker id="tp-depart" ariaLabel="Departure time" /&gt;</code></pre>
+
+        <!-- ─ Sage Advice ─ -->
+        <div class="callout" style="max-width:65ch;margin-bottom:var(--space-8);">
+          <strong class="callout__head">Sage Advice</strong>
+          <p>Use <strong>minuteStep={15}</strong> or <strong>minuteStep={30}</strong> for scheduling flows where users select from a fixed grid. Reserve <code class="mono-pill" style="font-size:0.8125rem;">minuteStep={1}</code> for precise time entry (e.g. duration recording).</p>
+        </div>
+
+        <!-- ─ Accessibility ─ -->
+        <h3 class="sub-head">Accessibility</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-12);">
+          <div class="callout" style="background:var(--parchment-200);border-color:var(--parchment-400);">
+            <strong class="callout__head">ARIA Pattern</strong>
+            <ul style="margin:0;padding-left:1.2em;font-family:var(--font-mono);font-size:0.75rem;line-height:1.8;color:var(--ink-brown);">
+              <li>Trigger: <code>role="button"</code> <code>aria-haspopup="dialog"</code> <code>aria-expanded</code></li>
+              <li>Panel: <code>role="dialog"</code> <code>aria-label</code> <code>aria-modal="false"</code></li>
+              <li>Columns: <code>role="listbox"</code> with unique <code>aria-label</code></li>
+              <li>Rows: <code>role="option"</code> <code>aria-selected</code></li>
+              <li>Header: <code>aria-hidden="true"</code> — decorative only</li>
+            </ul>
+          </div>
+          <div class="callout" style="background:var(--parchment-200);border-color:var(--parchment-400);">
+            <strong class="callout__head">Keyboard &amp; Focus</strong>
+            <ul style="margin:0;padding-left:1.2em;font-family:var(--font-mono);font-size:0.75rem;line-height:1.8;color:var(--ink-brown);">
+              <li><kbd style="background:var(--parchment-300);padding:1px 4px;border:1px solid var(--parchment-400);">Esc</kbd> — close panel, return focus to trigger</li>
+              <li><kbd style="background:var(--parchment-300);padding:1px 4px;border:1px solid var(--parchment-400);">Enter</kbd> / <kbd style="background:var(--parchment-300);padding:1px 4px;border:1px solid var(--parchment-400);">Space</kbd> — select focused option</li>
+              <li>Click outside — closes panel</li>
+              <li>Focus ring: 2px solid <code>--gold-deep</code> (light) / <code>--parchment-100</code> (Confirm button)</li>
+              <li>No <code>scrollIntoView()</code> — uses <code>scrollTop</code> only</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ─ Token reference ─ -->
+        <h3 class="sub-head">Token Reference</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2) var(--space-8);max-width:720px;margin-bottom:var(--space-12);">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">panel background</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--parchment-200 (#ead9b3)</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">panel border</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">1.5px solid --ink-brown</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">panel shadow</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">4px 4px 0 --parchment-400</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">header background</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--parchment-300 (#d4bc88)</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">time separator ":"</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--gold-deep · 1.5rem display font</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">selected row</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--blood bg · --parchment-100 text</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">active AM/PM</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--blood bg · --blood-deep border</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">trigger border</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--ink-faded → hover --gold-deep</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">Confirm button</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--blood bg · 2px 2px 0 --blood-deep shadow</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">Clear button</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">--ink-faded text → hover --blood</span>
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-faded);">focus ring</span>
+          <span style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--ink-black);">2px solid --gold-deep · offset 2px</span>
+        </div>
+
+      </div>
+    </section>
 
     <!-- ── SIGIL XI: Hourglass (Time) ── -->
     <div class="sigil-divider" role="presentation" aria-hidden="true">
@@ -6894,5 +6055,1040 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
     });
   </script>
 
+  <!-- ───────────────────────────────────────────────────────────────────
+       LEGACY DEMO SCRIPT — DISABLED
+       The hand-built date-picker / dropdown / time-picker / autocomplete
+       demos below are superseded by the migrated web components. Their JS
+       registered document-level click/keydown listeners whose close()
+       functions called trigger.focus() on EVERY click, stealing focus from
+       the new inputs/components. The block is parked in a non-executing
+       <script type="text/plain"> so none of it runs. Safe to delete entirely
+       (this opening tag through its </script>) in a cleanup pass.
+  ──────────────────────────────────────────────────────────────────── -->
+  <script type="text/plain" data-legacy-disabled>
+    /* ─────────────────────────────────────────────────
+       DROPDOWN — toggle, keyboard, click-outside
+    ───────────────────────────────────────────────── */
+    function toggleDropdown(id) {
+      var wrap  = document.getElementById(id);
+      if (!wrap) return;
+      var btn   = wrap.querySelector('[aria-haspopup="menu"]');
+      var menu  = wrap.querySelector('[role="menu"]');
+      if (!btn || !menu) return;
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAllDropdowns();
+      if (!open) openDropdown(wrap, btn, menu);
+    }
+
+    function openDropdown(wrap, btn, menu) {
+      menu.removeAttribute('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      /* focus first enabled item — preventScroll so page doesn't jump */
+      var first = menu.querySelector('.dropdown__item:not([disabled]):not([aria-disabled="true"])');
+      if (first) first.focus({ preventScroll: true });
+    }
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('[role="menu"]').forEach(function(menu) {
+        menu.setAttribute('hidden', '');
+        var btn = menu.closest('.dropdown') && menu.closest('.dropdown').querySelector('[aria-haspopup="menu"]');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    /* Keyboard navigation within open menus */
+    document.addEventListener('keydown', function(e) {
+      var openMenu = document.querySelector('[role="menu"]:not([hidden])');
+      if (!openMenu) return;
+      var items = Array.from(openMenu.querySelectorAll('.dropdown__item:not([disabled]):not([aria-disabled="true"])'));
+      var idx   = items.indexOf(document.activeElement);
+      if (e.key === 'ArrowDown')  { e.preventDefault(); items[(idx + 1) % items.length].focus({ preventScroll: true }); }
+      if (e.key === 'ArrowUp')    { e.preventDefault(); items[(idx - 1 + items.length) % items.length].focus({ preventScroll: true }); }
+      if (e.key === 'Escape')     { closeAllDropdowns(); }
+      if (e.key === 'Tab')        { closeAllDropdowns(); }
+    });
+
+    /* Click outside */
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.dropdown')) closeAllDropdowns();
+    });
+
+    /* ─────────────────────────────────────────────────
+       CUSTOM DATE PICKER
+    ───────────────────────────────────────────────── */
+    var MONTH_NAMES = ['January','February','March','April','May','June',
+                       'July','August','September','October','November','December'];
+
+    function parseDateValue(str) {
+      /* accepts YYYY-MM-DD */
+      var parts = str.split('-');
+      return { y: parseInt(parts[0],10), m: parseInt(parts[1],10)-1, d: parseInt(parts[2],10) };
+    }
+
+    function formatDisplay(y, m, d) {
+      var day = String(d).padStart(2,'0');
+      return day + ' ' + MONTH_NAMES[m].slice(0,3) + ' ' + y;
+    }
+
+    function renderCalendar(picker) {
+      var panel  = picker.querySelector('.date-picker__panel');
+      var grid   = picker.querySelector('.date-picker__grid');
+      var label  = picker.querySelector('.date-picker__month-year');
+      var state  = picker._dpState;
+      var today  = new Date();
+
+      label.textContent = MONTH_NAMES[state.viewM] + ' ' + state.viewY;
+
+      /* First day-of-week and total days */
+      var firstDay   = new Date(state.viewY, state.viewM, 1).getDay();
+      var daysInMonth = new Date(state.viewY, state.viewM + 1, 0).getDate();
+      var prevDays   = new Date(state.viewY, state.viewM, 0).getDate();
+
+      grid.innerHTML = '';
+
+      /* Leading cells from previous month */
+      for (var i = firstDay - 1; i >= 0; i--) {
+        var day = prevDays - i;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'date-picker__day date-picker__day--other-month';
+        btn.textContent = day;
+        btn.setAttribute('aria-label', day + ' ' + MONTH_NAMES[(state.viewM - 1 + 12) % 12]);
+        btn.dataset.y = state.viewM === 0 ? state.viewY - 1 : state.viewY;
+        btn.dataset.m = state.viewM === 0 ? 11 : state.viewM - 1;
+        btn.dataset.d = day;
+        grid.appendChild(btn);
+      }
+
+      /* Current month cells */
+      for (var d = 1; d <= daysInMonth; d++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'date-picker__day';
+        btn.textContent = d;
+
+        var isToday = (today.getFullYear() === state.viewY && today.getMonth() === state.viewM && today.getDate() === d);
+        var isSel   = state.selY === state.viewY && state.selM === state.viewM && state.selD === d;
+
+        if (isToday)  btn.classList.add('date-picker__day--today');
+        if (isSel)    { btn.classList.add('date-picker__day--selected'); btn.setAttribute('aria-pressed','true'); }
+
+        btn.setAttribute('aria-label', d + ' ' + MONTH_NAMES[state.viewM] + ' ' + state.viewY);
+        if (isSel) btn.setAttribute('aria-current', 'date');
+        btn.dataset.y = state.viewY;
+        btn.dataset.m = state.viewM;
+        btn.dataset.d = d;
+        grid.appendChild(btn);
+      }
+
+      /* Trailing cells to fill the last row */
+      var total   = firstDay + daysInMonth;
+      var trailing = total % 7 === 0 ? 0 : 7 - (total % 7);
+      for (var t = 1; t <= trailing; t++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'date-picker__day date-picker__day--other-month';
+        btn.textContent = t;
+        btn.setAttribute('aria-label', t + ' ' + MONTH_NAMES[(state.viewM + 1) % 12]);
+        btn.dataset.y = state.viewM === 11 ? state.viewY + 1 : state.viewY;
+        btn.dataset.m = state.viewM === 11 ? 0 : state.viewM + 1;
+        btn.dataset.d = t;
+        grid.appendChild(btn);
+      }
+
+      /* Day-select events */
+      grid.querySelectorAll('.date-picker__day').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var y = parseInt(btn.dataset.y,10);
+          var m = parseInt(btn.dataset.m,10);
+          var d = parseInt(btn.dataset.d,10);
+          state.selY = y; state.selM = m; state.selD = d;
+          state.viewY = y; state.viewM = m;
+          /* update trigger label */
+          var valueEl = picker.querySelector('.date-picker__value');
+          valueEl.textContent = formatDisplay(y, m, d);
+          renderCalendar(picker);
+          closeDatePicker(picker);
+        });
+      });
+    }
+
+    function openDatePicker(picker) {
+      var panel   = picker.querySelector('.date-picker__panel');
+      var trigger = picker.querySelector('.date-picker__trigger');
+      panel.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded','true');
+      renderCalendar(picker);
+      /* focus the selected or first available day — preventScroll so page doesn't jump */
+      setTimeout(function() {
+        var sel = panel.querySelector('.date-picker__day--selected') ||
+                  panel.querySelector('.date-picker__day:not(.date-picker__day--other-month)');
+        if (sel) sel.focus({ preventScroll: true });
+      }, 0);
+    }
+
+    function closeDatePicker(picker) {
+      var panel   = picker.querySelector('.date-picker__panel');
+      var trigger = picker.querySelector('.date-picker__trigger');
+      panel.setAttribute('hidden','');
+      trigger.setAttribute('aria-expanded','false');
+      trigger.focus({ preventScroll: true });
+    }
+
+    function initDatePicker(picker) {
+      var raw    = picker.dataset.value || '';
+      var parsed = raw ? parseDateValue(raw) : (function(){ var t=new Date(); return {y:t.getFullYear(),m:t.getMonth(),d:t.getDate()}; })();
+      picker._dpState = { selY: parsed.y, selM: parsed.m, selD: parsed.d, viewY: parsed.y, viewM: parsed.m };
+
+      var trigger = picker.querySelector('.date-picker__trigger');
+      var panel   = picker.querySelector('.date-picker__panel');
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = trigger.getAttribute('aria-expanded') === 'true';
+        if (open) { closeDatePicker(picker); } else { openDatePicker(picker); }
+      });
+
+      /* Prev / Next month */
+      panel.querySelectorAll('.date-picker__nav').forEach(function(navBtn) {
+        navBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var dir = parseInt(navBtn.dataset.dir, 10);
+          picker._dpState.viewM += dir;
+          if (picker._dpState.viewM > 11) { picker._dpState.viewM = 0;  picker._dpState.viewY++; }
+          if (picker._dpState.viewM < 0)  { picker._dpState.viewM = 11; picker._dpState.viewY--; }
+          renderCalendar(picker);
+        });
+      });
+
+      /* Keyboard inside panel */
+      panel.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { e.stopPropagation(); closeDatePicker(picker); }
+      });
+
+      /* Click outside */
+      document.addEventListener('click', function(e) {
+        if (!picker.contains(e.target)) { closeDatePicker(picker); }
+      });
+    }
+
+    /* Initialise all date pickers on DOMContentLoaded */
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.date-picker').forEach(function(dp) {
+        initDatePicker(dp);
+      });
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       AUTOCOMPLETE CONTROLLER
+       Three self-contained widgets sharing a single helper set.
+       All data is embedded — no network requests.
+    ═══════════════════════════════════════════════════════ */
+    (function() {
+      'use strict';
+
+      /* ── Datasets ── */
+      var SPELLS = [
+        { id:'s1',  name:'Animate Dead',          school:'necromancy',     level:3 },
+        { id:'s2',  name:'Banishment',            school:'abjuration',     level:4 },
+        { id:'s3',  name:'Charm Person',          school:'enchantment',    level:1 },
+        { id:'s4',  name:'Counterspell',          school:'abjuration',     level:3 },
+        { id:'s5',  name:'Detect Magic',          school:'divination',     level:1 },
+        { id:'s6',  name:'Fireball',              school:'evocation',      level:3 },
+        { id:'s7',  name:'Fly',                   school:'transmutation',  level:3 },
+        { id:'s8',  name:'Fog Cloud',             school:'conjuration',    level:1 },
+        { id:'s9',  name:'Greater Invisibility',  school:'illusion',       level:4 },
+        { id:'s10', name:'Haste',                 school:'transmutation',  level:3 },
+        { id:'s11', name:'Hold Person',           school:'enchantment',    level:2 },
+        { id:'s12', name:'Ice Storm',             school:'evocation',      level:4 },
+        { id:'s13', name:'Identify',              school:'divination',     level:1 },
+        { id:'s14', name:'Lightning Bolt',        school:'evocation',      level:3 },
+        { id:'s15', name:'Mirror Image',          school:'illusion',       level:2 },
+        { id:'s16', name:'Misty Step',            school:'conjuration',    level:2 },
+        { id:'s17', name:'Polymorph',             school:'transmutation',  level:4 },
+        { id:'s18', name:'Shatter',               school:'evocation',      level:2 },
+        { id:'s19', name:'Silence',               school:'illusion',       level:2 },
+        { id:'s20', name:'Speak with Dead',       school:'necromancy',     level:3 }
+      ];
+
+      var CREATURES = [
+        { id:'c1',  name:'Ancient Red Dragon',  type:'Dragon',       cr:'24'  },
+        { id:'c2',  name:'Beholder',            type:'Aberration',   cr:'13'  },
+        { id:'c3',  name:'Displacer Beast',     type:'Monstrosity',  cr:'3'   },
+        { id:'c4',  name:'Gelatinous Cube',     type:'Ooze',         cr:'2'   },
+        { id:'c5',  name:'Goblin',              type:'Humanoid',     cr:'1/4' },
+        { id:'c6',  name:'Mimic',               type:'Monstrosity',  cr:'2'   },
+        { id:'c7',  name:'Owlbear',             type:'Monstrosity',  cr:'3'   },
+        { id:'c8',  name:'Lich',                type:'Undead',       cr:'21'  },
+        { id:'c9',  name:'Tarrasque',           type:'Monstrosity',  cr:'30'  },
+        { id:'c10', name:'Vampire Spawn',       type:'Undead',       cr:'5'   },
+        { id:'c11', name:'Wyvern',              type:'Dragon',       cr:'6'   },
+        { id:'c12', name:'Zombie',              type:'Undead',       cr:'1/4' }
+      ];
+
+      var ITEMS = [
+        { id:'i1',  name:'Longsword +1',                   cat:'Weapon',        rarity:'uncommon'  },
+        { id:'i2',  name:'Vorpal Sword',                   cat:'Weapon',        rarity:'legendary' },
+        { id:'i3',  name:'Flametongue',                    cat:'Weapon',        rarity:'rare'      },
+        { id:'i4',  name:'Javelin of Lightning',           cat:'Weapon',        rarity:'uncommon'  },
+        { id:'i5',  name:'Chain Mail +2',                  cat:'Armor',         rarity:'rare'      },
+        { id:'i6',  name:'Plate Armor of Etherealness',    cat:'Armor',         rarity:'legendary' },
+        { id:'i7',  name:'Ring of Protection',             cat:'Wondrous Item', rarity:'rare'      },
+        { id:'i8',  name:'Bag of Holding',                 cat:'Wondrous Item', rarity:'uncommon'  },
+        { id:'i9',  name:'Cloak of Invisibility',          cat:'Wondrous Item', rarity:'legendary' },
+        { id:'i10', name:'Boots of Speed',                 cat:'Wondrous Item', rarity:'rare'      },
+        { id:'i11', name:'Necklace of Fireballs',          cat:'Wondrous Item', rarity:'rare'      },
+        { id:'i12', name:'Amulet of Health',               cat:'Wondrous Item', rarity:'rare'      }
+      ];
+
+      /* ── Shared helpers ── */
+      function esc(s) {
+        return String(s)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+          .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      /* Wraps matching substring in <mark class="ac-match"> for AT + visual highlight */
+      function highlight(text, query) {
+        if (!query) return esc(text);
+        var lo = text.toLowerCase(), qi = query.toLowerCase();
+        var idx = lo.indexOf(qi);
+        if (idx === -1) return esc(text);
+        return esc(text.slice(0, idx)) +
+          '<mark class="ac-match">' + esc(text.slice(idx, idx + query.length)) + '</mark>' +
+          esc(text.slice(idx + query.length));
+      }
+
+      function find(arr, fn) {
+        for (var i = 0; i < arr.length; i++) { if (fn(arr[i])) return arr[i]; }
+        return null;
+      }
+
+      function makeFooter() {
+        var li = document.createElement('li');
+        li.setAttribute('role','presentation');
+        li.innerHTML =
+          '<div class="ac-footer">' +
+          '<span class="ac-footer__hint"><kbd class="ac-footer__kbd">↑↓</kbd> Navigate</span>' +
+          '<span class="ac-footer__hint"><kbd class="ac-footer__kbd">↵</kbd> Select</span>' +
+          '<span class="ac-footer__hint"><kbd class="ac-footer__kbd">Esc</kbd> Close</span>' +
+          '</div>';
+        return li;
+      }
+
+      /* ── 1. Spell Search — single-select ── */
+      function initSpellAC() {
+        var input   = document.getElementById('ac-spell-input');
+        var listbox = document.getElementById('ac-spell-list');
+        var clear   = document.getElementById('ac-spell-clear');
+        var live    = document.getElementById('ac-spell-live');
+        if (!input || !listbox) return;
+
+        var activeIdx = -1;
+
+        function opts() { return Array.prototype.slice.call(listbox.querySelectorAll('.ac-option')); }
+
+        function setActive(n) {
+          var os = opts();
+          os.forEach(function(o, i) {
+            var on = i === n;
+            o.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) {
+              input.setAttribute('aria-activedescendant', o.id);
+              /* Manual scroll — avoids scrollIntoView restriction */
+              var pTop = listbox.scrollTop, pH = listbox.clientHeight;
+              if (o.offsetTop < pTop) listbox.scrollTop = o.offsetTop - 4;
+              else if (o.offsetTop + o.offsetHeight > pTop + pH) listbox.scrollTop = o.offsetTop + o.offsetHeight - pH + 4;
+            }
+          });
+          activeIdx = n;
+        }
+
+        function open()  { listbox.removeAttribute('hidden'); input.setAttribute('aria-expanded','true'); }
+        function close() {
+          listbox.setAttribute('hidden',''); input.setAttribute('aria-expanded','false');
+          input.removeAttribute('aria-activedescendant'); activeIdx = -1;
+        }
+
+        function render(query) {
+          listbox.innerHTML = ''; activeIdx = -1;
+          var q = (query || '').trim().toLowerCase();
+          var matches = q
+            ? SPELLS.filter(function(s){ return s.name.toLowerCase().indexOf(q) !== -1 || s.school.indexOf(q) !== -1; })
+            : SPELLS.slice(0, 10);
+
+          if (!matches.length) {
+            var li = document.createElement('li');
+            li.setAttribute('role','presentation');
+            li.innerHTML = '<span class="ac-status"><em>No spells match your incantation. Consult a more obscure tome.</em></span>';
+            listbox.appendChild(li);
+            if (live) live.textContent = 'No results.';
+          } else {
+            matches.forEach(function(sp, i) {
+              var li = document.createElement('li');
+              li.setAttribute('role','option'); li.setAttribute('aria-selected','false');
+              li.id = 'ac-sp-opt-' + sp.id; li.className = 'ac-option';
+              li.innerHTML =
+                '<span class="ac-badge ac-badge--' + sp.school + '">' + esc(sp.school.slice(0,3).toUpperCase()) + '</span>' +
+                '<span style="flex:1">' + highlight(sp.name, query) + '</span>' +
+                '<span class="ac-secondary">' + (sp.level === 0 ? 'Cantrip' : 'Lvl ' + sp.level) + '</span>';
+              (function(spell, idx) {
+                li.addEventListener('mousedown', function(e){ e.preventDefault(); select(spell); });
+                li.addEventListener('mouseover',  function(){ setActive(idx); });
+              })(sp, i);
+              listbox.appendChild(li);
+            });
+            listbox.appendChild(makeFooter());
+            if (live) live.textContent = matches.length + ' spell' + (matches.length === 1 ? '' : 's') + ' found.';
+          }
+          open();
+        }
+
+        function select(spell) {
+          input.value = spell.name;
+          if (clear) clear.removeAttribute('hidden');
+          if (live)  live.textContent = spell.name + ' selected.';
+          close();
+        }
+
+        input.addEventListener('input', function() {
+          var v = input.value.trim();
+          if (clear) clear[v ? 'removeAttribute' : 'setAttribute']('hidden','');
+          v.length >= 1 ? render(input.value.trim()) : close();
+        });
+        input.addEventListener('focus', function() { if (!input.value.trim()) render(''); });
+        input.addEventListener('keydown', function(e) {
+          var os = opts();
+          if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIdx + 1, os.length - 1)); }
+          else if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+          else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIdx >= 0 && os[activeIdx]) {
+              var id = os[activeIdx].id.replace('ac-sp-opt-','');
+              var sp = find(SPELLS, function(s){ return s.id === id; });
+              if (sp) select(sp);
+            }
+          } else if (e.key === 'Escape') { close(); }
+        });
+        if (clear) clear.addEventListener('click', function() {
+          input.value = ''; clear.setAttribute('hidden',''); close(); input.focus();
+        });
+        document.addEventListener('click', function(e) {
+          if (input.closest && !input.closest('.ac-wrap').contains(e.target)) close();
+        });
+      }
+
+      /* ── 2. Creature Encounter — multi-select tokens ── */
+      function initCreatureAC() {
+        var field   = document.getElementById('ac-creature-field');
+        var input   = document.getElementById('ac-creature-input');
+        var listbox = document.getElementById('ac-creature-list');
+        var clear   = document.getElementById('ac-creature-clear');
+        var live    = document.getElementById('ac-creature-live');
+        if (!input || !listbox || !field) return;
+
+        var selected  = [];
+        var activeIdx = -1;
+
+        function opts() { return Array.prototype.slice.call(listbox.querySelectorAll('.ac-option')); }
+
+        function setActive(n) {
+          var os = opts();
+          os.forEach(function(o, i) {
+            var on = i === n;
+            o.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) input.setAttribute('aria-activedescendant', o.id);
+          });
+          activeIdx = n;
+        }
+
+        function open()  { listbox.removeAttribute('hidden'); input.setAttribute('aria-expanded','true'); }
+        function close() {
+          listbox.setAttribute('hidden',''); input.setAttribute('aria-expanded','false');
+          input.removeAttribute('aria-activedescendant'); activeIdx = -1;
+        }
+
+        function renderTokens() {
+          field.querySelectorAll('.ac-token').forEach(function(t){ t.remove(); });
+          selected.forEach(function(cr) {
+            var tok = document.createElement('span');
+            tok.className = 'ac-token';
+            tok.innerHTML = esc(cr.name) +
+              '<button class="ac-token__remove" type="button" aria-label="Remove ' + esc(cr.name) + '">×</button>';
+            tok.querySelector('.ac-token__remove').addEventListener('click', function(e) {
+              e.stopPropagation();
+              selected = selected.filter(function(c){ return c.id !== cr.id; });
+              renderTokens(); renderList(input.value.trim());
+              if (clear) clear[selected.length ? 'removeAttribute' : 'setAttribute']('hidden','');
+              if (live)  live.textContent = cr.name + ' removed.';
+            });
+            field.insertBefore(tok, input);
+          });
+          if (clear) clear[selected.length ? 'removeAttribute' : 'setAttribute']('hidden','');
+        }
+
+        function renderList(query) {
+          listbox.innerHTML = ''; activeIdx = -1;
+          var q  = query.toLowerCase();
+          var avail = CREATURES.filter(function(c){ return !find(selected, function(s){ return s.id === c.id; }); });
+          var matches = q
+            ? avail.filter(function(c){ return c.name.toLowerCase().indexOf(q) !== -1 || c.type.toLowerCase().indexOf(q) !== -1; })
+            : avail;
+
+          if (!matches.length) {
+            var li = document.createElement('li');
+            li.setAttribute('role','presentation');
+            var msg = (selected.length === CREATURES.length)
+              ? 'All known creatures have been added to the encounter.'
+              : 'No creatures match that description.';
+            li.innerHTML = '<span class="ac-status"><em>' + esc(msg) + '</em></span>';
+            listbox.appendChild(li);
+          } else {
+            matches.forEach(function(cr, i) {
+              var li = document.createElement('li');
+              li.setAttribute('role','option'); li.setAttribute('aria-selected','false');
+              li.id = 'ac-cr-opt-' + cr.id; li.className = 'ac-option';
+              li.innerHTML =
+                '<span style="flex:1">' + highlight(cr.name, query) + '</span>' +
+                '<span style="font-family:var(--font-flavor);font-style:italic;font-size:0.85em;color:var(--ink-faded);">' + esc(cr.type) + '</span>' +
+                '<span class="ac-secondary">CR ' + esc(cr.cr) + '</span>';
+              (function(creature, idx) {
+                li.addEventListener('mousedown', function(e){ e.preventDefault(); addToken(creature); });
+                li.addEventListener('mouseover',  function(){ setActive(idx); });
+              })(cr, i);
+              listbox.appendChild(li);
+            });
+          }
+          open();
+        }
+
+        function addToken(cr) {
+          if (!find(selected, function(c){ return c.id === cr.id; })) selected.push(cr);
+          renderTokens(); input.value = ''; renderList('');
+          if (live) live.textContent = cr.name + ' added to encounter.';
+          input.focus();
+        }
+
+        input.addEventListener('input',  function() { renderList(input.value.trim()); });
+        input.addEventListener('focus',  function() { renderList(input.value.trim()); });
+        input.addEventListener('keydown', function(e) {
+          var os = opts();
+          if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIdx + 1, os.length - 1)); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+          else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIdx >= 0 && os[activeIdx]) {
+              var id = os[activeIdx].id.replace('ac-cr-opt-','');
+              var cr = find(CREATURES, function(c){ return c.id === id; });
+              if (cr) addToken(cr);
+            }
+          } else if (e.key === 'Backspace' && input.value === '' && selected.length) {
+            var removed = selected.pop();
+            renderTokens(); renderList('');
+            if (live) live.textContent = removed.name + ' removed.';
+          } else if (e.key === 'Escape') { close(); }
+        });
+        if (clear) clear.addEventListener('click', function() {
+          selected = []; renderTokens(); input.value = ''; close(); input.focus();
+        });
+        document.addEventListener('click', function(e) {
+          if (field.closest && !field.closest('.ac-wrap').contains(e.target)) close();
+        });
+      }
+
+      /* ── 3. Item Finder — grouped + simulated async loading ── */
+      function initItemAC() {
+        var input   = document.getElementById('ac-item-input');
+        var listbox = document.getElementById('ac-item-list');
+        var clear   = document.getElementById('ac-item-clear');
+        var spinner = document.getElementById('ac-item-spinner');
+        var live    = document.getElementById('ac-item-live');
+        if (!input || !listbox) return;
+
+        var activeIdx = -1;
+        var loadTimer = null;
+
+        function opts() { return Array.prototype.slice.call(listbox.querySelectorAll('.ac-option')); }
+
+        function setActive(n) {
+          var os = opts();
+          os.forEach(function(o, i) {
+            var on = i === n;
+            o.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) {
+              input.setAttribute('aria-activedescendant', o.id);
+              var pTop = listbox.scrollTop, pH = listbox.clientHeight;
+              if (o.offsetTop < pTop) listbox.scrollTop = o.offsetTop - 4;
+              else if (o.offsetTop + o.offsetHeight > pTop + pH) listbox.scrollTop = o.offsetTop + o.offsetHeight - pH + 4;
+            }
+          });
+          activeIdx = n;
+        }
+
+        function open()  { listbox.removeAttribute('hidden'); input.setAttribute('aria-expanded','true'); }
+        function close() {
+          listbox.setAttribute('hidden',''); input.setAttribute('aria-expanded','false');
+          input.removeAttribute('aria-activedescendant'); activeIdx = -1;
+        }
+
+        function render(query) {
+          listbox.innerHTML = ''; activeIdx = -1;
+          if (spinner) spinner.setAttribute('hidden','');
+          var q = (query || '').toLowerCase().trim();
+          var matches = q
+            ? ITEMS.filter(function(it){
+                return it.name.toLowerCase().indexOf(q) !== -1 ||
+                       it.rarity.indexOf(q) !== -1 ||
+                       it.cat.toLowerCase().indexOf(q) !== -1;
+              })
+            : ITEMS;
+
+          if (!matches.length) {
+            var li = document.createElement('li');
+            li.setAttribute('role','presentation');
+            li.innerHTML = '<span class="ac-status"><em>No such enchantment exists in the known tomes.</em></span>';
+            listbox.appendChild(li);
+            if (live) live.textContent = 'No items found.';
+            open(); return;
+          }
+
+          /* Group by category */
+          var cats = [], grouped = {};
+          matches.forEach(function(it) {
+            if (!grouped[it.cat]) { grouped[it.cat] = []; cats.push(it.cat); }
+            grouped[it.cat].push(it);
+          });
+
+          var globalIdx = 0;
+          cats.forEach(function(cat) {
+            var gl = document.createElement('li');
+            gl.setAttribute('role','presentation');
+            gl.innerHTML = '<span class="ac-group-label">' + esc(cat) + '</span>';
+            listbox.appendChild(gl);
+            grouped[cat].forEach(function(item) {
+              var li = document.createElement('li');
+              li.setAttribute('role','option'); li.setAttribute('aria-selected','false');
+              li.id = 'ac-it-opt-' + item.id; li.className = 'ac-option';
+              li.innerHTML =
+                '<span style="flex:1">' + highlight(item.name, query) + '</span>' +
+                '<span class="ac-rarity ac-rarity--' + esc(item.rarity.replace(' ','-')) + '">' + esc(item.rarity) + '</span>';
+              (function(it, idx) {
+                li.addEventListener('mousedown', function(e){ e.preventDefault(); selectItem(it); });
+                li.addEventListener('mouseover',  function(){ setActive(idx); });
+              })(item, globalIdx++);
+              listbox.appendChild(li);
+            });
+          });
+          listbox.appendChild(makeFooter());
+          if (live) live.textContent = matches.length + ' item' + (matches.length === 1 ? '' : 's') + ' found.';
+          open();
+        }
+
+        function selectItem(item) {
+          input.value = item.name;
+          if (clear) clear.removeAttribute('hidden');
+          if (live)  live.textContent = item.name + ' selected.';
+          close();
+        }
+
+        function startSearch(query) {
+          if (loadTimer) clearTimeout(loadTimer);
+          listbox.setAttribute('hidden','');
+          if (!query.trim()) { if (spinner) spinner.setAttribute('hidden',''); close(); return; }
+          if (spinner) spinner.removeAttribute('hidden');
+          loadTimer = setTimeout(function(){ render(query); }, 320);
+        }
+
+        input.addEventListener('input', function() {
+          var v = input.value.trim();
+          if (clear) clear[v ? 'removeAttribute' : 'setAttribute']('hidden','');
+          v.length >= 1 ? startSearch(input.value.trim()) : (spinner && spinner.setAttribute('hidden',''), close());
+        });
+        input.addEventListener('focus',  function() { if (!input.value.trim()) render(''); });
+        input.addEventListener('keydown', function(e) {
+          var os = opts();
+          if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIdx + 1, os.length - 1)); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+          else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIdx >= 0 && os[activeIdx]) {
+              var id = os[activeIdx].id.replace('ac-it-opt-','');
+              var it = find(ITEMS, function(i){ return i.id === id; });
+              if (it) selectItem(it);
+            }
+          } else if (e.key === 'Escape') { close(); }
+        });
+        if (clear) clear.addEventListener('click', function() {
+          input.value = ''; clear.setAttribute('hidden',''); close(); input.focus();
+        });
+        document.addEventListener('click', function(e) {
+          if (input.closest && !input.closest('.ac-wrap').contains(e.target)) close();
+        });
+      }
+
+      /* ── Boot all three widgets ── */
+      document.addEventListener('DOMContentLoaded', function() {
+        initSpellAC();
+        initCreatureAC();
+        initItemAC();
+      });
+
+    })(); /* end Autocomplete IIFE */
+
+    /* ═══════════════════════════════════════════════════════
+       TIME PICKER CONTROLLER — infinite drum-roll scroll
+       Vanilla JS. Reads data-format, data-step, data-value.
+    ═══════════════════════════════════════════════════════ */
+    (function () {
+      'use strict';
+
+      var ITEM_H  = 36;
+      var COL_H   = 180;
+      var COPIES  = 5;
+      var MID_CPY = 2;
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+      function disp12(h24) { return (h24 % 12) || 12; }
+      function toH24(d, ap) { return ap === 'AM' ? (d === 12 ? 0 : d) : (d === 12 ? 12 : d + 12); }
+
+      function scrollTopFor(logicalIdx, listLen) {
+        return (MID_CPY * listLen + logicalIdx) * ITEM_H + ITEM_H / 2 - COL_H / 2;
+      }
+
+      function hourglassSVG() {
+        return '<svg width="13" height="16" viewBox="0 0 13 16" fill="none" aria-hidden="true" focusable="false">' +
+          '<path d="M1.5 1h10M1.5 15h10" stroke="#6b4f35" stroke-width="1.5" stroke-linecap="round"/>' +
+          '<path d="M2.5 1.5L6.5 8L10.5 1.5Z" fill="#b8893b" stroke="#7a5a22" stroke-width="0.75"/>' +
+          '<path d="M2.5 14.5L6.5 8L10.5 14.5Z" fill="#a88d5a" stroke="#7a5a22" stroke-width="0.75"/>' +
+          '</svg>';
+      }
+
+      function buildPanelHTML(is12, step) {
+        var hours = is12 ? [1,2,3,4,5,6,7,8,9,10,11,12] : (function(){
+          var a=[]; for(var i=0;i<24;i++) a.push(i); return a;
+        })();
+        var mins = []; for (var m=0;m<60;m+=step) mins.push(m);
+
+        /* Build 5 copies of each list for infinite scroll */
+        function buildItems(arr, attrName, labelFn) {
+          var html = '';
+          for (var c=0; c<COPIES; c++) {
+            for (var i=0; i<arr.length; i++) {
+              var v = arr[i];
+              html += '<button type="button" class="tp-item" data-' + attrName + '="' + v +
+                      '" data-copy="' + c + '">' + labelFn(v) + '</button>';
+            }
+          }
+          return html;
+        }
+
+        var hrItems = buildItems(hours, 'h', pad);
+        var mnItems = buildItems(mins,  'm', pad);
+
+        var ampmHTML = is12
+          ? '<div class="tp-col-divider"></div>' +
+            '<div class="tp-ampm-col">' +
+            '<div class="tp-col-label" aria-hidden="true">AM·PM</div>' +
+            '<div class="tp-ampm-wrap">' +
+            '<button type="button" class="tp-ampm-btn" data-ap="AM" role="option" aria-selected="false">AM</button>' +
+            '<button type="button" class="tp-ampm-btn" data-ap="PM" role="option" aria-selected="false">PM</button>' +
+            '</div></div>'
+          : '';
+
+        return '<div class="tp-panel" hidden role="dialog" aria-label="Time picker">' +
+          '<div class="tp-header" aria-hidden="true">' +
+          '<span class="tp-display-h tp-display-h--editable" title="Click to type hour">––</span>' +
+          '<span class="tp-display-sep">:</span>' +
+          '<span class="tp-display-m">––</span>' +
+          (is12 ? '<span class="tp-display-ampm">AM</span>' : '') +
+          '<span class="tp-header-hint">click hour to type</span>' +
+          '</div>' +
+          '<div class="tp-cols">' +
+          '<div class="tp-col">' +
+          '<div class="tp-col-label" aria-hidden="true">' + (is12 ? 'Hour' : 'Hour (24)') + '</div>' +
+          '<div class="tp-col-scroll" role="listbox" aria-label="Select hour">' + hrItems + '</div>' +
+          '</div>' +
+          '<div class="tp-col-divider"></div>' +
+          '<div class="tp-col">' +
+          '<div class="tp-col-label" aria-hidden="true">Min</div>' +
+          '<div class="tp-col-scroll" role="listbox" aria-label="Select minute">' + mnItems + '</div>' +
+          '</div>' +
+          ampmHTML +
+          '</div>' +
+          '<div class="tp-footer">' +
+          '<button type="button" class="tp-clear-btn">Clear</button>' +
+          '<button type="button" class="tp-confirm-btn">Confirm</button>' +
+          '</div></div>';
+      }
+
+      function initTimePicker(wrapper) {
+        var is12  = wrapper.dataset.format !== '24';
+        var step  = parseInt(wrapper.dataset.step) || 1;
+        var initV = wrapper.dataset.value || null;
+
+        var hours = is12 ? [1,2,3,4,5,6,7,8,9,10,11,12] : (function(){
+          var a=[]; for(var i=0;i<24;i++) a.push(i); return a;
+        })();
+        var mins = []; for (var m=0;m<60;m+=step) mins.push(m);
+
+        /* State */
+        var h24 = null, minute = null, ampm = 'AM';
+        var hrLoopFn = null, mnLoopFn = null;
+
+        /* Parse initial value */
+        if (initV) {
+          var pts = initV.split(':');
+          if (pts.length === 2) {
+            h24 = parseInt(pts[0], 10);
+            minute = parseInt(pts[1], 10);
+            ampm = h24 >= 12 ? 'PM' : 'AM';
+          }
+        }
+
+        /* Build markup */
+        wrapper.innerHTML = buildPanelHTML(is12, step);
+
+        /* Prepend trigger */
+        var trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'tp-trigger' + (h24 === null ? ' tp-trigger--placeholder' : '');
+        trigger.setAttribute('aria-haspopup', 'dialog');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-label', 'Time picker');
+        trigger.innerHTML =
+          hourglassSVG() +
+          '<span class="tp-trigger-label">' +
+          (h24 !== null ? getDisplayStr(h24, minute) : 'Select the hour…') +
+          '</span>' +
+          '<span class="tp-trigger-arrow" aria-hidden="true">▾</span>';
+        wrapper.insertBefore(trigger, wrapper.firstChild);
+
+        /* DOM refs */
+        var panel    = wrapper.querySelector('.tp-panel');
+        var dispH    = panel.querySelector('.tp-display-h');
+        var dispM    = panel.querySelector('.tp-display-m');
+        var dispAP   = panel.querySelector('.tp-display-ampm');
+        var hintEl   = panel.querySelector('.tp-header-hint');
+        var hrScroll = panel.querySelectorAll('.tp-col-scroll')[0];
+        var mnScroll = panel.querySelectorAll('.tp-col-scroll')[1];
+        var clearBtn = panel.querySelector('.tp-clear-btn');
+        var cnfBtn   = panel.querySelector('.tp-confirm-btn');
+        var labelEl  = trigger.querySelector('.tp-trigger-label');
+
+        function getDisplayStr(h, m) {
+          if (h === null || m === null) return null;
+          var mm = pad(m);
+          if (!is12) return pad(h) + ':' + mm;
+          return disp12(h) + ':' + mm + ' ' + (h >= 12 ? 'PM' : 'AM');
+        }
+
+        function curAmPm() {
+          return h24 !== null ? (h24 >= 12 ? 'PM' : 'AM') : ampm;
+        }
+
+        function updateHeader() {
+          if (!panel.querySelector('.tp-header-input')) {
+            if (dispH) dispH.textContent = h24 !== null ? (is12 ? pad(disp12(h24)) : pad(h24)) : '––';
+          }
+          if (dispM) dispM.textContent = minute !== null ? pad(minute) : '––';
+          if (dispAP && is12) dispAP.textContent = curAmPm();
+        }
+
+        function updateTrigger() {
+          var str = getDisplayStr(h24, minute);
+          labelEl.textContent = str || 'Select the hour…';
+          trigger.className = 'tp-trigger' + (str ? '' : ' tp-trigger--placeholder');
+        }
+
+        function markSelected() {
+          var selDispHr = h24 !== null ? (is12 ? disp12(h24) : h24) : null;
+          hrScroll.querySelectorAll('.tp-item').forEach(function(btn) {
+            var bh = parseInt(btn.dataset.h, 10);
+            var c  = parseInt(btn.dataset.copy, 10);
+            var match = selDispHr !== null && selDispHr === bh;
+            btn.classList.toggle('is-selected', match);
+            btn.setAttribute('role', 'option');
+            btn.setAttribute('aria-selected', (match && c === MID_CPY) ? 'true' : 'false');
+          });
+          mnScroll.querySelectorAll('.tp-item').forEach(function(btn) {
+            var bm = parseInt(btn.dataset.m, 10);
+            var c  = parseInt(btn.dataset.copy, 10);
+            var match = (minute === bm);
+            btn.classList.toggle('is-selected', match);
+            btn.setAttribute('role', 'option');
+            btn.setAttribute('aria-selected', (match && c === MID_CPY) ? 'true' : 'false');
+          });
+          if (is12) {
+            var ap = curAmPm();
+            panel.querySelectorAll('.tp-ampm-btn').forEach(function(btn) {
+              var on = btn.dataset.ap === ap;
+              btn.classList.toggle('is-active', on);
+              btn.setAttribute('aria-selected', on ? 'true' : 'false');
+            });
+          }
+        }
+
+        function scrollToMid(scrollEl, logicalIdx, listLen) {
+          scrollEl.scrollTop = scrollTopFor(Math.max(0, logicalIdx), listLen);
+        }
+
+        function attachLoop(el, listLen) {
+          var oneSetH = listLen * ITEM_H;
+          return function() {
+            if (el.scrollTop < oneSetH) {
+              el.scrollTop += 2 * oneSetH;
+            } else if (el.scrollTop >= 4 * oneSetH) {
+              el.scrollTop -= 2 * oneSetH;
+            }
+          };
+        }
+
+        function openPanel() {
+          panel.removeAttribute('hidden');
+          trigger.setAttribute('aria-expanded', 'true');
+          updateHeader();
+          markSelected();
+
+          var selDispHr = h24 !== null ? (is12 ? disp12(h24) : h24) : null;
+          var hrIdx = selDispHr !== null ? hours.indexOf(selDispHr) : 0;
+          var mnIdx = minute !== null ? mins.indexOf(minute) : 0;
+          if (mnIdx < 0) mnIdx = 0;
+
+          setTimeout(function() {
+            scrollToMid(hrScroll, hrIdx, hours.length);
+            scrollToMid(mnScroll, mnIdx, mins.length);
+          }, 30);
+
+          if (hrLoopFn) hrScroll.removeEventListener('scroll', hrLoopFn);
+          if (mnLoopFn) mnScroll.removeEventListener('scroll', mnLoopFn);
+          hrLoopFn = attachLoop(hrScroll, hours.length);
+          mnLoopFn = attachLoop(mnScroll, mins.length);
+          hrScroll.addEventListener('scroll', hrLoopFn, { passive: true });
+          mnScroll.addEventListener('scroll', mnLoopFn, { passive: true });
+        }
+
+        function cancelHrEdit() {
+          var inp = panel.querySelector('.tp-header-input');
+          if (inp && inp.parentNode) {
+            inp.parentNode.replaceChild(dispH, inp);
+            if (hintEl) hintEl.removeAttribute('hidden');
+          }
+        }
+
+        function closePanel() {
+          cancelHrEdit();
+          panel.setAttribute('hidden', '');
+          trigger.setAttribute('aria-expanded', 'false');
+          if (hrLoopFn) { hrScroll.removeEventListener('scroll', hrLoopFn); hrLoopFn = null; }
+          if (mnLoopFn) { mnScroll.removeEventListener('scroll', mnLoopFn); mnLoopFn = null; }
+          trigger.focus({ preventScroll: true });
+        }
+
+        /* ── Manual hour editing ── */
+        function commitHrEdit(raw) {
+          var trimmed = (raw || '').trim();
+          cancelHrEdit();
+          updateHeader();
+          if (!trimmed) return;
+          var n = parseInt(trimmed, 10);
+          if (isNaN(n)) return;
+          if (is12) {
+            if (n < 1 || n > 12) return;
+            h24 = toH24(n, ampm);
+          } else {
+            if (n < 0 || n > 23) return;
+            h24 = n;
+          }
+          updateHeader(); markSelected();
+          setTimeout(function() {
+            var idx = hours.indexOf(n);
+            if (idx !== -1) scrollToMid(hrScroll, idx, hours.length);
+          }, 10);
+        }
+
+        function startHrEdit() {
+          if (panel.querySelector('.tp-header-input')) return;
+          var inp = document.createElement('input');
+          inp.type = 'text'; inp.inputMode = 'numeric'; inp.maxLength = 2;
+          inp.className = 'tp-header-input';
+          inp.setAttribute('aria-label', 'Type hour, ' + (is12 ? '1 to 12' : '0 to 23'));
+          inp.value = h24 !== null ? String(is12 ? disp12(h24) : h24) : '';
+          dispH.parentNode.replaceChild(inp, dispH);
+          if (hintEl) hintEl.setAttribute('hidden', '');
+          inp.focus(); inp.select();
+          inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter')  { e.stopPropagation(); commitHrEdit(inp.value); }
+            if (e.key === 'Escape') { e.stopPropagation(); cancelHrEdit(); updateHeader(); }
+          });
+          inp.addEventListener('blur', function() { commitHrEdit(inp.value); });
+        }
+
+        /* Trigger */
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (trigger.getAttribute('aria-expanded') === 'true') closePanel();
+          else openPanel();
+        });
+
+        /* Click on header hour → edit */
+        dispH.addEventListener('click', startHrEdit);
+
+        /* Hour selection */
+        hrScroll.addEventListener('click', function(e) {
+          var btn = e.target.closest('.tp-item');
+          if (!btn) return;
+          var bh = parseInt(btn.dataset.h, 10);
+          h24 = is12 ? toH24(bh, ampm) : bh;
+          updateHeader(); markSelected();
+        });
+
+        /* Minute selection */
+        mnScroll.addEventListener('click', function(e) {
+          var btn = e.target.closest('.tp-item');
+          if (!btn) return;
+          minute = parseInt(btn.dataset.m, 10);
+          updateHeader(); markSelected();
+        });
+
+        /* AM/PM */
+        if (is12) {
+          panel.querySelectorAll('.tp-ampm-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              ampm = btn.dataset.ap;
+              if (h24 !== null) h24 = toH24(disp12(h24), ampm);
+              updateHeader(); markSelected();
+            });
+          });
+        }
+
+        /* Confirm */
+        cnfBtn.addEventListener('click', function() { updateTrigger(); closePanel(); });
+
+        /* Clear */
+        clearBtn.addEventListener('click', function() {
+          h24 = null; minute = null; ampm = 'AM';
+          updateHeader(); markSelected(); updateTrigger(); closePanel();
+        });
+
+        /* Escape */
+        panel.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') { e.stopPropagation(); closePanel(); }
+        });
+
+        /* Click outside */
+        document.addEventListener('click', function(e) {
+          if (!wrapper.contains(e.target)) closePanel();
+        });
+      }
+
+      /* Boot */
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.tp-wrap[data-format], .tp-wrap[data-step], .tp-wrap[data-value]').forEach(function(w) {
+          initTimePicker(w);
+        });
+      });
+
+    })(); /* end Time Picker IIFE */
+  </script>
 </body>
 </html>

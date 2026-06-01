@@ -38,15 +38,21 @@ class HbdSpellCard extends HTMLElement {
     super();
     // Capture author-provided slot content once, before we overwrite innerHTML.
     this._slots = null;
+    this._ready = false;
   }
 
   connectedCallback() {
+    // First connection: capture slotted children (now present) then render.
     if (!this._slots) this._captureSlots();
+    this._ready = true;
     this._render();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    if (oldVal !== newVal && this.isConnected) this._render();
+    // Ignore attribute changes until the first connectedCallback has run: during
+    // upgrade this can fire before children/slots exist. The initial render in
+    // connectedCallback already reflects all current attributes.
+    if (oldVal !== newVal && this._ready) this._render();
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────
@@ -118,6 +124,9 @@ class HbdSpellCard extends HTMLElement {
           `<span class="hbd-spell-card__tag">${this._esc(t)}</span>`).join('')}</div>`
       : '';
 
+    // attributeChangedCallback can fire before connectedCallback during upgrade,
+    // so slots may not be captured yet. Capture lazily before reading them.
+    if (!this._slots) this._captureSlots();
     const { description, higher, footer } = this._slots;
     const descHtml = description
       ? `<p class="hbd-spell-card__description">${description}</p>` : '';

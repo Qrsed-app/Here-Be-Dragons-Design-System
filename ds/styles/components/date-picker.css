@@ -1,0 +1,349 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/date-picker.css
+ *
+ * Calendar popover with trigger, header (month label + prev/next nav),
+ * weekday columnheader row, 6×7 grid of day cells, and a footer with
+ * Today/Clear actions. Three variants: date, date-time, date-range.
+ *
+ * Notes:
+ * - All values via --hbd-* tokens.
+ * - Spec referenced --hbd-color-action-default / -action-text /
+ *   -status-error-bg; emitted tokens are --hbd-color-surface-action,
+ *   --hbd-color-text-on-action, --hbd-color-status-error-border. Reconciled
+ *   to the emitted names per established precedent.
+ * - Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N.
+ */
+
+/* ── 1 · Block + trigger ───────────────────────────────────────────── */
+.hbd-date-picker {
+  position: relative;
+  width: 100%;
+}
+
+/* Trigger — visually identical to the shared field input surface. */
+.hbd-date-picker__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-2);
+  width: 100%;
+  min-height: var(--hbd-input-min-height);
+  padding: var(--hbd-input-padding-y) var(--hbd-input-padding-x);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-input-font-size);
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-default);
+  /* border-strong (ink-700, ~11.4:1 on parchment) — same SC 1.4.11
+     precedent as the other input borders. */
+  border: var(--hbd-input-border-width) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-input-border-radius);
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-date-picker__trigger:hover {
+  border-color: var(--hbd-color-border-strong);
+}
+.hbd-date-picker__trigger:focus-visible {
+  border-color: var(--hbd-color-input-focus-border);
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+.hbd-date-picker--open .hbd-date-picker__trigger {
+  border-color: var(--hbd-color-input-focus-border);
+}
+.hbd-date-picker--error .hbd-date-picker__trigger {
+  border-color: var(--hbd-color-status-error-border);
+}
+.hbd-date-picker--error .hbd-date-picker__trigger,
+.hbd-date-picker--error .hbd-date-picker__trigger-value--placeholder {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-date-picker--disabled .hbd-date-picker__trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--hbd-color-surface-subtle);
+}
+
+/* Displayed value vs placeholder mode. */
+.hbd-date-picker__trigger-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hbd-date-picker__trigger-value--placeholder {
+  color: var(--hbd-color-text-muted);
+}
+
+/* Calendar icon at the right edge of the trigger. */
+.hbd-date-picker__trigger-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  color: var(--hbd-color-text-muted);
+}
+
+/* ── 2 · Panel ─────────────────────────────────────────────────────── */
+/* Slide-open animation mirrors the select panel (max-height + opacity,
+   --hbd-duration-slow). Global prefers-reduced-motion collapses it. */
+.hbd-date-picker__panel {
+  position: absolute;
+  z-index: var(--hbd-z-dropdown);
+  top: calc(100% + var(--hbd-space-1));
+  left: 0;
+  width: var(--hbd-date-picker-panel-width);
+  background: var(--hbd-color-surface-raised);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  border-radius: var(--hbd-radius-lg);
+  box-shadow: var(--hbd-shadow-lg);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity var(--hbd-duration-slow) var(--hbd-ease-out),
+              padding var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-date-picker--open .hbd-date-picker__panel {
+  /* Generous cap: 6 rows × cell-size + header + weekdays + footer + padding.
+     Tied to per-row sizing so layout changes propagate. The date-time
+     variant adds a time picker below the footer and needs more room. */
+  max-height: calc(var(--hbd-date-picker-cell-size) * 14);
+  opacity: 1;
+  pointer-events: auto;
+  padding: var(--hbd-space-3);
+}
+/* Date-time variant: taller body (cell rows + footer + time picker) AND
+   the time picker has its OWN popover that must not be clipped by the
+   date picker's overflow. After open we let content escape. */
+.hbd-date-picker--open.hbd-date-picker--datetime .hbd-date-picker__panel {
+  max-height: calc(var(--hbd-date-picker-cell-size) * 22);
+  overflow: visible;
+}
+
+/* ── 3 · Header (month label + nav) ───────────────────────────────── */
+.hbd-date-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-2);
+  margin-bottom: var(--hbd-space-3);
+}
+.hbd-date-picker__nav-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-date-picker-nav-button-size);
+  height: var(--hbd-date-picker-nav-button-size);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--hbd-color-text-secondary);
+  border-radius: var(--hbd-radius-sm);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-date-picker__nav-btn:hover {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+}
+.hbd-date-picker__nav-btn:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+.hbd-date-picker__nav-btn:disabled {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.hbd-date-picker__month-label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--hbd-font-family-accent);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-semibold);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  color: var(--hbd-color-text-primary);
+  background: none;
+  border: none;
+  cursor: default;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+}
+
+/* ── 4 · Weekday labels row ────────────────────────────────────────── */
+.hbd-date-picker__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--hbd-space-1);
+  margin-bottom: var(--hbd-space-1);
+}
+.hbd-date-picker__weekday {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-muted);
+  text-align: center;
+  padding-bottom: var(--hbd-space-1);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* ── 5 · Grid (6 weeks × 7 days) ───────────────────────────────────── */
+.hbd-date-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--hbd-space-1);
+}
+
+.hbd-date-picker__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hbd-date-picker__cell-inner {
+  width: var(--hbd-date-picker-cell-size);
+  height: var(--hbd-date-picker-cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: var(--hbd-radius-full);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-date-picker__cell-inner:hover {
+  background: var(--hbd-color-surface-subtle);
+}
+
+/* States: today (subtle highlight + bold), selected (action fill),
+   outside-month (muted), disabled (muted + pointer-blocked), focused. */
+.hbd-date-picker__cell.is-today .hbd-date-picker__cell-inner {
+  background: var(--hbd-color-surface-subtle);
+  font-weight: var(--hbd-font-weight-semibold);
+}
+.hbd-date-picker__cell.is-selected .hbd-date-picker__cell-inner {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  font-weight: var(--hbd-font-weight-semibold);
+}
+.hbd-date-picker__cell.is-outside-month .hbd-date-picker__cell-inner {
+  color: var(--hbd-color-text-muted);
+  opacity: 0.5;
+}
+.hbd-date-picker__cell.is-disabled .hbd-date-picker__cell-inner {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.hbd-date-picker__cell.is-focused .hbd-date-picker__cell-inner {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-border-width-hairline);
+}
+.hbd-date-picker__cell-inner:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-border-width-hairline);
+}
+
+/* ── 6 · Range states ──────────────────────────────────────────────── */
+/* Mid-range cells: full-width subtle background, square corners. */
+.hbd-date-picker__cell.is-in-range .hbd-date-picker__cell-inner {
+  background: var(--hbd-color-surface-subtle);
+  border-radius: 0;
+  width: 100%;
+}
+/* Start / end: half-fill the cell to bridge into the in-range run. The
+   inner button keeps the round action-coloured token sitting on top. */
+.hbd-date-picker__cell.is-range-start {
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    var(--hbd-color-surface-subtle) 50%
+  );
+}
+.hbd-date-picker__cell.is-range-end {
+  background: linear-gradient(
+    to left,
+    transparent 50%,
+    var(--hbd-color-surface-subtle) 50%
+  );
+}
+.hbd-date-picker__cell.is-range-start .hbd-date-picker__cell-inner,
+.hbd-date-picker__cell.is-range-end .hbd-date-picker__cell-inner {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-radius: var(--hbd-radius-full);
+  font-weight: var(--hbd-font-weight-semibold);
+  width: var(--hbd-date-picker-cell-size);
+}
+/* Single-day range (start === end): no half-fill bleed in either direction. */
+.hbd-date-picker__cell.is-range-start.is-range-end {
+  background: none;
+}
+
+/* ── 7 · Footer ────────────────────────────────────────────────────── */
+.hbd-date-picker__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  padding-top: var(--hbd-space-2);
+  margin-top: var(--hbd-space-2);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+.hbd-date-picker__footer-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-1);
+}
+.hbd-date-picker__footer-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-emphasis);
+  border-radius: var(--hbd-radius-sm);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-date-picker__footer-btn:hover {
+  background: var(--hbd-color-surface-subtle);
+}
+.hbd-date-picker__footer-btn:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+.hbd-date-picker__footer-btn--muted {
+  color: var(--hbd-color-text-muted);
+}
+
+/* ── 8 · Date-time slot ────────────────────────────────────────────── */
+/* The date-time variant slots an <hbd-time-picker> inline below the
+   footer separator. The wrapper just gives it breathing room. */
+.hbd-date-picker__time-slot {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--hbd-space-3);
+  margin-top: var(--hbd-space-2);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}

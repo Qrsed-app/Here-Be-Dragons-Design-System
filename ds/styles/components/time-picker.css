@@ -61,6 +61,11 @@
 }
 
 /* ── Panel ──────────────────────────────────────────────────────────── */
+/* Slide-open animation: max-height + opacity, --hbd-duration-slow (350ms),
+   --hbd-ease-out — matches the select panel pattern. Requires the panel
+   <div> to persist across renders in hbd-time-picker.js, otherwise the
+   transition cannot interpolate. Reduced-motion override in
+   foundations/motion.css collapses the transition to 0.01ms automatically. */
 .hbd-time-picker__panel {
   position: absolute;
   top: calc(100% + var(--hbd-space-1));
@@ -71,15 +76,17 @@
   border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);
   border-radius: var(--hbd-radius-md);
   box-shadow: var(--hbd-shadow-lg);
+  overflow: hidden;
+  /* Closed state: collapsed + invisible. */
+  max-height: 0;
   opacity: 0;
-  transform: translateY(calc(-1 * var(--hbd-space-1)));
   pointer-events: none;
-  transition: opacity var(--hbd-duration-fast) var(--hbd-ease-out),
-              transform var(--hbd-duration-fast) var(--hbd-ease-out);
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity var(--hbd-duration-slow) var(--hbd-ease-out);
 }
 .hbd-time-picker--open .hbd-time-picker__panel {
+  max-height: var(--hbd-time-picker-panel-max-height);
   opacity: 1;
-  transform: translateY(0);
   pointer-events: auto;
 }
 
@@ -240,9 +247,34 @@
 }
 .hbd-time-picker__clear:hover { color: var(--hbd-color-text-primary); }
 .hbd-time-picker__clear:focus-visible,
+.hbd-time-picker__cancel:focus-visible,
 .hbd-time-picker__confirm:focus-visible {
   outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
   outline-offset: var(--hbd-focus-offset);
+}
+
+/* Cancel — muted text button next to Confirm. Same visual weight as Clear,
+   sits on the right next to the prominent Confirm action. */
+.hbd-time-picker__cancel {
+  background: none;
+  border: none;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  min-height: var(--hbd-space-12);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__cancel:hover { color: var(--hbd-color-text-primary); }
+
+/* Right-side group: Cancel + Confirm clustered together. */
+.hbd-time-picker__footer-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
 }
 .hbd-time-picker__confirm {
   background: var(--hbd-color-surface-action);

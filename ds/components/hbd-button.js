@@ -1,5 +1,9 @@
 // ds/components/hbd-button.js
 // Here Be Dragons DS — <hbd-button> custom element (CLAUDE.md §7).
+// Styles via adopted stylesheets (../utils/shared-styles.js) to avoid FOUC
+// on re-render when attributes like `disabled` / `loading` change.
+
+import { adoptStyles } from '../utils/shared-styles.js';
 
 class HbdButton extends HTMLElement {
   static get observedAttributes() {
@@ -13,6 +17,10 @@ class HbdButton extends HTMLElement {
   }
 
   connectedCallback() {
+    adoptStyles(this.shadowRoot, [
+      '/tokens/tokens.css',
+      '/ds/styles/components/button.css',
+    ]);
     this._render();
     this._upgradeAccessibility();
     this.shadowRoot.addEventListener('click', this._handleClick);
@@ -40,9 +48,8 @@ class HbdButton extends HTMLElement {
     if (isLoading) classes.push('is-loading');
     if (isDisabled) classes.push('is-disabled');
 
+    // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="/tokens/tokens.css">
-      <link rel="stylesheet" href="/ds/styles/components/button.css">
       <button
         class="${classes.join(' ')}"
         type="${type}"

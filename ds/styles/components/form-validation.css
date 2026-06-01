@@ -1,0 +1,127 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/form-validation.css
+ *
+ * Shared validation styles that every form component participates in.
+ * Each component's own CSS already carries the structural surface rules
+ * (border colour, focus ring tint) for its error/success/warning states.
+ * This file adds the cross-cutting visual helpers — validation icons next
+ * to messages, a form-level error summary, and a validate-on-blur modifier
+ * — that aren't tied to any single component.
+ *
+ * Notes:
+ * - All values via --hbd-* tokens.
+ * - Spec referenced --hbd-color-status-*-text and --hbd-color-status-*-bg;
+ *   emitted tokens are --hbd-color-status-*-surface (the saturated colour
+ *   used as a background) and --hbd-color-status-*-text (the on-saturated
+ *   text colour, parchment-50). On-page dark error/warning/success text
+ *   uses --hbd-color-text-emphasis (blood), --hbd-color-gold-deep,
+ *   --hbd-color-forest-700 — same precedent as field-level messages.
+ * - The error summary IS a saturated panel (background = status-error-
+ *   surface), so the status-*-text tokens are used there as designed.
+ * - Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N.
+ */
+
+/* ── 1 · Validation icons ──────────────────────────────────────────── */
+/* Hidden by default; shown only when the matching field-level modifier
+   is active. Use alongside the field message. SVG should be sized at
+   --hbd-space-4 (16px) for visual parity with the message line-height. */
+.hbd-field__validation-icon {
+  flex-shrink: 0;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  display: none;
+}
+.hbd-field--error .hbd-field__validation-icon--error {
+  display: inline-block;
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-field--success .hbd-field__validation-icon--success {
+  display: inline-block;
+  color: var(--hbd-color-status-success-border);
+}
+.hbd-field--warning .hbd-field__validation-icon--warning {
+  display: inline-block;
+  color: var(--hbd-color-gold-deep);
+}
+
+/* ── 2 · Field-level warning (UI-only state) ───────────────────────── */
+/* Warning is a non-blocking advisory; HTML5 validity has no equivalent.
+   It mirrors the error structure: a .hbd-field__warning span inside the
+   field footer, shown when the field carries .hbd-field--warning. */
+.hbd-field__warning {
+  display: none;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  line-height: var(--hbd-line-height-body);
+  /* gold-deep (~5.6:1 on parchment) — AA-compliant on-page warning text. */
+  color: var(--hbd-color-gold-deep);
+}
+.hbd-field--warning .hbd-field__warning { display: block; }
+.hbd-field--warning .hbd-field__hint    { display: none; }
+
+/* ── 3 · Form error summary ────────────────────────────────────────── */
+/* Sits above a form when multiple fields are in error. The panel uses
+   the saturated status-error-surface so the on-saturated text tokens
+   (status-error-text = parchment-50) are the correct on-panel colour
+   pairing. Contrast on saturated blood: ≈ 8.5:1 — AA AAA-comfortable. */
+.hbd-form-error-summary {
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  background: var(--hbd-color-status-error-surface);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-status-error-border);
+  border-radius: var(--hbd-radius-md);
+  margin-bottom: var(--hbd-space-4);
+  color: var(--hbd-color-status-error-text);
+}
+
+.hbd-form-error-summary__heading {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-status-error-text);
+  margin: 0 0 var(--hbd-space-2);
+}
+
+.hbd-form-error-summary__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+}
+
+.hbd-form-error-summary__item {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-status-error-text);
+}
+
+.hbd-form-error-summary__link {
+  color: var(--hbd-color-status-error-text);
+  text-decoration: underline;
+}
+.hbd-form-error-summary__link:hover {
+  color: var(--hbd-color-status-error-text);
+  text-decoration: none;
+}
+.hbd-form-error-summary__link:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-status-error-text);
+  outline-offset: var(--hbd-focus-offset);
+  border-radius: var(--hbd-radius-sm);
+}
+
+/* ── 4 · Validate-on-blur modifier ─────────────────────────────────── */
+/* Suppresses validation messages until the user has interacted with the
+   field (focused then blurred). JS adds .hbd-field--touched on first
+   blur. The !important override is the documented exception: it has to
+   beat the field-level .hbd-field--error display:block from input.css,
+   and the modifier is intentionally narrow (specific cascade). */
+.hbd-field--validate-on-blur:not(.hbd-field--touched) .hbd-field__error,
+.hbd-field--validate-on-blur:not(.hbd-field--touched) .hbd-field__warning,
+.hbd-field--validate-on-blur:not(.hbd-field--touched) .hbd-field__success {
+  display: none !important;
+}
+.hbd-field--validate-on-blur:not(.hbd-field--touched) .hbd-field__hint {
+  display: block !important;
+}

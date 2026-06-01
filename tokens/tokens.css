@@ -309,6 +309,7 @@
   /* ── callout ───────────────────────────────────────────── */
   --hbd-callout-sage-advice-bg: rgba(184, 137, 59, 0.08);
   --hbd-callout-sage-advice-border: var(--hbd-color-gold-deep);
+  --hbd-callout-dismiss-max-height: 1000px;
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
@@ -350,4 +351,67 @@
   --hbd-stat-block-name-gap: 2px;
   --hbd-stat-block-feature-gap: 0.375rem;
   --hbd-stat-block-feature-leading: 1.55;
+
+  /* ── input ─────────────────────────────────────────────── */
+  --hbd-input-border-radius: var(--hbd-radius-md);
+  --hbd-input-padding-x: var(--hbd-space-3);
+  --hbd-input-padding-y: var(--hbd-space-2);
+  --hbd-input-min-height: 44px;
+  --hbd-input-font-size: var(--hbd-font-size-body);
+  --hbd-input-border-width: var(--hbd-border-width-hairline);
+
+  /* ── textarea ──────────────────────────────────────────── */
+  --hbd-textarea-min-height: 96px;
+  --hbd-textarea-max-height: 400px;
+
+  /* ── select ────────────────────────────────────────────── */
+  --hbd-select-option-height: 40px;
+  --hbd-select-panel-max-height: 280px;
+
+  /* ── time-picker ───────────────────────────────────────── */
+  --hbd-time-picker-panel-max-height: 320px;
+
+  /* ── switch ────────────────────────────────────────────── */
+  --hbd-switch-width: 44px;
+  --hbd-switch-height: 24px;
+  --hbd-switch-thumb-size: 18px;
+  --hbd-switch-thumb-offset: 3px;
+  --hbd-switch-sm-width: 36px;
+  --hbd-switch-sm-height: 20px;
+  --hbd-switch-sm-thumb-size: 14px;
+  --hbd-switch-sm-thumb-offset: 3px;
+  --hbd-switch-lg-width: 52px;
+  --hbd-switch-lg-height: 28px;
+  --hbd-switch-lg-thumb-size: 22px;
+  --hbd-switch-lg-thumb-offset: 3px;
+
+  /* ── slider ────────────────────────────────────────────── */
+  --hbd-slider-track-height: 4px;
+  --hbd-slider-thumb-size: 20px;
+  --hbd-slider-thumb-size-sm: 16px;
+  --hbd-slider-thumb-size-lg: 24px;
+
+  /* ── stepper ───────────────────────────────────────────── */
+  --hbd-stepper-button-width: 40px;
+
+  /* ── file-upload ───────────────────────────────────────── */
+  --hbd-file-upload-dropzone-min-height: 160px;
+  --hbd-file-upload-preview-size: 64px;
+  --hbd-file-upload-progress-height: 4px;
+
+  /* ── combobox ──────────────────────────────────────────── */
+  --hbd-combobox-chip-height: 24px;
+  --hbd-combobox-panel-max-height: 280px;
+  --hbd-combobox-min-input-width: 120px;
+  --hbd-combobox-chip-max-width: 200px;
+  --hbd-combobox-multi-max-height: 96px;
+
+  /* ── date-picker ───────────────────────────────────────── */
+  --hbd-date-picker-cell-size: 36px;
+  --hbd-date-picker-panel-width: 280px;
+  --hbd-date-picker-nav-button-size: 32px;
+
+  /* ── otp ───────────────────────────────────────────────── */
+  --hbd-otp-cell-size: 48px;
+  --hbd-otp-gap: var(--hbd-space-2);
 }
