@@ -2091,6 +2091,7 @@
           <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
           <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
           <li><a class="ds-toc__link" href="#component-button">Button</a></li>
+          <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
           <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
           <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
           <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
@@ -3489,6 +3490,145 @@
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="13" y="17" width="18" height="10" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="22" cy="22" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · ICON BUTTON ══════════════════════ -->
+    <section class="ds-section" id="component-icon-button" aria-labelledby="heading-icon-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·b</span>
+        <h2 class="ds-section__heading" id="heading-icon-button">Icon Button</h2>
+        <p class="ds-section__description">
+          Icon buttons trigger actions using only an icon. They are <code>&lt;hbd-button&gt;</code>
+          with the <code>icon-only</code> attribute set. Always provide an <code>aria-label</code>
+          — it is announced to screen readers and also shown as a tooltip on hover and focus.
+          The CSS tooltip reads from the same <code>aria-label</code> via <code>attr()</code>, so
+          the visible tooltip is guaranteed to match the accessible name.
+        </p>
+
+        <!-- Group 1 · Variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">All variants</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-button icon-only variant="default" aria-label="Close dialog">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" aria-label="Send message">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="gold" aria-label="Add to favourites">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l2 5h5l-4 3.5L12.5 15 8 11.5 3.5 15 5 9.5 1 6h5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only variant="default" aria-label="Close dialog"&gt;
+  &lt;span class="hbd-button__icon" aria-hidden="true"&gt;&lt;svg…&gt;&lt;/span&gt;
+&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" aria-label="Send message"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="gold"    aria-label="Add to favourites"&gt;…&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">All sizes</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-button icon-only variant="default" size="sm" aria-label="Small action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" size="md" aria-label="Medium action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" size="lg" aria-label="Large action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only size="sm" aria-label="Small action"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only size="md" aria-label="Medium action"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only size="lg" aria-label="Large action"&gt;…&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Tooltip behaviour -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Tooltip behaviour</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);max-width:60ch;">
+            Hover or focus these buttons to see the tooltip. Press <kbd>Escape</kbd> to dismiss it
+            without moving focus (SC 1.4.13 Content on Hover or Focus). Move the pointer away or
+            blur the button and the tooltip will reappear on the next interaction.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
+            <hbd-button icon-only variant="default" aria-label="Close dialog">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- Tooltip content reads from aria-label via attr() — they cannot diverge. --&gt;
+&lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only aria-label="Summon the dread Tarrasque"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-button icon-only variant="primary" aria-label="Default">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" loading aria-label="Loading">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" disabled aria-label="Disabled">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only variant="primary" aria-label="Default"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" loading aria-label="Loading"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" disabled aria-label="Disabled"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Icon Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="14" y="14" width="16" height="16" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M18 22h8M22 18v8" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </div>
 
