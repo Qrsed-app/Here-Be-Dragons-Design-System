@@ -2093,6 +2093,7 @@
           <li><a class="ds-toc__link" href="#component-button">Button</a></li>
           <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
           <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
+          <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
           <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
           <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
           <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
@@ -3813,6 +3814,159 @@
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="11" y="17" width="22" height="10" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="17" cy="22" r="3" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SPLIT BUTTON ══════════════════════ -->
+    <section class="ds-section" id="component-split-button" aria-labelledby="heading-split-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·d</span>
+        <h2 class="ds-section__heading" id="heading-split-button">Split Button</h2>
+        <p class="ds-section__description">
+          Split buttons expose a primary action directly and secondary actions in a dropdown.
+          Use when one action is strongly preferred but alternatives are occasionally needed.
+          Rendered as <code>&lt;hbd-split-button&gt;</code> composing two
+          <code>&lt;hbd-button&gt;</code> elements. Clicking the left half fires
+          <code>hbd:action</code>; the right chevron opens a menu of
+          <code>&lt;hbd-option&gt;</code> children — selecting one fires
+          <code>hbd:select</code>.
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <div class="ds-preview-canvas">
+            <hbd-split-button variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+              <hbd-option value="scroll">Use spell scroll</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;
+  &lt;hbd-option value="upcasted"&gt;Cast at higher level&lt;/hbd-option&gt;
+  &lt;hbd-option value="ritual"&gt;Cast as ritual&lt;/hbd-option&gt;
+  &lt;hbd-option value="scroll"&gt;Use spell scroll&lt;/hbd-option&gt;
+&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Variants</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-split-button variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="default" label="Inspect Scroll">
+              <hbd-option value="copy">Copy to spellbook</hbd-option>
+              <hbd-option value="discard">Discard scroll</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="gold" label="Attune Item">
+              <hbd-option value="break">Break attunement</hbd-option>
+              <hbd-option value="trade">Trade with party</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="default" label="Inspect Scroll"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="gold"    label="Attune Item"&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-split-button variant="primary" size="sm" label="Cast">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="primary" size="md" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="primary" size="lg" label="Cast Spell Now">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" size="sm" label="Cast"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="primary" size="md" label="Cast Spell"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="primary" size="lg" label="Cast Spell Now"&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Disabled -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Disabled</h3>
+          <div class="ds-preview-canvas">
+            <hbd-split-button variant="primary" label="Cast Spell" disabled>
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell" disabled&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Open state demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Open state demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click the chevron to open and close the dropdown.
+          </p>
+          <div class="ds-preview-canvas" style="min-height:200px;align-items:flex-start;">
+            <hbd-split-button id="split-demo-open" variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+              <hbd-option value="scroll">Use spell scroll</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;
+  &lt;hbd-option value="upcasted"&gt;Cast at higher level&lt;/hbd-option&gt;
+  &lt;hbd-option value="ritual"&gt;Cast as ritual&lt;/hbd-option&gt;
+  &lt;hbd-option value="scroll"&gt;Use spell scroll&lt;/hbd-option&gt;
+&lt;/hbd-split-button&gt;
+
+&lt;!-- Pre-open the panel programmatically by simulating a chevron click. --&gt;</code></pre>
+          </details>
+          <script>
+            /* Pre-open the dropdown on page load by clicking the chevron. */
+            (function () {
+              function preOpen() {
+                var host = document.getElementById('split-demo-open');
+                if (!host || !host.shadowRoot) return setTimeout(preOpen, 50);
+                var trigger = host.shadowRoot.querySelector('.hbd-split-button__trigger');
+                if (!trigger || !trigger.shadowRoot) return setTimeout(preOpen, 50);
+                var inner = trigger.shadowRoot.querySelector('button');
+                if (!inner) return setTimeout(preOpen, 50);
+                inner.click();
+              }
+              preOpen();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Split Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="11" y="17" width="14" height="10" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="25" y="17" width="8" height="10" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M27 21l2 2 2-2" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </div>
 
