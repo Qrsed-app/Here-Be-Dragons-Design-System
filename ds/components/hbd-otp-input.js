@@ -199,6 +199,7 @@ class HbdOtpInput extends HTMLElement {
                maxlength="1"
                autocomplete="${this._esc(ac)}"
                aria-label="${this._esc(ariaLabel)}"
+               ${hasError ? 'aria-invalid="true"' : ''}
                value="${this._esc(value)}"
                ${disabled ? 'disabled' : ''}>
       `);

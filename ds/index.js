@@ -14,6 +14,7 @@ preloadStyles([
   '/ds/styles/components/codeblock.css',
   '/ds/styles/components/date-picker.css',
   '/ds/styles/components/file-upload.css',
+  '/ds/styles/components/form-validation.css',
   '/ds/styles/components/input.css',
   '/ds/styles/components/time-picker.css',
 ]);

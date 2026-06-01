@@ -29,7 +29,7 @@ class HbdSwitch extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      'checked', 'disabled', 'label', 'hint',
+      'checked', 'disabled', 'label', 'hint', 'error',
       'name', 'value', 'size', 'label-position',
     ];
   }
@@ -116,6 +116,8 @@ class HbdSwitch extends HTMLElement {
     const value = this.getAttribute('value') || 'on';
     const label = this.getAttribute('label') || '';
     const hint = this.getAttribute('hint') || '';
+    const error = this.getAttribute('error') || '';
+    const hasError = error !== '';
     const size = this._size();
     const labelPos = this._labelPosition();
     const ariaLabel = this.getAttribute('aria-label');
@@ -124,9 +126,13 @@ class HbdSwitch extends HTMLElement {
     if (labelPos === 'left') classes.push('hbd-switch--label-left');
     if (checked) classes.push('hbd-switch--checked');
     if (disabled) classes.push('hbd-switch--disabled');
+    if (hasError) classes.push('hbd-switch--error', 'hbd-field--error');
 
     const hasVisibleLabel = !!label;
     const hintId = `hint-${uid}`;
+    const errorId = `error-${uid}`;
+    const describedBy = [hint ? hintId : '', hasError ? errorId : '']
+      .filter(Boolean).join(' ');
 
     // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
@@ -139,7 +145,8 @@ class HbdSwitch extends HTMLElement {
           value="${this._esc(value)}"
           aria-checked="${checked ? 'true' : 'false'}"
           ${(!hasVisibleLabel && ariaLabel) ? `aria-label="${this._esc(ariaLabel)}"` : ''}
-          ${hint ? `aria-describedby="${hintId}"` : ''}
+          ${describedBy ? `aria-describedby="${describedBy}"` : ''}
+          ${hasError ? 'aria-invalid="true"' : ''}
           ${checked ? 'checked' : ''}
           ${disabled ? 'disabled' : ''}>
         <span class="hbd-switch__track" aria-hidden="true">
@@ -151,6 +158,7 @@ class HbdSwitch extends HTMLElement {
           ${hint ? `<span class="hbd-switch__hint" id="${hintId}">${this._esc(hint)}</span>` : ''}
         </span>` : ''}
       </label>
+      ${hasError ? `<span class="hbd-switch__error hbd-field__error" id="${errorId}" role="alert">${this._esc(error)}</span>` : ''}
     `;
   }
 

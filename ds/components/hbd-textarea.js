@@ -161,7 +161,7 @@ class HbdTextarea extends HTMLElement {
         <div class="hbd-field__footer">
           ${hasHint ? `<span class="hbd-field__hint" id="hint-${uid}">${this._esc(hint)}</span>` : ''}
           ${hasError ? `<span class="hbd-field__error" id="error-${uid}" role="alert">${this._esc(error)}</span>` : ''}
-          ${hasSuccess ? `<span class="hbd-field__success" id="success-${uid}">${this._esc(success)}</span>` : ''}
+          ${hasSuccess ? `<span class="hbd-field__success" id="success-${uid}" role="status">${this._esc(success)}</span>` : ''}
           ${maxlength ? `<span class="hbd-field__char-count${countClass}" id="count-${uid}" aria-live="polite" aria-atomic="true">${currentLen}/${this._esc(maxlength)}</span>` : ''}
         </div>` : ''}
       </div>

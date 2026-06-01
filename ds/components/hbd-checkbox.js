@@ -7,6 +7,8 @@
 
 import { adoptStyles } from '../utils/shared-styles.js';
 
+let uidCounter = 0;
+
 class HbdCheckbox extends HTMLElement {
   static formAssociated = true;
 
@@ -18,6 +20,7 @@ class HbdCheckbox extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this._internals = this.attachInternals();
+    this._uid = `hbd-checkbox-${++uidCounter}`;
     this._handleChange = this._handleChange.bind(this);
   }
 
@@ -47,6 +50,7 @@ class HbdCheckbox extends HTMLElement {
   }
 
   _render() {
+    const uid = this._uid;
     const name = this.getAttribute('name');
     const value = this.getAttribute('value');
     const checked = this.hasAttribute('checked');
@@ -54,12 +58,22 @@ class HbdCheckbox extends HTMLElement {
     const disabled = this.hasAttribute('disabled');
     const required = this.hasAttribute('required');
     const error = this.getAttribute('error');
+    const hasError = error != null && error !== '';
 
+    // Both --error (component-specific visual rules in checkbox.css) AND
+    // the shared .hbd-field--error are applied so the canonical validation
+    // CSS in input.css / form-validation.css applies uniformly.
     const classes = ['hbd-checkbox'];
     if (checked) classes.push('hbd-checkbox--checked');
     if (indeterminate) classes.push('hbd-checkbox--indeterminate');
     if (disabled) classes.push('hbd-checkbox--disabled');
-    if (error) classes.push('hbd-checkbox--error');
+    if (hasError) classes.push('hbd-checkbox--error', 'hbd-field--error');
+
+    // aria-describedby: links the native input to the hint + error spans.
+    // Hint content arrives via slot, so the span ID is the stable anchor
+    // — even when the slot is empty the span exists and references safely.
+    const describedBy = [`hint-${uid}`, hasError ? `error-${uid}` : '']
+      .filter(Boolean).join(' ');
 
     // Stylesheets are adopted in connectedCallback (see adoptStyles).
     this.shadowRoot.innerHTML = `
@@ -69,6 +83,9 @@ class HbdCheckbox extends HTMLElement {
           type="checkbox"
           ${name ? `name="${name}"` : ''}
           ${value ? `value="${value}"` : ''}
+          aria-describedby="${describedBy}"
+          ${hasError ? 'aria-invalid="true"' : ''}
+          ${required ? 'aria-required="true"' : ''}
           ${checked ? 'checked' : ''}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
@@ -76,8 +93,8 @@ class HbdCheckbox extends HTMLElement {
         <span class="hbd-checkbox__control" aria-hidden="true"></span>
         <span class="hbd-checkbox__label"><slot></slot></span>
       </label>
-      <span class="hbd-checkbox__hint"><slot name="hint"></slot></span>
-      <span class="hbd-checkbox__error" role="alert" aria-live="polite">${error || ''}</span>
+      <span class="hbd-checkbox__hint" id="hint-${uid}"><slot name="hint"></slot></span>
+      <span class="hbd-checkbox__error hbd-field__error" id="error-${uid}" role="alert">${error || ''}</span>
     `;
   }
 

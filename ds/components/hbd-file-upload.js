@@ -218,6 +218,7 @@ class HbdFileUpload extends HTMLElement {
                tabindex="${disabled ? '-1' : '0'}"
                aria-label="${this._esc(dropzoneAriaLabel)}"
                ${describedBy ? `aria-describedby="${describedBy}"` : ''}
+               ${hasError ? 'aria-invalid="true"' : ''}
                ${disabled ? 'aria-disabled="true"' : ''}>
 
             <span class="hbd-file-upload__icon" aria-hidden="true">${this._iconUpload()}</span>

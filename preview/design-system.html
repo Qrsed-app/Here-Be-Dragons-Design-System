@@ -2110,6 +2110,7 @@
           <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
           <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
           <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
+          <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -5929,6 +5930,230 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <rect x="28" y="18" width="6" height="8" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="13" cy="22" r="1" fill="#7a1212"/>
         <circle cx="22" cy="22" r="1" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ PATTERN · FORM VALIDATION ══════════════════════ -->
+    <section class="ds-section" id="pattern-form-validation" aria-labelledby="heading-form-validation">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P·1</span>
+        <h2 class="ds-section__heading" id="heading-form-validation">Form Validation</h2>
+        <p class="ds-section__description">
+          All form components use a consistent validation pattern. Errors appear inline below the
+          field, are linked to the input via <code>aria-describedby</code>, carry
+          <code>aria-invalid="true"</code>, and announce immediately via
+          <code>role="alert"</code>. Success and warning states follow the same structural pattern
+          (<code>role="status"</code> for non-urgent updates). This is a pattern, not a component
+          — every form input above already implements it.
+        </p>
+
+        <!-- Group 1 · Validation states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Validation states</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+            <hbd-input label="Default" placeholder="Type a character name…"
+              hint="No validation has run yet."></hbd-input>
+            <hbd-input label="Error" value="Bilbo"
+              error="That name is already taken."></hbd-input>
+            <hbd-input id="vp-warning-input" label="Warning" value="bilbo"
+              hint="Name should start with a capital letter."></hbd-input>
+            <hbd-input label="Success" value="Aragorn"
+              success="Name is available."></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input label="Default" hint="No validation has run yet."&gt;&lt;/hbd-input&gt;
+&lt;hbd-input label="Error"   error="That name is already taken."&gt;&lt;/hbd-input&gt;
+&lt;hbd-input label="Success" success="Name is available."&gt;&lt;/hbd-input&gt;
+
+&lt;!-- Warning is a UI-only state (HTML5 has no native warning validity).
+     Apply the .hbd-field--warning class and a .hbd-field__warning span. --&gt;</code></pre>
+          </details>
+          <script>
+            /* Promote the Warning input into the warning state by reaching
+               into its shadow root and toggling the class + adding a
+               .hbd-field__warning span. Warning is intentionally a CSS-
+               only state — no native validity equivalent. */
+            (function () {
+              function applyWarning() {
+                var host = document.getElementById('vp-warning-input');
+                if (!host || !host.shadowRoot) return setTimeout(applyWarning, 50);
+                var field = host.shadowRoot.querySelector('.hbd-field');
+                if (!field) return setTimeout(applyWarning, 50);
+                field.classList.add('hbd-field--warning');
+                var footer = field.querySelector('.hbd-field__footer');
+                if (footer && !footer.querySelector('.hbd-field__warning')) {
+                  var w = document.createElement('span');
+                  w.className = 'hbd-field__warning';
+                  w.setAttribute('role', 'status');
+                  w.textContent = 'Name should start with a capital letter.';
+                  footer.appendChild(w);
+                }
+              }
+              applyWarning();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 2 · Validate on blur -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Validate on blur</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab through these fields without filling them to trigger errors. The validation
+            message stays hidden until each field has been focused and blurred.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:flex-start;flex-wrap:wrap;">
+            <hbd-input id="vp-blur-name" label="Character name" required
+              error="Character name is required."></hbd-input>
+            <hbd-input id="vp-blur-email" type="email" label="Scroll delivery" required
+              error="A valid email is required."></hbd-input>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input label="Character name" required error="Required."&gt;&lt;/hbd-input&gt;
+
+&lt;!-- Add the .hbd-field--validate-on-blur modifier + add .hbd-field--touched
+     on first blur. The CSS hides the error/warning/success until touched. --&gt;</code></pre>
+          </details>
+          <script>
+            /* Apply validate-on-blur to two fields. Reach into the shadow
+               root once, add the modifier class to the .hbd-field wrapper,
+               and listen for blur on the native input to flip --touched. */
+            (function () {
+              function wire(hostId) {
+                var host = document.getElementById(hostId);
+                if (!host || !host.shadowRoot) return setTimeout(function () { wire(hostId); }, 50);
+                var field = host.shadowRoot.querySelector('.hbd-field');
+                var input = host.shadowRoot.querySelector('.hbd-field__input');
+                if (!field || !input) return setTimeout(function () { wire(hostId); }, 50);
+                field.classList.add('hbd-field--validate-on-blur');
+                input.addEventListener('blur', function () {
+                  field.classList.add('hbd-field--touched');
+                });
+              }
+              wire('vp-blur-name');
+              wire('vp-blur-email');
+            })();
+          </script>
+        </div>
+
+        <!-- Group 3 · Form error summary -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Form error summary</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <div id="vp-error-summary" class="hbd-form-error-summary" role="alert" style="display:none;">
+              <h4 class="hbd-form-error-summary__heading">3 errors prevented this form from being submitted:</h4>
+              <ul class="hbd-form-error-summary__list">
+                <li class="hbd-form-error-summary__item">
+                  <a class="hbd-form-error-summary__link" href="#vp-form-name">Character name is required.</a>
+                </li>
+                <li class="hbd-form-error-summary__item">
+                  <a class="hbd-form-error-summary__link" href="#vp-form-email">A valid email is required.</a>
+                </li>
+                <li class="hbd-form-error-summary__item">
+                  <a class="hbd-form-error-summary__link" href="#vp-form-class">A character class must be chosen.</a>
+                </li>
+              </ul>
+            </div>
+            <hbd-input id="vp-form-name" label="Character name" required
+              error="Character name is required."></hbd-input>
+            <hbd-input id="vp-form-email" type="email" label="Email" required
+              error="A valid email is required."></hbd-input>
+            <hbd-select id="vp-form-class" label="Class" required
+              error="A character class must be chosen."
+              placeholder="Choose a class…">
+              <hbd-option value="wizard">Wizard</hbd-option>
+              <hbd-option value="rogue">Rogue</hbd-option>
+              <hbd-option value="paladin">Paladin</hbd-option>
+            </hbd-select>
+            <button type="button" id="vp-submit"
+                    class="hbd-button hbd-button--primary"
+                    style="align-self:flex-start;">Submit</button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div class="hbd-form-error-summary" role="alert"&gt;
+  &lt;h4 class="hbd-form-error-summary__heading"&gt;
+    3 errors prevented this form from being submitted:
+  &lt;/h4&gt;
+  &lt;ul class="hbd-form-error-summary__list"&gt;
+    &lt;li class="hbd-form-error-summary__item"&gt;
+      &lt;a class="hbd-form-error-summary__link" href="#field-id"&gt;Character name is required.&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+          <script>
+            /* Show the summary on Submit, and make each link jump to the
+               actual native input INSIDE the shadow root (not just the
+               component host) so focus moves to the control itself. */
+            (function () {
+              function inputFor(hostId) {
+                var host = document.getElementById(hostId);
+                if (!host || !host.shadowRoot) return null;
+                return host.shadowRoot.querySelector('.hbd-field__input')
+                    || host.shadowRoot.querySelector('.hbd-field__select-trigger')
+                    || host.shadowRoot.querySelector('input,select,textarea,button');
+              }
+              function ready() {
+                var btn = document.getElementById('vp-submit');
+                if (!btn) return setTimeout(ready, 50);
+                var summary = document.getElementById('vp-error-summary');
+                btn.addEventListener('click', function () {
+                  summary.style.display = '';
+                  // Move focus to the summary so SR announces it.
+                  summary.setAttribute('tabindex', '-1');
+                  summary.focus();
+                });
+                ['vp-form-name', 'vp-form-email', 'vp-form-class'].forEach(function (id) {
+                  var link = document.querySelector('a.hbd-form-error-summary__link[href="#' + id + '"]');
+                  if (!link) return;
+                  link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var target = inputFor(id);
+                    if (target) target.focus();
+                  });
+                });
+              }
+              ready();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 4 · Required field convention -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Required field convention</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:flex-start;flex-wrap:wrap;">
+            <hbd-input label="Character name" required
+              hint="An asterisk marks required fields."></hbd-input>
+            <hbd-input label="Backstory (optional)"
+              hint="Optional fields show '(optional)' in the label."></hbd-input>
+          </div>
+          <p class="hbd-text-body" style="margin-top:var(--hbd-space-3);max-width:60ch;color:var(--hbd-color-text-secondary);">
+            <strong>Mark the minority.</strong> If most of your fields are required, mark only the
+            optional ones with <code>(optional)</code>. If most are optional, mark the required
+            ones with an asterisk. Required fields always carry <code>aria-required="true"</code>;
+            the asterisk has <code>aria-hidden="true"</code> so it isn't read aloud twice.
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-input label="Character name" required&gt;&lt;/hbd-input&gt;
+&lt;!-- Renders: label + visible "*" (aria-hidden) + aria-required="true" on input --&gt;
+
+&lt;hbd-input label="Backstory (optional)"&gt;&lt;/hbd-input&gt;
+&lt;!-- No required attribute, "(optional)" baked into the visible label --&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Form Validation divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M14 22l5 5 11-11" stroke="#b8893b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="22" cy="22" r="13" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
       </svg>
     </div>
 

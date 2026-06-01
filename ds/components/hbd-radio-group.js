@@ -193,7 +193,16 @@ class HbdRadioGroup extends HTMLElement {
     const hasHint = hint != null && hint !== '';
 
     const fieldsetClasses = ['hbd-radio-group'];
-    if (hasError) fieldsetClasses.push('hbd-radio-group--error');
+    // Apply the shared .hbd-field--error class alongside the component
+    // class so the canonical validation rules (form-validation.css) match.
+    if (hasError) fieldsetClasses.push('hbd-radio-group--error', 'hbd-field--error');
+
+    // aria-describedby for the radiogroup container — references hint +
+    // error spans so SR reads them when the group receives focus.
+    const describedBy = [
+      hasHint ? `hint-${uid}` : '',
+      hasError ? `error-${uid}` : '',
+    ].filter(Boolean).join(' ');
 
     const optionsClasses = ['hbd-radio-group__options'];
     if (horizontal) optionsClasses.push('hbd-radio-group__options--horizontal');
@@ -239,13 +248,14 @@ class HbdRadioGroup extends HTMLElement {
              role="radiogroup"
              id="options-${uid}"
              ${label ? `aria-labelledby="legend-${uid}"` : ''}
+             ${describedBy ? `aria-describedby="${describedBy}"` : ''}
              ${required ? 'aria-required="true"' : ''}
              ${hasError ? 'aria-invalid="true"' : ''}>
           ${radiosHtml}
         </div>
         ${(hasHint || hasError) ? `
-          ${hasHint ? `<span class="hbd-radio-group__hint" id="hint-${uid}">${this._esc(hint)}</span>` : ''}
-          ${hasError ? `<span class="hbd-radio-group__error" id="error-${uid}" role="alert">${this._esc(error)}</span>` : ''}
+          ${hasHint ? `<span class="hbd-radio-group__hint hbd-field__hint" id="hint-${uid}">${this._esc(hint)}</span>` : ''}
+          ${hasError ? `<span class="hbd-radio-group__error hbd-field__error" id="error-${uid}" role="alert">${this._esc(error)}</span>` : ''}
         ` : ''}
       </fieldset>
     `;
