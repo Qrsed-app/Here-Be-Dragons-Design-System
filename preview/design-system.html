@@ -2091,6 +2091,9 @@
           <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
           <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
           <li><a class="ds-toc__link" href="#component-button">Button</a></li>
+          <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
+          <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
+          <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
           <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
           <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
           <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
@@ -3489,6 +3492,481 @@
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="13" y="17" width="18" height="10" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="22" cy="22" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · ICON BUTTON ══════════════════════ -->
+    <section class="ds-section" id="component-icon-button" aria-labelledby="heading-icon-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·b</span>
+        <h2 class="ds-section__heading" id="heading-icon-button">Icon Button</h2>
+        <p class="ds-section__description">
+          Icon buttons trigger actions using only an icon. They are <code>&lt;hbd-button&gt;</code>
+          with the <code>icon-only</code> attribute set. Always provide an <code>aria-label</code>
+          — it is announced to screen readers and also shown as a tooltip on hover and focus.
+          The CSS tooltip reads from the same <code>aria-label</code> via <code>attr()</code>, so
+          the visible tooltip is guaranteed to match the accessible name.
+        </p>
+
+        <!-- Group 1 · Variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">All variants</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-button icon-only variant="default" aria-label="Close dialog">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" aria-label="Send message">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="gold" aria-label="Add to favourites">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l2 5h5l-4 3.5L12.5 15 8 11.5 3.5 15 5 9.5 1 6h5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only variant="default" aria-label="Close dialog"&gt;
+  &lt;span class="hbd-button__icon" aria-hidden="true"&gt;&lt;svg…&gt;&lt;/span&gt;
+&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" aria-label="Send message"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="gold"    aria-label="Add to favourites"&gt;…&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">All sizes</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-button icon-only variant="default" size="sm" aria-label="Small action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" size="md" aria-label="Medium action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" size="lg" aria-label="Large action">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only size="sm" aria-label="Small action"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only size="md" aria-label="Medium action"&gt;…&lt;/hbd-button&gt;
+&lt;hbd-button icon-only size="lg" aria-label="Large action"&gt;…&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Tooltip behaviour -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Tooltip behaviour</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);max-width:60ch;">
+            Hover or focus these buttons to see the tooltip. Press <kbd>Escape</kbd> to dismiss it
+            without moving focus (SC 1.4.13 Content on Hover or Focus). Move the pointer away or
+            blur the button and the tooltip will reappear on the next interaction.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
+            <hbd-button icon-only variant="default" aria-label="Close dialog">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- Tooltip content reads from aria-label via attr() — they cannot diverge. --&gt;
+&lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only aria-label="Summon the dread Tarrasque"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · States -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">States</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-button icon-only variant="primary" aria-label="Default">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" loading aria-label="Loading">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+            <hbd-button icon-only variant="primary" disabled aria-label="Disabled">
+              <span class="hbd-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button icon-only variant="primary" aria-label="Default"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" loading aria-label="Loading"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;hbd-button icon-only variant="primary" disabled aria-label="Disabled"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Icon Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="14" y="14" width="16" height="16" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M18 22h8M22 18v8" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TOGGLE BUTTON + GROUP ══════════════════════ -->
+    <!-- Anchor alias: the toggle group lives inside the same section as the
+         toggle button (they are co-documented). Validator requires a section
+         id matching each registered component, so we expose both. -->
+    <a id="component-toggle-group" aria-hidden="true" tabindex="-1"></a>
+    <section class="ds-section" id="component-toggle-button" aria-labelledby="heading-toggle-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·c</span>
+        <h2 class="ds-section__heading" id="heading-toggle-button">Toggle Button</h2>
+        <p class="ds-section__description">
+          Toggle buttons represent a binary pressed/unpressed state. Use a standalone toggle for
+          a single setting (e.g. <em>dark mode</em>), a <code>multi</code>-select
+          <code>&lt;hbd-toggle-group&gt;</code> for independent flags, and a
+          <code>single</code>-select toggle group (rendered as <code>role="radiogroup"</code>) for
+          one-of-N choices presented as a joined button bar.
+        </p>
+
+        <!-- Group 1 · Standalone toggle button -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Standalone toggle button</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);align-items:center;flex-wrap:wrap;">
+            <hbd-button toggle variant="default" value="stealth">Stealth mode</hbd-button>
+            <hbd-button toggle pressed variant="default" value="darkvision">Darkvision</hbd-button>
+            <hbd-button toggle pressed disabled variant="default" value="concentration">Concentration</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button toggle&gt;Stealth mode&lt;/hbd-button&gt;
+&lt;hbd-button toggle pressed&gt;Darkvision&lt;/hbd-button&gt;
+&lt;hbd-button toggle pressed disabled&gt;Concentration&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Single-select group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Single-select group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Clicking one button deselects the others. Renders as
+            <code>role="radiogroup"</code>; arrow keys move and select.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="single" label="View mode" value="grid">
+              <hbd-button toggle variant="default" value="grid">Grid</hbd-button>
+              <hbd-button toggle variant="default" value="list">List</hbd-button>
+              <hbd-button toggle variant="default" value="table">Table</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" label="View mode" value="grid"&gt;
+  &lt;hbd-button toggle value="grid"&gt;Grid&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="list"&gt;List&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="table"&gt;Table&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Multi-select group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multi-select group</h3>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="multi" label="Damage types"
+              values='["fire","lightning"]'>
+              <hbd-button toggle variant="default" value="fire">Fire</hbd-button>
+              <hbd-button toggle variant="default" value="cold">Cold</hbd-button>
+              <hbd-button toggle variant="default" value="lightning">Lightning</hbd-button>
+              <hbd-button toggle variant="default" value="acid">Acid</hbd-button>
+              <hbd-button toggle variant="default" value="force">Force</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="multi" label="Damage types"
+  values='["fire","lightning"]'&gt;
+  &lt;hbd-button toggle value="fire"&gt;Fire&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="cold"&gt;Cold&lt;/hbd-button&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Formatting toolbar -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Formatting toolbar</h3>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="multi" label="Text formatting">
+              <hbd-button toggle icon-only variant="default" aria-label="Bold" value="bold">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5a2.5 2.5 0 010 5H4zM4 7h6.5a2.5 2.5 0 010 5H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button toggle icon-only variant="default" aria-label="Italic" value="italic">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M10 2H6M10 14H6M9 2L7 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button toggle icon-only variant="default" aria-label="Underline" value="underline">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 2v6a4 4 0 008 0V2M3 14h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="multi" label="Text formatting"&gt;
+  &lt;hbd-button toggle icon-only aria-label="Bold"      value="bold"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button toggle icon-only aria-label="Italic"    value="italic"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button toggle icon-only aria-label="Underline" value="underline"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Vertical group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All buttons inside a vertical group stretch to the widest sibling so the column
+            reads as a single uniform stack. Same <code>size="md"</code> as the Sizes example.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="single" orientation="vertical"
+              label="Spell school filter" value="all">
+              <hbd-button toggle variant="default" size="md" value="all">All</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="combat">Combat</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="utility">Utility</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="support">Support</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" orientation="vertical"
+  label="Spell school filter" value="all"&gt;
+  &lt;hbd-button toggle size="md" value="all"&gt;All&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="combat"&gt;Combat&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="utility"&gt;Utility&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="support"&gt;Support&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <hbd-toggle-group mode="single" label="Density (sm)" value="comfortable">
+              <hbd-button toggle variant="default" size="sm" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="sm" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="sm" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+            <hbd-toggle-group mode="single" label="Density (md)" value="comfortable">
+              <hbd-button toggle variant="default" size="md" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+            <hbd-toggle-group mode="single" label="Density (lg)" value="comfortable">
+              <hbd-button toggle variant="default" size="lg" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="lg" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="lg" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" label="Density"&gt;
+  &lt;hbd-button toggle size="sm" value="compact"&gt;Compact&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="comfortable"&gt;Comfortable&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="lg" value="spacious"&gt;Spacious&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Toggle Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="11" y="17" width="22" height="10" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="17" cy="22" r="3" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SPLIT BUTTON ══════════════════════ -->
+    <section class="ds-section" id="component-split-button" aria-labelledby="heading-split-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·d</span>
+        <h2 class="ds-section__heading" id="heading-split-button">Split Button</h2>
+        <p class="ds-section__description">
+          Split buttons expose a primary action directly and secondary actions in a dropdown.
+          Use when one action is strongly preferred but alternatives are occasionally needed.
+          Rendered as <code>&lt;hbd-split-button&gt;</code> composing two
+          <code>&lt;hbd-button&gt;</code> elements. Clicking the left half fires
+          <code>hbd:action</code>; the right chevron opens a menu of
+          <code>&lt;hbd-option&gt;</code> children — selecting one fires
+          <code>hbd:select</code>.
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <div class="ds-preview-canvas">
+            <hbd-split-button variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+              <hbd-option value="scroll">Use spell scroll</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;
+  &lt;hbd-option value="upcasted"&gt;Cast at higher level&lt;/hbd-option&gt;
+  &lt;hbd-option value="ritual"&gt;Cast as ritual&lt;/hbd-option&gt;
+  &lt;hbd-option value="scroll"&gt;Use spell scroll&lt;/hbd-option&gt;
+&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Variants</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-split-button variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="default" label="Inspect Scroll">
+              <hbd-option value="copy">Copy to spellbook</hbd-option>
+              <hbd-option value="discard">Discard scroll</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="gold" label="Attune Item">
+              <hbd-option value="break">Break attunement</hbd-option>
+              <hbd-option value="trade">Trade with party</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="default" label="Inspect Scroll"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="gold"    label="Attune Item"&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;flex-wrap:wrap;">
+            <hbd-split-button variant="primary" size="sm" label="Cast">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="primary" size="md" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+            <hbd-split-button variant="primary" size="lg" label="Cast Spell Now">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" size="sm" label="Cast"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="primary" size="md" label="Cast Spell"&gt;…&lt;/hbd-split-button&gt;
+&lt;hbd-split-button variant="primary" size="lg" label="Cast Spell Now"&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Disabled -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Disabled</h3>
+          <div class="ds-preview-canvas">
+            <hbd-split-button variant="primary" label="Cast Spell" disabled>
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell" disabled&gt;…&lt;/hbd-split-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Open state demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Open state demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click the chevron to open and close the dropdown.
+          </p>
+          <div class="ds-preview-canvas" style="min-height:200px;align-items:flex-start;">
+            <hbd-split-button id="split-demo-open" variant="primary" label="Cast Spell">
+              <hbd-option value="upcasted">Cast at higher level</hbd-option>
+              <hbd-option value="ritual">Cast as ritual</hbd-option>
+              <hbd-option value="scroll">Use spell scroll</hbd-option>
+            </hbd-split-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-split-button variant="primary" label="Cast Spell"&gt;
+  &lt;hbd-option value="upcasted"&gt;Cast at higher level&lt;/hbd-option&gt;
+  &lt;hbd-option value="ritual"&gt;Cast as ritual&lt;/hbd-option&gt;
+  &lt;hbd-option value="scroll"&gt;Use spell scroll&lt;/hbd-option&gt;
+&lt;/hbd-split-button&gt;
+
+&lt;!-- Pre-open the panel programmatically by simulating a chevron click. --&gt;</code></pre>
+          </details>
+          <script>
+            /* Pre-open the dropdown on page load by clicking the chevron. */
+            (function () {
+              function preOpen() {
+                var host = document.getElementById('split-demo-open');
+                if (!host || !host.shadowRoot) return setTimeout(preOpen, 50);
+                var trigger = host.shadowRoot.querySelector('.hbd-split-button__trigger');
+                if (!trigger || !trigger.shadowRoot) return setTimeout(preOpen, 50);
+                var inner = trigger.shadowRoot.querySelector('button');
+                if (!inner) return setTimeout(preOpen, 50);
+                inner.click();
+              }
+              preOpen();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Split Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="11" y="17" width="14" height="10" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="25" y="17" width="8" height="10" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M27 21l2 2 2-2" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </div>
 

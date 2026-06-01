@@ -1134,7 +1134,8 @@
 /* ── 2q · OTP input (one-time password) ─────────────────────────────── */
 /* A row of single-character inputs for verification codes. Reuses the
    .hbd-field label / hint / error / footer scaffolding; the cells live
-   inside .hbd-otp__cells. Cell size meets SC 2.5.8 (48px ≥ 44px). */
+   inside .hbd-otp__cells. Cell size meets SC 2.5.8 (the cell-size token
+   exceeds the touch-target minimum). */
 
 .hbd-otp-field {
   display: flex;

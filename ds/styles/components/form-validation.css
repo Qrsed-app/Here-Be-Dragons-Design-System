@@ -24,8 +24,8 @@
 
 /* ── 1 · Validation icons ──────────────────────────────────────────── */
 /* Hidden by default; shown only when the matching field-level modifier
-   is active. Use alongside the field message. SVG should be sized at
-   --hbd-space-4 (16px) for visual parity with the message line-height. */
+   is active. Use alongside the field message. SVG sizes match
+   --hbd-space-4 for visual parity with the message line-height. */
 .hbd-field__validation-icon {
   flex-shrink: 0;
   width: var(--hbd-space-4);
