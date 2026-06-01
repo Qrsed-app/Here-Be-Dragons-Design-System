@@ -39,3 +39,4 @@ import './components/hbd-stepper.js';
 import './components/hbd-switch.js';
 import './components/hbd-textarea.js';
 import './components/hbd-time-picker.js';
+import './components/hbd-toggle-group.js';

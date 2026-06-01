@@ -238,3 +238,93 @@
 .hbd-button--icon-only.tooltip-dismissed::after {
   opacity: 0 !important;
 }
+
+/* ── Pressed (toggle) state ─────────────────────────────────────────── */
+/* Applied when a toggle button is "on". Reuses the action surface +
+   on-action text pair already used by primary CTA and selected select
+   options — matches the established "selected" visual language. */
+.hbd-button--pressed {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-surface-action);
+}
+/* Per-variant pressed overrides — all variants converge on the same
+   selected look so the user gets one consistent "on" signal. */
+.hbd-button--default.hbd-button--pressed,
+.hbd-button--primary.hbd-button--pressed,
+.hbd-button--gold.hbd-button--pressed {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-blood-deep);
+  box-shadow: var(--hbd-button-shadow-primary);
+}
+.hbd-button--pressed:hover {
+  filter: brightness(0.92);
+}
+.hbd-button--pressed.is-disabled,
+.hbd-button--pressed:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Toggle group ───────────────────────────────────────────────────── */
+/* Light-DOM wrapper around 2–N <hbd-button> hosts. Renders a single
+   visually-joined control by stripping each button's own border + radius
+   and applying the group's border + radius around the whole row.
+   Children get the .hbd-button--in-group class from the JS so the
+   :host-targeted rule below can lift their inner border. */
+.hbd-toggle-group {
+  display: inline-flex;
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  overflow: hidden;
+}
+.hbd-toggle-group > hbd-button {
+  display: inline-flex;
+  /* Hairline separator between adjacent buttons inside the group. */
+  border-right: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+.hbd-toggle-group > hbd-button:last-child {
+  border-right: none;
+}
+
+/* Vertical orientation — separator on bottom instead of right. All
+   children stretch to the widest sibling so the column is a single
+   uniform stack (otherwise each row would shrink to its own label). */
+.hbd-toggle-group--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+.hbd-toggle-group--vertical > hbd-button {
+  border-right: none;
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  /* The host stretches; the inner button fills the host via :host rule below. */
+  width: 100%;
+}
+.hbd-toggle-group--vertical > hbd-button:last-child {
+  border-bottom: none;
+}
+/* Inside each grouped button's shadow root, stretch the inner button to
+   fill the host when we're in a vertical group. The :host(.is-in-vertical)
+   marker is added by the toggle-group JS for this purpose. */
+:host(.hbd-button--in-group-vertical) .hbd-button {
+  width: 100%;
+}
+
+/* :host(.hbd-button--in-group) — inside each grouped button's shadow
+   root, strip the inner native <button>'s border + radius + offset
+   shadow so the GROUP's border is the only visible boundary. The
+   :host(...) selector matches the host element when it carries the
+   marker class added by the toggle group. */
+:host(.hbd-button--in-group) .hbd-button {
+  border-radius: 0;
+  border-width: 0;
+  box-shadow: none;
+}
+:host(.hbd-button--in-group) .hbd-button:active {
+  /* Suppress the translate-on-press inside a group — it would slide
+     individual buttons out of the joined row. Keep the colour change. */
+  transform: none;
+  box-shadow: none;
+}

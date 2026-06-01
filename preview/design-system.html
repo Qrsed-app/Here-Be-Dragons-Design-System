@@ -2092,6 +2092,7 @@
           <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
           <li><a class="ds-toc__link" href="#component-button">Button</a></li>
           <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
+          <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
           <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
           <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
           <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
@@ -3629,6 +3630,189 @@
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <rect x="14" y="14" width="16" height="16" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <path d="M18 22h8M22 18v8" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TOGGLE BUTTON + GROUP ══════════════════════ -->
+    <!-- Anchor alias: the toggle group lives inside the same section as the
+         toggle button (they are co-documented). Validator requires a section
+         id matching each registered component, so we expose both. -->
+    <a id="component-toggle-group" aria-hidden="true" tabindex="-1"></a>
+    <section class="ds-section" id="component-toggle-button" aria-labelledby="heading-toggle-button">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·1·c</span>
+        <h2 class="ds-section__heading" id="heading-toggle-button">Toggle Button</h2>
+        <p class="ds-section__description">
+          Toggle buttons represent a binary pressed/unpressed state. Use a standalone toggle for
+          a single setting (e.g. <em>dark mode</em>), a <code>multi</code>-select
+          <code>&lt;hbd-toggle-group&gt;</code> for independent flags, and a
+          <code>single</code>-select toggle group (rendered as <code>role="radiogroup"</code>) for
+          one-of-N choices presented as a joined button bar.
+        </p>
+
+        <!-- Group 1 · Standalone toggle button -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Standalone toggle button</h3>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);align-items:center;flex-wrap:wrap;">
+            <hbd-button toggle variant="default" value="stealth">Stealth mode</hbd-button>
+            <hbd-button toggle pressed variant="default" value="darkvision">Darkvision</hbd-button>
+            <hbd-button toggle pressed disabled variant="default" value="concentration">Concentration</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button toggle&gt;Stealth mode&lt;/hbd-button&gt;
+&lt;hbd-button toggle pressed&gt;Darkvision&lt;/hbd-button&gt;
+&lt;hbd-button toggle pressed disabled&gt;Concentration&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Single-select group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Single-select group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Clicking one button deselects the others. Renders as
+            <code>role="radiogroup"</code>; arrow keys move and select.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="single" label="View mode" value="grid">
+              <hbd-button toggle variant="default" value="grid">Grid</hbd-button>
+              <hbd-button toggle variant="default" value="list">List</hbd-button>
+              <hbd-button toggle variant="default" value="table">Table</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" label="View mode" value="grid"&gt;
+  &lt;hbd-button toggle value="grid"&gt;Grid&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="list"&gt;List&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="table"&gt;Table&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Multi-select group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multi-select group</h3>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="multi" label="Damage types"
+              values='["fire","lightning"]'>
+              <hbd-button toggle variant="default" value="fire">Fire</hbd-button>
+              <hbd-button toggle variant="default" value="cold">Cold</hbd-button>
+              <hbd-button toggle variant="default" value="lightning">Lightning</hbd-button>
+              <hbd-button toggle variant="default" value="acid">Acid</hbd-button>
+              <hbd-button toggle variant="default" value="force">Force</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="multi" label="Damage types"
+  values='["fire","lightning"]'&gt;
+  &lt;hbd-button toggle value="fire"&gt;Fire&lt;/hbd-button&gt;
+  &lt;hbd-button toggle value="cold"&gt;Cold&lt;/hbd-button&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Formatting toolbar -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Formatting toolbar</h3>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="multi" label="Text formatting">
+              <hbd-button toggle icon-only variant="default" aria-label="Bold" value="bold">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 2h5.5a2.5 2.5 0 010 5H4zM4 7h6.5a2.5 2.5 0 010 5H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button toggle icon-only variant="default" aria-label="Italic" value="italic">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M10 2H6M10 14H6M9 2L7 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button toggle icon-only variant="default" aria-label="Underline" value="underline">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 2v6a4 4 0 008 0V2M3 14h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="multi" label="Text formatting"&gt;
+  &lt;hbd-button toggle icon-only aria-label="Bold"      value="bold"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button toggle icon-only aria-label="Italic"    value="italic"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button toggle icon-only aria-label="Underline" value="underline"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Vertical group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All buttons inside a vertical group stretch to the widest sibling so the column
+            reads as a single uniform stack. Same <code>size="md"</code> as the Sizes example.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-toggle-group mode="single" orientation="vertical"
+              label="Spell school filter" value="all">
+              <hbd-button toggle variant="default" size="md" value="all">All</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="combat">Combat</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="utility">Utility</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="support">Support</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" orientation="vertical"
+  label="Spell school filter" value="all"&gt;
+  &lt;hbd-button toggle size="md" value="all"&gt;All&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="combat"&gt;Combat&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="utility"&gt;Utility&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="support"&gt;Support&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <hbd-toggle-group mode="single" label="Density (sm)" value="comfortable">
+              <hbd-button toggle variant="default" size="sm" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="sm" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="sm" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+            <hbd-toggle-group mode="single" label="Density (md)" value="comfortable">
+              <hbd-button toggle variant="default" size="md" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="md" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+            <hbd-toggle-group mode="single" label="Density (lg)" value="comfortable">
+              <hbd-button toggle variant="default" size="lg" value="compact">Compact</hbd-button>
+              <hbd-button toggle variant="default" size="lg" value="comfortable">Comfortable</hbd-button>
+              <hbd-button toggle variant="default" size="lg" value="spacious">Spacious</hbd-button>
+            </hbd-toggle-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-toggle-group mode="single" label="Density"&gt;
+  &lt;hbd-button toggle size="sm" value="compact"&gt;Compact&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="md" value="comfortable"&gt;Comfortable&lt;/hbd-button&gt;
+  &lt;hbd-button toggle size="lg" value="spacious"&gt;Spacious&lt;/hbd-button&gt;
+&lt;/hbd-toggle-group&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Toggle Button divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="11" y="17" width="22" height="10" rx="2" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="17" cy="22" r="3" fill="#7a1212"/>
       </svg>
     </div>
 

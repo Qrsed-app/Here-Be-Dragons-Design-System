@@ -7,7 +7,11 @@ import { adoptStyles } from '../utils/shared-styles.js';
 
 class HbdButton extends HTMLElement {
   static get observedAttributes() {
-    return ['variant', 'size', 'disabled', 'loading', 'type', 'icon-only', 'aria-label'];
+    return [
+      'variant', 'size', 'disabled', 'loading', 'type',
+      'icon-only', 'aria-label', 'toggle', 'pressed',
+      'aria-checked',
+    ];
   }
 
   constructor() {
@@ -62,22 +66,35 @@ class HbdButton extends HTMLElement {
     const isLoading = this.hasAttribute('loading');
     const isDisabled = this.hasAttribute('disabled');
     const isIconOnly = this.hasAttribute('icon-only');
+    const isToggle = this.hasAttribute('toggle');
+    const isPressed = this.hasAttribute('pressed');
     const ariaLabel = this.getAttribute('aria-label');
+    // When the host carries `aria-checked` (the toggle group sets this in
+    // single-select mode to enable the radiogroup pattern), emit aria-checked
+    // instead of aria-pressed. The two are semantically distinct: pressed =
+    // independent on/off, checked = one-of-N selection. See toggle-group's
+    // role-decision comment for the full rationale.
+    const useChecked = this.hasAttribute('aria-checked');
 
     const classes = ['hbd-button', `hbd-button--${variant}`, `hbd-button--${size}`];
     if (isIconOnly) classes.push('hbd-button--icon-only');
     if (isLoading) classes.push('is-loading');
     if (isDisabled) classes.push('is-disabled');
+    if (isToggle && isPressed) classes.push('hbd-button--pressed');
 
-    // Icon-only: the inner button carries the aria-label so the CSS tooltip's
-    // attr(aria-label) reads from the same node the user is interacting with.
-    // The default slot is enough — text labels are not rendered in icon-only,
-    // but the slot still lights up so SVG children show.
     const slots = isIconOnly
       ? '<slot></slot>'
       : '<slot name="icon-left"></slot><slot></slot><slot name="icon-right"></slot>';
 
-    // Stylesheets are adopted in connectedCallback (see adoptStyles).
+    let toggleAttr = '';
+    if (isToggle) {
+      if (useChecked) {
+        toggleAttr = `role="radio" aria-checked="${isPressed ? 'true' : 'false'}"`;
+      } else {
+        toggleAttr = `aria-pressed="${isPressed ? 'true' : 'false'}"`;
+      }
+    }
+
     this.shadowRoot.innerHTML = `
       <button
         class="${classes.join(' ')}"
@@ -85,6 +102,7 @@ class HbdButton extends HTMLElement {
         ${isDisabled ? 'disabled' : ''}
         ${isLoading ? 'aria-busy="true"' : ''}
         ${ariaLabel ? `aria-label="${this._escapeAttr(ariaLabel)}"` : ''}
+        ${toggleAttr}
       >
         ${slots}
       </button>
@@ -136,6 +154,22 @@ class HbdButton extends HTMLElement {
       e.stopPropagation();
       e.preventDefault();
       return;
+    }
+    // Toggle behaviour: flip the pressed attribute on activation. The
+    // attribute change triggers attributeChangedCallback → _render, which
+    // updates the inner button's aria-pressed / aria-checked. The
+    // hbd:toggle event lets a parent <hbd-toggle-group> coordinate
+    // mutual exclusion in single mode.
+    if (this.hasAttribute('toggle')) {
+      this.toggleAttribute('pressed');
+      this.dispatchEvent(new CustomEvent('hbd:toggle', {
+        detail: {
+          pressed: this.hasAttribute('pressed'),
+          value: this.getAttribute('value'),
+        },
+        bubbles: true,
+        composed: true,
+      }));
     }
     this.dispatchEvent(new CustomEvent('hbd:click', {
       bubbles: true,
