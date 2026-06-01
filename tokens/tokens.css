@@ -419,4 +419,9 @@
   --hbd-tabs-indicator-height: 2px;
   --hbd-tabs-indicator-width: 3px;
   --hbd-tabs-vertical-min-width: 160px;
+
+  /* ── menu ──────────────────────────────────────────────── */
+  --hbd-menu-min-width: 160px;
+  --hbd-menu-max-width: 280px;
+  --hbd-menu-max-height: 320px;
 }

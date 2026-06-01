@@ -2115,6 +2115,7 @@
           <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
           <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
           <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
+          <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -6856,6 +6857,214 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <path d="M10 18h7v6h-7zM18 18h7v6h-7zM26 18h7v6h-7z" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <path d="M10 26h23" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M10 18h7" stroke="#7a1212" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · DROPDOWN MENU ══════════════════════ -->
+    <!-- Anchor aliases for validator: the dropdown and context-menu
+         components are co-documented under #component-menu. -->
+    <a id="component-dropdown" aria-hidden="true" tabindex="-1"></a>
+    <a id="component-context-menu" aria-hidden="true" tabindex="-1"></a>
+    <section class="ds-section" id="component-menu" aria-labelledby="heading-menu">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·21</span>
+        <h2 class="ds-section__heading" id="heading-menu">Dropdown Menu</h2>
+        <p class="ds-section__description">
+          Dropdown menus present a list of actions from a trigger button. Context menus appear at
+          the pointer position on right-click (or long-press on touch). Use menus for ACTIONS,
+          not selections — for value choices, use <code>&lt;hbd-select&gt;</code>. Rendered as
+          <code>&lt;hbd-dropdown&gt;</code> + <code>&lt;hbd-context-menu&gt;</code>, both reading
+          <code>&lt;hbd-menu-item&gt;</code> / <code>&lt;hbd-menu-separator&gt;</code> /
+          <code>&lt;hbd-menu-group&gt;</code> children from the Light DOM. The panel uses
+          <code>role="menu"</code> and items use <code>role="menuitem"</code>.
+        </p>
+
+        <!-- Group 1 · Basic dropdown -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic dropdown</h3>
+          <div class="ds-preview-canvas" style="min-height:160px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">Actions</hbd-button>
+              <hbd-menu-item value="edit" label="Edit entry"></hbd-menu-item>
+              <hbd-menu-item value="duplicate" label="Duplicate"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="archive" label="Archive"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" destructive></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown&gt;
+  &lt;hbd-button slot="trigger" variant="default"&gt;Actions&lt;/hbd-button&gt;
+  &lt;hbd-menu-item value="edit"      label="Edit entry"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-item value="duplicate" label="Duplicate"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="archive"   label="Archive"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="delete"    label="Delete" destructive&gt;&lt;/hbd-menu-item&gt;
+&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · With icons -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With icons</h3>
+          <div class="ds-preview-canvas" style="min-height:200px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">File</hbd-button>
+              <hbd-menu-item value="new" label="New"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-item value="open" label="Open…"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M2 4h5l1 1h6v8H2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="save" label="Save"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M2 2h10l2 2v10H2zM5 2v4h6V2M5 10h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-item value="delete" label="Delete" destructive
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M3 4h10M6 4V2h4v2M5 4l1 10h4l1-10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-menu-item value="new" label="New"
+  icon='&lt;svg viewBox="0 0 16 16"&gt;…&lt;/svg&gt;'&gt;&lt;/hbd-menu-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With groups -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With groups</h3>
+          <div class="ds-preview-canvas" style="min-height:280px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">View options</hbd-button>
+              <hbd-menu-group label="View">
+                <hbd-menu-item value="grid" label="Grid view"></hbd-menu-item>
+                <hbd-menu-item value="list" label="List view"></hbd-menu-item>
+                <hbd-menu-item value="table" label="Table view"></hbd-menu-item>
+              </hbd-menu-group>
+              <hbd-menu-group label="Sort">
+                <hbd-menu-item value="az" label="Name A–Z"></hbd-menu-item>
+                <hbd-menu-item value="za" label="Name Z–A"></hbd-menu-item>
+                <hbd-menu-item value="date" label="Date added"></hbd-menu-item>
+              </hbd-menu-group>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown&gt;
+  &lt;hbd-button slot="trigger"&gt;View options&lt;/hbd-button&gt;
+  &lt;hbd-menu-group label="View"&gt;
+    &lt;hbd-menu-item value="grid" label="Grid view"&gt;&lt;/hbd-menu-item&gt;
+    &lt;!-- ... --&gt;
+  &lt;/hbd-menu-group&gt;
+  &lt;hbd-menu-group label="Sort"&gt;
+    &lt;hbd-menu-item value="az" label="Name A–Z"&gt;&lt;/hbd-menu-item&gt;
+    &lt;!-- ... --&gt;
+  &lt;/hbd-menu-group&gt;
+&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · With keyboard shortcuts -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With keyboard shortcuts</h3>
+          <div class="ds-preview-canvas" style="min-height:180px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">Spell book</hbd-button>
+              <hbd-menu-item value="new" label="New spell" shortcut="⌘N"></hbd-menu-item>
+              <hbd-menu-item value="duplicate" label="Duplicate" shortcut="⌘D"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" shortcut="⌫" destructive></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-menu-item value="new" label="New spell" shortcut="⌘N"&gt;&lt;/hbd-menu-item&gt;
+&lt;hbd-menu-item value="duplicate" label="Duplicate" shortcut="⌘D"&gt;&lt;/hbd-menu-item&gt;
+&lt;hbd-menu-item value="delete" label="Delete" shortcut="⌫" destructive&gt;&lt;/hbd-menu-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Placement variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placement variants</h3>
+          <div class="ds-preview-canvas" style="min-height:320px;display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-8);align-items:center;justify-items:center;">
+            <hbd-dropdown placement="bottom-start">
+              <hbd-button slot="trigger" variant="default">bottom-start</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="bottom-end">
+              <hbd-button slot="trigger" variant="default">bottom-end</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="top-start">
+              <hbd-button slot="trigger" variant="default">top-start</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="top-end">
+              <hbd-button slot="trigger" variant="default">top-end</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown placement="bottom-start"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="bottom-end"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="top-start"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="top-end"&gt;…&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Context menu -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Context menu</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-context-menu style="display:block;">
+              <div style="
+                display:flex;align-items:center;justify-content:center;
+                min-height:140px;padding:var(--hbd-space-6);
+                border:var(--hbd-border-width-thin) dashed var(--hbd-color-border-strong);
+                border-radius:var(--hbd-radius-md);
+                background:var(--hbd-color-surface-subtle);
+                font-family:var(--hbd-font-family-ui);
+                color:var(--hbd-color-text-secondary);
+                user-select:none;
+                ">
+                Right-click or long-press this area to open the context menu.
+              </div>
+              <hbd-menu-item value="copy" label="Copy"></hbd-menu-item>
+              <hbd-menu-item value="paste" label="Paste"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" destructive></hbd-menu-item>
+            </hbd-context-menu>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-context-menu&gt;
+  &lt;div&gt;…content the menu attaches to…&lt;/div&gt;
+  &lt;hbd-menu-item value="copy"   label="Copy"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-item value="paste"  label="Paste"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="delete" label="Delete" destructive&gt;&lt;/hbd-menu-item&gt;
+&lt;/hbd-context-menu&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Dropdown Menu divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="13" y="12" width="18" height="6" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="13" y="22" width="18" height="12" rx="1" fill="none" stroke="#7a1212" stroke-width="1.5"/>
+        <line x1="17" y1="26" x2="27" y2="26" stroke="#7a5a22" stroke-width="1.2"/>
+        <line x1="17" y1="30" x2="23" y2="30" stroke="#7a5a22" stroke-width="1.2"/>
       </svg>
     </div>
 

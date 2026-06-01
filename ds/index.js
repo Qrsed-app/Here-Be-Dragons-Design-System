@@ -16,6 +16,7 @@ preloadStyles([
   '/ds/styles/components/file-upload.css',
   '/ds/styles/components/form-validation.css',
   '/ds/styles/components/input.css',
+  '/ds/styles/components/menu.css',
   '/ds/styles/components/tabs.css',
   '/ds/styles/components/time-picker.css',
 ]);
@@ -26,8 +27,10 @@ import './components/hbd-callout.js';
 import './components/hbd-checkbox.js';
 import './components/hbd-codeblock.js';
 import './components/hbd-combobox.js';
+import './components/hbd-context-menu.js';
 import './components/hbd-date-picker.js';
 import './components/hbd-divider.js';
+import './components/hbd-dropdown.js';
 import './components/hbd-file-upload.js';
 import './components/hbd-input.js';
 import './components/hbd-otp-input.js';
