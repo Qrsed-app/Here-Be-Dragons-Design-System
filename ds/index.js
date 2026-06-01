@@ -18,6 +18,7 @@ preloadStyles([
   '/ds/styles/components/form-validation.css',
   '/ds/styles/components/input.css',
   '/ds/styles/components/menu.css',
+  '/ds/styles/components/navbar.css',
   '/ds/styles/components/tabs.css',
   '/ds/styles/components/time-picker.css',
 ]);
@@ -35,6 +36,7 @@ import './components/hbd-drawer.js';
 import './components/hbd-dropdown.js';
 import './components/hbd-file-upload.js';
 import './components/hbd-input.js';
+import './components/hbd-navbar.js';
 import './components/hbd-otp-input.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';

@@ -430,4 +430,9 @@
   --hbd-drawer-width-wide: 480px;
   --hbd-drawer-height: 50vh;
   --hbd-drawer-height-tall: 80vh;
+
+  /* ── navbar ────────────────────────────────────────────── */
+  --hbd-navbar-height: 64px;
+  --hbd-navbar-height-sm: 48px;
+  --hbd-navbar-mobile-breakpoint: 768px;
 }

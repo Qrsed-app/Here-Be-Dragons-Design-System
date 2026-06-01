@@ -2117,6 +2117,7 @@
           <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
           <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
           <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+          <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -7271,6 +7272,171 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <rect x="9" y="11" width="11" height="22" rx="1.5" fill="none" stroke="#7a1212" stroke-width="1.5"/>
         <rect x="22" y="11" width="13" height="22" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5" stroke-dasharray="2 2"/>
         <path d="M14 22h2M16 20l2 2-2 2" stroke="#7a5a22" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · NAVBAR ══════════════════════ -->
+    <section class="ds-section" id="component-navbar" aria-labelledby="heading-navbar">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·3</span>
+        <h2 class="ds-section__heading" id="heading-navbar">Navbar</h2>
+        <p class="ds-section__description">
+          The navbar is the primary site navigation bar. It contains a logo, navigation links, and
+          action items. Below <code>768px</code> it collapses to a hamburger that opens a
+          full-height drawer-style menu. The mobile menu reuses the focus-trap + scroll-lock +
+          return-focus chain from <code>&lt;hbd-drawer&gt;</code>. Rendered as
+          <code>&lt;hbd-navbar&gt;</code> with <code>slot</code> attributes on children
+          (<code>logo</code>, <code>nav</code>, <code>actions</code>).
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Resize the window below <code>768px</code> to see the mobile menu.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <a slot="nav" href="#component-navbar">Items</a>
+              <hbd-button slot="actions" variant="default" icon-only aria-label="Search">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar&gt;
+  &lt;a slot="logo" href="/"&gt;Here Be Dragons&lt;/a&gt;
+  &lt;a slot="nav" href="/compendium"&gt;Compendium&lt;/a&gt;
+  &lt;a slot="nav" href="/spells"&gt;Spells&lt;/a&gt;
+  &lt;a slot="nav" href="/monsters"&gt;Monsters&lt;/a&gt;
+  &lt;a slot="nav" href="/items"&gt;Items&lt;/a&gt;
+  &lt;hbd-button slot="actions" variant="default" icon-only aria-label="Search"&gt;
+    &lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button slot="actions" variant="primary"&gt;Play&lt;/hbd-button&gt;
+&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sticky -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sticky</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The navbar pins to the top of its scrolling container as you scroll.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;display:block;">
+            <div style="height:300px;overflow-y:auto;background:var(--hbd-color-surface-subtle);">
+              <hbd-navbar sticky>
+                <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+                <a slot="nav" href="#component-navbar">Compendium</a>
+                <a slot="nav" href="#component-navbar">Spells</a>
+                <a slot="nav" href="#component-navbar">Monsters</a>
+                <hbd-button slot="actions" variant="primary">Play</hbd-button>
+              </hbd-navbar>
+              <div style="padding:var(--hbd-space-6);font-family:var(--hbd-font-family-ui);line-height:1.8;">
+                <p>Scroll inside this container to see the sticky navbar stay pinned to the top.</p>
+                <p>The world of Faerûn is vast and many-layered, woven through with histories the
+                gods themselves are said to have forgotten.</p>
+                <p>Mountains rise where seas once stretched. Cities sink where forests once grew.
+                The map is never finished.</p>
+                <p>Travellers' ledgers speak of villages that change names between visits, of
+                wells that fill with starlight on certain nights, and of doors that open onto
+                rooms that aren't there in the morning.</p>
+                <p>This is a frontier of stories. Walk carefully — and write down what you see.</p>
+                <p>Some say the dragons are sleeping. Some say they are listening. The wise
+                pack quietly, and bring more rations than they think they need.</p>
+              </div>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar sticky&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Hairline bottom border instead of a drop shadow — quieter visual weight.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar bordered style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar bordered&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Transparent -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Transparent</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            No background — suitable for placing over a hero image or dark canvas.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-ink-900);">
+            <hbd-navbar transparent style="width:100%;color:var(--hbd-color-parchment-50);">
+              <a slot="logo" href="#component-navbar" style="color:var(--hbd-color-parchment-50);">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Compendium</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Spells</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Monsters</a>
+              <hbd-button slot="actions" variant="gold">Play</hbd-button>
+            </hbd-navbar>
+            <div style="height:120px;"></div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar transparent&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With active link -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With active link</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Active state is set automatically when an anchor's <code>href</code> matches the
+            current URL, or manually via the <code>is-active</code> class.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar" class="is-active" aria-current="page">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <a slot="nav" href="#component-navbar">Items</a>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;a slot="nav" href="/spells" class="is-active" aria-current="page"&gt;Spells&lt;/a&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Navbar divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="17" width="26" height="10" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="14" cy="22" r="1.5" fill="#7a1212"/>
+        <line x1="20" y1="22" x2="30" y2="22" stroke="#7a5a22" stroke-width="1.2" stroke-linecap="round"/>
       </svg>
     </div>
 
