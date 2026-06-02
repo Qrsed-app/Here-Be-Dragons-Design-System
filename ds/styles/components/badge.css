@@ -1,0 +1,272 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/badge.css
+ *
+ * Covers two small visual primitives that share token vocabulary:
+ *   • Badge — count or dot indicator (.hbd-badge, .hbd-badge--dot)
+ *   • Chip  — labelled pill (.hbd-chip, plus removable / selectable
+ *             behavioural modifiers driven by hbd-chip.js)
+ *
+ * Both are Light-DOM friendly (no Shadow DOM) so authors can drop them
+ * directly into any layout.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-color-action-default / -action-text —
+ *   emitted tokens are --hbd-color-surface-action /
+ *   --hbd-color-text-on-action.
+ * - Spec referenced --hbd-color-status-{error,success,warning}-bg —
+ *   emitted tokens are --hbd-color-status-{...}-surface.
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────
+   1 · Badge
+   ───────────────────────────────────────────────────────────────────── */
+/* Use a badge to indicate a count or a status dot. Positioning is the
+   author's responsibility — when overlaying another element, give that
+   element position:relative and absolutely-position the badge. */
+.hbd-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--hbd-badge-min-width);
+  height: var(--hbd-badge-size);
+  padding: 0 var(--hbd-space-1);
+  border-radius: var(--hbd-radius-full);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  font-weight: var(--hbd-font-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--hbd-letter-spacing-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  /* Default = neutral fill, used when no colour modifier is set. */
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+  border: var(--hbd-border-width-hairline) solid transparent;
+  vertical-align: middle;
+}
+
+/* Colour variants — same family across badge and chip. */
+.hbd-badge--primary {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+}
+.hbd-badge--success {
+  background: var(--hbd-color-status-success-surface);
+  color: var(--hbd-color-status-success-text);
+}
+.hbd-badge--warning {
+  background: var(--hbd-color-status-warning-surface);
+  color: var(--hbd-color-status-warning-text);
+}
+.hbd-badge--error {
+  background: var(--hbd-color-status-error-surface);
+  color: var(--hbd-color-status-error-text);
+}
+.hbd-badge--neutral {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+  border-color: var(--hbd-color-border-strong);
+}
+
+/* Dot variant — no text, no padding, no min-width; just a coloured
+   circle. JS still applies a colour modifier (--primary, --success…)
+   for the fill. */
+.hbd-badge--dot {
+  width: var(--hbd-badge-dot-size);
+  height: var(--hbd-badge-dot-size);
+  min-width: auto;
+  padding: 0;
+  font-size: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   2 · Chip
+   ───────────────────────────────────────────────────────────────────── */
+.hbd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-1);
+  height: var(--hbd-chip-height);
+  padding: 0 var(--hbd-space-3);
+  border-radius: var(--hbd-radius-full);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  border: var(--hbd-border-width-hairline) solid transparent;
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+  max-width: var(--hbd-chip-max-width);
+  vertical-align: middle;
+}
+
+/* The chip label uses min-width:0 + overflow:hidden so a long label
+   truncates with an ellipsis without breaking the row layout. */
+.hbd-chip__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Leading icon slot. Authors slot in a tokenised SVG (16x16). */
+.hbd-chip__icon {
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+.hbd-chip__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Chip colour variants — mirror the badge palette. */
+.hbd-chip--primary {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+}
+.hbd-chip--success {
+  background: var(--hbd-color-status-success-surface);
+  color: var(--hbd-color-status-success-text);
+}
+.hbd-chip--warning {
+  background: var(--hbd-color-status-warning-surface);
+  color: var(--hbd-color-status-warning-text);
+}
+.hbd-chip--error {
+  background: var(--hbd-color-status-error-surface);
+  color: var(--hbd-color-status-error-text);
+}
+.hbd-chip--neutral {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-primary);
+  border-color: var(--hbd-color-border-strong);
+}
+
+/* Outline modifier — transparent fill, coloured border. Stacked on a
+   colour variant the border + text both shift to that palette. */
+.hbd-chip--outline {
+  background: transparent;
+  color: var(--hbd-color-text-primary);
+  border-color: var(--hbd-color-border-strong);
+}
+.hbd-chip--outline.hbd-chip--primary {
+  background: transparent;
+  border-color: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-chip--outline.hbd-chip--success {
+  background: transparent;
+  border-color: var(--hbd-color-status-success-border);
+  color: var(--hbd-color-status-success-border);
+}
+.hbd-chip--outline.hbd-chip--warning {
+  background: transparent;
+  border-color: var(--hbd-color-status-warning-icon);
+  color: var(--hbd-color-status-warning-icon);
+}
+.hbd-chip--outline.hbd-chip--error {
+  background: transparent;
+  border-color: var(--hbd-color-status-error-border);
+  color: var(--hbd-color-status-error-border);
+}
+
+/* Sizes — sm + lg adjust both height and padding so the pill keeps a
+   balanced aspect ratio. */
+.hbd-chip--sm {
+  height: var(--hbd-chip-height-sm);
+  font-size: var(--hbd-font-size-micro);
+  padding: 0 var(--hbd-space-2);
+}
+.hbd-chip--lg {
+  height: var(--hbd-chip-height-lg);
+  font-size: var(--hbd-font-size-body);
+  padding: 0 var(--hbd-space-4);
+}
+
+/* ─── 2a · Remove button ──────────────────────────────────────────── */
+/* The icon is a small space-4 square, but the padding+negative-margin
+   trick expands the tap area without changing the painted size. The
+   expanded hit target still falls short of the preferred SC 2.5.8
+   target — acceptable for a dense pill control that always sits next
+   to a label, which itself gives a separate larger activation surface
+   (the chip body, when removable+clickable). */
+.hbd-chip__remove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  padding: var(--hbd-space-2);
+  margin-right: calc(-1 * var(--hbd-space-2));
+  background: none;
+  border: none;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  border-radius: var(--hbd-radius-full);
+  line-height: 1;
+  /* Box-sizing:content-box so the padding adds tap area instead of
+     shrinking the visual icon. */
+  box-sizing: content-box;
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out),
+              background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-chip__remove:hover {
+  color: var(--hbd-color-text-primary);
+  background: rgba(0, 0, 0, 0.06);
+}
+.hbd-chip__remove:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+.hbd-chip__remove svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ─── 2b · Selectable chip ────────────────────────────────────────── */
+/* Renders as a real <button type="button"> so it inherits native
+   button semantics, Enter/Space activation, and the global focus ring.
+   The .is-selected class mirrors aria-pressed and changes the fill to
+   the action surface. */
+.hbd-chip--selectable {
+  cursor: pointer;
+  user-select: none;
+  /* Reset native button chrome so the chip looks identical whether
+     it's a span (static) or a button (selectable). */
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out),
+              border-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-chip--selectable:hover {
+  filter: brightness(0.95);
+}
+.hbd-chip--selectable.is-selected,
+.hbd-chip--selectable[aria-pressed="true"] {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-surface-action);
+}
+.hbd-chip--selectable.hbd-chip--outline.is-selected,
+.hbd-chip--selectable.hbd-chip--outline[aria-pressed="true"] {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-surface-action);
+}
+.hbd-chip--selectable:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}

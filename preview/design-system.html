@@ -1946,6 +1946,34 @@
     }
     .ds-toc__link:hover { color: var(--blood); border-bottom-color: var(--blood); }
     .ds-toc__link:focus-visible { outline: 2px solid var(--blood); outline-offset: 2px; }
+    /* Grouped TOC — one row per category, label on the left, links to
+       the right. Wraps gracefully on narrow viewports. */
+    .ds-toc__groups {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .ds-toc__group {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: var(--space-2) var(--space-4);
+      align-items: baseline;
+    }
+    .ds-toc__group-label {
+      font-family: var(--font-display);
+      font-size: var(--text-micro);
+      letter-spacing: var(--ls-label);
+      text-transform: uppercase;
+      color: var(--blood);
+      font-weight: 700;
+      padding-top: 2px;
+    }
+    @media (max-width: 600px) {
+      .ds-toc__group {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+      }
+    }
 
     /* ─── Foundation section structure (CLAUDE.md §10.2) ──── */
     .ds-section__heading {
@@ -2081,54 +2109,92 @@
     <nav class="ds-toc" aria-label="Design system sections">
       <div class="container">
         <h2 class="ds-toc__heading">Contents</h2>
-        <ul class="ds-toc__list">
-          <li><a class="ds-toc__link" href="#color">Color</a></li>
-          <li><a class="ds-toc__link" href="#foundation-typography">Typography</a></li>
-          <li><a class="ds-toc__link" href="#foundation-colour">Colour</a></li>
-          <li><a class="ds-toc__link" href="#foundation-spacing">Spacing</a></li>
-          <li><a class="ds-toc__link" href="#foundation-borders">Borders &amp; Radius</a></li>
-          <li><a class="ds-toc__link" href="#foundation-elevation">Elevation &amp; Shadows</a></li>
-          <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
-          <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
-          <li><a class="ds-toc__link" href="#component-button">Button</a></li>
-          <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
-          <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
-          <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
-          <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
-          <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
-          <li><a class="ds-toc__link" href="#component-card">Card</a></li>
-          <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
-          <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
-          <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
-          <li><a class="ds-toc__link" href="#component-time-picker">Time Picker</a></li>
-          <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
-          <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
-          <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
-          <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
-          <li><a class="ds-toc__link" href="#component-select">Select</a></li>
-          <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
-          <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
-          <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
-          <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
-          <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
-          <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
-          <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
-          <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
-          <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
-          <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
-          <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
-          <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
-          <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
-          <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
-          <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
-          <li><a class="ds-toc__link" href="#texture">Texture</a></li>
-          <li><a class="ds-toc__link" href="#borders">Borders</a></li>
-          <li><a class="ds-toc__link" href="#components">Components</a></li>
-          <li><a class="ds-toc__link" href="#elevation">Elevation</a></li>
-          <li><a class="ds-toc__link" href="#motion">Motion</a></li>
-          <li><a class="ds-toc__link" href="#radius">Radius</a></li>
-          <li><a class="ds-toc__link" href="#accessibility">Accessibility</a></li>
-        </ul>
+        <div class="ds-toc__groups">
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Foundations</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#color">Color</a></li>
+              <li><a class="ds-toc__link" href="#foundation-typography">Typography</a></li>
+              <li><a class="ds-toc__link" href="#foundation-colour">Colour</a></li>
+              <li><a class="ds-toc__link" href="#foundation-spacing">Spacing</a></li>
+              <li><a class="ds-toc__link" href="#foundation-borders">Borders &amp; Radius</a></li>
+              <li><a class="ds-toc__link" href="#foundation-elevation">Elevation &amp; Shadows</a></li>
+              <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
+              <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Actions</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-button">Button</a></li>
+              <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
+              <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
+              <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Forms</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
+              <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
+              <li><a class="ds-toc__link" href="#component-select">Select</a></li>
+              <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
+              <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
+              <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
+              <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
+              <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
+              <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
+              <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
+              <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
+              <li><a class="ds-toc__link" href="#component-time-picker">Time Picker</a></li>
+              <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Navigation</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
+              <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
+              <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
+              <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+              <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
+              <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
+              <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Feedback &amp; status</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
+              <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
+              <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Data display</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-card">Card</a></li>
+              <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
+              <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
+              <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
+              <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Patterns</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+            </ul>
+          </div>
+
+        </div>
       </div>
     </nav>
 
@@ -8122,6 +8188,390 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <line x1="14" y1="23" x2="26" y2="23" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
         <line x1="14" y1="26" x2="22" y2="26" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
         <circle cx="30" cy="13" r="2.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · BADGE & CHIP ══════════════════════ -->
+    <!-- Single combined section. The id="component-chip" anchor below
+         satisfies the validator's per-component preview check; the
+         section's primary id is component-badge. -->
+    <section class="ds-section" id="component-badge" aria-labelledby="heading-badge">
+      <span id="component-chip" tabindex="-1" aria-hidden="true"></span>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;7</span>
+        <h2 class="ds-section__heading" id="heading-badge">Badge &amp; Chip</h2>
+        <p class="ds-section__description">
+          Badges indicate counts or status with a small coloured pill or dot. Chips display
+          labels and optional interactivity &mdash; use <strong>removable</strong> chips for
+          tag inputs and <strong>selectable</strong> chips for filter sets. Rendered as
+          <code>&lt;hbd-badge&gt;</code> and <code>&lt;hbd-chip&gt;</code>; the static
+          appearance also works as plain <code>.hbd-badge</code> / <code>.hbd-chip</code>
+          CSS on any element.
+        </p>
+
+        <!-- ─── Badge groups ─────────────────────────────────────── -->
+        <h3 class="hbd-text-h3 hbd-text-primary" style="margin:var(--hbd-space-8) 0 var(--hbd-space-4);">Badge</h3>
+
+        <!-- Group 1 · Badge count variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Count variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            One per colour family. Counts above <code>max</code> (default 99) display as
+            <code>99+</code>, while the SR-readable <code>aria-label</code> still reports
+            the raw count.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-badge variant="neutral" count="1"   label="Neutral"></hbd-badge>
+            <hbd-badge variant="primary" count="12"  label="Primary"></hbd-badge>
+            <hbd-badge variant="success" count="3"   label="Success"></hbd-badge>
+            <hbd-badge variant="warning" count="9"   label="Warning"></hbd-badge>
+            <hbd-badge variant="error"   count="99"  label="Error"></hbd-badge>
+            <hbd-badge variant="primary" count="100" label="Unread"></hbd-badge>
+            <hbd-badge variant="neutral" count="0"   label="Empty"></hbd-badge>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge variant="primary" count="12" label="Unread"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-badge variant="primary" count="100" label="Unread"&gt;&lt;/hbd-badge&gt;
+&lt;!-- visible: "99+" · aria-label: "Unread, 100" --&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Badge dot variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dot variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Dot badges carry no visible text &mdash; provide <code>label="…"</code> so
+            screen readers can announce the status (SC&nbsp;1.4.1 / 1.1.1).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-badge dot variant="neutral" label="Idle"></hbd-badge>
+            <hbd-badge dot variant="primary" label="Active"></hbd-badge>
+            <hbd-badge dot variant="success" label="Online"></hbd-badge>
+            <hbd-badge dot variant="warning" label="Away"></hbd-badge>
+            <hbd-badge dot variant="error"   label="Offline"></hbd-badge>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge dot variant="success" label="Online"&gt;&lt;/hbd-badge&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Badge on an element -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">On an element</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            When a badge OVERLAYS an interactive element, the count belongs in the host's
+            accessible name and the badge itself is <code>aria-hidden</code> &mdash; otherwise
+            SR users hear the count twice. The wrapper sets <code>position:relative</code>
+            and the badge is absolutely positioned.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
+
+            <span style="position:relative;display:inline-flex;">
+              <hbd-button variant="default" icon-only aria-label="Notifications, 12 unread">
+                <svg slot="icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 16v-5a6 6 0 0 0-12 0v5l-2 2h16l-2-2z"></path>
+                  <path d="M10 20a2 2 0 0 0 4 0"></path>
+                </svg>
+              </hbd-button>
+              <hbd-badge variant="error" count="12" aria-hidden="true"
+                         style="position:absolute;top:-6px;right:-6px;"></hbd-badge>
+            </span>
+
+            <span style="position:relative;display:inline-flex;">
+              <hbd-button variant="default" icon-only aria-label="Messages, 99+ unread">
+                <svg slot="icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"></path>
+                </svg>
+              </hbd-button>
+              <hbd-badge variant="primary" count="237" aria-hidden="true"
+                         style="position:absolute;top:-6px;right:-6px;"></hbd-badge>
+            </span>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;span style="position:relative;"&gt;
+  &lt;hbd-button icon-only aria-label="Notifications, 12 unread"&gt;
+    &lt;svg slot="icon"&gt;…&lt;/svg&gt;
+  &lt;/hbd-button&gt;
+  &lt;hbd-badge variant="error" count="12" aria-hidden="true"
+             style="position:absolute;top:-6px;right:-6px;"&gt;&lt;/hbd-badge&gt;
+&lt;/span&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- ─── Chip groups ──────────────────────────────────────── -->
+        <h3 class="hbd-text-h3 hbd-text-primary" style="margin:var(--hbd-space-12) 0 var(--hbd-space-4);">Chip</h3>
+
+        <!-- Group 4 · Chip static -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Static</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Display-only chips. Use them as inline metadata: damage types, schools, tags.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip variant="primary" label="Cold"></hbd-chip>
+            <hbd-chip variant="success" label="Lightning"></hbd-chip>
+            <hbd-chip variant="warning" label="Acid"></hbd-chip>
+            <hbd-chip variant="error"   label="Force"></hbd-chip>
+            <hbd-chip variant="primary" label="Poison"></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip variant="primary" label="Cold"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Chip outline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Outline</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Transparent fill with coloured border &mdash; lower-contrast variant for
+            secondary metadata or for chips sitting on already-coloured surfaces.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip outline variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip outline variant="primary" label="Cold"></hbd-chip>
+            <hbd-chip outline variant="success" label="Lightning"></hbd-chip>
+            <hbd-chip outline variant="warning" label="Acid"></hbd-chip>
+            <hbd-chip outline variant="error"   label="Force"></hbd-chip>
+            <hbd-chip outline variant="primary" label="Poison"></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip outline variant="primary" label="Cold"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Chip with icon -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With icon</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Pass an inline SVG via the <code>icon</code> attribute. The icon is rendered
+            <code>aria-hidden</code> so the label remains the chip's accessible name.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip variant="error" label="Fire"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M8 1c0 3-3 4-3 7a3 3 0 0 0 6 0c0-1.5-1-2-1-3 1.5 1 3 2 3 4a5 5 0 0 1-10 0c0-4 5-4 5-8z"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="primary" label="Cold"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"&gt;&lt;line x1="8" y1="2" x2="8" y2="14"/&gt;&lt;line x1="2" y1="8" x2="14" y2="8"/&gt;&lt;line x1="3.5" y1="3.5" x2="12.5" y2="12.5"/&gt;&lt;line x1="12.5" y1="3.5" x2="3.5" y2="12.5"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="warning" label="Lightning"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M10 1L3 9h4l-2 6 7-8H8l2-6z"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="success" label="Acid"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M8 1c-3 3-5 5-5 8a5 5 0 0 0 10 0c0-3-2-5-5-8z"/&gt;&lt;/svg&gt;'></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip variant="error" label="Fire"
+          icon='&lt;svg viewBox="0 0 16 16"&gt;…&lt;/svg&gt;'&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Chip removable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Removable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Each chip has a ✕ button reachable by Tab. Activating it fires
+            <code>hbd:remove</code> and removes the chip. Cancel removal with
+            <code>e.preventDefault()</code>.
+          </p>
+          <div class="ds-preview-canvas" id="chip-remove-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip removable variant="primary" label="Fireball"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Cone of Cold"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Lightning Bolt"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Magic Missile"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            <span id="chip-remove-out">Remove a chip to see its label here.</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip removable label="Fireball"&gt;&lt;/hbd-chip&gt;
+&lt;script&gt;
+  el.addEventListener('hbd:remove', (e) =&gt; {
+    if (shouldKeep) e.preventDefault();
+    else console.log('Removed', e.detail.label);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-remove-canvas');
+                var out = document.getElementById('chip-remove-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                canvas.addEventListener('hbd:remove', function (e) {
+                  out.textContent = 'Removed: ' + e.detail.label;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8 · Chip selectable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Selectable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Filter chips. Each renders as a <code>&lt;button&gt;</code> with
+            <code>aria-pressed</code>; toggle with click, Enter, or Space. Three are
+            pre-selected.
+          </p>
+          <div class="ds-preview-canvas" id="chip-select-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip selectable selected variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip selectable selected variant="neutral" label="Cold"></hbd-chip>
+            <hbd-chip selectable selected variant="neutral" label="Lightning"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Acid"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Force"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Poison"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Selected:&nbsp;<span id="chip-select-out">Fire, Cold, Lightning</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip selectable selected label="Fire"&gt;&lt;/hbd-chip&gt;
+&lt;script&gt;
+  el.addEventListener('hbd:toggle', (e) =&gt; {
+    console.log(e.detail.label, e.detail.selected);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-select-canvas');
+                var out = document.getElementById('chip-select-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                function refresh() {
+                  var selected = Array.from(canvas.querySelectorAll('hbd-chip[selected]'))
+                    .map(function (el) { return el.getAttribute('label'); });
+                  out.textContent = selected.length ? selected.join(', ') : 'none';
+                }
+                canvas.addEventListener('hbd:toggle', function () {
+                  // Wait one tick so the attribute write from the chip
+                  // completes before we read it back.
+                  setTimeout(refresh, 0);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8b · Chip selectable + removable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Selectable &amp; removable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A chip can be BOTH at once — Tab to the chip body to toggle selection
+            (Enter / Space), Tab again to reach the ✕ button to drop it from the set.
+            Useful for editable filter pills: select what you want, remove what you don't.
+          </p>
+          <div class="ds-preview-canvas" id="chip-select-remove-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip selectable removable selected variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip selectable removable selected variant="neutral" label="Cold"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Lightning"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Acid"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Force"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            <span id="chip-select-remove-out">Selected: Fire, Cold · removed: none</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip selectable removable selected label="Fire"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip selectable removable          label="Lightning"&gt;&lt;/hbd-chip&gt;
+
+&lt;script&gt;
+  el.addEventListener('hbd:toggle', (e) =&gt; {
+    // e.detail = { selected, label }
+  });
+  el.addEventListener('hbd:remove', (e) =&gt; {
+    // e.detail = { label }
+    // call e.preventDefault() to veto removal
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-select-remove-canvas');
+                var out = document.getElementById('chip-select-remove-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                var removed = [];
+                function refresh() {
+                  var selected = Array.from(canvas.querySelectorAll('hbd-chip[selected]'))
+                    .map(function (el) { return el.getAttribute('label'); });
+                  out.textContent =
+                    'Selected: ' + (selected.length ? selected.join(', ') : 'none') +
+                    ' · removed: ' + (removed.length ? removed.join(', ') : 'none');
+                }
+                canvas.addEventListener('hbd:toggle', function () {
+                  setTimeout(refresh, 0);
+                });
+                canvas.addEventListener('hbd:remove', function (e) {
+                  removed.push(e.detail.label);
+                  setTimeout(refresh, 0);
+                });
+                refresh();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 9 · Chip sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code>, <code>md</code> (default), <code>lg</code>. Each row shows
+            static, removable, and selectable chips at the same size.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip size="sm" variant="primary" label="Small"></hbd-chip>
+              <hbd-chip size="sm" removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip size="sm" selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip variant="primary" label="Medium"></hbd-chip>
+              <hbd-chip removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip size="lg" variant="primary" label="Large"></hbd-chip>
+              <hbd-chip size="lg" removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip size="lg" selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip size="sm" label="Small"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip            label="Medium"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip size="lg" label="Large"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Badge & Chip divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <ellipse cx="22" cy="22" rx="14" ry="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <circle cx="30" cy="16" r="3" fill="#7a1212"/>
+        <circle cx="22" cy="22" r="2" fill="#b8893b"/>
       </svg>
     </div>
 

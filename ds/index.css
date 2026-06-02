@@ -22,6 +22,7 @@
 @import './styles/foundations/spacing.css';
 
 /* 5. Components — alphabetical */
+@import './styles/components/badge.css';
 @import './styles/components/breadcrumbs.css';
 @import './styles/components/button.css';
 @import './styles/components/callout.css';

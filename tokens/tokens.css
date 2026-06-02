@@ -318,6 +318,17 @@
   --hbd-card-border-radius: var(--hbd-radius-lg);
   --hbd-card-media-height: 200px;
 
+  /* ── badge ─────────────────────────────────────────────── */
+  --hbd-badge-size: 20px;
+  --hbd-badge-dot-size: 8px;
+  --hbd-badge-min-width: 20px;
+
+  /* ── chip ──────────────────────────────────────────────── */
+  --hbd-chip-height: 28px;
+  --hbd-chip-height-sm: 22px;
+  --hbd-chip-height-lg: 36px;
+  --hbd-chip-max-width: 200px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);
