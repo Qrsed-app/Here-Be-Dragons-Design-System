@@ -348,6 +348,11 @@
   --hbd-avatar-size-xl: 64px;
   --hbd-avatar-size-2xl: 80px;
 
+  /* ── list ──────────────────────────────────────────────── */
+  --hbd-list-item-min-height: 48px;
+  --hbd-list-item-min-height-sm: 36px;
+  --hbd-list-item-min-height-lg: 64px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

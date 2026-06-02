@@ -2233,6 +2233,7 @@
               <li><a class="ds-toc__link" href="#component-card">Card</a></li>
               <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
               <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
+              <li><a class="ds-toc__link" href="#component-list">List</a></li>
               <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
               <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
             </ul>
@@ -9174,6 +9175,282 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <circle cx="22" cy="18" r="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
         <path d="M11 34 Q22 24 33 34" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
         <circle cx="30" cy="13" r="2.4" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · LIST ══════════════════════ -->
+    <section class="ds-section" id="component-list" aria-labelledby="heading-list">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;11</span>
+        <h2 class="ds-section__heading" id="heading-list">List</h2>
+        <p class="ds-section__description">
+          Lists present collections of items in a vertical stack. Use interactive
+          lists for navigation and selection; rich lists for entity collections
+          like spells, monsters, or inventory. Authored as
+          <code>&lt;hbd-list&gt;</code> with <code>&lt;hbd-list-item&gt;</code>
+          children. Each item supports five slots: <code>leading</code>,
+          <code>primary</code>, <code>secondary</code>, <code>trailing</code>,
+          <code>action</code>.
+        </p>
+
+        <!-- Group 1 · Basic list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Plain stacked items — no dividers, no border, just consistent
+            vertical rhythm.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list&gt;
+  &lt;hbd-list-item&gt;&lt;span slot="primary"&gt;Fireball&lt;/span&gt;&lt;/hbd-list-item&gt;
+  &lt;hbd-list-item&gt;&lt;span slot="primary"&gt;Cone of Cold&lt;/span&gt;&lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Divided list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Divided list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>divided</code> adds a hairline rule between adjacent items
+            without changing the outer container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list divided>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list divided&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>bordered</code> wraps the list in a rounded surface — useful
+            when the list sits inside a content column with no other container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Interactive list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Interactive list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Items with <code>href</code> render as real anchors — Tab + Enter
+            navigate. The <code>selected</code> attribute applies both a
+            background change AND a left action-bar indicator so selection is
+            not conveyed by colour alone.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item href="#"><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item href="#" selected><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;
+  &lt;hbd-list-item href="/spells/fireball"&gt;
+    &lt;span slot="primary"&gt;Fireball&lt;/span&gt;
+  &lt;/hbd-list-item&gt;
+  &lt;hbd-list-item href="/spells/cone-of-cold" selected&gt;
+    &lt;span slot="primary"&gt;Cone of Cold&lt;/span&gt;
+  &lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Rich list — spell compendium -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Rich list &mdash; spell compendium</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All five slots in use: <code>leading</code> avatar,
+            <code>primary</code> + <code>secondary</code> text, a
+            <code>trailing</code> chip, and an <code>action</code> button that
+            reveals on hover or focus-within.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-list bordered divided>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Fireball"></hbd-avatar>
+                <span slot="primary">Fireball</span>
+                <span slot="secondary">Evocation &middot; Level 3</span>
+                <hbd-chip slot="trailing" size="sm" variant="error" label="Fire"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Cone of Cold"></hbd-avatar>
+                <span slot="primary">Cone of Cold</span>
+                <span slot="secondary">Evocation &middot; Level 5</span>
+                <hbd-chip slot="trailing" size="sm" variant="primary" label="Cold"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Lightning Bolt"></hbd-avatar>
+                <span slot="primary">Lightning Bolt</span>
+                <span slot="secondary">Evocation &middot; Level 3</span>
+                <hbd-chip slot="trailing" size="sm" variant="warning" label="Lightning"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Acid Arrow"></hbd-avatar>
+                <span slot="primary">Acid Arrow</span>
+                <span slot="secondary">Evocation &middot; Level 2</span>
+                <hbd-chip slot="trailing" size="sm" variant="success" label="Acid"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Magic Missile"></hbd-avatar>
+                <span slot="primary">Magic Missile</span>
+                <span slot="secondary">Evocation &middot; Level 1</span>
+                <hbd-chip slot="trailing" size="sm" variant="neutral" label="Force"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;
+  &lt;hbd-list-item href="/spells/fireball"&gt;
+    &lt;hbd-avatar slot="leading" size="sm" name="Fireball"&gt;&lt;/hbd-avatar&gt;
+    &lt;span slot="primary"&gt;Fireball&lt;/span&gt;
+    &lt;span slot="secondary"&gt;Evocation · Level 3&lt;/span&gt;
+    &lt;hbd-chip slot="trailing" size="sm" variant="error" label="Fire"&gt;&lt;/hbd-chip&gt;
+    &lt;hbd-button slot="action" icon-only aria-label="More"&gt;…&lt;/hbd-button&gt;
+  &lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code>, <code>md</code> (default), <code>lg</code>. The
+            <code>sm</code> size has a min-height of 36px — below the
+            WCAG&nbsp;2.5.8 preferred 44px target. Use it only for dense
+            secondary lists.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:stretch;flex-wrap:wrap;">
+            <hbd-list bordered divided size="sm" style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Small &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Small &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+            <hbd-list bordered divided style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Medium &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Medium &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+            <hbd-list bordered divided size="lg" style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Large &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Large &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list size="sm"&gt;…&lt;/hbd-list&gt;
+&lt;hbd-list           &gt;…&lt;/hbd-list&gt;
+&lt;hbd-list size="lg"&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · With disabled item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>disabled</code> renders the item at 50% opacity, removes it
+            from the Tab order, and sets <code>aria-disabled="true"</code>.
+            Pointer + keyboard activation are blocked.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item href="#"><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item href="#" disabled><span slot="primary">Wish &mdash; locked, level 9 required</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Magic Missile</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list-item href="/spells/wish" disabled&gt;
+  &lt;span slot="primary"&gt;Wish — locked&lt;/span&gt;
+&lt;/hbd-list-item&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · List divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <line x1="12" y1="14" x2="32" y2="14" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="22" x2="32" y2="22" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="30" x2="32" y2="30" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="9"  cy="14" r="1.4" fill="#7a1212"/>
+        <circle cx="9"  cy="22" r="1.4" fill="#7a1212"/>
+        <circle cx="9"  cy="30" r="1.4" fill="#7a1212"/>
       </svg>
     </div>
 
