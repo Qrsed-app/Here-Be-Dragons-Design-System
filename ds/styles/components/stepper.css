@@ -1,0 +1,255 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/stepper.css
+ *
+ * Stepper navigation — progress through a multi-step flow. Light-DOM so
+ * the <nav> is a landmark and the <ol> communicates step order to AT.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-stepper-{indicator-size,connector-height}; the
+ *   emitted token namespace is --hbd-stepper-nav-* to avoid colliding with
+ *   the existing --hbd-stepper-button-width (numeric-input stepper).
+ * - Spec referenced --hbd-color-action-default / -action-text — emitted
+ *   tokens are --hbd-color-surface-action / --hbd-color-text-on-action.
+ * - Spec referenced --hbd-color-status-error-bg / -text — emitted tokens
+ *   are --hbd-color-status-error-surface / --hbd-color-status-error-text.
+ * - Spec referenced --hbd-color-border-default for upcoming connectors;
+ *   emitted token is --hbd-color-border-strong where SC 1.4.11 demands
+ *   3:1 against parchment-100. -default (ink-300) sits at ~2.1:1 and is
+ *   used for the upcoming-indicator ring (non-essential progress cue).
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+.hbd-stepper {
+  width: 100%;
+  font-family: var(--hbd-font-family-ui);
+}
+
+/* ── 2 · Step list ────────────────────────────────────────────────── */
+.hbd-stepper__list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hbd-stepper--horizontal .hbd-stepper__list {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.hbd-stepper--vertical .hbd-stepper__list {
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── 3 · Step item ────────────────────────────────────────────────── */
+.hbd-stepper--horizontal .hbd-stepper__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.hbd-stepper--vertical .hbd-stepper__step {
+  display: flex;
+  flex-direction: row;
+  /* Cross-axis CENTRE so the content sits on the indicator's vertical
+     midline. flex-start would top-align the content to the indicator's
+     top edge — fine for single-line labels, off-centre as soon as the
+     label wraps or a description is added. */
+  align-items: center;
+  gap: var(--hbd-space-3);
+  position: relative;
+}
+
+/* ── 4 · Connector line ───────────────────────────────────────────── */
+/* Horizontal: positioned absolutely so it stretches between adjacent
+   indicator centres. The connector belongs to the step on its LEFT —
+   each li renders its OWN trailing connector, EXCEPT the last step (JS
+   omits the connector node there). */
+.hbd-stepper--horizontal .hbd-stepper__connector {
+  position: absolute;
+  top: calc(var(--hbd-stepper-nav-indicator-size) / 2);
+  left: calc(50% + var(--hbd-stepper-nav-indicator-size) / 2 + var(--hbd-space-1));
+  right: calc(-50% + var(--hbd-stepper-nav-indicator-size) / 2 + var(--hbd-space-1));
+  height: var(--hbd-stepper-nav-connector-height);
+  background: var(--hbd-color-border-default);
+  z-index: 0;
+}
+
+/* Completed step's TRAILING connector reads as a completed segment. */
+.hbd-stepper__step--completed .hbd-stepper__connector {
+  background: var(--hbd-color-surface-action);
+}
+
+/* Vertical connector — a thin vertical bar dropped from below the
+   indicator down to the next step's indicator. */
+.hbd-stepper--vertical .hbd-stepper__connector {
+  position: absolute;
+  top: calc(var(--hbd-stepper-nav-indicator-size) + var(--hbd-space-1));
+  left: calc(var(--hbd-stepper-nav-indicator-size) / 2);
+  width: var(--hbd-stepper-nav-connector-height);
+  bottom: calc(-1 * var(--hbd-space-1));
+  background: var(--hbd-color-border-default);
+  transform: translateX(calc(-1 * var(--hbd-stepper-nav-connector-height) / 2));
+  z-index: 0;
+}
+
+/* ── 5 · Indicator ────────────────────────────────────────────────── */
+.hbd-stepper__indicator {
+  width: var(--hbd-stepper-nav-indicator-size);
+  height: var(--hbd-stepper-nav-indicator-size);
+  border-radius: var(--hbd-radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-semibold);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  transition: background-color var(--hbd-duration-normal) var(--hbd-ease-out),
+              color var(--hbd-duration-normal) var(--hbd-ease-out),
+              border-color var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+
+/* Upcoming — pale surface + muted number + outlined ring. */
+.hbd-stepper__step--upcoming .hbd-stepper__indicator {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-muted);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-border-strong);
+}
+
+/* Active — solid action fill, on-action text. */
+.hbd-stepper__step--active .hbd-stepper__indicator {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-surface-action);
+}
+
+/* Completed — same solid fill as active but with a checkmark icon. */
+.hbd-stepper__step--completed .hbd-stepper__indicator {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-surface-action);
+}
+
+/* Error — status surface + on-action text + status border. */
+.hbd-stepper__step--error .hbd-stepper__indicator {
+  background: var(--hbd-color-status-error-surface);
+  color: var(--hbd-color-status-error-text);
+  border: var(--hbd-border-width-thin) solid var(--hbd-color-status-error-border);
+}
+
+/* Indicator-as-button resets — when non-linear renders an interactive
+   <button>, strip native chrome so it visually matches the static
+   <div> indicator. Cursor + focus rules below. */
+button.hbd-stepper__indicator {
+  font: inherit;
+  cursor: default;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Icon inside the indicator (check / error). Tokenised box matches
+   indicator inner-text size at every level of host zoom. */
+.hbd-stepper__indicator-icon {
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── 6 · Content (label + description) ────────────────────────────── */
+/* Horizontal: the content sits below the indicator. The step is a flex
+   column with align-items:center so the content block itself is already
+   centred under the indicator — but multi-line labels need their TEXT
+   centred too, hence text-align. width:100% anchors the centring to the
+   step column instead of the label's natural width, so a long label
+   wraps symmetrically around the indicator centre. */
+.hbd-stepper--horizontal .hbd-stepper__content {
+  width: 100%;
+  text-align: center;
+  margin-top: var(--hbd-space-2);
+  padding: 0 var(--hbd-space-1);
+}
+.hbd-stepper--horizontal .hbd-stepper__label,
+.hbd-stepper--horizontal .hbd-stepper__description {
+  text-align: center;
+}
+
+/* Vertical: the step is already align-items:center, so the content box
+   itself sits on the indicator's midline. Bottom padding on the step's
+   margin (below) gives breathing room to the next step without pulling
+   the content off-centre. */
+.hbd-stepper--vertical .hbd-stepper__content {
+  padding-block: 0;
+}
+/* Step-to-step gap in the vertical stack — bottom margin on every step
+   except the last (which has no trailing connector). */
+.hbd-stepper--vertical .hbd-stepper__step:not(:last-child) {
+  margin-bottom: var(--hbd-space-4);
+}
+
+.hbd-stepper__label {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-primary);
+  line-height: var(--hbd-line-height-snug);
+}
+
+.hbd-stepper__step--upcoming .hbd-stepper__label {
+  color: var(--hbd-color-text-muted);
+}
+
+.hbd-stepper__step--active .hbd-stepper__label {
+  color: var(--hbd-color-text-emphasis);
+  font-weight: var(--hbd-font-weight-semibold);
+}
+
+.hbd-stepper__step--error .hbd-stepper__label {
+  color: var(--hbd-color-text-emphasis);
+}
+
+.hbd-stepper__description {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+  margin-top: var(--hbd-space-1);
+  line-height: var(--hbd-line-height-snug);
+}
+
+/* ── 7 · Non-linear interactive indicators ────────────────────────── */
+/* In non-linear mode the indicator on completed or error steps becomes
+   a real <button>. Hand cursor + focus ring + hover tint signal
+   interactivity. Upcoming + active steps are non-interactive in this
+   mode (active is the current location; upcoming should still be
+   reached via the linear flow). */
+.hbd-stepper--non-linear
+  .hbd-stepper__step--completed .hbd-stepper__indicator,
+.hbd-stepper--non-linear
+  .hbd-stepper__step--error .hbd-stepper__indicator {
+  cursor: pointer;
+}
+
+.hbd-stepper--non-linear
+  .hbd-stepper__step--completed .hbd-stepper__indicator:hover,
+.hbd-stepper--non-linear
+  .hbd-stepper__step--error .hbd-stepper__indicator:hover {
+  filter: brightness(0.92);
+}
+
+.hbd-stepper__indicator:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}

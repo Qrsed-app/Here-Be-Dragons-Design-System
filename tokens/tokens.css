@@ -394,6 +394,10 @@
   /* ── stepper ───────────────────────────────────────────── */
   --hbd-stepper-button-width: 40px;
 
+  /* ── stepper-nav ───────────────────────────────────────── */
+  --hbd-stepper-nav-indicator-size: 32px;
+  --hbd-stepper-nav-connector-height: 2px;
+
   /* ── file-upload ───────────────────────────────────────── */
   --hbd-file-upload-dropzone-min-height: 160px;
   --hbd-file-upload-preview-size: 64px;

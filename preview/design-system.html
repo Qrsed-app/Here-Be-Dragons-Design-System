@@ -2119,6 +2119,7 @@
           <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
           <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
           <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
+          <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -7628,6 +7629,247 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <path d="M10 22h2M14 22h2M18 22h2M22 22h2M26 22h2M30 22h2M34 22h-2" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
         <circle cx="22" cy="22" r="3" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · STEPPER NAVIGATION ══════════════════════ -->
+    <section class="ds-section" id="component-stepper-nav" aria-labelledby="heading-stepper-nav">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;5</span>
+        <h2 class="ds-section__heading" id="heading-stepper-nav">Stepper Navigation</h2>
+        <p class="ds-section__description">
+          Stepper navigation shows progress through a multi-step process. Use it for wizards,
+          checkout flows, and any sequence where the user must complete steps in order or can
+          jump between them. Rendered as <code>&lt;hbd-stepper-nav&gt;</code> with
+          <code>&lt;hbd-step&gt;</code> children. Two variants
+          (<code>horizontal</code>&nbsp;/&nbsp;<code>vertical</code>) and two modes
+          (<code>linear</code>&nbsp;/&nbsp;<code>non-linear</code>).
+        </p>
+
+        <!-- Group 1 · Horizontal — linear -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal &mdash; linear</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The default. Active step is step&nbsp;1; step&nbsp;0 is completed and renders a
+            checkmark, steps&nbsp;2&ndash;3 are upcoming.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1"&gt;
+  &lt;hbd-step label="Character"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Horizontal — with descriptions -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal &mdash; with descriptions</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Each step accepts a <code>description</code> attribute for a one-line subtitle.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" style="max-width:720px;width:100%;">
+              <hbd-step label="Character" description="Name and race"></hbd-step>
+              <hbd-step label="Class"     description="Class and subclass"></hbd-step>
+              <hbd-step label="Abilities" description="Assign ability scores"></hbd-step>
+              <hbd-step label="Equipment" description="Starting gear"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1"&gt;
+  &lt;hbd-step label="Character" description="Name and race"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"     description="Class and subclass"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities" description="Assign ability scores"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment" description="Starting gear"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Vertical -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Vertical orientation. Useful in side rails and on narrow viewports.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" variant="vertical" style="max-width:320px;width:100%;">
+              <hbd-step label="Character" description="Name and race"></hbd-step>
+              <hbd-step label="Class"     description="Class and subclass"></hbd-step>
+              <hbd-step label="Abilities" description="Assign ability scores"></hbd-step>
+              <hbd-step label="Equipment" description="Starting gear"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1" variant="vertical"&gt;
+  &lt;hbd-step label="Character" description="Name and race"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"     description="Class and subclass"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities" description="Assign ability scores"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment" description="Starting gear"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Non-linear (click to jump) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Non-linear &mdash; jump between steps</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>mode="non-linear"</code>, completed and error step indicators render
+            as keyboard-reachable buttons. Click any earlier step to jump back. The component
+            fires <code>hbd:change</code> with <code>{ step, label }</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+            <hbd-stepper-nav id="stepper-nav-demo" active="2" mode="non-linear" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+            <p class="hbd-text-body hbd-text-primary" style="margin:0;">
+              <span id="stepper-nav-demo-out">Click an earlier step to jump.</span>
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="2" mode="non-linear"&gt;
+  &lt;hbd-step label="Character"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;
+
+&lt;script&gt;
+  el.addEventListener('hbd:change', (e) =&gt; {
+    console.log('Step', e.detail.step, e.detail.label);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-demo');
+                var out = document.getElementById('stepper-nav-demo-out');
+                if (!el || !out) return setTimeout(wire, 50);
+                el.addEventListener('hbd:change', function (e) {
+                  out.textContent =
+                    'You clicked step ' + (e.detail.step + 1) + ': ' + e.detail.label;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · With error step -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With error step</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use <code>setStepStatus(index, 'error')</code> to mark a step as failed after
+            async validation. The indicator turns to the error surface and surfaces an
+            SR-only <code>Error:</code> prefix on its label.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav id="stepper-nav-error-demo" active="2" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>const el = document.querySelector('hbd-stepper-nav');
+el.setStepStatus(1, 'error');   // mark step 1 as failed
+el.setStepStatus(1, null);      // clear and revert to computed</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-error-demo');
+                if (!el || typeof el.setStepStatus !== 'function') return setTimeout(wire, 50);
+                el.setStepStatus(1, 'error');
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 6 · Navigation controls demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Navigation controls</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>previous()</code> and <code>next()</code> advance the active step
+            programmatically. Wire them to your wizard's Prev / Next buttons; the buttons
+            disable themselves at the boundaries.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-stepper-nav id="stepper-nav-buttons-demo" active="0" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+            <div style="display:flex;gap:var(--hbd-space-3);align-items:center;">
+              <hbd-button id="stepper-nav-prev" variant="default">Previous</hbd-button>
+              <hbd-button id="stepper-nav-next" variant="primary">Next</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>prev.addEventListener('click', () =&gt; stepper.previous());
+next.addEventListener('click', () =&gt; stepper.next());</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-buttons-demo');
+                var prev = document.getElementById('stepper-nav-prev');
+                var next = document.getElementById('stepper-nav-next');
+                if (!el || !prev || !next || typeof el.next !== 'function') {
+                  return setTimeout(wire, 50);
+                }
+                var total = el.querySelectorAll('hbd-step').length;
+                function updateButtonState() {
+                  var idx = parseInt(el.getAttribute('active') || '0', 10);
+                  if (idx <= 0) prev.setAttribute('disabled', '');
+                  else prev.removeAttribute('disabled');
+                  if (idx >= total - 1) next.setAttribute('disabled', '');
+                  else next.removeAttribute('disabled');
+                }
+                prev.addEventListener('click', function () { el.previous(); updateButtonState(); });
+                next.addEventListener('click', function () { el.next();     updateButtonState(); });
+                el.addEventListener('hbd:change', updateButtonState);
+                updateButtonState();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Stepper-nav divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="10" cy="22" r="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="13" y1="22" x2="20" y2="22" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="3" fill="#7a1212"/>
+        <line x1="24" y1="22" x2="31" y2="22" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="34" cy="22" r="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
       </svg>
     </div>
 

@@ -397,8 +397,8 @@
 }
 .hbd-pagination__goto-go {
   /* Override the inherited square chevron sizing — the "Go" text needs
-     hugging padding, not a 36px square, so the goto cluster stays
-     compact inside the toolbar's right column. */
+     hugging padding, not a square item-size cell, so the goto cluster
+     stays compact inside the toolbar's right column. */
   width: auto;
   padding: 0 var(--hbd-space-2);
 }

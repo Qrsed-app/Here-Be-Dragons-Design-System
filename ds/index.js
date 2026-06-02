@@ -47,6 +47,7 @@ import './components/hbd-spell-card.js';
 import './components/hbd-split-button.js';
 import './components/hbd-stat-block.js';
 import './components/hbd-stepper.js';
+import './components/hbd-stepper-nav.js';
 import './components/hbd-switch.js';
 import './components/hbd-tabs.js';
 import './components/hbd-textarea.js';
