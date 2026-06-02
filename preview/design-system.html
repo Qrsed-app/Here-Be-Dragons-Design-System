@@ -1920,13 +1920,52 @@
       background: var(--parchment-100);
       z-index: 50;
     }
+    /* The heading row is a real button so keyboard users can collapse
+       the whole TOC. Visually it still reads as a small caps heading. */
     .ds-toc__heading {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
       font-family: var(--font-display);
       font-size: var(--text-micro);
       letter-spacing: var(--ls-label);
       text-transform: uppercase;
       color: var(--ink-faded);
+      background: transparent;
+      border: 0;
+      padding: 0;
       margin-bottom: var(--space-3);
+      cursor: pointer;
+      text-align: left;
+    }
+    .ds-toc__heading:hover { color: var(--ink-brown); }
+    .ds-toc__heading:focus-visible {
+      outline: 2px solid var(--blood);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    /* Chevron drawn in CSS so no extra glyphs land in the markup; rotates
+       on open. Reduced-motion handled by the global override below. */
+    .ds-toc__chevron {
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+    }
+    .ds-toc[data-collapsed="true"] .ds-toc__chevron {
+      transform: rotate(45deg);
+    }
+    /* The grouped region is the collapsible target. Hidden via display
+       so it's removed from layout (and the sticky strip collapses with
+       it); also marked aria-hidden via the JS so AT skips it. */
+    .ds-toc[data-collapsed="true"] .ds-toc__groups {
+      display: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ds-toc__chevron { transition: none; }
     }
     .ds-toc__list {
       display: flex;
@@ -2106,10 +2145,19 @@
   ════════════════════════════════════════════════════ -->
   <main id="main-content">
 
-    <nav class="ds-toc" aria-label="Design system sections">
+    <nav class="ds-toc" aria-label="Design system sections" id="ds-toc">
       <div class="container">
-        <h2 class="ds-toc__heading">Contents</h2>
-        <div class="ds-toc__groups">
+        <h2 style="margin:0;">
+          <button type="button"
+                  class="ds-toc__heading"
+                  aria-controls="ds-toc-groups"
+                  aria-expanded="true"
+                  data-ds-toc-toggle>
+            <span class="ds-toc__chevron" aria-hidden="true"></span>
+            <span>Contents</span>
+          </button>
+        </h2>
+        <div class="ds-toc__groups" id="ds-toc-groups">
 
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Foundations</span>
@@ -2173,6 +2221,7 @@
               <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
+              <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
@@ -8742,6 +8791,235 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
       </svg>
     </div>
 
+    <!-- ══════════════════════ COMPONENT · POPOVER ══════════════════════ -->
+    <section class="ds-section" id="component-popover" aria-labelledby="heading-popover">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;9</span>
+        <h2 class="ds-section__heading" id="heading-popover">Popover</h2>
+        <p class="ds-section__description">
+          Popovers show interactive floating content on trigger click. Unlike
+          <a href="#component-tooltip">tooltips</a> they contain forms, buttons, and rich
+          content; unlike modals they do <strong>not</strong> block the rest of the page
+          (<code>aria-modal="false"</code>, no backdrop, no scroll lock). Focus is trapped
+          inside the panel while open; Escape closes and returns focus to the trigger.
+        </p>
+
+        <!-- Group 1 · Basic popover -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic popover</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Title, body, and a footer of actions. The close button in the header is
+            rendered when <code>title</code> is set and <code>no-close</code> is absent.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Spell Details" placement="bottom">
+              <hbd-button slot="trigger" variant="primary">View Spell</hbd-button>
+              <div slot="content">
+                <p style="margin:0 0 var(--hbd-space-2);">
+                  <strong>Fireball</strong> — Evocation · Level 3
+                </p>
+                <p style="margin:0;color:var(--hbd-color-text-secondary);">
+                  A bright streak flashes from your pointing finger to a point you choose,
+                  then blossoms with a low roar into an explosion of flame.
+                </p>
+              </div>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">Close</hbd-button>
+                <hbd-button variant="primary" size="sm">Cast Spell</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover title="Spell Details" placement="bottom"&gt;
+  &lt;hbd-button slot="trigger" variant="primary"&gt;View Spell&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;
+    &lt;p&gt;&lt;strong&gt;Fireball&lt;/strong&gt; — Evocation · Level 3&lt;/p&gt;
+    &lt;p&gt;A bright streak flashes from your pointing finger…&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button size="sm"&gt;Close&lt;/hbd-button&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Cast Spell&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Placements -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placements</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>top</code>, <code>bottom</code> (default), <code>left</code>,
+            <code>right</code>. A popover that would overflow the viewport flips to the
+            opposite side automatically.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;justify-content:center;flex-wrap:wrap;padding:var(--hbd-space-12) 0;">
+            <hbd-popover title="Top" placement="top">
+              <hbd-button slot="trigger" variant="primary">Top</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">Appears above the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Flips to bottom if there is no room.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Bottom" placement="bottom">
+              <hbd-button slot="trigger" variant="default">Bottom</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">Default placement.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Anchored just below the trigger.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Left" placement="left">
+              <hbd-button slot="trigger" variant="default">Left</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">To the left of the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Centered vertically.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Right" placement="right">
+              <hbd-button slot="trigger" variant="gold">Right</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">To the right of the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Centered vertically.</p>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover placement="top"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="bottom"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="left"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="right"&gt;…&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With form content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With form content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Popovers are the right home for short forms: filters, quick edits, dice
+            rollers. The focus trap keeps Tab cycling inside the panel; Escape closes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Quick Roll" placement="bottom">
+              <hbd-button slot="trigger" icon-only variant="primary" aria-label="Quick roll">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="12" height="12" rx="2"/>
+                    <circle cx="5.5" cy="5.5" r="0.9" fill="currentColor"/>
+                    <circle cx="10.5" cy="10.5" r="0.9" fill="currentColor"/>
+                    <circle cx="10.5" cy="5.5" r="0.9" fill="currentColor"/>
+                    <circle cx="5.5" cy="10.5" r="0.9" fill="currentColor"/>
+                    <circle cx="8" cy="8" r="0.9" fill="currentColor"/>
+                  </svg>
+                </span>
+              </hbd-button>
+              <div slot="content">
+                <label style="display:block;font-size:var(--hbd-font-size-label);margin-bottom:var(--hbd-space-1);">Dice type</label>
+                <select style="width:100%;padding:var(--hbd-space-2);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);border:var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+                  <option>d4</option>
+                  <option>d6</option>
+                  <option selected>d20</option>
+                  <option>d100</option>
+                </select>
+                <label style="display:block;font-size:var(--hbd-font-size-label);margin:var(--hbd-space-3) 0 var(--hbd-space-1);">Count</label>
+                <input type="number" min="1" max="20" value="1"
+                       style="width:100%;padding:var(--hbd-space-2);font-family:var(--hbd-font-family-mono);font-size:var(--hbd-font-size-label);border:var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              </div>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Roll</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover title="Quick Roll"&gt;
+  &lt;hbd-button slot="trigger" icon-only aria-label="Quick roll"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;
+    &lt;label&gt;Dice type&lt;/label&gt;&lt;select&gt;…&lt;/select&gt;
+    &lt;label&gt;Count&lt;/label&gt;&lt;input type="number"&gt;
+  &lt;/div&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Roll&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · No title -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No title</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Without <code>title</code>, the header is omitted entirely and the panel
+            becomes a single content area. Escape still closes; click outside still
+            dismisses. Use this for short informational notes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover placement="bottom">
+              <hbd-button slot="trigger" variant="default">More info</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">
+                  Concentration spells end if you take damage and fail a Constitution
+                  save (DC&nbsp;10 or half the damage taken, whichever is higher).
+                </p>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover placement="bottom"&gt;
+  &lt;hbd-button slot="trigger"&gt;More info&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;&lt;p&gt;Concentration spells…&lt;/p&gt;&lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab to the trigger and press <kbd>Enter</kbd> to open. Tab cycles through
+            the focusable elements inside the panel and wraps at the edges. Press
+            <kbd>Escape</kbd> to close — focus returns to the trigger.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Keyboard demo" placement="bottom">
+              <hbd-button slot="trigger" variant="gold">Open</hbd-button>
+              <div slot="content">
+                <p style="margin:0 0 var(--hbd-space-2);">Tab between these three buttons.</p>
+                <div style="display:flex;gap:var(--hbd-space-2);">
+                  <hbd-button variant="default" size="sm">One</hbd-button>
+                  <hbd-button variant="default" size="sm">Two</hbd-button>
+                  <hbd-button variant="default" size="sm">Three</hbd-button>
+                </div>
+              </div>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Done</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>// Trigger: Tab + Enter to open
+// Panel:   Tab cycles inside; Escape closes
+// Outside: click anywhere outside the panel to dismiss</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Popover divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="13" width="22" height="14" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M20 27l2 4 2-4" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14" cy="18" r="1.2" fill="#7a1212"/>
+        <line x1="18" y1="18" x2="26" y2="18" stroke="#b8893b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="14" y1="22" x2="24" y2="22" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
       <div class="container">
@@ -9477,6 +9755,40 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       var a = e.target.closest('a[href="#"]');
       if (a) e.preventDefault();
     });
+
+    /* ─────────────────────────────────────────────────
+       COLLAPSIBLE TABLE OF CONTENTS
+       The heading row is a button that toggles the
+       grouped region below it. State is persisted in
+       localStorage under 'hbd-ds-toc-collapsed' so the
+       user's choice survives page reloads.
+    ───────────────────────────────────────────────── */
+    (function () {
+      var STORAGE_KEY = 'hbd-ds-toc-collapsed';
+      var nav    = document.getElementById('ds-toc');
+      var toggle = nav && nav.querySelector('[data-ds-toc-toggle]');
+      var groups = document.getElementById('ds-toc-groups');
+      if (!nav || !toggle || !groups) return;
+
+      function apply(collapsed) {
+        nav.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
+        toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        // display:none in CSS already removes it from layout; the
+        // explicit aria-hidden is belt-and-braces for AT that walks
+        // hidden subtrees (e.g. some screen readers).
+        groups.setAttribute('aria-hidden', collapsed ? 'true' : 'false');
+      }
+
+      var stored = null;
+      try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* private mode */ }
+      apply(stored === 'true');
+
+      toggle.addEventListener('click', function () {
+        var nowCollapsed = nav.getAttribute('data-collapsed') !== 'true';
+        apply(nowCollapsed);
+        try { localStorage.setItem(STORAGE_KEY, String(nowCollapsed)); } catch (e) { /* ignore */ }
+      });
+    })();
   </script>
 
 </body>

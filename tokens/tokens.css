@@ -335,6 +335,11 @@
   --hbd-tooltip-delay-show: 300ms;
   --hbd-tooltip-delay-hide: 100ms;
 
+  /* ── popover ───────────────────────────────────────────── */
+  --hbd-popover-min-width: 200px;
+  --hbd-popover-max-width: 320px;
+  --hbd-popover-arrow-size: 8px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

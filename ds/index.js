@@ -43,6 +43,7 @@ import './components/hbd-input.js';
 import './components/hbd-navbar.js';
 import './components/hbd-otp-input.js';
 import './components/hbd-pagination.js';
+import './components/hbd-popover.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
 import './components/hbd-slider.js';
