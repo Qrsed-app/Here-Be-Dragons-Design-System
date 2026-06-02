@@ -2173,6 +2173,7 @@
               <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
+              <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
 
@@ -3576,9 +3577,10 @@
         <p class="ds-section__description">
           Icon buttons trigger actions using only an icon. They are <code>&lt;hbd-button&gt;</code>
           with the <code>icon-only</code> attribute set. Always provide an <code>aria-label</code>
-          — it is announced to screen readers and also shown as a tooltip on hover and focus.
-          The CSS tooltip reads from the same <code>aria-label</code> via <code>attr()</code>, so
-          the visible tooltip is guaranteed to match the accessible name.
+          — it is announced to screen readers. For a visible-on-hover/focus label, wrap the
+          button in <code>&lt;hbd-tooltip content="…"&gt;</code> (Group&nbsp;3 below). The
+          previous CSS <code>::after</code> tooltip was removed when
+          <a href="#component-tooltip">hbd-tooltip</a> superseded it.
         </p>
 
         <!-- Group 1 · Variants -->
@@ -3639,31 +3641,36 @@
           </details>
         </div>
 
-        <!-- Group 3 · Tooltip behaviour -->
+        <!-- Group 3 · Tooltip behaviour (via hbd-tooltip wrapper) -->
         <div class="ds-preview-group">
           <h3 class="ds-preview-group__label">Tooltip behaviour</h3>
           <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);max-width:60ch;">
-            Hover or focus these buttons to see the tooltip. Press <kbd>Escape</kbd> to dismiss it
-            without moving focus (SC 1.4.13 Content on Hover or Focus). Move the pointer away or
-            blur the button and the tooltip will reappear on the next interaction.
+            Wrap an icon button in <code>&lt;hbd-tooltip&gt;</code> to surface its
+            <code>aria-label</code> as a hover/focus label. Press <kbd>Escape</kbd> while the
+            button is focused to dismiss the tooltip without moving focus (SC&nbsp;1.4.13).
+            The visible label is independent of the accessible name — match them deliberately.
           </p>
           <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
-            <hbd-button icon-only variant="default" aria-label="Close dialog">
-              <span class="hbd-button__icon" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              </span>
-            </hbd-button>
-            <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
-              <span class="hbd-button__icon" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-              </span>
-            </hbd-button>
+            <hbd-tooltip content="Close dialog">
+              <hbd-button icon-only variant="default" aria-label="Close dialog">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Summon the dread Tarrasque">
+              <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
           </div>
           <details class="ds-preview-code">
             <summary>View code</summary>
-            <pre><code>&lt;!-- Tooltip content reads from aria-label via attr() — they cannot diverge. --&gt;
-&lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
-&lt;hbd-button icon-only aria-label="Summon the dread Tarrasque"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+            <pre><code>&lt;hbd-tooltip content="Close dialog"&gt;
+  &lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
           </details>
         </div>
 
@@ -8572,6 +8579,166 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <ellipse cx="22" cy="22" rx="14" ry="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
         <circle cx="30" cy="16" r="3" fill="#7a1212"/>
         <circle cx="22" cy="22" r="2" fill="#b8893b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TOOLTIP ══════════════════════ -->
+    <section class="ds-section" id="component-tooltip" aria-labelledby="heading-tooltip">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;8</span>
+        <h2 class="ds-section__heading" id="heading-tooltip">Tooltip</h2>
+        <p class="ds-section__description">
+          Tooltips provide supplementary information about an element on hover or keyboard
+          focus. They <strong>never</strong> contain essential content and
+          <strong>never</strong> contain interactive elements. Rendered as
+          <code>&lt;hbd-tooltip content="…"&gt;</code> wrapping a single trigger. Behind the
+          scenes a singleton panel in <code>&lt;body&gt;</code> is reused across all
+          tooltips on the page.
+        </p>
+
+        <!-- Group 1 · Placements -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placements</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>placement</code>: <code>top</code> (default), <code>bottom</code>,
+            <code>left</code>, <code>right</code>. When a tooltip would overflow the
+            viewport it flips to the opposite side automatically.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;justify-content:center;flex-wrap:wrap;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="Cast Fireball" placement="top">
+              <hbd-button variant="primary">Top</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Open Spellbook" placement="bottom">
+              <hbd-button variant="default">Bottom</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Summon Familiar" placement="left">
+              <hbd-button variant="default">Left</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Enter Dungeon" placement="right">
+              <hbd-button variant="gold">Right</hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Cast Fireball" placement="top"&gt;
+  &lt;hbd-button variant="primary"&gt;Top&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;
+
+&lt;hbd-tooltip content="Open Spellbook" placement="bottom"&gt;…&lt;/hbd-tooltip&gt;
+&lt;hbd-tooltip content="Summon Familiar" placement="left"&gt;…&lt;/hbd-tooltip&gt;
+&lt;hbd-tooltip content="Enter Dungeon" placement="right"&gt;…&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · On icon buttons -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">On icon buttons</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The canonical use case for tooltips — pair them with icon-only buttons so
+            the <code>aria-label</code> stays the accessible name and the tooltip
+            provides the visible label. (This replaces the C-22 CSS <code>::after</code>
+            tooltip.)
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-tooltip content="Close dialog">
+              <hbd-button icon-only variant="default" aria-label="Close dialog">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Send message">
+              <hbd-button icon-only variant="primary" aria-label="Send message">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Add to favourites">
+              <hbd-button icon-only variant="gold" aria-label="Add to favourites">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l2 5h5l-4 3.5L12.5 15 8 11.5 3.5 15 5 9.5 1 6h5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="More options">
+              <hbd-button icon-only variant="default" aria-label="More options">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Close dialog"&gt;
+  &lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Long content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tooltip text wraps at <code>--hbd-tooltip-max-width</code> (240px). Long-form
+            explanations should live in a callout or a help link, not a tooltip — but
+            short reference notes work well.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="This spell requires verbal and somatic components and cannot be cast while silenced or restrained.">
+              <hbd-button icon-only variant="default" aria-label="Spell components info">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.5" r="0.9" fill="currentColor"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="This spell requires verbal and somatic components…"&gt;
+  &lt;hbd-button icon-only aria-label="Spell components info"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <kbd>Tab</kbd> through these buttons — the tooltip appears on focus without
+            a hover delay. Press <kbd>Escape</kbd> to dismiss without moving focus
+            (SC&nbsp;1.4.13 Dismissible).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="Roll initiative">
+              <hbd-button variant="primary">Initiative</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Attack the nearest creature">
+              <hbd-button variant="default">Attack</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="End your turn">
+              <hbd-button variant="gold">End turn</hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Roll initiative"&gt;
+  &lt;hbd-button variant="primary"&gt;Initiative&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Tooltip divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="15" width="26" height="10" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M19 25l3 4 3-4" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="1.6" fill="#7a1212"/>
       </svg>
     </div>
 

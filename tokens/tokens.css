@@ -329,6 +329,12 @@
   --hbd-chip-height-lg: 36px;
   --hbd-chip-max-width: 200px;
 
+  /* ── tooltip ───────────────────────────────────────────── */
+  --hbd-tooltip-max-width: 240px;
+  --hbd-tooltip-arrow-size: 6px;
+  --hbd-tooltip-delay-show: 300ms;
+  --hbd-tooltip-delay-hide: 100ms;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

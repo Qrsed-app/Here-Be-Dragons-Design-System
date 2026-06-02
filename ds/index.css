@@ -42,6 +42,7 @@
 @import './styles/components/stepper.css';
 @import './styles/components/tabs.css';
 @import './styles/components/time-picker.css';
+@import './styles/components/tooltip.css';
 
 /* 6. Patterns */
 @import './styles/components/form-validation.css';
