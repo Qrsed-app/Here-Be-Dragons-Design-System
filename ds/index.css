@@ -29,10 +29,16 @@
 @import './styles/components/codeblock.css';
 @import './styles/components/date-picker.css';
 @import './styles/components/divider.css';
+@import './styles/components/drawer.css';
 @import './styles/components/file-upload.css';
 @import './styles/components/input.css';
+@import './styles/components/menu.css';
+@import './styles/components/navbar.css';
+@import './styles/components/pagination.css';
 @import './styles/components/spell-card.css';
 @import './styles/components/stat-block.css';
+@import './styles/components/stepper.css';
+@import './styles/components/tabs.css';
 @import './styles/components/time-picker.css';
 
 /* 6. Patterns */

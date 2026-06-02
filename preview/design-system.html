@@ -2114,6 +2114,12 @@
           <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
           <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
           <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+          <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
+          <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
+          <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+          <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
+          <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
+          <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -6632,6 +6638,1238 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <path d="M14 22l5 5 11-11" stroke="#b8893b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <circle cx="22" cy="22" r="13" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TABS ══════════════════════ -->
+    <section class="ds-section" id="component-tabs" aria-labelledby="heading-tabs">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·1</span>
+        <h2 class="ds-section__heading" id="heading-tabs">Tabs</h2>
+        <p class="ds-section__description">
+          Tabs divide content into labelled sections; only one section is visible at a time.
+          Use tabs when sections are parallel and users need to switch between them frequently.
+          Rendered as <code>&lt;hbd-tabs&gt;</code> with <code>&lt;hbd-tab&gt;</code> +
+          <code>&lt;hbd-tab-panel&gt;</code> children. Arrow keys move and activate;
+          <code>Home</code>/<code>End</code> jump; <code>Tab</code> moves focus into the active
+          panel. Lazy mode keeps only the active panel in the DOM; eager mode keeps them all.
+          This is the first navigation component — the same tablist + roving tabindex pattern
+          will recur in Navbar, Drawer, and Stepper Navigation.
+        </p>
+
+        <!-- Group 1 · Horizontal (default) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal (default)</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs active="stats" label="Character sheet sections">
+              <hbd-tab value="stats" label="Stats"></hbd-tab>
+              <hbd-tab value="spells" label="Spells" badge="12"></hbd-tab>
+              <hbd-tab value="equipment" label="Equipment"></hbd-tab>
+              <hbd-tab value="notes" label="Notes"></hbd-tab>
+
+              <hbd-tab-panel value="stats">
+                <p>STR 16 · DEX 14 · CON 15 · INT 18 · WIS 12 · CHA 10. Hit points 38/45.
+                Proficiency bonus +3. Speed 30 ft.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="spells">
+                <p>Twelve prepared spells across cantrips and 1st–3rd level slots. Concentration
+                tracked in the encounter log. Rituals annotated with a quill icon.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="equipment">
+                <p>Mage armour set, staff of withering, two healing potions, a shard of true
+                silver, and a sealed scroll of unknown origin.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="notes">
+                <p>Session 17: the hooded figure at the Tarnished Anvil offered information for
+                500gp. The party declined. The figure noted the rejection in a leatherbound book.</p>
+              </hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs active="stats" label="Character sheet sections"&gt;
+  &lt;hbd-tab value="stats" label="Stats"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="spells" label="Spells" badge="12"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="equipment" label="Equipment"&gt;&lt;/hbd-tab&gt;
+  &lt;hbd-tab value="notes" label="Notes"&gt;&lt;/hbd-tab&gt;
+
+  &lt;hbd-tab-panel value="stats"&gt;…&lt;/hbd-tab-panel&gt;
+  &lt;hbd-tab-panel value="spells"&gt;…&lt;/hbd-tab-panel&gt;
+  &lt;!-- ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Vertical -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs variant="vertical" active="stats" label="Character sheet sections">
+              <hbd-tab value="stats" label="Stats"></hbd-tab>
+              <hbd-tab value="spells" label="Spells" badge="12"></hbd-tab>
+              <hbd-tab value="equipment" label="Equipment"></hbd-tab>
+              <hbd-tab value="notes" label="Notes"></hbd-tab>
+
+              <hbd-tab-panel value="stats"><p>STR 16 · DEX 14 · CON 15 · INT 18 · WIS 12 · CHA 10.</p></hbd-tab-panel>
+              <hbd-tab-panel value="spells"><p>Twelve prepared spells. Concentration tracked.</p></hbd-tab-panel>
+              <hbd-tab-panel value="equipment"><p>Mage armour, staff of withering, two healing potions.</p></hbd-tab-panel>
+              <hbd-tab-panel value="notes"><p>Session 17: the hooded figure at the Tarnished Anvil.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs variant="vertical" active="stats" label="Character sheet sections"&gt;…&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Scrollable (horizontal) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Scrollable — horizontal</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Eight tabs in a constrained row force overflow. Scroll arrows appear at the edges
+            when content extends past the visible area. The component stays bounded by its
+            parent — it never pushes the page wider.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;max-width:560px;overflow:hidden;">
+            <hbd-tabs scrollable active="abjuration" label="Spell schools (horizontal)">
+              <hbd-tab value="abjuration" label="Abjuration"></hbd-tab>
+              <hbd-tab value="conjuration" label="Conjuration"></hbd-tab>
+              <hbd-tab value="divination" label="Divination"></hbd-tab>
+              <hbd-tab value="enchantment" label="Enchantment"></hbd-tab>
+              <hbd-tab value="evocation" label="Evocation"></hbd-tab>
+              <hbd-tab value="illusion" label="Illusion"></hbd-tab>
+              <hbd-tab value="necromancy" label="Necromancy"></hbd-tab>
+              <hbd-tab value="transmutation" label="Transmutation"></hbd-tab>
+
+              <hbd-tab-panel value="abjuration"><p>Protective wards and bindings.</p></hbd-tab-panel>
+              <hbd-tab-panel value="conjuration"><p>Summoning and teleportation.</p></hbd-tab-panel>
+              <hbd-tab-panel value="divination"><p>Knowledge of the past, present, and future.</p></hbd-tab-panel>
+              <hbd-tab-panel value="enchantment"><p>Charms that beguile the mind.</p></hbd-tab-panel>
+              <hbd-tab-panel value="evocation"><p>Raw magical energy: fire, frost, lightning.</p></hbd-tab-panel>
+              <hbd-tab-panel value="illusion"><p>Deceptions of the senses.</p></hbd-tab-panel>
+              <hbd-tab-panel value="necromancy"><p>Manipulation of life and death.</p></hbd-tab-panel>
+              <hbd-tab-panel value="transmutation"><p>Alteration of matter and form.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs scrollable active="abjuration" label="Spell schools"&gt;
+  &lt;hbd-tab value="abjuration" label="Abjuration"&gt;&lt;/hbd-tab&gt;
+  &lt;!-- ... eight tabs total ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3b · Scrollable (vertical) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Scrollable — vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>scrollable</code> composes with <code>variant="vertical"</code>. Constrain the
+            container's height; scroll arrows appear above and below the tablist when the column
+            overflows. The component never grows past the parent's height.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;max-width:560px;height:240px;overflow:hidden;">
+            <hbd-tabs scrollable variant="vertical" active="abjuration" label="Spell schools (vertical)">
+              <hbd-tab value="abjuration" label="Abjuration"></hbd-tab>
+              <hbd-tab value="conjuration" label="Conjuration"></hbd-tab>
+              <hbd-tab value="divination" label="Divination"></hbd-tab>
+              <hbd-tab value="enchantment" label="Enchantment"></hbd-tab>
+              <hbd-tab value="evocation" label="Evocation"></hbd-tab>
+              <hbd-tab value="illusion" label="Illusion"></hbd-tab>
+              <hbd-tab value="necromancy" label="Necromancy"></hbd-tab>
+              <hbd-tab value="transmutation" label="Transmutation"></hbd-tab>
+
+              <hbd-tab-panel value="abjuration"><p>Protective wards and bindings.</p></hbd-tab-panel>
+              <hbd-tab-panel value="conjuration"><p>Summoning and teleportation.</p></hbd-tab-panel>
+              <hbd-tab-panel value="divination"><p>Knowledge of the past, present, and future.</p></hbd-tab-panel>
+              <hbd-tab-panel value="enchantment"><p>Charms that beguile the mind.</p></hbd-tab-panel>
+              <hbd-tab-panel value="evocation"><p>Raw magical energy: fire, frost, lightning.</p></hbd-tab-panel>
+              <hbd-tab-panel value="illusion"><p>Deceptions of the senses.</p></hbd-tab-panel>
+              <hbd-tab-panel value="necromancy"><p>Manipulation of life and death.</p></hbd-tab-panel>
+              <hbd-tab-panel value="transmutation"><p>Alteration of matter and form.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs scrollable variant="vertical" active="abjuration"
+  label="Spell schools (vertical)"&gt;
+  &lt;hbd-tab value="abjuration" label="Abjuration"&gt;&lt;/hbd-tab&gt;
+  &lt;!-- ... eight tabs total ... --&gt;
+&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · With disabled tab -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled tab</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs active="open" label="Quest log">
+              <hbd-tab value="open" label="Open"></hbd-tab>
+              <hbd-tab value="completed" label="Completed"></hbd-tab>
+              <hbd-tab value="failed" label="Failed"></hbd-tab>
+              <hbd-tab value="locked" label="Locked content" disabled></hbd-tab>
+
+              <hbd-tab-panel value="open"><p>Three quests in progress.</p></hbd-tab-panel>
+              <hbd-tab-panel value="completed"><p>Eleven quests completed this season.</p></hbd-tab-panel>
+              <hbd-tab-panel value="failed"><p>One failed quest: the lost caravan.</p></hbd-tab-panel>
+              <hbd-tab-panel value="locked"><p>Reach level 10 to unlock this section.</p></hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tab value="locked" label="Locked content" disabled&gt;&lt;/hbd-tab&gt;
+&lt;!-- Arrow navigation skips disabled tabs. --&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Eager mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Eager mode</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All panels are in the DOM — switching is instant and the layout doesn't shift.
+            Use when panels are cheap to render and you want them ready (e.g. tracking forms
+            across tabs). Lazy mode (default) keeps only the active panel rendered.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-tabs mode="eager" active="overview" label="Encounter details">
+              <hbd-tab value="overview" label="Overview"></hbd-tab>
+              <hbd-tab value="log" label="Combat log"></hbd-tab>
+
+              <hbd-tab-panel value="overview">
+                <p>Encounter against three goblin scouts in the foothills west of Drakenmir.
+                Three rounds. No casualties.</p>
+              </hbd-tab-panel>
+              <hbd-tab-panel value="log">
+                <p>R1: Bilbo initiative 18, Aragorn 14, Goblin A 11. Bilbo casts Sleep — Goblin B
+                and C fall. Aragorn charges Goblin A — hit, 8 damage. Goblin A swings — miss.</p>
+              </hbd-tab-panel>
+            </hbd-tabs>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tabs mode="eager" active="overview" label="Encounter details"&gt;…&lt;/hbd-tabs&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Tabs divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M10 18h7v6h-7zM18 18h7v6h-7zM26 18h7v6h-7z" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <path d="M10 26h23" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M10 18h7" stroke="#7a1212" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · DROPDOWN MENU ══════════════════════ -->
+    <!-- Anchor aliases for validator: the dropdown and context-menu
+         components are co-documented under #component-menu. -->
+    <a id="component-dropdown" aria-hidden="true" tabindex="-1"></a>
+    <a id="component-context-menu" aria-hidden="true" tabindex="-1"></a>
+    <section class="ds-section" id="component-menu" aria-labelledby="heading-menu">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">C·21</span>
+        <h2 class="ds-section__heading" id="heading-menu">Dropdown Menu</h2>
+        <p class="ds-section__description">
+          Dropdown menus present a list of actions from a trigger button. Context menus appear at
+          the pointer position on right-click (or long-press on touch). Use menus for ACTIONS,
+          not selections — for value choices, use <code>&lt;hbd-select&gt;</code>. Rendered as
+          <code>&lt;hbd-dropdown&gt;</code> + <code>&lt;hbd-context-menu&gt;</code>, both reading
+          <code>&lt;hbd-menu-item&gt;</code> / <code>&lt;hbd-menu-separator&gt;</code> /
+          <code>&lt;hbd-menu-group&gt;</code> children from the Light DOM. The panel uses
+          <code>role="menu"</code> and items use <code>role="menuitem"</code>.
+        </p>
+
+        <!-- Group 1 · Basic dropdown -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic dropdown</h3>
+          <div class="ds-preview-canvas" style="min-height:160px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">Actions</hbd-button>
+              <hbd-menu-item value="edit" label="Edit entry"></hbd-menu-item>
+              <hbd-menu-item value="duplicate" label="Duplicate"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="archive" label="Archive"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" destructive></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown&gt;
+  &lt;hbd-button slot="trigger" variant="default"&gt;Actions&lt;/hbd-button&gt;
+  &lt;hbd-menu-item value="edit"      label="Edit entry"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-item value="duplicate" label="Duplicate"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="archive"   label="Archive"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="delete"    label="Delete" destructive&gt;&lt;/hbd-menu-item&gt;
+&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · With icons -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With icons</h3>
+          <div class="ds-preview-canvas" style="min-height:200px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">File</hbd-button>
+              <hbd-menu-item value="new" label="New"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-item value="open" label="Open…"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M2 4h5l1 1h6v8H2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="save" label="Save"
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M2 2h10l2 2v10H2zM5 2v4h6V2M5 10h6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+              <hbd-menu-item value="delete" label="Delete" destructive
+                icon='&lt;svg viewBox="0 0 16 16" fill="none"&gt;&lt;path d="M3 4h10M6 4V2h4v2M5 4l1 10h4l1-10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;'></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-menu-item value="new" label="New"
+  icon='&lt;svg viewBox="0 0 16 16"&gt;…&lt;/svg&gt;'&gt;&lt;/hbd-menu-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With groups -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With groups</h3>
+          <div class="ds-preview-canvas" style="min-height:280px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">View options</hbd-button>
+              <hbd-menu-group label="View">
+                <hbd-menu-item value="grid" label="Grid view"></hbd-menu-item>
+                <hbd-menu-item value="list" label="List view"></hbd-menu-item>
+                <hbd-menu-item value="table" label="Table view"></hbd-menu-item>
+              </hbd-menu-group>
+              <hbd-menu-group label="Sort">
+                <hbd-menu-item value="az" label="Name A–Z"></hbd-menu-item>
+                <hbd-menu-item value="za" label="Name Z–A"></hbd-menu-item>
+                <hbd-menu-item value="date" label="Date added"></hbd-menu-item>
+              </hbd-menu-group>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown&gt;
+  &lt;hbd-button slot="trigger"&gt;View options&lt;/hbd-button&gt;
+  &lt;hbd-menu-group label="View"&gt;
+    &lt;hbd-menu-item value="grid" label="Grid view"&gt;&lt;/hbd-menu-item&gt;
+    &lt;!-- ... --&gt;
+  &lt;/hbd-menu-group&gt;
+  &lt;hbd-menu-group label="Sort"&gt;
+    &lt;hbd-menu-item value="az" label="Name A–Z"&gt;&lt;/hbd-menu-item&gt;
+    &lt;!-- ... --&gt;
+  &lt;/hbd-menu-group&gt;
+&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · With keyboard shortcuts -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With keyboard shortcuts</h3>
+          <div class="ds-preview-canvas" style="min-height:180px;align-items:flex-start;">
+            <hbd-dropdown>
+              <hbd-button slot="trigger" variant="default">Spell book</hbd-button>
+              <hbd-menu-item value="new" label="New spell" shortcut="⌘N"></hbd-menu-item>
+              <hbd-menu-item value="duplicate" label="Duplicate" shortcut="⌘D"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" shortcut="⌫" destructive></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-menu-item value="new" label="New spell" shortcut="⌘N"&gt;&lt;/hbd-menu-item&gt;
+&lt;hbd-menu-item value="duplicate" label="Duplicate" shortcut="⌘D"&gt;&lt;/hbd-menu-item&gt;
+&lt;hbd-menu-item value="delete" label="Delete" shortcut="⌫" destructive&gt;&lt;/hbd-menu-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Placement variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placement variants</h3>
+          <div class="ds-preview-canvas" style="min-height:320px;display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-8);align-items:center;justify-items:center;">
+            <hbd-dropdown placement="bottom-start">
+              <hbd-button slot="trigger" variant="default">bottom-start</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="bottom-end">
+              <hbd-button slot="trigger" variant="default">bottom-end</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="top-start">
+              <hbd-button slot="trigger" variant="default">top-start</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+            <hbd-dropdown placement="top-end">
+              <hbd-button slot="trigger" variant="default">top-end</hbd-button>
+              <hbd-menu-item value="a" label="Action one"></hbd-menu-item>
+              <hbd-menu-item value="b" label="Action two"></hbd-menu-item>
+            </hbd-dropdown>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-dropdown placement="bottom-start"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="bottom-end"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="top-start"&gt;…&lt;/hbd-dropdown&gt;
+&lt;hbd-dropdown placement="top-end"&gt;…&lt;/hbd-dropdown&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Context menu -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Context menu</h3>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <hbd-context-menu style="display:block;">
+              <div style="
+                display:flex;align-items:center;justify-content:center;
+                min-height:140px;padding:var(--hbd-space-6);
+                border:var(--hbd-border-width-thin) dashed var(--hbd-color-border-strong);
+                border-radius:var(--hbd-radius-md);
+                background:var(--hbd-color-surface-subtle);
+                font-family:var(--hbd-font-family-ui);
+                color:var(--hbd-color-text-secondary);
+                user-select:none;
+                ">
+                Right-click or long-press this area to open the context menu.
+              </div>
+              <hbd-menu-item value="copy" label="Copy"></hbd-menu-item>
+              <hbd-menu-item value="paste" label="Paste"></hbd-menu-item>
+              <hbd-menu-separator></hbd-menu-separator>
+              <hbd-menu-item value="delete" label="Delete" destructive></hbd-menu-item>
+            </hbd-context-menu>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-context-menu&gt;
+  &lt;div&gt;…content the menu attaches to…&lt;/div&gt;
+  &lt;hbd-menu-item value="copy"   label="Copy"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-item value="paste"  label="Paste"&gt;&lt;/hbd-menu-item&gt;
+  &lt;hbd-menu-separator&gt;&lt;/hbd-menu-separator&gt;
+  &lt;hbd-menu-item value="delete" label="Delete" destructive&gt;&lt;/hbd-menu-item&gt;
+&lt;/hbd-context-menu&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Dropdown Menu divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="13" y="12" width="18" height="6" rx="1" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <rect x="13" y="22" width="18" height="12" rx="1" fill="none" stroke="#7a1212" stroke-width="1.5"/>
+        <line x1="17" y1="26" x2="27" y2="26" stroke="#7a5a22" stroke-width="1.2"/>
+        <line x1="17" y1="30" x2="23" y2="30" stroke="#7a5a22" stroke-width="1.2"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · DRAWER ══════════════════════ -->
+    <section class="ds-section" id="component-drawer" aria-labelledby="heading-drawer">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·2</span>
+        <h2 class="ds-section__heading" id="heading-drawer">Drawer</h2>
+        <p class="ds-section__description">
+          Drawers slide in from the viewport edge to show contextual content without leaving the
+          current page. Use for navigation, filters, and detail panels. Rendered as
+          <code>&lt;hbd-drawer&gt;</code>. Open via the <code>open</code> attribute or the
+          <code>.show()</code> / <code>.hide()</code> methods. Establishes the focus-trap +
+          scroll-lock + return-focus patterns Modal/Dialog will reuse.
+        </p>
+
+        <!-- Group 1 · Left drawer (default) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Left drawer (default)</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-button id="drawer-left-trigger" variant="default">Open spell library</hbd-button>
+            <hbd-drawer id="drawer-left" placement="left" title="Spell Library">
+              <p>A short list of prepared spells:</p>
+              <ul style="padding-left:var(--hbd-space-4);line-height:1.8;">
+                <li>Fireball <span style="color:var(--hbd-color-text-muted);">— 3rd lvl, V S M</span></li>
+                <li>Magic Missile <span style="color:var(--hbd-color-text-muted);">— 1st lvl, V S</span></li>
+                <li>Cure Wounds <span style="color:var(--hbd-color-text-muted);">— 1st lvl, V S</span></li>
+                <li>Shield <span style="color:var(--hbd-color-text-muted);">— 1st lvl, V S</span></li>
+                <li>Counterspell <span style="color:var(--hbd-color-text-muted);">— 3rd lvl, S</span></li>
+              </ul>
+              <hbd-button slot="footer" id="drawer-left-cancel" variant="default">Cancel</hbd-button>
+              <hbd-button slot="footer" variant="primary">Cast Spell</hbd-button>
+            </hbd-drawer>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button id="trigger"&gt;Open spell library&lt;/hbd-button&gt;
+&lt;hbd-drawer id="drawer" placement="left" title="Spell Library"&gt;
+  &lt;p&gt;Body content here…&lt;/p&gt;
+  &lt;hbd-button slot="footer" variant="default"&gt;Cancel&lt;/hbd-button&gt;
+  &lt;hbd-button slot="footer" variant="primary"&gt;Cast Spell&lt;/hbd-button&gt;
+&lt;/hbd-drawer&gt;
+
+&lt;script&gt;
+  trigger.addEventListener('click', () =&gt; drawer.show());
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Right drawer (wide) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Right drawer (wide)</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-button id="drawer-right-trigger" variant="default">Open character details</hbd-button>
+            <hbd-drawer id="drawer-right" placement="right" wide title="Character Details">
+              <h3 style="margin:0 0 var(--hbd-space-2);font-family:var(--hbd-font-family-accent);">Bilbo Baggins</h3>
+              <p><strong>Class:</strong> Rogue · <strong>Race:</strong> Halfling · <strong>Level:</strong> 9</p>
+              <p>An unassuming hobbit drawn from the comforts of Bag End into an adventure
+              that would reshape the fate of Middle-earth. Carries a small magical ring
+              (origin: <em>unknown</em>) and a finely-crafted shortsword named Sting.</p>
+              <h4>Background</h4>
+              <p>Born into the Baggins family of Hobbiton, Bilbo lived a quiet life until
+              the wizard Gandalf and thirteen dwarves arrived on his doorstep. He joined
+              their company as the appointed burglar and travelled east to the Lonely
+              Mountain, returning a year later with stories and a chest of gold.</p>
+              <h4>Equipment</h4>
+              <ul style="padding-left:var(--hbd-space-4);line-height:1.8;">
+                <li>Mithril shirt (rare, AC bonus +3)</li>
+                <li>Sting (shortsword, glows blue near orcs)</li>
+                <li>The Ring (no known function)</li>
+                <li>Walking stick</li>
+                <li>Pipe and pouch of Old Toby</li>
+              </ul>
+              <h4>Notes</h4>
+              <p>Bilbo is increasingly distant. Frodo noted that he speaks of the Ring
+              as though it were precious to him beyond reason. Gandalf has been asked to
+              investigate when next he passes through the Shire.</p>
+            </hbd-drawer>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-drawer placement="right" wide title="Character Details"&gt;
+  &lt;!-- longer content scrolls inside the drawer body --&gt;
+&lt;/hbd-drawer&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bottom drawer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bottom drawer</h3>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-button id="drawer-bottom-trigger" variant="default">Open quick actions</hbd-button>
+            <hbd-drawer id="drawer-bottom" placement="bottom" title="Quick Actions">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--hbd-space-3);">
+                <hbd-button variant="default">Save</hbd-button>
+                <hbd-button variant="default">Duplicate</hbd-button>
+                <hbd-button variant="default">Share</hbd-button>
+                <hbd-button variant="default">Archive</hbd-button>
+              </div>
+            </hbd-drawer>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-drawer placement="bottom" title="Quick Actions"&gt;
+  &lt;div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"&gt;
+    &lt;hbd-button&gt;Save&lt;/hbd-button&gt;
+    &lt;hbd-button&gt;Duplicate&lt;/hbd-button&gt;
+    &lt;hbd-button&gt;Share&lt;/hbd-button&gt;
+    &lt;hbd-button&gt;Archive&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-drawer&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · No backdrop (sidebar mode) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No backdrop (sidebar mode)</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Used for persistent navigation panels — the page underneath stays interactive
+            because there is no scrim.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-button id="drawer-sidebar-trigger" variant="default">Open sidebar</hbd-button>
+            <hbd-drawer id="drawer-sidebar" placement="left" no-backdrop title="Navigation">
+              <ul style="padding-left:var(--hbd-space-4);line-height:2;">
+                <li><a href="#component-drawer" style="color:var(--hbd-color-text-link);">Spells</a></li>
+                <li><a href="#component-drawer" style="color:var(--hbd-color-text-link);">Items</a></li>
+                <li><a href="#component-drawer" style="color:var(--hbd-color-text-link);">Bestiary</a></li>
+                <li><a href="#component-drawer" style="color:var(--hbd-color-text-link);">Encounters</a></li>
+                <li><a href="#component-drawer" style="color:var(--hbd-color-text-link);">Sessions</a></li>
+              </ul>
+            </hbd-drawer>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-drawer placement="left" no-backdrop title="Navigation"&gt;
+  &lt;!-- nav items — page remains interactive while the sidebar shows --&gt;
+&lt;/hbd-drawer&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Programmatic open/close -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Programmatic open/close</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Toggle the drawer by setting / removing the <code>open</code> attribute (or via the
+            <code>.show()</code> and <code>.hide()</code> methods). A button inside the drawer
+            body closes it from the inside.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-button id="drawer-prog-trigger" variant="default">Open</hbd-button>
+            <hbd-drawer id="drawer-prog" placement="right" title="Programmatic">
+              <p>This drawer is controlled by its <code>open</code> attribute.</p>
+              <p>The button below removes the attribute to close it.</p>
+              <hbd-button id="drawer-prog-internal-close" variant="default">Close from inside</hbd-button>
+            </hbd-drawer>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-drawer id="drawer" placement="right" title="…"&gt;…&lt;/hbd-drawer&gt;
+&lt;script&gt;
+  drawer.show();
+  // …or:
+  drawer.setAttribute('open', '');
+  // …and to close:
+  drawer.hide();
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+
+      <script>
+        /* Wire each preview trigger to its drawer. Done in one IIFE so
+           the trigger/drawer pairs are easy to scan. */
+        (function () {
+          function wire(triggerId, drawerId, extraCancelId) {
+            function attach() {
+              var t = document.getElementById(triggerId);
+              var d = document.getElementById(drawerId);
+              if (!t || !d) { setTimeout(attach, 50); return; }
+              t.addEventListener('click', function () { d.show(); });
+              if (extraCancelId) {
+                var c = document.getElementById(extraCancelId);
+                if (c) c.addEventListener('click', function () { d.hide(); });
+              }
+            }
+            attach();
+          }
+          wire('drawer-left-trigger', 'drawer-left', 'drawer-left-cancel');
+          wire('drawer-right-trigger', 'drawer-right');
+          wire('drawer-bottom-trigger', 'drawer-bottom');
+          wire('drawer-sidebar-trigger', 'drawer-sidebar');
+          wire('drawer-prog-trigger', 'drawer-prog', 'drawer-prog-internal-close');
+        })();
+      </script>
+    </section>
+
+    <!-- ── SIGIL · Drawer divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="11" width="11" height="22" rx="1.5" fill="none" stroke="#7a1212" stroke-width="1.5"/>
+        <rect x="22" y="11" width="13" height="22" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5" stroke-dasharray="2 2"/>
+        <path d="M14 22h2M16 20l2 2-2 2" stroke="#7a5a22" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · NAVBAR ══════════════════════ -->
+    <section class="ds-section" id="component-navbar" aria-labelledby="heading-navbar">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·3</span>
+        <h2 class="ds-section__heading" id="heading-navbar">Navbar</h2>
+        <p class="ds-section__description">
+          The navbar is the primary site navigation bar. It contains a logo, navigation links, and
+          action items. Below <code>768px</code> it collapses to a hamburger that opens a
+          full-height drawer-style menu. The mobile menu reuses the focus-trap + scroll-lock +
+          return-focus chain from <code>&lt;hbd-drawer&gt;</code>. Rendered as
+          <code>&lt;hbd-navbar&gt;</code> with <code>slot</code> attributes on children
+          (<code>logo</code>, <code>nav</code>, <code>actions</code>).
+        </p>
+
+        <!-- Group 1 · Default -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Default</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Resize the window below <code>768px</code> to see the mobile menu.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <a slot="nav" href="#component-navbar">Items</a>
+              <hbd-button slot="actions" variant="default" icon-only aria-label="Search">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar&gt;
+  &lt;a slot="logo" href="/"&gt;Here Be Dragons&lt;/a&gt;
+  &lt;a slot="nav" href="/compendium"&gt;Compendium&lt;/a&gt;
+  &lt;a slot="nav" href="/spells"&gt;Spells&lt;/a&gt;
+  &lt;a slot="nav" href="/monsters"&gt;Monsters&lt;/a&gt;
+  &lt;a slot="nav" href="/items"&gt;Items&lt;/a&gt;
+  &lt;hbd-button slot="actions" variant="default" icon-only aria-label="Search"&gt;
+    &lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;hbd-button slot="actions" variant="primary"&gt;Play&lt;/hbd-button&gt;
+&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sticky -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sticky</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The navbar pins to the top of its scrolling container as you scroll.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;display:block;">
+            <div style="height:300px;overflow-y:auto;background:var(--hbd-color-surface-subtle);">
+              <hbd-navbar sticky>
+                <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+                <a slot="nav" href="#component-navbar">Compendium</a>
+                <a slot="nav" href="#component-navbar">Spells</a>
+                <a slot="nav" href="#component-navbar">Monsters</a>
+                <hbd-button slot="actions" variant="primary">Play</hbd-button>
+              </hbd-navbar>
+              <div style="padding:var(--hbd-space-6);font-family:var(--hbd-font-family-ui);line-height:1.8;">
+                <p>Scroll inside this container to see the sticky navbar stay pinned to the top.</p>
+                <p>The world of Faerûn is vast and many-layered, woven through with histories the
+                gods themselves are said to have forgotten.</p>
+                <p>Mountains rise where seas once stretched. Cities sink where forests once grew.
+                The map is never finished.</p>
+                <p>Travellers' ledgers speak of villages that change names between visits, of
+                wells that fill with starlight on certain nights, and of doors that open onto
+                rooms that aren't there in the morning.</p>
+                <p>This is a frontier of stories. Walk carefully — and write down what you see.</p>
+                <p>Some say the dragons are sleeping. Some say they are listening. The wise
+                pack quietly, and bring more rations than they think they need.</p>
+              </div>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar sticky&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Hairline bottom border instead of a drop shadow — quieter visual weight.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar bordered style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar bordered&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Transparent -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Transparent</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            No background — suitable for placing over a hero image or dark canvas.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-ink-900);">
+            <hbd-navbar transparent style="width:100%;color:var(--hbd-color-parchment-50);">
+              <a slot="logo" href="#component-navbar" style="color:var(--hbd-color-parchment-50);">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Compendium</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Spells</a>
+              <a slot="nav" href="#component-navbar" style="color:var(--hbd-color-parchment-200);">Monsters</a>
+              <hbd-button slot="actions" variant="gold">Play</hbd-button>
+            </hbd-navbar>
+            <div style="height:120px;"></div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-navbar transparent&gt;…&lt;/hbd-navbar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With active link -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With active link</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Active state is set automatically when an anchor's <code>href</code> matches the
+            current URL, or manually via the <code>is-active</code> class.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;background:var(--hbd-color-surface-default);">
+            <hbd-navbar style="width:100%;">
+              <a slot="logo" href="#component-navbar">Here Be Dragons</a>
+              <a slot="nav" href="#component-navbar">Compendium</a>
+              <a slot="nav" href="#component-navbar" class="is-active" aria-current="page">Spells</a>
+              <a slot="nav" href="#component-navbar">Monsters</a>
+              <a slot="nav" href="#component-navbar">Items</a>
+              <hbd-button slot="actions" variant="primary">Play</hbd-button>
+            </hbd-navbar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;a slot="nav" href="/spells" class="is-active" aria-current="page"&gt;Spells&lt;/a&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Navbar divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="17" width="26" height="10" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
+        <circle cx="14" cy="22" r="1.5" fill="#7a1212"/>
+        <line x1="20" y1="22" x2="30" y2="22" stroke="#7a5a22" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · PAGINATION ══════════════════════ -->
+    <section class="ds-section" id="component-pagination" aria-labelledby="heading-pagination">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·4</span>
+        <h2 class="ds-section__heading" id="heading-pagination">Pagination</h2>
+        <p class="ds-section__description">
+          Pagination splits large datasets into discrete pages. Use <code>full</code> when exact
+          page navigation is important, <code>compact</code> for constrained spaces, and
+          <code>simple</code> for infinite-style navigation. Rendered as
+          <code>&lt;hbd-pagination&gt;</code>. In button mode the component fires
+          <code>hbd:change</code> with the new page; in link mode (set <code>href-prefix</code>)
+          items render as anchors for SEO and history support.
+        </p>
+
+        <!-- Group 1 · Full — middle pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — middle pages</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Page 5 of 10, one sibling on each side — ellipses appear on both sides of the
+            current page.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="5" total="10" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="5" total="10" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Full — early pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — early pages</h3>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="2" total="10" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="2" total="10" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Full — few pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — few pages</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            When all pages fit, no ellipses are rendered.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="3" total="5" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="3" total="5" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Compact -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Compact</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Prev / next + a live "Page N of M" label — announced via
+            <code>aria-live="polite"</code> when the page changes.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination variant="compact" page="4" total="20"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination variant="compact" page="4" total="20"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Simple -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Simple</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Arrow-only prev / next. The Previous button is at the boundary on page 1 — it
+            remains <em>focusable</em> with <code>aria-disabled="true"</code> so SR + keyboard
+            users discover the limit (preferred over removing it from the tab order).
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination variant="simple" page="1" total="10"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination variant="simple" page="1" total="10"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Link-based -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Link-based</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>href-prefix</code> set, items render as anchor tags for SEO and browser
+            history support. The current page renders as a <code>&lt;span&gt;</code> (with
+            <code>aria-current="page"</code>) — current pages are not links.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination href-prefix="#component-pagination?page=" page="3" total="8" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination href-prefix="/compendium?page=" page="3" total="8"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6b · Full toolbar -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full toolbar — First/Last, Go to, Page size</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Enable the full table-pagination toolbar with <code>show-first-last</code>,
+            <code>show-goto</code>, plus <code>total-records</code>, <code>page-size</code>, and
+            <code>page-size-options</code>. The "Showing X–Y of Z" info, "Go to page" input, and
+            "Show N per page" select sit alongside the page numbers. Changing the page size
+            resets the current page to 1 and fires <code>hbd:page-size-change</code>.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-pagination
+              page="3" total="24" siblings="1"
+              show-first-last show-goto
+              total-records="240" page-size="10"
+              page-size-options="[10,25,50,100]"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination
+  page="3" total="24" siblings="1"
+  show-first-last show-goto
+  total-records="240" page-size="10"
+  page-size-options="[10,25,50,100]"&gt;
+&lt;/hbd-pagination&gt;
+
+&lt;script&gt;
+  pag.addEventListener('hbd:change',          (e) =&gt; { /* page navigation */ });
+  pag.addEventListener('hbd:page-size-change', (e) =&gt; { /* size + page=1 */ });
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Event demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Event demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click any page to fire <code>hbd:change</code>. The label below updates from the
+            event detail. Wire this to your data list to load the corresponding page.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <hbd-pagination id="pag-demo" page="1" total="12" siblings="1"></hbd-pagination>
+            <p class="hbd-text-body hbd-text-primary" style="margin:0;">
+              Current page: <strong id="pag-demo-out">1</strong>
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination id="pag" page="1" total="12"&gt;&lt;/hbd-pagination&gt;
+&lt;script&gt;
+  pag.addEventListener('hbd:change', (e) =&gt; {
+    out.textContent = e.detail.page;
+    // …also load page-N data here…
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var p = document.getElementById('pag-demo');
+                var out = document.getElementById('pag-demo-out');
+                if (!p || !out) return setTimeout(wire, 50);
+                p.addEventListener('hbd:change', function (e) {
+                  out.textContent = String(e.detail.page);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Pagination divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M10 22h2M14 22h2M18 22h2M22 22h2M26 22h2M30 22h2M34 22h-2" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="3" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · STEPPER NAVIGATION ══════════════════════ -->
+    <section class="ds-section" id="component-stepper-nav" aria-labelledby="heading-stepper-nav">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;5</span>
+        <h2 class="ds-section__heading" id="heading-stepper-nav">Stepper Navigation</h2>
+        <p class="ds-section__description">
+          Stepper navigation shows progress through a multi-step process. Use it for wizards,
+          checkout flows, and any sequence where the user must complete steps in order or can
+          jump between them. Rendered as <code>&lt;hbd-stepper-nav&gt;</code> with
+          <code>&lt;hbd-step&gt;</code> children. Two variants
+          (<code>horizontal</code>&nbsp;/&nbsp;<code>vertical</code>) and two modes
+          (<code>linear</code>&nbsp;/&nbsp;<code>non-linear</code>).
+        </p>
+
+        <!-- Group 1 · Horizontal — linear -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal &mdash; linear</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The default. Active step is step&nbsp;1; step&nbsp;0 is completed and renders a
+            checkmark, steps&nbsp;2&ndash;3 are upcoming.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1"&gt;
+  &lt;hbd-step label="Character"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Horizontal — with descriptions -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Horizontal &mdash; with descriptions</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Each step accepts a <code>description</code> attribute for a one-line subtitle.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" style="max-width:720px;width:100%;">
+              <hbd-step label="Character" description="Name and race"></hbd-step>
+              <hbd-step label="Class"     description="Class and subclass"></hbd-step>
+              <hbd-step label="Abilities" description="Assign ability scores"></hbd-step>
+              <hbd-step label="Equipment" description="Starting gear"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1"&gt;
+  &lt;hbd-step label="Character" description="Name and race"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"     description="Class and subclass"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities" description="Assign ability scores"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment" description="Starting gear"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Vertical -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Vertical orientation. Useful in side rails and on narrow viewports.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav active="1" variant="vertical" style="max-width:320px;width:100%;">
+              <hbd-step label="Character" description="Name and race"></hbd-step>
+              <hbd-step label="Class"     description="Class and subclass"></hbd-step>
+              <hbd-step label="Abilities" description="Assign ability scores"></hbd-step>
+              <hbd-step label="Equipment" description="Starting gear"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="1" variant="vertical"&gt;
+  &lt;hbd-step label="Character" description="Name and race"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"     description="Class and subclass"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities" description="Assign ability scores"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment" description="Starting gear"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Non-linear (click to jump) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Non-linear &mdash; jump between steps</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>mode="non-linear"</code>, completed and error step indicators render
+            as keyboard-reachable buttons. Click any earlier step to jump back. The component
+            fires <code>hbd:change</code> with <code>{ step, label }</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+            <hbd-stepper-nav id="stepper-nav-demo" active="2" mode="non-linear" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+            <p class="hbd-text-body hbd-text-primary" style="margin:0;">
+              <span id="stepper-nav-demo-out">Click an earlier step to jump.</span>
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper-nav active="2" mode="non-linear"&gt;
+  &lt;hbd-step label="Character"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Class"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Abilities"&gt;&lt;/hbd-step&gt;
+  &lt;hbd-step label="Equipment"&gt;&lt;/hbd-step&gt;
+&lt;/hbd-stepper-nav&gt;
+
+&lt;script&gt;
+  el.addEventListener('hbd:change', (e) =&gt; {
+    console.log('Step', e.detail.step, e.detail.label);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-demo');
+                var out = document.getElementById('stepper-nav-demo-out');
+                if (!el || !out) return setTimeout(wire, 50);
+                el.addEventListener('hbd:change', function (e) {
+                  out.textContent =
+                    'You clicked step ' + (e.detail.step + 1) + ': ' + e.detail.label;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · With error step -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With error step</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use <code>setStepStatus(index, 'error')</code> to mark a step as failed after
+            async validation. The indicator turns to the error surface and surfaces an
+            SR-only <code>Error:</code> prefix on its label.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-stepper-nav id="stepper-nav-error-demo" active="2" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>const el = document.querySelector('hbd-stepper-nav');
+el.setStepStatus(1, 'error');   // mark step 1 as failed
+el.setStepStatus(1, null);      // clear and revert to computed</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-error-demo');
+                if (!el || typeof el.setStepStatus !== 'function') return setTimeout(wire, 50);
+                el.setStepStatus(1, 'error');
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 6 · Navigation controls demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Navigation controls</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>previous()</code> and <code>next()</code> advance the active step
+            programmatically. Wire them to your wizard's Prev / Next buttons; the buttons
+            disable themselves at the boundaries.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-stepper-nav id="stepper-nav-buttons-demo" active="0" style="max-width:640px;width:100%;">
+              <hbd-step label="Character"></hbd-step>
+              <hbd-step label="Class"></hbd-step>
+              <hbd-step label="Abilities"></hbd-step>
+              <hbd-step label="Equipment"></hbd-step>
+            </hbd-stepper-nav>
+            <div style="display:flex;gap:var(--hbd-space-3);align-items:center;">
+              <hbd-button id="stepper-nav-prev" variant="default">Previous</hbd-button>
+              <hbd-button id="stepper-nav-next" variant="primary">Next</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>prev.addEventListener('click', () =&gt; stepper.previous());
+next.addEventListener('click', () =&gt; stepper.next());</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var el = document.getElementById('stepper-nav-buttons-demo');
+                var prev = document.getElementById('stepper-nav-prev');
+                var next = document.getElementById('stepper-nav-next');
+                if (!el || !prev || !next || typeof el.next !== 'function') {
+                  return setTimeout(wire, 50);
+                }
+                var total = el.querySelectorAll('hbd-step').length;
+                function updateButtonState() {
+                  var idx = parseInt(el.getAttribute('active') || '0', 10);
+                  if (idx <= 0) prev.setAttribute('disabled', '');
+                  else prev.removeAttribute('disabled');
+                  if (idx >= total - 1) next.setAttribute('disabled', '');
+                  else next.removeAttribute('disabled');
+                }
+                prev.addEventListener('click', function () { el.previous(); updateButtonState(); });
+                next.addEventListener('click', function () { el.next();     updateButtonState(); });
+                el.addEventListener('hbd:change', updateButtonState);
+                updateButtonState();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Stepper-nav divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="10" cy="22" r="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="13" y1="22" x2="20" y2="22" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="3" fill="#7a1212"/>
+        <line x1="24" y1="22" x2="31" y2="22" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="34" cy="22" r="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
       </svg>
     </div>
 

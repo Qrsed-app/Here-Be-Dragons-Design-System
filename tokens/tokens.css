@@ -394,6 +394,10 @@
   /* ── stepper ───────────────────────────────────────────── */
   --hbd-stepper-button-width: 40px;
 
+  /* ── stepper-nav ───────────────────────────────────────── */
+  --hbd-stepper-nav-indicator-size: 32px;
+  --hbd-stepper-nav-connector-height: 2px;
+
   /* ── file-upload ───────────────────────────────────────── */
   --hbd-file-upload-dropzone-min-height: 160px;
   --hbd-file-upload-preview-size: 64px;
@@ -414,4 +418,28 @@
   /* ── otp ───────────────────────────────────────────────── */
   --hbd-otp-cell-size: 48px;
   --hbd-otp-gap: var(--hbd-space-2);
+
+  /* ── tabs ──────────────────────────────────────────────── */
+  --hbd-tabs-indicator-height: 2px;
+  --hbd-tabs-indicator-width: 3px;
+  --hbd-tabs-vertical-min-width: 160px;
+
+  /* ── menu ──────────────────────────────────────────────── */
+  --hbd-menu-min-width: 160px;
+  --hbd-menu-max-width: 280px;
+  --hbd-menu-max-height: 320px;
+
+  /* ── drawer ────────────────────────────────────────────── */
+  --hbd-drawer-width: 320px;
+  --hbd-drawer-width-wide: 480px;
+  --hbd-drawer-height: 50vh;
+  --hbd-drawer-height-tall: 80vh;
+
+  /* ── navbar ────────────────────────────────────────────── */
+  --hbd-navbar-height: 64px;
+  --hbd-navbar-height-sm: 48px;
+  --hbd-navbar-mobile-breakpoint: 768px;
+
+  /* ── pagination ────────────────────────────────────────── */
+  --hbd-pagination-item-size: 36px;
 }
