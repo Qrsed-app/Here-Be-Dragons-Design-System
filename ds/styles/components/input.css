@@ -515,6 +515,41 @@
   pointer-events: none;
 }
 
+/* Flat-select modifier — :host(.hbd-select--flat) matches the hbd-select
+   host element from inside its shadow root (button.css and input.css are
+   both adopted into the select's shadow). Strips the chip-pill treatment
+   from the selected value AND locks the trigger to a fixed geometry so
+   opening/closing the panel doesn't cause any layout shift in the
+   surrounding inline flow. Used by hbd-pagination for "Show N per page". */
+:host(.hbd-select--flat) .hbd-field__select-value--chip {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-family: var(--hbd-font-family-ui);
+  font-weight: var(--hbd-font-weight-medium);
+  letter-spacing: var(--hbd-letter-spacing-normal);
+  color: var(--hbd-color-text-primary);
+}
+/* The "clear" × span inside a flat-select chip is irrelevant — the
+   page-size value is always set, so let the user re-pick from the
+   menu rather than exposing a clear affordance. display:none avoids
+   it ever taking layout space. */
+:host(.hbd-select--flat) .hbd-field__select-chip-clear {
+  display: none;
+}
+/* Trigger geometry — fixed width via the host (.hbd-pagination__page-size
+   hbd-select { width: 5rem }), but the inner trigger's own min-height +
+   padding stay at the input defaults. The :host rule below removes the
+   chip's intrinsic width contribution so the trigger sits content-tight
+   inside the host width regardless of value length. */
+:host(.hbd-select--flat) .hbd-field__select-trigger {
+  /* Tighter vertical padding so the flat select reads as inline text,
+     not a form-field row. min-height tracks the pagination item size
+     when used inside pagination, default otherwise. */
+  min-height: 0;
+}
+
 /* ── 2l · Radio group ───────────────────────────────────────────────── */
 /* Radio groups are the primary unit — a lone radio is invalid. The group
    wrapper uses a real <fieldset> + <legend> for native semantics; the

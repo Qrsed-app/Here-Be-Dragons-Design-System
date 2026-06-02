@@ -2118,6 +2118,7 @@
           <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
           <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
           <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
+          <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
           <li><a class="ds-toc__link" href="#texture">Texture</a></li>
           <li><a class="ds-toc__link" href="#borders">Borders</a></li>
           <li><a class="ds-toc__link" href="#components">Components</a></li>
@@ -7437,6 +7438,196 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
         <rect x="9" y="17" width="26" height="10" rx="1.5" fill="none" stroke="#b8893b" stroke-width="1.5"/>
         <circle cx="14" cy="22" r="1.5" fill="#7a1212"/>
         <line x1="20" y1="22" x2="30" y2="22" stroke="#7a5a22" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · PAGINATION ══════════════════════ -->
+    <section class="ds-section" id="component-pagination" aria-labelledby="heading-pagination">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N·4</span>
+        <h2 class="ds-section__heading" id="heading-pagination">Pagination</h2>
+        <p class="ds-section__description">
+          Pagination splits large datasets into discrete pages. Use <code>full</code> when exact
+          page navigation is important, <code>compact</code> for constrained spaces, and
+          <code>simple</code> for infinite-style navigation. Rendered as
+          <code>&lt;hbd-pagination&gt;</code>. In button mode the component fires
+          <code>hbd:change</code> with the new page; in link mode (set <code>href-prefix</code>)
+          items render as anchors for SEO and history support.
+        </p>
+
+        <!-- Group 1 · Full — middle pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — middle pages</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Page 5 of 10, one sibling on each side — ellipses appear on both sides of the
+            current page.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="5" total="10" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="5" total="10" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Full — early pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — early pages</h3>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="2" total="10" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="2" total="10" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Full — few pages -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full — few pages</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            When all pages fit, no ellipses are rendered.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination page="3" total="5" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination page="3" total="5" siblings="1"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Compact -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Compact</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Prev / next + a live "Page N of M" label — announced via
+            <code>aria-live="polite"</code> when the page changes.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination variant="compact" page="4" total="20"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination variant="compact" page="4" total="20"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Simple -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Simple</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Arrow-only prev / next. The Previous button is at the boundary on page 1 — it
+            remains <em>focusable</em> with <code>aria-disabled="true"</code> so SR + keyboard
+            users discover the limit (preferred over removing it from the tab order).
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination variant="simple" page="1" total="10"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination variant="simple" page="1" total="10"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Link-based -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Link-based</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>href-prefix</code> set, items render as anchor tags for SEO and browser
+            history support. The current page renders as a <code>&lt;span&gt;</code> (with
+            <code>aria-current="page"</code>) — current pages are not links.
+          </p>
+          <div class="ds-preview-canvas">
+            <hbd-pagination href-prefix="#component-pagination?page=" page="3" total="8" siblings="1"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination href-prefix="/compendium?page=" page="3" total="8"&gt;&lt;/hbd-pagination&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6b · Full toolbar -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full toolbar — First/Last, Go to, Page size</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Enable the full table-pagination toolbar with <code>show-first-last</code>,
+            <code>show-goto</code>, plus <code>total-records</code>, <code>page-size</code>, and
+            <code>page-size-options</code>. The "Showing X–Y of Z" info, "Go to page" input, and
+            "Show N per page" select sit alongside the page numbers. Changing the page size
+            resets the current page to 1 and fires <code>hbd:page-size-change</code>.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:flex-start;">
+            <hbd-pagination
+              page="3" total="24" siblings="1"
+              show-first-last show-goto
+              total-records="240" page-size="10"
+              page-size-options="[10,25,50,100]"></hbd-pagination>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination
+  page="3" total="24" siblings="1"
+  show-first-last show-goto
+  total-records="240" page-size="10"
+  page-size-options="[10,25,50,100]"&gt;
+&lt;/hbd-pagination&gt;
+
+&lt;script&gt;
+  pag.addEventListener('hbd:change',          (e) =&gt; { /* page navigation */ });
+  pag.addEventListener('hbd:page-size-change', (e) =&gt; { /* size + page=1 */ });
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Event demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Event demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click any page to fire <code>hbd:change</code>. The label below updates from the
+            event detail. Wire this to your data list to load the corresponding page.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <hbd-pagination id="pag-demo" page="1" total="12" siblings="1"></hbd-pagination>
+            <p class="hbd-text-body hbd-text-primary" style="margin:0;">
+              Current page: <strong id="pag-demo-out">1</strong>
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-pagination id="pag" page="1" total="12"&gt;&lt;/hbd-pagination&gt;
+&lt;script&gt;
+  pag.addEventListener('hbd:change', (e) =&gt; {
+    out.textContent = e.detail.page;
+    // …also load page-N data here…
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var p = document.getElementById('pag-demo');
+                var out = document.getElementById('pag-demo-out');
+                if (!p || !out) return setTimeout(wire, 50);
+                p.addEventListener('hbd:change', function (e) {
+                  out.textContent = String(e.detail.page);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Pagination divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M10 22h2M14 22h2M18 22h2M22 22h2M26 22h2M30 22h2M34 22h-2" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="3" fill="#7a1212"/>
       </svg>
     </div>
 

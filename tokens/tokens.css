@@ -435,4 +435,7 @@
   --hbd-navbar-height: 64px;
   --hbd-navbar-height-sm: 48px;
   --hbd-navbar-mobile-breakpoint: 768px;
+
+  /* ── pagination ────────────────────────────────────────── */
+  --hbd-pagination-item-size: 36px;
 }
