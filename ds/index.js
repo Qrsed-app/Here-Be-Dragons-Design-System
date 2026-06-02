@@ -24,6 +24,8 @@ preloadStyles([
   '/ds/styles/components/time-picker.css',
 ]);
 
+import './components/hbd-avatar.js';
+import './components/hbd-avatar-group.js';
 import './components/hbd-badge.js';
 import './components/hbd-breadcrumbs.js';
 import './components/hbd-button.js';

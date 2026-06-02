@@ -340,6 +340,14 @@
   --hbd-popover-max-width: 320px;
   --hbd-popover-arrow-size: 8px;
 
+  /* ── avatar ────────────────────────────────────────────── */
+  --hbd-avatar-size-xs: 24px;
+  --hbd-avatar-size-sm: 32px;
+  --hbd-avatar-size-md: 40px;
+  --hbd-avatar-size-lg: 48px;
+  --hbd-avatar-size-xl: 64px;
+  --hbd-avatar-size-2xl: 80px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

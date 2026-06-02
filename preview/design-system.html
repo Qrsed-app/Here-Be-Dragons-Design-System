@@ -2229,6 +2229,7 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Data display</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-avatar">Avatar</a></li>
               <li><a class="ds-toc__link" href="#component-card">Card</a></li>
               <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
               <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
@@ -9017,6 +9018,162 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <circle cx="14" cy="18" r="1.2" fill="#7a1212"/>
         <line x1="18" y1="18" x2="26" y2="18" stroke="#b8893b" stroke-width="1.2" stroke-linecap="round"/>
         <line x1="14" y1="22" x2="24" y2="22" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · AVATAR ══════════════════════ -->
+    <!-- The inner anchor satisfies the validator's per-component preview
+         check for hbd-avatar-group.js inside this combined section. -->
+    <section class="ds-section" id="component-avatar" aria-labelledby="heading-avatar">
+      <span id="component-avatar-group" tabindex="-1" aria-hidden="true"></span>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;10</span>
+        <h2 class="ds-section__heading" id="heading-avatar">Avatar</h2>
+        <p class="ds-section__description">
+          Avatars represent users, characters, and entities. Two content branches:
+          <code>img-src</code> renders the image; everything else falls back to a
+          generic person icon. Rendered as <code>&lt;hbd-avatar&gt;</code>; stack
+          several inside <code>&lt;hbd-avatar-group&gt;</code> for a "party" cluster
+          with a "+N more" overflow bubble.
+        </p>
+
+        <!-- Group 1 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>,
+            <code>xl</code>, <code>2xl</code>. Each step references a
+            <code>--hbd-avatar-size-*</code> token.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);align-items:center;">
+            <hbd-avatar size="xs"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="sm"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="md"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="lg"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="xl"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="2xl" name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar size="xs" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="sm" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar           name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="lg" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="xl" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="2xl" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Fallback -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Fallback</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Two branches: <code>img-src</code> renders the image; everything else
+            falls back to the generic person icon. The icon also takes over when
+            an authored <code>img-src</code> fails to load (see Group 4).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-avatar size="lg" name="Gandalf the Grey"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Gandalf portrait"></hbd-avatar>
+            <hbd-avatar size="lg" name="Bilbo Baggins"></hbd-avatar>
+            <hbd-avatar size="lg"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- Image branch --&gt;
+&lt;hbd-avatar name="Gandalf" img-src="/portrait.jpg" img-alt="Gandalf portrait"&gt;&lt;/hbd-avatar&gt;
+
+&lt;!-- Icon branch (no img-src) --&gt;
+&lt;hbd-avatar name="Bilbo Baggins"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar&gt;&lt;/hbd-avatar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Avatar group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Avatar group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>&lt;hbd-avatar-group max="5"&gt;</code> with 8 children renders the
+            first 5 and a "+3" overflow bubble. The group's <code>aria-label</code>
+            reports the total count.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;flex-wrap:wrap;">
+            <hbd-avatar-group max="5" size="md" aria-label="The Fellowship">
+              <hbd-avatar name="Aragorn"></hbd-avatar>
+              <hbd-avatar name="Legolas"></hbd-avatar>
+              <hbd-avatar name="Gimli"></hbd-avatar>
+              <hbd-avatar name="Boromir"></hbd-avatar>
+              <hbd-avatar name="Frodo"></hbd-avatar>
+              <hbd-avatar name="Samwise"></hbd-avatar>
+              <hbd-avatar name="Merry"></hbd-avatar>
+              <hbd-avatar name="Pippin"></hbd-avatar>
+            </hbd-avatar-group>
+            <hbd-avatar-group max="3" size="lg" aria-label="Active party">
+              <hbd-avatar name="Aragorn"></hbd-avatar>
+              <hbd-avatar name="Legolas"></hbd-avatar>
+              <hbd-avatar name="Gimli"></hbd-avatar>
+              <hbd-avatar name="Boromir"></hbd-avatar>
+            </hbd-avatar-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar-group max="5" size="md" aria-label="The Fellowship"&gt;
+  &lt;hbd-avatar name="Aragorn"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Legolas"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Gimli"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Boromir"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Frodo"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Samwise"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Merry"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Pippin"&gt;&lt;/hbd-avatar&gt;
+&lt;/hbd-avatar-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Image error fallback -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Image error fallback</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Both avatars below carry a broken <code>img-src</code>. When the image
+            fails to load, the component switches to the generic person icon —
+            the same fallback used when <code>img-src</code> is absent.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-avatar size="lg" name="Thorin Oakenshield"
+              img-src="/this-image-does-not-exist-404.png"></hbd-avatar>
+            <hbd-avatar size="lg"
+              img-src="/also-broken.png"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar name="Thorin Oakenshield" img-src="/broken.png"&gt;&lt;/hbd-avatar&gt;
+&lt;!-- Image 404 → generic person icon --&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Avatar divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="18" r="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M11 34 Q22 24 33 34" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="30" cy="13" r="2.4" fill="#7a1212"/>
       </svg>
     </div>
 
