@@ -2229,6 +2229,7 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Data display</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-accordion">Accordion</a></li>
               <li><a class="ds-toc__link" href="#component-avatar">Avatar</a></li>
               <li><a class="ds-toc__link" href="#component-card">Card</a></li>
               <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
@@ -9451,6 +9452,200 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <circle cx="9"  cy="14" r="1.4" fill="#7a1212"/>
         <circle cx="9"  cy="22" r="1.4" fill="#7a1212"/>
         <circle cx="9"  cy="30" r="1.4" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · ACCORDION ══════════════════════ -->
+    <section class="ds-section" id="component-accordion" aria-labelledby="heading-accordion">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;12</span>
+        <h2 class="ds-section__heading" id="heading-accordion">Accordion</h2>
+        <p class="ds-section__description">
+          Accordions reveal and hide sections of content behind clickable headers.
+          Use <code>single</code> mode (default) when only one answer should be
+          visible at a time, and <code>multi</code> for independent sections.
+          The expand/collapse animation runs at
+          <code>--hbd-duration-slow</code> (350&nbsp;ms), driving
+          <code>max-height</code> + <code>opacity</code> on the panel — no
+          <code>scrollHeight</code> measurement, no layout thrash.
+        </p>
+
+        <!-- Group 1 · Single mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Single mode (default)</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Opening one item closes the others.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered divided>
+              <hbd-accordion-item title="Spell Components">
+                <p>Spells require some mix of verbal, somatic, and material components. Verbal needs an unsilenced voice; somatic needs a free hand; material requires the listed component (consumed only when the spell says so).</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time" open>
+                <p>Most spells take a single Action. Bonus-action spells fit in alongside an Action, and reaction spells trigger off a specific event. Some rituals or summons take a full minute or longer.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range">
+                <p>Range is the maximum distance to a target. Self spells affect only the caster, Touch needs a free hand, and ranged spells list a distance in feet. Area spells originate from a point within range.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration">
+                <p>Instantaneous spells resolve and end. Concentration spells last until the caster loses concentration — taking damage prompts a Constitution save. Timed spells end automatically when their duration expires.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion bordered divided&gt;
+  &lt;hbd-accordion-item title="Spell Components"&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Casting Time" open&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Spell Range"&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Duration"&gt;…&lt;/hbd-accordion-item&gt;
+&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Multi mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multi mode</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Multiple items can be open at once. Useful for independent sections
+            of a settings panel or a comparison table.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion mode="multi" bordered divided>
+              <hbd-accordion-item title="Spell Components" open>
+                <p>Verbal, somatic, and material components. Material components are consumed only when the spell explicitly says so.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time">
+                <p>Action, Bonus Action, Reaction, 1 Minute, 10 Minutes, or longer for rituals.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range" open>
+                <p>Self, Touch, or a distance in feet. Area-of-effect spells originate from a point within range.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration">
+                <p>Instantaneous, Concentration (until broken), or a timed window.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion mode="multi" bordered divided&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered (no dividers) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Just the outer surface treatment — no dividers between items. Pair
+            with <code>divided</code> for the cleanest look (Groups 1 + 2 above).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range"><p>Self, Touch, or feet.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion bordered&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Divided (no border) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Divided</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Dividers only — useful when the accordion sits inside an already-
+            bordered container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion divided>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range"><p>Self, Touch, or feet.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion divided&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With disabled item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>disabled</code> renders the trigger non-interactive and skips
+            it during ArrowUp/ArrowDown navigation. Reduced opacity provides the
+            visual cue.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered divided>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Wish — locked, level 9 required" disabled>
+                <p>This entry is gated.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion-item title="Wish — locked" disabled&gt;…&lt;/hbd-accordion-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Animation demonstration -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Animation demonstration</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Open this item to see the 350&nbsp;ms sliding animation. The panel's
+            <code>max-height</code> transitions from <code>0</code> to a
+            content-realistic ceiling at <code>--hbd-duration-slow</code> with
+            <code>--hbd-ease-out</code>. Override the ceiling per-item via
+            <code>--hbd-accordion-panel-max-height</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:640px;">
+            <hbd-accordion bordered>
+              <hbd-accordion-item title="The Tale of the Tarrasque">
+                <p>The tarrasque is the apex of devouring nature — a single creature so vast that whole baronies vanish where it walks. Sages disagree on its origin: some claim it slumbers beneath the earth, others that it is summoned by ancient curses left unattended.</p>
+                <p>What is certain is that no fortress survives unaltered after a tarrasque has passed. Walls become rubble, fields become craters, and the screams of the doomed echo across centuries in the bardic record.</p>
+                <p>Only the most foolhardy adventurers seek it. The wise prepare contingencies, study the old chants of binding, and pray to whichever gods have not yet abandoned the world.</p>
+                <p>Even slain, the tarrasque is said to leave a curse on the slayer — its bones forever hungering for the warmth of the living. Better to flee. Better to forget. Better to bury the road that leads to its lair and let the maps fall silent.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>/* accordion.css */
+.hbd-accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity   var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-accordion__item--open .hbd-accordion__panel {
+  max-height: var(--hbd-accordion-panel-max-height, 40rem);
+  opacity: 1;
+}</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Accordion divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="12" width="24" height="6" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="10" y="20" width="24" height="6" rx="1" fill="#b8893b" stroke="#7a5a22" stroke-width="1.5" opacity="0.85"/>
+        <rect x="10" y="28" width="24" height="6" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <polyline points="28 22 30 24 32 22" fill="none" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
 

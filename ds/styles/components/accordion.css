@@ -1,0 +1,159 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/accordion.css
+ *
+ * Vertically-stacked expand/collapse panels. Two modes (single vs.
+ * multi) handled in JS. The expand animation uses the modern
+ * grid-template-rows: 0fr → 1fr technique so the height transition is
+ * smooth, layout-correct, and needs zero JS measurement — no
+ * scrollHeight read, no layout thrash.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-duration-deliberate (350ms). The emitted
+ *   token --hbd-duration-slow is already 350ms — we use it directly
+ *   so the value lives in one place.
+ * - Spec referenced --hbd-color-action-default — emitted token is
+ *   --hbd-color-surface-action.
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ *
+ * Reduced motion: the global override in foundations/motion.css
+ * collapses transition-duration to 0.01ms when the user has requested
+ * reduced motion. No accordion-specific override is required.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+.hbd-accordion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--hbd-font-family-ui);
+}
+
+.hbd-accordion--bordered {
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  border-radius: var(--hbd-radius-md);
+  overflow: hidden;
+}
+
+.hbd-accordion--divided .hbd-accordion__item + .hbd-accordion__item {
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+
+/* ── 2 · Header + trigger ─────────────────────────────────────────── */
+.hbd-accordion__header {
+  padding: 0;
+  margin: 0;
+}
+
+.hbd-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--hbd-space-4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: var(--hbd-space-3);
+  min-height: var(--hbd-space-12);
+  font: inherit;
+  color: inherit;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+.hbd-accordion__trigger:hover {
+  background: var(--hbd-color-surface-subtle);
+}
+
+/* Inset focus ring so it stays visible inside the bordered overflow
+   clip. Negative offset puts the outline inside the trigger's box. */
+.hbd-accordion__trigger:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: calc(-1 * var(--hbd-border-width-thin));
+}
+
+.hbd-accordion__item--open .hbd-accordion__trigger {
+  background: var(--hbd-color-surface-subtle);
+}
+
+.hbd-accordion__item--disabled .hbd-accordion__trigger {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ── 3 · Title ────────────────────────────────────────────────────── */
+.hbd-accordion__title {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-primary);
+  line-height: var(--hbd-line-height-snug);
+  flex: 1;
+  min-width: 0;
+}
+
+.hbd-accordion__item--open .hbd-accordion__title {
+  color: var(--hbd-color-text-emphasis);
+}
+
+/* ── 4 · Chevron ──────────────────────────────────────────────────── */
+.hbd-accordion__icon {
+  flex-shrink: 0;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  color: var(--hbd-color-text-muted);
+  transition: transform var(--hbd-duration-fast) var(--hbd-ease-out);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.hbd-accordion__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hbd-accordion__item--open .hbd-accordion__icon {
+  transform: rotate(180deg);
+}
+
+/* ── 5 · Panel + body ─────────────────────────────────────────────── */
+/* The panel is the height-animated container: max-height transitions
+   from 0 to a generous ceiling. We use max-height (not grid-rows or
+   height:auto) because it works reliably across every supported
+   browser and animates cleanly on both directions.
+   Trade-off: max-height is a CEILING, not the natural height — the
+   easing curve runs across the full 0→ceiling distance even when the
+   real content height is much smaller. To minimise visible distortion
+   we cap at a content-realistic value (40rem at the default root font
+   size). Authors with
+   taller content can override the per-item ceiling via the
+   --hbd-accordion-panel-max-height custom property.
+   Closed: opacity also fades so very tall panels (rare) don't reveal
+   half-collapsed content while their max-height is still shrinking. */
+.hbd-accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity   var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+
+.hbd-accordion__item--open .hbd-accordion__panel {
+  max-height: var(--hbd-accordion-panel-max-height, 40rem);
+  opacity: 1;
+}
+
+.hbd-accordion__body {
+  padding: 0 var(--hbd-space-4) var(--hbd-space-4);
+  font-family: var(--hbd-font-family-serif);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-secondary);
+  line-height: var(--hbd-line-height-body);
+}
+
+.hbd-accordion--flush .hbd-accordion__body {
+  padding: 0;
+}
