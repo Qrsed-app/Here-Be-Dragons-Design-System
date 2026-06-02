@@ -2096,6 +2096,7 @@
           <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
           <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
           <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
+          <li><a class="ds-toc__link" href="#component-card">Card</a></li>
           <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
           <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
           <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
@@ -7870,6 +7871,257 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <circle cx="22" cy="22" r="3" fill="#7a1212"/>
         <line x1="24" y1="22" x2="31" y2="22" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
         <circle cx="34" cy="22" r="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · CARD ══════════════════════ -->
+    <section class="ds-section" id="component-card" aria-labelledby="heading-card">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;6</span>
+        <h2 class="ds-section__heading" id="heading-card">Card</h2>
+        <p class="ds-section__description">
+          Cards group related content and optional actions on a contained surface. Use them to
+          create scannable, consistent layouts for lists of items (spells, monsters, items, quests).
+          Rendered as <code>&lt;hbd-card&gt;</code> with light-DOM slots
+          (<code>slot="body"</code>, <code>slot="footer"</code>, <code>slot="badge"</code>) so
+          any DS or app component can sit inside.
+        </p>
+
+        <!-- Group 1 · Basic variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Layout variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>basic</code> (default), <code>interactive</code>, <code>media</code>,
+            and <code>horizontal</code>. The interactive variant lifts on hover and is
+            keyboard-reachable; pair it with <code>href</code> for navigation or omit
+            <code>href</code> for an <code>hbd:click</code>-only card.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Fireball" subtitle="Evocation · Level 3">
+              <p slot="body">A bright streak flashes from your pointing finger to a point you choose, then blossoms with a low roar into an explosion of flame.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Cast</hbd-button>
+                <hbd-button variant="default" size="sm">View</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="interactive" href="#component-card"
+                      title="Cone of Cold" subtitle="Evocation · Level 5">
+              <p slot="body">A blast of cold air erupts from your hands. Each creature in a 60-foot cone makes a Constitution saving throw.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">View Spell</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="media"
+                      img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%231e3a5f'/%3E%3Ccircle cx='200' cy='100' r='60' fill='%23b8893b' opacity='0.85'/%3E%3Ccircle cx='200' cy='100' r='30' fill='%23f5ecd7'/%3E%3C/svg%3E"
+                      img-alt="A golden moon over a deep blue sky"
+                      title="Moonbeam" subtitle="Evocation · Level 2">
+              <p slot="body">A silvery beam of pale light shines down in a 5-foot-radius, 40-foot-high cylinder centered on a point within range.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Cast</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="horizontal"
+                      img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%237a1212'/%3E%3Cpath d='M40 160 L100 40 L160 160 Z' fill='%23b8893b' opacity='0.85'/%3E%3C/svg%3E"
+                      img-alt="A red sigil over an inverted golden triangle"
+                      title="Hellish Rebuke" subtitle="Evocation · Level 1">
+              <p slot="body">You point your finger and the creature that damaged you is momentarily surrounded by flames.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">View</hbd-button>
+              </div>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Fireball" subtitle="Evocation · Level 3"&gt;
+  &lt;p slot="body"&gt;A bright streak flashes from your finger…&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Cast&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="interactive" href="/spells/cone-of-cold"
+          title="Cone of Cold" subtitle="Evocation · Level 5"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="media" img-src="/img/moon.svg" img-alt="A golden moon"
+          title="Moonbeam"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="horizontal" img-src="…" img-alt="…"
+          title="Hellish Rebuke"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>size="sm"</code>, <code>md</code> (default), <code>lg</code>. Padding scales
+            through the <code>--hbd-card-padding-*</code> tokens.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card size="sm" title="Small" subtitle="size=sm">
+              <p slot="body">Tight padding for dense list views.</p>
+            </hbd-card>
+
+            <hbd-card title="Medium" subtitle="default">
+              <p slot="body">The default rhythm for most card lists.</p>
+            </hbd-card>
+
+            <hbd-card size="lg" title="Large" subtitle="size=lg">
+              <p slot="body">Generous padding for feature cards.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card size="sm" title="Small"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card           title="Medium"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card size="lg" title="Large"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Surface modifiers -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Surface modifiers</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Default shadow, <code>bordered</code> (no shadow), and <code>elevated</code>
+            (heavier shadow). Pick by context: shadow for cards floating on parchment,
+            border for cards on noisy backdrops, elevated for feature lists.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Default" subtitle="shadow-sm">
+              <p slot="body">The standard surface treatment.</p>
+            </hbd-card>
+
+            <hbd-card bordered title="Bordered" subtitle="no shadow">
+              <p slot="body">Explicit border, no drop shadow.</p>
+            </hbd-card>
+
+            <hbd-card elevated title="Elevated" subtitle="shadow-md">
+              <p slot="body">Heavier drop for callouts and feature lists.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Default"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card bordered title="Bordered"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card elevated title="Elevated"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Interactive states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Interactive states</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab to a card and press <kbd>Enter</kbd> to activate it. <code>href</code>-based
+            cards navigate natively; <code>div</code>-based cards fire <code>hbd:click</code>
+            with <code>Enter</code> or <code>Space</code>.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card variant="interactive" href="#component-card"
+                      title="Link-based" subtitle="renders as &lt;a&gt;">
+              <p slot="body">Click or press Enter to navigate. Right-click → Open in new tab works.</p>
+            </hbd-card>
+
+            <hbd-card id="card-click-demo" variant="interactive"
+                      title="Div-based" subtitle="role=&quot;button&quot;">
+              <p slot="body" id="card-click-demo-out">Press Enter or Space.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card variant="interactive" href="/spell/123"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="interactive" id="c"&gt;…&lt;/hbd-card&gt;
+&lt;script&gt;
+  c.addEventListener('hbd:click', () =&gt; { /* … */ });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var c = document.getElementById('card-click-demo');
+                var out = document.getElementById('card-click-demo-out');
+                if (!c || !out) return setTimeout(wire, 50);
+                var n = 0;
+                c.addEventListener('hbd:click', function () {
+                  n += 1;
+                  out.textContent = 'Activated ' + n + ' time' + (n === 1 ? '' : 's') + '.';
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Composition examples -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Composition examples</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Real-world HBD compositions — a spell card, a monster card, and an item card with
+            a positioned rarity badge.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Counterspell" subtitle="Abjuration · Level 3" elevated>
+              <p slot="body">You attempt to interrupt a creature in the process of casting a spell.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">View Spell</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card title="Goblin" subtitle="Small Humanoid · CR 1/4">
+              <p slot="body"><strong>HP</strong> 7 (2d6) &middot; <strong>AC</strong> 15</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Add to Encounter</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card title="Cloak of Elvenkind" subtitle="Wondrous Item" bordered>
+              <span slot="badge"
+                    style="background:var(--hbd-color-gold-deep);color:var(--hbd-color-text-on-action);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-micro);font-weight:var(--hbd-font-weight-semibold);padding:var(--hbd-space-1) var(--hbd-space-2);border-radius:var(--hbd-radius-md);letter-spacing:var(--hbd-letter-spacing-badge);text-transform:uppercase;pointer-events:auto;">
+                Uncommon
+              </span>
+              <p slot="body">While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">Add to Inventory</hbd-button>
+              </div>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Cloak of Elvenkind" subtitle="Wondrous Item" bordered&gt;
+  &lt;span slot="badge"&gt;Uncommon&lt;/span&gt;
+  &lt;p slot="body"&gt;While you wear this cloak…&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="default" size="sm"&gt;Add to Inventory&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Card divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="13" width="24" height="18" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="14" y1="19" x2="22" y2="19" stroke="#b8893b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="14" y1="23" x2="26" y2="23" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <line x1="14" y1="26" x2="22" y2="26" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <circle cx="30" cy="13" r="2.5" fill="#7a1212"/>
       </svg>
     </div>
 

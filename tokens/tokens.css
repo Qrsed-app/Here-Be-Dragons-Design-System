@@ -311,6 +311,13 @@
   --hbd-callout-sage-advice-border: var(--hbd-color-gold-deep);
   --hbd-callout-dismiss-max-height: 1000px;
 
+  /* ── card ──────────────────────────────────────────────── */
+  --hbd-card-padding: var(--hbd-space-4);
+  --hbd-card-padding-sm: var(--hbd-space-3);
+  --hbd-card-padding-lg: var(--hbd-space-6);
+  --hbd-card-border-radius: var(--hbd-radius-lg);
+  --hbd-card-media-height: 200px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);
