@@ -269,6 +269,8 @@
   --hbd-duration-slow: 350ms;
   --hbd-duration-slower: 500ms;
   --hbd-duration-pulse: 1500ms;
+  --hbd-duration-linger: 5000ms;
+  --hbd-duration-linger-lg: 8000ms;
 
   /* ── ease ──────────────────────────────────────────────── */
   --hbd-ease-linear: linear;
@@ -375,6 +377,11 @@
   --hbd-empty-state-description-max-width: 360px;
   --hbd-empty-state-description-max-width-lg: 480px;
   --hbd-empty-state-min-height-lg: 60vh;
+
+  /* ── toast ─────────────────────────────────────────────── */
+  --hbd-toast-max-width: 360px;
+  --hbd-toast-progress-height: 3px;
+  --hbd-toast-collapse-ceiling: 200px;
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;

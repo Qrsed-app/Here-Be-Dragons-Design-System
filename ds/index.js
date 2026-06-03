@@ -66,5 +66,6 @@ import './components/hbd-switch.js';
 import './components/hbd-tabs.js';
 import './components/hbd-textarea.js';
 import './components/hbd-time-picker.js';
+import './components/hbd-toast.js';
 import './components/hbd-toggle-group.js';
 import './components/hbd-tooltip.js';

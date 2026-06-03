@@ -2226,6 +2226,7 @@
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
+              <li><a class="ds-toc__link" href="#component-toast">Toast</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
@@ -11001,6 +11002,276 @@ const id  = setInterval(() =&gt; {
         <circle cx="22" cy="30" r="1.5" fill="#7a1212"/>
       </svg>
     </div>
+
+    <!-- ══════════════════════ COMPONENT · TOAST ══════════════════════ -->
+    <section class="ds-section" id="component-toast" aria-labelledby="heading-toast">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;18</span>
+        <h2 class="ds-section__heading" id="heading-toast">Toast</h2>
+        <p class="ds-section__description">
+          Toasts are brief, auto-dismissing notifications that float at
+          the viewport edge. Use them for action confirmations,
+          background-task outcomes, and non-critical system messages.
+          Authors call <code>hbdToast.show({&hellip;})</code> from any
+          JavaScript on the page; a singleton manager owns the portal,
+          the active stack (max 3), and the overflow queue. Hover or
+          focus pauses the auto-dismiss timer and the countdown bar.
+        </p>
+
+        <!-- Group 1 · Four variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Trigger buttons &mdash; all variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>info</code> / <code>success</code> /
+            <code>warning</code> announce politely; <code>error</code>
+            announces assertively (the container's
+            <code>aria-live</code> is briefly flipped while the toast is
+            appended, then restored to <code>polite</code>).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="info"    variant="default">Show info</hbd-button>
+            <hbd-button data-toast="success" variant="primary">Show success</hbd-button>
+            <hbd-button data-toast="warning" variant="default">Show warning</hbd-button>
+            <hbd-button data-toast="error"   variant="default">Show error</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({ variant: 'info',    message: 'Spell list updated with 3 new entries.' });
+hbdToast.show({ variant: 'success', message: 'Character sheet saved.' });
+hbdToast.show({ variant: 'warning', message: 'Session expires in 5 minutes.' });
+hbdToast.show({ variant: 'error',   message: 'Failed to load monster stat block.' });</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · With title -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With title</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A title renders a bold heading above the message body, the
+            same as <a href="#component-alert">hbd-alert</a>. Use to
+            distinguish the headline from the supporting detail.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="with-title" variant="default">Show titled error</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'error',
+  title:   'Enchantment failed',
+  message: 'The item could not be enchanted. Check your reagents.',
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With undo action -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With undo action</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            An action button renders an inline activator inside the
+            toast. Activating it runs the callback, then dismisses the
+            toast. In this demo, &ldquo;Undo&rdquo; restores the
+            deleted spell and shows a follow-up info toast.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="undo" variant="primary">Delete spell</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'success',
+  message: 'Spell deleted.',
+  action: {
+    label: 'Undo',
+    onClick: () =&gt; {
+      restoreSpell();
+      hbdToast.info('Spell restored to your spellbook.');
+    },
+  },
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Long duration -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long duration</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Pass an explicit <code>duration</code> in milliseconds for
+            messages that need more reading time. 8&nbsp;000 ms maps to
+            the <code>--hbd-duration-linger-lg</code> token.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="long" variant="default">Show 8s warning</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'warning',
+  message: 'Server maintenance begins in 10 minutes.',
+  duration: 8000,
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Position variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Position variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>setPosition</code> moves the portal to one of five
+            placement modifiers. Bottom variants stack new toasts
+            closest to the bottom edge; top-center and bottom-center
+            slide vertically rather than horizontally.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast-pos="top-right"     variant="default">top-right</hbd-button>
+            <hbd-button data-toast-pos="top-center"    variant="default">top-center</hbd-button>
+            <hbd-button data-toast-pos="bottom-right"  variant="default">bottom-right</hbd-button>
+            <hbd-button data-toast-pos="bottom-center" variant="default">bottom-center</hbd-button>
+            <hbd-button data-toast-pos="bottom-left"   variant="default">bottom-left</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.setPosition('bottom-center');
+hbdToast.success('Mounted at bottom-center.');</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Stacking demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Stacking demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Maximum 3 toasts visible simultaneously. Additional toasts
+            queue and appear as space frees up &mdash; click below to
+            push four toasts in rapid succession.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="stack" variant="default">Push 4 toasts</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>for (let i = 1; i &lt;= 4; i++) {
+  hbdToast.show({ variant: 'info', message: `Toast ${i} of 4` });
+}
+// Toast #4 waits until toast #1 is dismissed.</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Hover pause -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Hover and focus pause</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Hover over the toast to pause auto-dismiss; the progress
+            bar pauses with it. Tabbing into the dismiss or action
+            button has the same effect &mdash; the timer resumes with
+            the remaining duration when focus or pointer leaves.
+            Users with <code>prefers-reduced-motion</code> see no
+            auto-dismiss at all, satisfying SC&nbsp;2.2.1.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="hover" variant="default">Show hover-demo toast</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'info',
+  title:   'Hover or tab into me',
+  message: 'Auto-dismiss pauses while pointer or focus is over the toast.',
+  duration: 8000,
+});</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Toast divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="14" width="28" height="14" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="11" y1="20" x2="33" y2="20" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <line x1="11" y1="24" x2="25" y2="24" stroke="#7a5a22" stroke-width="1" opacity="0.45"/>
+        <rect x="10" y="29" width="8" height="1.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ──────── Toast preview wiring ──────── -->
+    <script>
+      (function () {
+        function wire() {
+          if (typeof window.hbdToast === 'undefined') return setTimeout(wire, 50);
+          var section = document.getElementById('component-toast');
+          if (!section) return;
+
+          var MESSAGES = {
+            info:    'Spell list updated with 3 new entries.',
+            success: 'Character sheet saved.',
+            warning: 'Session expires in 5 minutes.',
+            error:   'Failed to load monster stat block.',
+          };
+
+          section.addEventListener('click', function (e) {
+            var trigger = e.target && e.target.closest
+              ? e.target.closest('[data-toast]')
+              : null;
+            var posTrigger = e.target && e.target.closest
+              ? e.target.closest('[data-toast-pos]')
+              : null;
+
+            if (trigger) {
+              var kind = trigger.getAttribute('data-toast');
+              if (kind === 'info' || kind === 'success' || kind === 'warning' || kind === 'error') {
+                window.hbdToast.show({ variant: kind, message: MESSAGES[kind] });
+              } else if (kind === 'with-title') {
+                window.hbdToast.show({
+                  variant: 'error',
+                  title: 'Enchantment failed',
+                  message: 'The item could not be enchanted. Check your reagents.',
+                });
+              } else if (kind === 'undo') {
+                window.hbdToast.show({
+                  variant: 'success',
+                  message: 'Spell deleted.',
+                  action: {
+                    label: 'Undo',
+                    onClick: function () {
+                      window.hbdToast.info('Spell restored to your spellbook.');
+                    },
+                  },
+                });
+              } else if (kind === 'long') {
+                window.hbdToast.show({
+                  variant: 'warning',
+                  message: 'Server maintenance begins in 10 minutes.',
+                  duration: 8000,
+                });
+              } else if (kind === 'stack') {
+                for (var i = 1; i <= 4; i++) {
+                  window.hbdToast.show({
+                    variant: 'info',
+                    message: 'Toast ' + i + ' of 4',
+                  });
+                }
+              } else if (kind === 'hover') {
+                window.hbdToast.show({
+                  variant: 'info',
+                  title: 'Hover or tab into me',
+                  message: 'Auto-dismiss pauses while pointer or focus is over the toast.',
+                  duration: 8000,
+                });
+              }
+            }
+
+            if (posTrigger) {
+              var pos = posTrigger.getAttribute('data-toast-pos');
+              window.hbdToast.setPosition(pos);
+              window.hbdToast.success('Mounted at ' + pos + '.');
+            }
+          });
+        }
+        wire();
+      })();
+    </script>
 
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
