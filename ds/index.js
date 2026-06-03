@@ -41,6 +41,7 @@ import './components/hbd-date-picker.js';
 import './components/hbd-divider.js';
 import './components/hbd-drawer.js';
 import './components/hbd-dropdown.js';
+import './components/hbd-empty.js';
 import './components/hbd-file-upload.js';
 import './components/hbd-input.js';
 import './components/hbd-list.js';
