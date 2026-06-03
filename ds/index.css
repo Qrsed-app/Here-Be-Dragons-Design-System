@@ -23,6 +23,7 @@
 
 /* 5. Components — alphabetical */
 @import './styles/components/accordion.css';
+@import './styles/components/alert.css';
 @import './styles/components/avatar.css';
 @import './styles/components/badge.css';
 @import './styles/components/breadcrumbs.css';

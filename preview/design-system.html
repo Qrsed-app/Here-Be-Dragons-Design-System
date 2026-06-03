@@ -2218,6 +2218,7 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Feedback &amp; status</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-alert">Alert</a></li>
               <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
@@ -10719,6 +10720,285 @@ const id  = setInterval(() =&gt; {
         <path d="M12 16h20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
         <line x1="14" y1="22" x2="30" y2="22" stroke="#7a5a22" stroke-width="1" stroke-dasharray="2 2" opacity="0.7"/>
         <circle cx="22" cy="22" r="2" fill="#b8893b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · ALERT ══════════════════════ -->
+    <section class="ds-section" id="component-alert" aria-labelledby="heading-alert">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;17</span>
+        <h2 class="ds-section__heading" id="heading-alert">Alert</h2>
+        <p class="ds-section__description">
+          Alerts communicate <em>system-level</em> feedback inline within
+          page content — form errors, save confirmations, API responses,
+          maintenance notices. Use <code>type="banner"</code> for
+          site-wide announcements, <code>type="inline"</code> for
+          field-group feedback, and the default <code>type="alert"</code>
+          for section-level messages. For HBD-flavoured authored content
+          (lore, GM tips, "sage advice"), reach for
+          <a href="#component-callout">hbd-callout</a> instead.
+        </p>
+
+        <!-- Group 1 · Four variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Alert — four variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>info</code> is announced silently (role=note);
+            <code>success</code> and <code>warning</code> use
+            role=status (polite); <code>error</code> uses role=alert
+            (assertive). The icon reinforces the variant — colour is
+            not the sole carrier of meaning (SC&nbsp;1.4.1).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="info" title="Arcane Update">
+              The spell compendium has been updated with new entries from Tasha&rsquo;s Cauldron of Everything.
+            </hbd-alert>
+            <hbd-alert variant="success" title="Character Saved">
+              Your character sheet has been saved successfully to the cloud.
+            </hbd-alert>
+            <hbd-alert variant="warning" title="Session Expiring">
+              Your session will expire in 5 minutes. Save your work to avoid losing progress.
+            </hbd-alert>
+            <hbd-alert variant="error" title="Spell Failed">
+              The server could not process your request. Please check your connection and try again.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info"    title="Arcane Update"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="success" title="Character Saved"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="warning" title="Session Expiring"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="error"   title="Spell Failed"&gt;…&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Dismissible -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dismissible alerts</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Add the <code>dismissible</code> attribute to render the
+            close button. Activating it collapses the alert
+            (opacity + height transition) and removes it from the DOM
+            once the transition ends. A <code>hbd:dismiss</code>
+            CustomEvent bubbles before removal.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="warning" title="Concentration broken" dismissible>
+              You took damage while concentrating; the spell ends.
+            </hbd-alert>
+            <hbd-alert variant="error" title="Roll failed to save" dismissible>
+              The dice service is unreachable. Local rolls have not been written to your campaign log.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="warning" title="Concentration broken" dismissible&gt;
+  You took damage while concentrating; the spell ends.
+&lt;/hbd-alert&gt;
+
+&lt;hbd-alert variant="error" title="Roll failed to save" dismissible&gt;
+  The dice service is unreachable&hellip;
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With action -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With action</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Add a <code>&lt;button class="hbd-alert__action"&gt;</code>
+            inside the alert to render an inline activator. It inherits
+            the variant text colour and shows the underline + focus ring
+            from <code>currentColor</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="info" title="New tomes added">
+              Twelve new spells were added in the latest patch.
+              <button class="hbd-alert__action" type="button">View changelog</button>
+            </hbd-alert>
+            <hbd-alert variant="error" title="We could not reach the keep">
+              An unexpected error occurred while loading your campaign.
+              <button class="hbd-alert__action" type="button">Contact support</button>
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info" title="New tomes added"&gt;
+  Twelve new spells were added in the latest patch.
+  &lt;button class="hbd-alert__action" type="button"&gt;View changelog&lt;/button&gt;
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Banner -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Banner</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="banner"</code> is a full-width sticky bar
+            intended for site-wide notices (cookies, maintenance,
+            outages). With the <code>persist</code> attribute, a
+            dismissal is remembered in <code>localStorage</code> under
+            <code>hbd-alert-dismissed-&lt;id&gt;</code>, so the banner
+            does not reappear on subsequent page loads.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);padding:0;">
+            <hbd-alert
+              id="alert-banner-demo"
+              variant="warning"
+              type="banner"
+              title="Scheduled Maintenance"
+              dismissible
+              persist>
+              The server will be unavailable 2:00&ndash;4:00 AM UTC.
+              <button class="hbd-alert__action" type="button">Read more</button>
+            </hbd-alert>
+            <div style="padding:var(--hbd-space-4);">
+              <button id="alert-banner-reset" class="hbd-alert__action" type="button" style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);color:var(--hbd-color-text-muted);">
+                Reset persisted dismissal
+              </button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert
+  id="maintenance-banner"
+  variant="warning"
+  type="banner"
+  title="Scheduled Maintenance"
+  dismissible
+  persist&gt;
+  The server will be unavailable 2:00&ndash;4:00 AM UTC.
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var reset = document.getElementById('alert-banner-reset');
+                if (!reset) return setTimeout(wire, 50);
+                reset.addEventListener('click', function () {
+                  try { localStorage.removeItem('hbd-alert-dismissed-alert-banner-demo'); } catch (_e) {}
+                  // Re-insert a fresh banner so the demo is repeatable
+                  // without a page reload.
+                  var existing = document.getElementById('alert-banner-demo');
+                  if (existing) existing.remove();
+                  var fresh = document.createElement('hbd-alert');
+                  fresh.id = 'alert-banner-demo';
+                  fresh.setAttribute('variant', 'warning');
+                  fresh.setAttribute('type', 'banner');
+                  fresh.setAttribute('title', 'Scheduled Maintenance');
+                  fresh.setAttribute('dismissible', '');
+                  fresh.setAttribute('persist', '');
+                  fresh.innerHTML = 'The server will be unavailable 2:00&ndash;4:00 AM UTC. ' +
+                    '<button class="hbd-alert__action" type="button">Read more</button>';
+                  reset.parentElement.parentElement.insertBefore(fresh, reset.parentElement);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Inline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Inline</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="inline"</code> is compact and single-row,
+            intended to sit directly beneath a field group as a
+            validation or hint message. Smaller icon, label-sized
+            type, no title.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:520px;">
+            <hbd-alert variant="info" type="inline">
+              Casting time updates apply on the next dice roll.
+            </hbd-alert>
+            <hbd-alert variant="warning" type="inline">
+              This name is shared with another character in your party.
+            </hbd-alert>
+            <hbd-alert variant="error" type="inline">
+              Hit points cannot exceed the maximum for this character class.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info"    type="inline"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="warning" type="inline"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="error"   type="inline"&gt;…&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Dynamic injection -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dynamic injection</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Submit the form to inject a fresh
+            <code>variant="success"</code> alert above it. Because
+            <code>role="status"</code> is set in the markup, the alert
+            is announced by screen readers as soon as it is appended
+            to the DOM (SC&nbsp;4.1.3) &mdash; no extra JS is needed.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:520px;">
+            <div id="alert-inject-target"></div>
+            <form id="alert-inject-form" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <label class="hbd-text-label hbd-text-primary" for="alert-inject-name">Character name</label>
+              <input
+                id="alert-inject-name"
+                type="text"
+                value="Elenya"
+                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              <div>
+                <hbd-button id="alert-inject-submit" variant="primary">Save character</hbd-button>
+              </div>
+            </form>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>function onSubmit(name) {
+  const alert = document.createElement('hbd-alert');
+  alert.setAttribute('variant', 'success');
+  alert.setAttribute('title', 'Character Saved');
+  alert.setAttribute('dismissible', '');
+  alert.textContent = name + ' has been saved to the cloud.';
+  document.getElementById('inject-target').appendChild(alert);
+  // role="status" + aria-live="polite" announce automatically.
+}</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var form   = document.getElementById('alert-inject-form');
+                var name   = document.getElementById('alert-inject-name');
+                var target = document.getElementById('alert-inject-target');
+                if (!form || !name || !target) return setTimeout(wire, 50);
+                form.addEventListener('submit', function (e) { e.preventDefault(); });
+                form.addEventListener('click', function (e) {
+                  var btn = e.target && e.target.closest && e.target.closest('hbd-button');
+                  if (!btn) return;
+                  if (btn.id !== 'alert-inject-submit') return;
+                  e.preventDefault();
+                  var n = (name.value || '').trim() || 'Your character';
+                  var a = document.createElement('hbd-alert');
+                  a.setAttribute('variant', 'success');
+                  a.setAttribute('title', 'Character Saved');
+                  a.setAttribute('dismissible', '');
+                  a.textContent = n + ' has been saved successfully to the cloud.';
+                  target.appendChild(a);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Alert divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M22 9 L36 33 H8 Z" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="22" y1="18" x2="22" y2="26" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="30" r="1.5" fill="#7a1212"/>
       </svg>
     </div>
 
