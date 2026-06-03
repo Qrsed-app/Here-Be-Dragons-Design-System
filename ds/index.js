@@ -51,6 +51,8 @@ import './components/hbd-popover.js';
 import './components/hbd-progress.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
+import './components/hbd-skeleton.js';
+import './components/hbd-skeleton-group.js';
 import './components/hbd-slider.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-split-button.js';

@@ -2223,6 +2223,7 @@
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
+              <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
@@ -10218,6 +10219,305 @@ const id  = setInterval(() =&gt; {
         <rect x="8" y="19" width="28" height="6" rx="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
         <rect x="9" y="20" width="14" height="4" rx="2" fill="#7a1212"/>
         <circle cx="36" cy="22" r="2" fill="#b8893b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SKELETON ══════════════════════ -->
+    <section class="ds-section" id="component-skeleton" aria-labelledby="heading-skeleton">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;15</span>
+        <h2 class="ds-section__heading" id="heading-skeleton">Skeleton Loader</h2>
+        <p class="ds-section__description">
+          Skeleton loaders show the shape of content before it arrives, reducing
+          perceived load time and preventing layout shift. Each skeleton shape is
+          decorative (<code>aria-hidden="true"</code>); the containing element
+          carries <code>aria-busy="true"</code> while the placeholders are visible
+          and flips to <code>aria-busy="false"</code> once real content renders.
+          The shimmer animation runs at <code>--hbd-duration-pulse</code> (1.5&nbsp;s)
+          and respects <code>prefers-reduced-motion</code> via the global motion
+          override.
+        </p>
+
+        <!-- Group 1 · Shape variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Shape variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five primitive shapes. Text variants size to a text token, circle to
+            an avatar token, rect takes an author-supplied <code>height</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text</span>
+              <hbd-skeleton variant="text"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text-sm</span>
+              <hbd-skeleton variant="text-sm"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text-lg</span>
+              <hbd-skeleton variant="text-lg"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">circle</span>
+              <hbd-skeleton variant="circle"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">rect (height="80px")</span>
+              <hbd-skeleton variant="rect" height="80px"></hbd-skeleton>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="text"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text-sm"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text-lg"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="circle"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="rect" height="80px"&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Text block -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Text block</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five text lines with deterministic varied widths — never random, so
+            the placeholder looks identical on every render.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:480px;">
+            <hbd-skeleton variant="text" width="100%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="90%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="75%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="85%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="40%"></hbd-skeleton>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="text" width="100%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="90%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="75%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="85%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="40%"&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Preset — avatar-text -->
+        <div class="ds-preview-group" id="component-skeleton-group">
+          <h3 class="ds-preview-group__label">Preset — avatar-text</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A circle plus two stacked text lines, used for user/profile rows.
+            Wrapped in a live region with <code>aria-busy="true"</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <div aria-busy="true" aria-label="Loading party roster" style="display:flex;flex-direction:column;gap:var(--hbd-space-4);">
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading party roster"&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Preset — card -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — card</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A media rect plus a heading and body lines. Use to mirror a card
+            grid while the images and copy load.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div aria-busy="true" aria-label="Loading card grid"
+                 style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);width:100%;">
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading card grid"&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Preset — list-item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — list-item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Compact row matching <code>hbd-list</code> layout — leading avatar,
+            two text lines, trailing meta line.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:480px;">
+            <div aria-busy="true" aria-label="Loading spell list" style="display:flex;flex-direction:column;gap:var(--hbd-space-2);">
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading spell list"&gt;
+  &lt;hbd-skeleton-group preset="list-item"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Preset — table-row -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — table-row</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A real table header row above five skeleton rows. Each row carries
+            <code>columns="4"</code> so the cells line up with the header.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);">
+            <div style="display:flex;gap:var(--hbd-space-3);padding:0 var(--hbd-space-3);">
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Name</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">School</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Level</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Cast time</span>
+            </div>
+            <div aria-busy="true" aria-label="Loading spell table" style="display:flex;flex-direction:column;gap:var(--hbd-space-2);">
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading spell table"&gt;
+  &lt;hbd-skeleton-group preset="table-row" columns="4"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · No shimmer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No shimmer</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Default shimmer next to the <code>no-shimmer</code> modifier. This
+            is the reduced-motion equivalent — under
+            <code>prefers-reduced-motion: reduce</code> all skeletons render
+            this way automatically.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;gap:var(--hbd-space-6);">
+            <div style="flex:1;">
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">Default (animated)</span>
+              <hbd-skeleton variant="rect" height="48px"></hbd-skeleton>
+            </div>
+            <div style="flex:1;">
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">no-shimmer</span>
+              <hbd-skeleton variant="rect" height="48px" no-shimmer></hbd-skeleton>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="rect" height="48px"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="rect" height="48px" no-shimmer&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 8 · aria-busy pattern -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">aria-busy pattern</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click to simulate content load. The wrapper toggles between
+            <code>aria-busy="true"</code> (skeletons visible) and
+            <code>aria-busy="false"</code> (real content visible). Assistive
+            tech announces the busy state change.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:480px;">
+            <div id="skeleton-aria-demo" aria-busy="true" aria-label="Loading hero card" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <div data-state="loading" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+                <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+                <hbd-skeleton variant="text" width="95%"></hbd-skeleton>
+                <hbd-skeleton variant="text" width="75%"></hbd-skeleton>
+              </div>
+              <div data-state="loaded" hidden style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+                <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+                  <hbd-avatar size="md"></hbd-avatar>
+                  <div>
+                    <p class="hbd-text-body hbd-text-primary" style="margin:0;">Elenya Starweaver</p>
+                    <p class="hbd-text-label hbd-text-muted" style="margin:0;">Archmage · 17th level</p>
+                  </div>
+                </div>
+                <p class="hbd-text-body hbd-text-primary" style="margin:0;max-width:60ch;">
+                  Trained in the Tower of Lore, Elenya commands the eight schools of
+                  magic and has bound three legendary wyrms in her service.
+                </p>
+              </div>
+            </div>
+            <div>
+              <hbd-button id="skeleton-aria-toggle" variant="primary">Simulate load</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div id="hero" aria-busy="true" aria-label="Loading hero card"&gt;
+  &lt;!-- skeleton placeholders while loading --&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  // when real data arrives
+  hero.setAttribute('aria-busy', 'false');
+  hero.querySelector('[data-state="loading"]').hidden = true;
+  hero.querySelector('[data-state="loaded"]').hidden  = false;
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var demo = document.getElementById('skeleton-aria-demo');
+                var toggle = document.getElementById('skeleton-aria-toggle');
+                if (!demo || !toggle) return setTimeout(wire, 50);
+                var loading = demo.querySelector('[data-state="loading"]');
+                var loaded  = demo.querySelector('[data-state="loaded"]');
+                toggle.addEventListener('click', function () {
+                  var isBusy = demo.getAttribute('aria-busy') === 'true';
+                  if (isBusy) {
+                    demo.setAttribute('aria-busy', 'false');
+                    loading.hidden = true;
+                    loaded.hidden  = false;
+                    toggle.textContent = 'Reset to loading';
+                  } else {
+                    demo.setAttribute('aria-busy', 'true');
+                    loading.hidden = false;
+                    loaded.hidden  = true;
+                    toggle.textContent = 'Simulate load';
+                  }
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Skeleton divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="14" width="24" height="3" rx="1.5" fill="#7a5a22" opacity="0.7"/>
+        <rect x="10" y="21" width="18" height="3" rx="1.5" fill="#7a5a22" opacity="0.55"/>
+        <rect x="10" y="28" width="12" height="3" rx="1.5" fill="#7a5a22" opacity="0.4"/>
       </svg>
     </div>
 
