@@ -359,6 +359,11 @@
   --hbd-table-row-height-lg: 64px;
   --hbd-table-header-height: 40px;
 
+  /* ── progress ──────────────────────────────────────────── */
+  --hbd-progress-height: 8px;
+  --hbd-progress-height-sm: 4px;
+  --hbd-progress-height-lg: 12px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

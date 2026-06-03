@@ -2222,6 +2222,7 @@
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
+              <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
@@ -10016,6 +10017,207 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <line x1="9"  y1="25" x2="35" y2="25" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
         <line x1="22" y1="11" x2="22" y2="33" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
         <rect x="9"  y="11" width="13" height="7" fill="#b8893b" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · PROGRESS ══════════════════════ -->
+    <section class="ds-section" id="component-progress" aria-labelledby="heading-progress">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;14</span>
+        <h2 class="ds-section__heading" id="heading-progress">Progress Bar</h2>
+        <p class="ds-section__description">
+          Progress bars communicate the completion status of a task. Use
+          <code>determinate</code> when the percentage is known,
+          <code>indeterminate</code> when the duration is unknown, and
+          <code>segmented</code> for step-based progress. The fill transition
+          runs at <code>--hbd-duration-slow</code> (350&nbsp;ms); reduced motion
+          is handled globally by <a href="#foundation-motion">motion.css</a>.
+        </p>
+
+        <!-- Group 1 · Determinate -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Determinate</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Set a <code>value</code> (0–<code>max</code>, default max 100). Add
+            <code>show-value</code> to render <code>N%</code> next to the label.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Loading spellbook"        value="0"   show-value></hbd-progress>
+            <hbd-progress label="Downloading tome"         value="25"  show-value></hbd-progress>
+            <hbd-progress label="Transcribing scroll"      value="66"  show-value></hbd-progress>
+            <hbd-progress label="Enchantment complete"     value="100" show-value variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress label="Loading spellbook" value="0"   show-value&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress label="Downloading tome"  value="25"  show-value&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress label="Enchantment complete" value="100" show-value variant="success"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Colour variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Colour variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>default</code>, <code>success</code>, <code>warning</code>,
+            <code>error</code>. The label text always carries the meaning; the
+            colour is supplementary (SC&nbsp;1.4.1).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Casting (default)"   value="60" show-value></hbd-progress>
+            <hbd-progress label="Spell succeeded"     value="60" show-value variant="success"></hbd-progress>
+            <hbd-progress label="Mana running low"    value="60" show-value variant="warning"></hbd-progress>
+            <hbd-progress label="Critical failure"    value="60" show-value variant="error"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress variant="success" value="60" show-value label="Spell succeeded"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress variant="warning" value="60" show-value label="Mana running low"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress variant="error"   value="60" show-value label="Critical failure"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> (4px) for inline status rows, <code>md</code> (8px)
+            default, <code>lg</code> (12px) for prominent operations.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Small" size="sm" value="50" show-value></hbd-progress>
+            <hbd-progress label="Medium"          value="50" show-value></hbd-progress>
+            <hbd-progress label="Large" size="lg" value="50" show-value></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress size="sm" value="50"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress           value="50"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress size="lg" value="50"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Indeterminate -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Indeterminate</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            No <code>value</code> attribute — duration unknown. The fill
+            shimmers across the track on a CSS animation; ARIA omits
+            <code>aria-valuenow</code> entirely (not an empty string, which
+            would be invalid).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Contacting the arcane network…"></hbd-progress>
+            <hbd-progress label="Summoning familiar…" variant="warning"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- No value attribute → indeterminate mode --&gt;
+&lt;hbd-progress label="Contacting the arcane network…"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Striped -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Striped</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>striped</code> overlays an animated diagonal pattern on top of
+            the fill — a visual cue that a determinate process is still active.
+            The animation runs at <code>--hbd-duration-slow</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Enchanting weapon" value="40" show-value striped></hbd-progress>
+            <hbd-progress label="Brewing potion"    value="75" show-value striped variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress striped value="40" label="Enchanting weapon"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress striped variant="success" value="75" label="Brewing potion"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Segmented -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Segmented</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>segments="N"</code> divides the track into N equal cells.
+            The number of filled cells is <code>round(value / max × segments)</code>.
+            Useful for spell slots, rest counts, ammo, etc.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Spell slots used"        segments="5"  value="2" max="5"></hbd-progress>
+            <hbd-progress label="Dungeon rooms explored"  segments="10" value="7" max="10"></hbd-progress>
+            <hbd-progress label="Rests taken"             segments="3"  value="3" max="3" variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress segments="5"  value="2" max="5"  label="Spell slots used"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress segments="10" value="7" max="10" label="Dungeon rooms explored"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress segments="3"  value="3" max="3"  variant="success" label="Rests taken"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Live update demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Live update demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>setValue(n)</code> updates the fill width without rebuilding
+            the component, so the CSS transition stays smooth. Press
+            <strong>Start</strong> to increment by 10% every 500ms.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:480px;">
+            <hbd-progress id="progress-live" label="Casting Fireball" value="0" max="100" show-value></hbd-progress>
+            <div style="display:flex;gap:var(--hbd-space-2);">
+              <hbd-button id="progress-live-start" variant="primary">Start</hbd-button>
+              <hbd-button id="progress-live-reset" variant="default">Reset</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>const bar = document.getElementById('progress');
+const id  = setInterval(() =&gt; {
+  const next = (parseFloat(bar.getAttribute('value')) || 0) + 10;
+  if (next &gt; 100) { bar.setValue(0); }
+  else             { bar.setValue(next); }
+}, 500);</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var bar = document.getElementById('progress-live');
+                var start = document.getElementById('progress-live-start');
+                var reset = document.getElementById('progress-live-reset');
+                if (!bar || !start || !reset) return setTimeout(wire, 50);
+                var timer = null;
+                start.addEventListener('click', function () {
+                  if (timer) return;
+                  timer = setInterval(function () {
+                    var cur = parseFloat(bar.getAttribute('value')) || 0;
+                    var next = cur + 10;
+                    if (next > 100) next = 0;
+                    bar.setValue(next);
+                  }, 500);
+                });
+                reset.addEventListener('click', function () {
+                  if (timer) { clearInterval(timer); timer = null; }
+                  bar.setValue(0);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Progress divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="19" width="28" height="6" rx="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="9" y="20" width="14" height="4" rx="2" fill="#7a1212"/>
+        <circle cx="36" cy="22" r="2" fill="#b8893b"/>
       </svg>
     </div>
 
