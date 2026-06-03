@@ -2221,6 +2221,7 @@
               <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
+              <li><a class="ds-toc__link" href="#component-empty-state">Empty States</a></li>
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
@@ -10518,6 +10519,206 @@ const id  = setInterval(() =&gt; {
         <rect x="10" y="14" width="24" height="3" rx="1.5" fill="#7a5a22" opacity="0.7"/>
         <rect x="10" y="21" width="18" height="3" rx="1.5" fill="#7a5a22" opacity="0.55"/>
         <rect x="10" y="28" width="12" height="3" rx="1.5" fill="#7a5a22" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · EMPTY STATE ══════════════════════ -->
+    <section class="ds-section" id="component-empty-state" aria-labelledby="heading-empty-state">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;16</span>
+        <h2 class="ds-section__heading" id="heading-empty-state">Empty States</h2>
+        <p class="ds-section__description">
+          Empty states appear when a view has no content to show. They
+          communicate <em>what is absent</em>, <em>why</em>, and
+          <em>what to do next</em>. Always pair with at least one action.
+          The component anchor used by the validator is
+          <a href="#component-empty">component-empty</a>; the section
+          itself is anchored at <code>component-empty-state</code>.
+        </p>
+
+        <!-- Validator-friendly id matching the hbd-empty.js filename. -->
+        <span id="component-empty" aria-hidden="true"></span>
+
+        <!-- Group 1 · Four templates -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Four templates</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>no-data</code>, <code>no-results</code>,
+            <code>error</code>, <code>offline</code>. Each ships with a
+            default heading, description, and inline SVG illustration
+            (decorative, <code>aria-hidden="true"</code>).
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--hbd-space-4);width:100%;">
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="no-data">
+                  <hbd-button variant="primary">Add Spell</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="no-results">
+                  <hbd-button variant="ghost">Clear filters</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error">
+                  <hbd-button variant="primary">Try again</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="offline">
+                  <hbd-button variant="primary">Retry</hbd-button>
+                </hbd-empty>
+              </div>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="no-data"&gt;
+  &lt;hbd-button variant="primary"&gt;Add Spell&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="no-results"&gt;
+  &lt;hbd-button variant="ghost"&gt;Clear filters&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="offline"&gt;
+  &lt;hbd-button variant="primary"&gt;Retry&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Custom copy -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Custom copy</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The <code>heading</code> and <code>description</code>
+            attributes override the template defaults — useful for
+            scoping a generic empty state to a specific domain.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);width:100%;">
+              <hbd-empty
+                template="no-data"
+                heading="Your spellbook is empty"
+                description="You haven't learned any spells yet. Visit the Compendium to browse and add spells to your book.">
+                <hbd-button variant="primary">Browse Compendium</hbd-button>
+              </hbd-empty>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty
+  template="no-data"
+  heading="Your spellbook is empty"
+  description="You haven't learned any spells yet. Visit the Compendium…"&gt;
+  &lt;hbd-button variant="primary"&gt;Browse Compendium&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> inside a card-sized panel, <code>md</code>
+            (default) at standard density, <code>lg</code> for a
+            full-height empty page state.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-6);">
+
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-2);">sm — inside a card-sized panel</span>
+              <div style="max-width:320px;background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="no-results" size="sm">
+                  <hbd-button variant="ghost" size="sm">Reset</hbd-button>
+                </hbd-empty>
+              </div>
+            </div>
+
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-2);">md — default</span>
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="no-data">
+                  <hbd-button variant="primary">Add item</hbd-button>
+                </hbd-empty>
+              </div>
+            </div>
+
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-2);">lg — full-height empty page</span>
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="no-data" size="lg" heading-level="3">
+                  <hbd-button variant="primary">Forge new entry</hbd-button>
+                  <hbd-button variant="ghost">Import from file</hbd-button>
+                </hbd-empty>
+              </div>
+            </div>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="no-results" size="sm"&gt;…&lt;/hbd-empty&gt;
+&lt;hbd-empty template="no-data"&gt;…&lt;/hbd-empty&gt;
+&lt;hbd-empty template="no-data" size="lg" heading-level="3"&gt;…&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Inline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Inline</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The <code>inline</code> modifier lays out icon, copy, and
+            actions in a single horizontal row — left-aligned, smaller
+            illustration. Use to slot an empty state into a card,
+            sidebar, or table-row callout.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+
+            <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+              <hbd-empty template="no-results" inline heading-level="3">
+                <hbd-button variant="ghost" size="sm">Clear filters</hbd-button>
+              </hbd-empty>
+            </div>
+
+            <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+              <hbd-empty template="error" inline heading-level="3">
+                <hbd-button variant="primary" size="sm">Retry</hbd-button>
+              </hbd-empty>
+            </div>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="no-results" inline heading-level="3"&gt;
+  &lt;hbd-button variant="ghost" size="sm"&gt;Clear filters&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error" inline heading-level="3"&gt;
+  &lt;hbd-button variant="primary" size="sm"&gt;Retry&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Empty state divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M12 16h20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="14" y1="22" x2="30" y2="22" stroke="#7a5a22" stroke-width="1" stroke-dasharray="2 2" opacity="0.7"/>
+        <circle cx="22" cy="22" r="2" fill="#b8893b"/>
       </svg>
     </div>
 

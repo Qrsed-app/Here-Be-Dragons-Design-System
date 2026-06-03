@@ -369,6 +369,13 @@
   --hbd-skeleton-base-color: var(--hbd-color-parchment-200);
   --hbd-skeleton-shimmer-color: var(--hbd-color-parchment-100);
 
+  /* ── empty-state ───────────────────────────────────────── */
+  --hbd-empty-state-heading-max-width: 320px;
+  --hbd-empty-state-heading-max-width-lg: 480px;
+  --hbd-empty-state-description-max-width: 360px;
+  --hbd-empty-state-description-max-width-lg: 480px;
+  --hbd-empty-state-min-height-lg: 60vh;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);
