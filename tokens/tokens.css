@@ -268,6 +268,7 @@
   --hbd-duration-normal: 200ms;
   --hbd-duration-slow: 350ms;
   --hbd-duration-slower: 500ms;
+  --hbd-duration-pulse: 1500ms;
 
   /* ── ease ──────────────────────────────────────────────── */
   --hbd-ease-linear: linear;
@@ -310,6 +311,63 @@
   --hbd-callout-sage-advice-bg: rgba(184, 137, 59, 0.08);
   --hbd-callout-sage-advice-border: var(--hbd-color-gold-deep);
   --hbd-callout-dismiss-max-height: 1000px;
+
+  /* ── card ──────────────────────────────────────────────── */
+  --hbd-card-padding: var(--hbd-space-4);
+  --hbd-card-padding-sm: var(--hbd-space-3);
+  --hbd-card-padding-lg: var(--hbd-space-6);
+  --hbd-card-border-radius: var(--hbd-radius-lg);
+  --hbd-card-media-height: 200px;
+
+  /* ── badge ─────────────────────────────────────────────── */
+  --hbd-badge-size: 20px;
+  --hbd-badge-dot-size: 8px;
+  --hbd-badge-min-width: 20px;
+
+  /* ── chip ──────────────────────────────────────────────── */
+  --hbd-chip-height: 28px;
+  --hbd-chip-height-sm: 22px;
+  --hbd-chip-height-lg: 36px;
+  --hbd-chip-max-width: 200px;
+
+  /* ── tooltip ───────────────────────────────────────────── */
+  --hbd-tooltip-max-width: 240px;
+  --hbd-tooltip-arrow-size: 6px;
+  --hbd-tooltip-delay-show: 300ms;
+  --hbd-tooltip-delay-hide: 100ms;
+
+  /* ── popover ───────────────────────────────────────────── */
+  --hbd-popover-min-width: 200px;
+  --hbd-popover-max-width: 320px;
+  --hbd-popover-arrow-size: 8px;
+
+  /* ── avatar ────────────────────────────────────────────── */
+  --hbd-avatar-size-xs: 24px;
+  --hbd-avatar-size-sm: 32px;
+  --hbd-avatar-size-md: 40px;
+  --hbd-avatar-size-lg: 48px;
+  --hbd-avatar-size-xl: 64px;
+  --hbd-avatar-size-2xl: 80px;
+
+  /* ── list ──────────────────────────────────────────────── */
+  --hbd-list-item-min-height: 48px;
+  --hbd-list-item-min-height-sm: 36px;
+  --hbd-list-item-min-height-lg: 64px;
+
+  /* ── table ─────────────────────────────────────────────── */
+  --hbd-table-row-height: 48px;
+  --hbd-table-row-height-sm: 36px;
+  --hbd-table-row-height-lg: 64px;
+  --hbd-table-header-height: 40px;
+
+  /* ── progress ──────────────────────────────────────────── */
+  --hbd-progress-height: 8px;
+  --hbd-progress-height-sm: 4px;
+  --hbd-progress-height-lg: 12px;
+
+  /* ── skeleton ──────────────────────────────────────────── */
+  --hbd-skeleton-base-color: var(--hbd-color-parchment-200);
+  --hbd-skeleton-shimmer-color: var(--hbd-color-parchment-100);
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;

@@ -1920,13 +1920,52 @@
       background: var(--parchment-100);
       z-index: 50;
     }
+    /* The heading row is a real button so keyboard users can collapse
+       the whole TOC. Visually it still reads as a small caps heading. */
     .ds-toc__heading {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
       font-family: var(--font-display);
       font-size: var(--text-micro);
       letter-spacing: var(--ls-label);
       text-transform: uppercase;
       color: var(--ink-faded);
+      background: transparent;
+      border: 0;
+      padding: 0;
       margin-bottom: var(--space-3);
+      cursor: pointer;
+      text-align: left;
+    }
+    .ds-toc__heading:hover { color: var(--ink-brown); }
+    .ds-toc__heading:focus-visible {
+      outline: 2px solid var(--blood);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    /* Chevron drawn in CSS so no extra glyphs land in the markup; rotates
+       on open. Reduced-motion handled by the global override below. */
+    .ds-toc__chevron {
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+    }
+    .ds-toc[data-collapsed="true"] .ds-toc__chevron {
+      transform: rotate(45deg);
+    }
+    /* The grouped region is the collapsible target. Hidden via display
+       so it's removed from layout (and the sticky strip collapses with
+       it); also marked aria-hidden via the JS so AT skips it. */
+    .ds-toc[data-collapsed="true"] .ds-toc__groups {
+      display: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ds-toc__chevron { transition: none; }
     }
     .ds-toc__list {
       display: flex;
@@ -1946,6 +1985,34 @@
     }
     .ds-toc__link:hover { color: var(--blood); border-bottom-color: var(--blood); }
     .ds-toc__link:focus-visible { outline: 2px solid var(--blood); outline-offset: 2px; }
+    /* Grouped TOC — one row per category, label on the left, links to
+       the right. Wraps gracefully on narrow viewports. */
+    .ds-toc__groups {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .ds-toc__group {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: var(--space-2) var(--space-4);
+      align-items: baseline;
+    }
+    .ds-toc__group-label {
+      font-family: var(--font-display);
+      font-size: var(--text-micro);
+      letter-spacing: var(--ls-label);
+      text-transform: uppercase;
+      color: var(--blood);
+      font-weight: 700;
+      padding-top: 2px;
+    }
+    @media (max-width: 600px) {
+      .ds-toc__group {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+      }
+    }
 
     /* ─── Foundation section structure (CLAUDE.md §10.2) ──── */
     .ds-section__heading {
@@ -2078,56 +2145,112 @@
   ════════════════════════════════════════════════════ -->
   <main id="main-content">
 
-    <nav class="ds-toc" aria-label="Design system sections">
+    <nav class="ds-toc" aria-label="Design system sections" id="ds-toc">
       <div class="container">
-        <h2 class="ds-toc__heading">Contents</h2>
-        <ul class="ds-toc__list">
-          <li><a class="ds-toc__link" href="#color">Color</a></li>
-          <li><a class="ds-toc__link" href="#foundation-typography">Typography</a></li>
-          <li><a class="ds-toc__link" href="#foundation-colour">Colour</a></li>
-          <li><a class="ds-toc__link" href="#foundation-spacing">Spacing</a></li>
-          <li><a class="ds-toc__link" href="#foundation-borders">Borders &amp; Radius</a></li>
-          <li><a class="ds-toc__link" href="#foundation-elevation">Elevation &amp; Shadows</a></li>
-          <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
-          <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
-          <li><a class="ds-toc__link" href="#component-button">Button</a></li>
-          <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
-          <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
-          <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
-          <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
-          <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
-          <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
-          <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
-          <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
-          <li><a class="ds-toc__link" href="#component-time-picker">Time Picker</a></li>
-          <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
-          <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
-          <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
-          <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
-          <li><a class="ds-toc__link" href="#component-select">Select</a></li>
-          <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
-          <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
-          <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
-          <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
-          <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
-          <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
-          <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
-          <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
-          <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
-          <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
-          <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
-          <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
-          <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
-          <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
-          <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
-          <li><a class="ds-toc__link" href="#texture">Texture</a></li>
-          <li><a class="ds-toc__link" href="#borders">Borders</a></li>
-          <li><a class="ds-toc__link" href="#components">Components</a></li>
-          <li><a class="ds-toc__link" href="#elevation">Elevation</a></li>
-          <li><a class="ds-toc__link" href="#motion">Motion</a></li>
-          <li><a class="ds-toc__link" href="#radius">Radius</a></li>
-          <li><a class="ds-toc__link" href="#accessibility">Accessibility</a></li>
-        </ul>
+        <h2 style="margin:0;">
+          <button type="button"
+                  class="ds-toc__heading"
+                  aria-controls="ds-toc-groups"
+                  aria-expanded="true"
+                  data-ds-toc-toggle>
+            <span class="ds-toc__chevron" aria-hidden="true"></span>
+            <span>Contents</span>
+          </button>
+        </h2>
+        <div class="ds-toc__groups" id="ds-toc-groups">
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Foundations</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#color">Color</a></li>
+              <li><a class="ds-toc__link" href="#foundation-typography">Typography</a></li>
+              <li><a class="ds-toc__link" href="#foundation-colour">Colour</a></li>
+              <li><a class="ds-toc__link" href="#foundation-spacing">Spacing</a></li>
+              <li><a class="ds-toc__link" href="#foundation-borders">Borders &amp; Radius</a></li>
+              <li><a class="ds-toc__link" href="#foundation-elevation">Elevation &amp; Shadows</a></li>
+              <li><a class="ds-toc__link" href="#foundation-motion">Motion</a></li>
+              <li><a class="ds-toc__link" href="#foundation-accessibility">Accessibility</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Actions</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-button">Button</a></li>
+              <li><a class="ds-toc__link" href="#component-icon-button">Icon Button</a></li>
+              <li><a class="ds-toc__link" href="#component-toggle-button">Toggle Button</a></li>
+              <li><a class="ds-toc__link" href="#component-split-button">Split Button</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Forms</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-input">Text Input</a></li>
+              <li><a class="ds-toc__link" href="#component-textarea">Textarea</a></li>
+              <li><a class="ds-toc__link" href="#component-select">Select</a></li>
+              <li><a class="ds-toc__link" href="#component-checkbox">Checkbox</a></li>
+              <li><a class="ds-toc__link" href="#component-radio-group">Radio Group</a></li>
+              <li><a class="ds-toc__link" href="#component-switch">Switch</a></li>
+              <li><a class="ds-toc__link" href="#component-slider">Slider</a></li>
+              <li><a class="ds-toc__link" href="#component-stepper">Numeric Stepper</a></li>
+              <li><a class="ds-toc__link" href="#component-file-upload">File Upload</a></li>
+              <li><a class="ds-toc__link" href="#component-combobox">Combobox</a></li>
+              <li><a class="ds-toc__link" href="#component-date-picker">Date Picker</a></li>
+              <li><a class="ds-toc__link" href="#component-time-picker">Time Picker</a></li>
+              <li><a class="ds-toc__link" href="#component-otp-input">OTP Input</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Navigation</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-breadcrumbs">Breadcrumbs</a></li>
+              <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
+              <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
+              <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+              <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
+              <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
+              <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Feedback &amp; status</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
+              <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
+              <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
+              <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
+              <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
+              <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
+              <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Data display</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-accordion">Accordion</a></li>
+              <li><a class="ds-toc__link" href="#component-avatar">Avatar</a></li>
+              <li><a class="ds-toc__link" href="#component-card">Card</a></li>
+              <li><a class="ds-toc__link" href="#component-codeblock">Code Block</a></li>
+              <li><a class="ds-toc__link" href="#component-divider">Divider</a></li>
+              <li><a class="ds-toc__link" href="#component-list">List</a></li>
+              <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
+              <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
+              <li><a class="ds-toc__link" href="#component-table">Table</a></li>
+            </ul>
+          </div>
+
+          <div class="ds-toc__group">
+            <span class="ds-toc__group-label">Patterns</span>
+            <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+            </ul>
+          </div>
+
+        </div>
       </div>
     </nav>
 
@@ -3509,9 +3632,10 @@
         <p class="ds-section__description">
           Icon buttons trigger actions using only an icon. They are <code>&lt;hbd-button&gt;</code>
           with the <code>icon-only</code> attribute set. Always provide an <code>aria-label</code>
-          — it is announced to screen readers and also shown as a tooltip on hover and focus.
-          The CSS tooltip reads from the same <code>aria-label</code> via <code>attr()</code>, so
-          the visible tooltip is guaranteed to match the accessible name.
+          — it is announced to screen readers. For a visible-on-hover/focus label, wrap the
+          button in <code>&lt;hbd-tooltip content="…"&gt;</code> (Group&nbsp;3 below). The
+          previous CSS <code>::after</code> tooltip was removed when
+          <a href="#component-tooltip">hbd-tooltip</a> superseded it.
         </p>
 
         <!-- Group 1 · Variants -->
@@ -3572,31 +3696,36 @@
           </details>
         </div>
 
-        <!-- Group 3 · Tooltip behaviour -->
+        <!-- Group 3 · Tooltip behaviour (via hbd-tooltip wrapper) -->
         <div class="ds-preview-group">
           <h3 class="ds-preview-group__label">Tooltip behaviour</h3>
           <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);max-width:60ch;">
-            Hover or focus these buttons to see the tooltip. Press <kbd>Escape</kbd> to dismiss it
-            without moving focus (SC 1.4.13 Content on Hover or Focus). Move the pointer away or
-            blur the button and the tooltip will reappear on the next interaction.
+            Wrap an icon button in <code>&lt;hbd-tooltip&gt;</code> to surface its
+            <code>aria-label</code> as a hover/focus label. Press <kbd>Escape</kbd> while the
+            button is focused to dismiss the tooltip without moving focus (SC&nbsp;1.4.13).
+            The visible label is independent of the accessible name — match them deliberately.
           </p>
           <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
-            <hbd-button icon-only variant="default" aria-label="Close dialog">
-              <span class="hbd-button__icon" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              </span>
-            </hbd-button>
-            <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
-              <span class="hbd-button__icon" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-              </span>
-            </hbd-button>
+            <hbd-tooltip content="Close dialog">
+              <hbd-button icon-only variant="default" aria-label="Close dialog">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Summon the dread Tarrasque">
+              <hbd-button icon-only variant="default" aria-label="Summon the dread Tarrasque">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M8 2c2 0 4 2 4 5 0 3-2 5-4 5s-4-2-4-5c0-3 2-5 4-5z" stroke="currentColor" stroke-width="1.4"/><path d="M5 12l1 2M10 12l1 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
           </div>
           <details class="ds-preview-code">
             <summary>View code</summary>
-            <pre><code>&lt;!-- Tooltip content reads from aria-label via attr() — they cannot diverge. --&gt;
-&lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
-&lt;hbd-button icon-only aria-label="Summon the dread Tarrasque"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;</code></pre>
+            <pre><code>&lt;hbd-tooltip content="Close dialog"&gt;
+  &lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
           </details>
         </div>
 
@@ -7873,6 +8002,2525 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
       </svg>
     </div>
 
+    <!-- ══════════════════════ COMPONENT · CARD ══════════════════════ -->
+    <section class="ds-section" id="component-card" aria-labelledby="heading-card">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;6</span>
+        <h2 class="ds-section__heading" id="heading-card">Card</h2>
+        <p class="ds-section__description">
+          Cards group related content and optional actions on a contained surface. Use them to
+          create scannable, consistent layouts for lists of items (spells, monsters, items, quests).
+          Rendered as <code>&lt;hbd-card&gt;</code> with light-DOM slots
+          (<code>slot="body"</code>, <code>slot="footer"</code>, <code>slot="badge"</code>) so
+          any DS or app component can sit inside.
+        </p>
+
+        <!-- Group 1 · Basic variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Layout variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>basic</code> (default), <code>interactive</code>, <code>media</code>,
+            and <code>horizontal</code>. The interactive variant lifts on hover and is
+            keyboard-reachable; pair it with <code>href</code> for navigation or omit
+            <code>href</code> for an <code>hbd:click</code>-only card.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Fireball" subtitle="Evocation · Level 3">
+              <p slot="body">A bright streak flashes from your pointing finger to a point you choose, then blossoms with a low roar into an explosion of flame.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Cast</hbd-button>
+                <hbd-button variant="default" size="sm">View</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="interactive" href="#component-card"
+                      title="Cone of Cold" subtitle="Evocation · Level 5">
+              <p slot="body">A blast of cold air erupts from your hands. Each creature in a 60-foot cone makes a Constitution saving throw.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">View Spell</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="media"
+                      img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%231e3a5f'/%3E%3Ccircle cx='200' cy='100' r='60' fill='%23b8893b' opacity='0.85'/%3E%3Ccircle cx='200' cy='100' r='30' fill='%23f5ecd7'/%3E%3C/svg%3E"
+                      img-alt="A golden moon over a deep blue sky"
+                      title="Moonbeam" subtitle="Evocation · Level 2">
+              <p slot="body">A silvery beam of pale light shines down in a 5-foot-radius, 40-foot-high cylinder centered on a point within range.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Cast</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card variant="horizontal"
+                      img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%237a1212'/%3E%3Cpath d='M40 160 L100 40 L160 160 Z' fill='%23b8893b' opacity='0.85'/%3E%3C/svg%3E"
+                      img-alt="A red sigil over an inverted golden triangle"
+                      title="Hellish Rebuke" subtitle="Evocation · Level 1">
+              <p slot="body">You point your finger and the creature that damaged you is momentarily surrounded by flames.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">View</hbd-button>
+              </div>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Fireball" subtitle="Evocation · Level 3"&gt;
+  &lt;p slot="body"&gt;A bright streak flashes from your finger…&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Cast&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="interactive" href="/spells/cone-of-cold"
+          title="Cone of Cold" subtitle="Evocation · Level 5"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="media" img-src="/img/moon.svg" img-alt="A golden moon"
+          title="Moonbeam"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="horizontal" img-src="…" img-alt="…"
+          title="Hellish Rebuke"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>size="sm"</code>, <code>md</code> (default), <code>lg</code>. Padding scales
+            through the <code>--hbd-card-padding-*</code> tokens.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card size="sm" title="Small" subtitle="size=sm">
+              <p slot="body">Tight padding for dense list views.</p>
+            </hbd-card>
+
+            <hbd-card title="Medium" subtitle="default">
+              <p slot="body">The default rhythm for most card lists.</p>
+            </hbd-card>
+
+            <hbd-card size="lg" title="Large" subtitle="size=lg">
+              <p slot="body">Generous padding for feature cards.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card size="sm" title="Small"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card           title="Medium"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card size="lg" title="Large"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Surface modifiers -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Surface modifiers</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Default shadow, <code>bordered</code> (no shadow), and <code>elevated</code>
+            (heavier shadow). Pick by context: shadow for cards floating on parchment,
+            border for cards on noisy backdrops, elevated for feature lists.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Default" subtitle="shadow-sm">
+              <p slot="body">The standard surface treatment.</p>
+            </hbd-card>
+
+            <hbd-card bordered title="Bordered" subtitle="no shadow">
+              <p slot="body">Explicit border, no drop shadow.</p>
+            </hbd-card>
+
+            <hbd-card elevated title="Elevated" subtitle="shadow-md">
+              <p slot="body">Heavier drop for callouts and feature lists.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Default"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card bordered title="Bordered"&gt;…&lt;/hbd-card&gt;
+&lt;hbd-card elevated title="Elevated"&gt;…&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Interactive states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Interactive states</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab to a card and press <kbd>Enter</kbd> to activate it. <code>href</code>-based
+            cards navigate natively; <code>div</code>-based cards fire <code>hbd:click</code>
+            with <code>Enter</code> or <code>Space</code>.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card variant="interactive" href="#component-card"
+                      title="Link-based" subtitle="renders as &lt;a&gt;">
+              <p slot="body">Click or press Enter to navigate. Right-click → Open in new tab works.</p>
+            </hbd-card>
+
+            <hbd-card id="card-click-demo" variant="interactive"
+                      title="Div-based" subtitle="role=&quot;button&quot;">
+              <p slot="body" id="card-click-demo-out">Press Enter or Space.</p>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card variant="interactive" href="/spell/123"&gt;…&lt;/hbd-card&gt;
+
+&lt;hbd-card variant="interactive" id="c"&gt;…&lt;/hbd-card&gt;
+&lt;script&gt;
+  c.addEventListener('hbd:click', () =&gt; { /* … */ });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var c = document.getElementById('card-click-demo');
+                var out = document.getElementById('card-click-demo-out');
+                if (!c || !out) return setTimeout(wire, 50);
+                var n = 0;
+                c.addEventListener('hbd:click', function () {
+                  n += 1;
+                  out.textContent = 'Activated ' + n + ' time' + (n === 1 ? '' : 's') + '.';
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Composition examples -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Composition examples</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Real-world HBD compositions — a spell card, a monster card, and an item card with
+            a positioned rarity badge.
+          </p>
+          <div class="ds-preview-canvas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--hbd-space-4);align-items:start;">
+
+            <hbd-card title="Counterspell" subtitle="Abjuration · Level 3" elevated>
+              <p slot="body">You attempt to interrupt a creature in the process of casting a spell.</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">View Spell</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card title="Goblin" subtitle="Small Humanoid · CR 1/4">
+              <p slot="body"><strong>HP</strong> 7 (2d6) &middot; <strong>AC</strong> 15</p>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Add to Encounter</hbd-button>
+              </div>
+            </hbd-card>
+
+            <hbd-card title="Cloak of Elvenkind" subtitle="Wondrous Item" bordered>
+              <span slot="badge"
+                    style="background:var(--hbd-color-gold-deep);color:var(--hbd-color-text-on-action);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-micro);font-weight:var(--hbd-font-weight-semibold);padding:var(--hbd-space-1) var(--hbd-space-2);border-radius:var(--hbd-radius-md);letter-spacing:var(--hbd-letter-spacing-badge);text-transform:uppercase;pointer-events:auto;">
+                Uncommon
+              </span>
+              <p slot="body">While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage.</p>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">Add to Inventory</hbd-button>
+              </div>
+            </hbd-card>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-card title="Cloak of Elvenkind" subtitle="Wondrous Item" bordered&gt;
+  &lt;span slot="badge"&gt;Uncommon&lt;/span&gt;
+  &lt;p slot="body"&gt;While you wear this cloak…&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="default" size="sm"&gt;Add to Inventory&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-card&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Card divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="13" width="24" height="18" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="14" y1="19" x2="22" y2="19" stroke="#b8893b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="14" y1="23" x2="26" y2="23" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <line x1="14" y1="26" x2="22" y2="26" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <circle cx="30" cy="13" r="2.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · BADGE & CHIP ══════════════════════ -->
+    <!-- Single combined section. The id="component-chip" anchor below
+         satisfies the validator's per-component preview check; the
+         section's primary id is component-badge. -->
+    <section class="ds-section" id="component-badge" aria-labelledby="heading-badge">
+      <span id="component-chip" tabindex="-1" aria-hidden="true"></span>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;7</span>
+        <h2 class="ds-section__heading" id="heading-badge">Badge &amp; Chip</h2>
+        <p class="ds-section__description">
+          Badges indicate counts or status with a small coloured pill or dot. Chips display
+          labels and optional interactivity &mdash; use <strong>removable</strong> chips for
+          tag inputs and <strong>selectable</strong> chips for filter sets. Rendered as
+          <code>&lt;hbd-badge&gt;</code> and <code>&lt;hbd-chip&gt;</code>; the static
+          appearance also works as plain <code>.hbd-badge</code> / <code>.hbd-chip</code>
+          CSS on any element.
+        </p>
+
+        <!-- ─── Badge groups ─────────────────────────────────────── -->
+        <h3 class="hbd-text-h3 hbd-text-primary" style="margin:var(--hbd-space-8) 0 var(--hbd-space-4);">Badge</h3>
+
+        <!-- Group 1 · Badge count variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Count variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            One per colour family. Counts above <code>max</code> (default 99) display as
+            <code>99+</code>, while the SR-readable <code>aria-label</code> still reports
+            the raw count.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-badge variant="neutral" count="1"   label="Neutral"></hbd-badge>
+            <hbd-badge variant="primary" count="12"  label="Primary"></hbd-badge>
+            <hbd-badge variant="success" count="3"   label="Success"></hbd-badge>
+            <hbd-badge variant="warning" count="9"   label="Warning"></hbd-badge>
+            <hbd-badge variant="error"   count="99"  label="Error"></hbd-badge>
+            <hbd-badge variant="primary" count="100" label="Unread"></hbd-badge>
+            <hbd-badge variant="neutral" count="0"   label="Empty"></hbd-badge>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge variant="primary" count="12" label="Unread"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-badge variant="primary" count="100" label="Unread"&gt;&lt;/hbd-badge&gt;
+&lt;!-- visible: "99+" · aria-label: "Unread, 100" --&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Badge dot variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dot variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Dot badges carry no visible text &mdash; provide <code>label="…"</code> so
+            screen readers can announce the status (SC&nbsp;1.4.1 / 1.1.1).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-badge dot variant="neutral" label="Idle"></hbd-badge>
+            <hbd-badge dot variant="primary" label="Active"></hbd-badge>
+            <hbd-badge dot variant="success" label="Online"></hbd-badge>
+            <hbd-badge dot variant="warning" label="Away"></hbd-badge>
+            <hbd-badge dot variant="error"   label="Offline"></hbd-badge>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge dot variant="success" label="Online"&gt;&lt;/hbd-badge&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Badge on an element -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">On an element</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            When a badge OVERLAYS an interactive element, the count belongs in the host's
+            accessible name and the badge itself is <code>aria-hidden</code> &mdash; otherwise
+            SR users hear the count twice. The wrapper sets <code>position:relative</code>
+            and the badge is absolutely positioned.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;">
+
+            <span style="position:relative;display:inline-flex;">
+              <hbd-button variant="default" icon-only aria-label="Notifications, 12 unread">
+                <svg slot="icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 16v-5a6 6 0 0 0-12 0v5l-2 2h16l-2-2z"></path>
+                  <path d="M10 20a2 2 0 0 0 4 0"></path>
+                </svg>
+              </hbd-button>
+              <hbd-badge variant="error" count="12" aria-hidden="true"
+                         style="position:absolute;top:-6px;right:-6px;"></hbd-badge>
+            </span>
+
+            <span style="position:relative;display:inline-flex;">
+              <hbd-button variant="default" icon-only aria-label="Messages, 99+ unread">
+                <svg slot="icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"></path>
+                </svg>
+              </hbd-button>
+              <hbd-badge variant="primary" count="237" aria-hidden="true"
+                         style="position:absolute;top:-6px;right:-6px;"></hbd-badge>
+            </span>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;span style="position:relative;"&gt;
+  &lt;hbd-button icon-only aria-label="Notifications, 12 unread"&gt;
+    &lt;svg slot="icon"&gt;…&lt;/svg&gt;
+  &lt;/hbd-button&gt;
+  &lt;hbd-badge variant="error" count="12" aria-hidden="true"
+             style="position:absolute;top:-6px;right:-6px;"&gt;&lt;/hbd-badge&gt;
+&lt;/span&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- ─── Chip groups ──────────────────────────────────────── -->
+        <h3 class="hbd-text-h3 hbd-text-primary" style="margin:var(--hbd-space-12) 0 var(--hbd-space-4);">Chip</h3>
+
+        <!-- Group 4 · Chip static -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Static</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Display-only chips. Use them as inline metadata: damage types, schools, tags.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip variant="primary" label="Cold"></hbd-chip>
+            <hbd-chip variant="success" label="Lightning"></hbd-chip>
+            <hbd-chip variant="warning" label="Acid"></hbd-chip>
+            <hbd-chip variant="error"   label="Force"></hbd-chip>
+            <hbd-chip variant="primary" label="Poison"></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip variant="primary" label="Cold"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Chip outline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Outline</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Transparent fill with coloured border &mdash; lower-contrast variant for
+            secondary metadata or for chips sitting on already-coloured surfaces.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip outline variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip outline variant="primary" label="Cold"></hbd-chip>
+            <hbd-chip outline variant="success" label="Lightning"></hbd-chip>
+            <hbd-chip outline variant="warning" label="Acid"></hbd-chip>
+            <hbd-chip outline variant="error"   label="Force"></hbd-chip>
+            <hbd-chip outline variant="primary" label="Poison"></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip outline variant="primary" label="Cold"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Chip with icon -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With icon</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Pass an inline SVG via the <code>icon</code> attribute. The icon is rendered
+            <code>aria-hidden</code> so the label remains the chip's accessible name.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip variant="error" label="Fire"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M8 1c0 3-3 4-3 7a3 3 0 0 0 6 0c0-1.5-1-2-1-3 1.5 1 3 2 3 4a5 5 0 0 1-10 0c0-4 5-4 5-8z"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="primary" label="Cold"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"&gt;&lt;line x1="8" y1="2" x2="8" y2="14"/&gt;&lt;line x1="2" y1="8" x2="14" y2="8"/&gt;&lt;line x1="3.5" y1="3.5" x2="12.5" y2="12.5"/&gt;&lt;line x1="12.5" y1="3.5" x2="3.5" y2="12.5"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="warning" label="Lightning"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M10 1L3 9h4l-2 6 7-8H8l2-6z"/&gt;&lt;/svg&gt;'></hbd-chip>
+            <hbd-chip variant="success" label="Acid"
+                      icon='&lt;svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"&gt;&lt;path d="M8 1c-3 3-5 5-5 8a5 5 0 0 0 10 0c0-3-2-5-5-8z"/&gt;&lt;/svg&gt;'></hbd-chip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip variant="error" label="Fire"
+          icon='&lt;svg viewBox="0 0 16 16"&gt;…&lt;/svg&gt;'&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Chip removable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Removable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Each chip has a ✕ button reachable by Tab. Activating it fires
+            <code>hbd:remove</code> and removes the chip. Cancel removal with
+            <code>e.preventDefault()</code>.
+          </p>
+          <div class="ds-preview-canvas" id="chip-remove-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip removable variant="primary" label="Fireball"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Cone of Cold"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Lightning Bolt"></hbd-chip>
+            <hbd-chip removable variant="primary" label="Magic Missile"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            <span id="chip-remove-out">Remove a chip to see its label here.</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip removable label="Fireball"&gt;&lt;/hbd-chip&gt;
+&lt;script&gt;
+  el.addEventListener('hbd:remove', (e) =&gt; {
+    if (shouldKeep) e.preventDefault();
+    else console.log('Removed', e.detail.label);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-remove-canvas');
+                var out = document.getElementById('chip-remove-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                canvas.addEventListener('hbd:remove', function (e) {
+                  out.textContent = 'Removed: ' + e.detail.label;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8 · Chip selectable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Selectable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Filter chips. Each renders as a <code>&lt;button&gt;</code> with
+            <code>aria-pressed</code>; toggle with click, Enter, or Space. Three are
+            pre-selected.
+          </p>
+          <div class="ds-preview-canvas" id="chip-select-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip selectable selected variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip selectable selected variant="neutral" label="Cold"></hbd-chip>
+            <hbd-chip selectable selected variant="neutral" label="Lightning"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Acid"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Force"></hbd-chip>
+            <hbd-chip selectable          variant="neutral" label="Poison"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Selected:&nbsp;<span id="chip-select-out">Fire, Cold, Lightning</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip selectable selected label="Fire"&gt;&lt;/hbd-chip&gt;
+&lt;script&gt;
+  el.addEventListener('hbd:toggle', (e) =&gt; {
+    console.log(e.detail.label, e.detail.selected);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-select-canvas');
+                var out = document.getElementById('chip-select-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                function refresh() {
+                  var selected = Array.from(canvas.querySelectorAll('hbd-chip[selected]'))
+                    .map(function (el) { return el.getAttribute('label'); });
+                  out.textContent = selected.length ? selected.join(', ') : 'none';
+                }
+                canvas.addEventListener('hbd:toggle', function () {
+                  // Wait one tick so the attribute write from the chip
+                  // completes before we read it back.
+                  setTimeout(refresh, 0);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8b · Chip selectable + removable -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Selectable &amp; removable</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A chip can be BOTH at once — Tab to the chip body to toggle selection
+            (Enter / Space), Tab again to reach the ✕ button to drop it from the set.
+            Useful for editable filter pills: select what you want, remove what you don't.
+          </p>
+          <div class="ds-preview-canvas" id="chip-select-remove-canvas"
+               style="gap:var(--hbd-space-2);flex-wrap:wrap;">
+            <hbd-chip selectable removable selected variant="neutral" label="Fire"></hbd-chip>
+            <hbd-chip selectable removable selected variant="neutral" label="Cold"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Lightning"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Acid"></hbd-chip>
+            <hbd-chip selectable removable          variant="neutral" label="Force"></hbd-chip>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            <span id="chip-select-remove-out">Selected: Fire, Cold · removed: none</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip selectable removable selected label="Fire"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip selectable removable          label="Lightning"&gt;&lt;/hbd-chip&gt;
+
+&lt;script&gt;
+  el.addEventListener('hbd:toggle', (e) =&gt; {
+    // e.detail = { selected, label }
+  });
+  el.addEventListener('hbd:remove', (e) =&gt; {
+    // e.detail = { label }
+    // call e.preventDefault() to veto removal
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var canvas = document.getElementById('chip-select-remove-canvas');
+                var out = document.getElementById('chip-select-remove-out');
+                if (!canvas || !out) return setTimeout(wire, 50);
+                var removed = [];
+                function refresh() {
+                  var selected = Array.from(canvas.querySelectorAll('hbd-chip[selected]'))
+                    .map(function (el) { return el.getAttribute('label'); });
+                  out.textContent =
+                    'Selected: ' + (selected.length ? selected.join(', ') : 'none') +
+                    ' · removed: ' + (removed.length ? removed.join(', ') : 'none');
+                }
+                canvas.addEventListener('hbd:toggle', function () {
+                  setTimeout(refresh, 0);
+                });
+                canvas.addEventListener('hbd:remove', function (e) {
+                  removed.push(e.detail.label);
+                  setTimeout(refresh, 0);
+                });
+                refresh();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 9 · Chip sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code>, <code>md</code> (default), <code>lg</code>. Each row shows
+            static, removable, and selectable chips at the same size.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-3);">
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip size="sm" variant="primary" label="Small"></hbd-chip>
+              <hbd-chip size="sm" removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip size="sm" selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip variant="primary" label="Medium"></hbd-chip>
+              <hbd-chip removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+            <div style="display:flex;gap:var(--hbd-space-2);flex-wrap:wrap;align-items:center;">
+              <hbd-chip size="lg" variant="primary" label="Large"></hbd-chip>
+              <hbd-chip size="lg" removable variant="primary" label="Removable"></hbd-chip>
+              <hbd-chip size="lg" selectable variant="neutral" label="Selectable"></hbd-chip>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-chip size="sm" label="Small"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip            label="Medium"&gt;&lt;/hbd-chip&gt;
+&lt;hbd-chip size="lg" label="Large"&gt;&lt;/hbd-chip&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Badge & Chip divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <ellipse cx="22" cy="22" rx="14" ry="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <circle cx="30" cy="16" r="3" fill="#7a1212"/>
+        <circle cx="22" cy="22" r="2" fill="#b8893b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TOOLTIP ══════════════════════ -->
+    <section class="ds-section" id="component-tooltip" aria-labelledby="heading-tooltip">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;8</span>
+        <h2 class="ds-section__heading" id="heading-tooltip">Tooltip</h2>
+        <p class="ds-section__description">
+          Tooltips provide supplementary information about an element on hover or keyboard
+          focus. They <strong>never</strong> contain essential content and
+          <strong>never</strong> contain interactive elements. Rendered as
+          <code>&lt;hbd-tooltip content="…"&gt;</code> wrapping a single trigger. Behind the
+          scenes a singleton panel in <code>&lt;body&gt;</code> is reused across all
+          tooltips on the page.
+        </p>
+
+        <!-- Group 1 · Placements -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placements</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>placement</code>: <code>top</code> (default), <code>bottom</code>,
+            <code>left</code>, <code>right</code>. When a tooltip would overflow the
+            viewport it flips to the opposite side automatically.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;justify-content:center;flex-wrap:wrap;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="Cast Fireball" placement="top">
+              <hbd-button variant="primary">Top</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Open Spellbook" placement="bottom">
+              <hbd-button variant="default">Bottom</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Summon Familiar" placement="left">
+              <hbd-button variant="default">Left</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Enter Dungeon" placement="right">
+              <hbd-button variant="gold">Right</hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Cast Fireball" placement="top"&gt;
+  &lt;hbd-button variant="primary"&gt;Top&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;
+
+&lt;hbd-tooltip content="Open Spellbook" placement="bottom"&gt;…&lt;/hbd-tooltip&gt;
+&lt;hbd-tooltip content="Summon Familiar" placement="left"&gt;…&lt;/hbd-tooltip&gt;
+&lt;hbd-tooltip content="Enter Dungeon" placement="right"&gt;…&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · On icon buttons -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">On icon buttons</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The canonical use case for tooltips — pair them with icon-only buttons so
+            the <code>aria-label</code> stays the accessible name and the tooltip
+            provides the visible label. (This replaces the C-22 CSS <code>::after</code>
+            tooltip.)
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-tooltip content="Close dialog">
+              <hbd-button icon-only variant="default" aria-label="Close dialog">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Send message">
+              <hbd-button icon-only variant="primary" aria-label="Send message">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Add to favourites">
+              <hbd-button icon-only variant="gold" aria-label="Add to favourites">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M8 1l2 5h5l-4 3.5L12.5 15 8 11.5 3.5 15 5 9.5 1 6h5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="More options">
+              <hbd-button icon-only variant="default" aria-label="More options">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Close dialog"&gt;
+  &lt;hbd-button icon-only aria-label="Close dialog"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Long content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tooltip text wraps at <code>--hbd-tooltip-max-width</code> (240px). Long-form
+            explanations should live in a callout or a help link, not a tooltip — but
+            short reference notes work well.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="This spell requires verbal and somatic components and cannot be cast while silenced or restrained.">
+              <hbd-button icon-only variant="default" aria-label="Spell components info">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="7" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="4.5" r="0.9" fill="currentColor"/></svg>
+                </span>
+              </hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="This spell requires verbal and somatic components…"&gt;
+  &lt;hbd-button icon-only aria-label="Spell components info"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <kbd>Tab</kbd> through these buttons — the tooltip appears on focus without
+            a hover delay. Press <kbd>Escape</kbd> to dismiss without moving focus
+            (SC&nbsp;1.4.13 Dismissible).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-6) 0;">
+            <hbd-tooltip content="Roll initiative">
+              <hbd-button variant="primary">Initiative</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="Attack the nearest creature">
+              <hbd-button variant="default">Attack</hbd-button>
+            </hbd-tooltip>
+            <hbd-tooltip content="End your turn">
+              <hbd-button variant="gold">End turn</hbd-button>
+            </hbd-tooltip>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-tooltip content="Roll initiative"&gt;
+  &lt;hbd-button variant="primary"&gt;Initiative&lt;/hbd-button&gt;
+&lt;/hbd-tooltip&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Tooltip divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="15" width="26" height="10" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M19 25l3 4 3-4" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="1.6" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · POPOVER ══════════════════════ -->
+    <section class="ds-section" id="component-popover" aria-labelledby="heading-popover">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;9</span>
+        <h2 class="ds-section__heading" id="heading-popover">Popover</h2>
+        <p class="ds-section__description">
+          Popovers show interactive floating content on trigger click. Unlike
+          <a href="#component-tooltip">tooltips</a> they contain forms, buttons, and rich
+          content; unlike modals they do <strong>not</strong> block the rest of the page
+          (<code>aria-modal="false"</code>, no backdrop, no scroll lock). Focus is trapped
+          inside the panel while open; Escape closes and returns focus to the trigger.
+        </p>
+
+        <!-- Group 1 · Basic popover -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic popover</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Title, body, and a footer of actions. The close button in the header is
+            rendered when <code>title</code> is set and <code>no-close</code> is absent.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Spell Details" placement="bottom">
+              <hbd-button slot="trigger" variant="primary">View Spell</hbd-button>
+              <div slot="content">
+                <p style="margin:0 0 var(--hbd-space-2);">
+                  <strong>Fireball</strong> — Evocation · Level 3
+                </p>
+                <p style="margin:0;color:var(--hbd-color-text-secondary);">
+                  A bright streak flashes from your pointing finger to a point you choose,
+                  then blossoms with a low roar into an explosion of flame.
+                </p>
+              </div>
+              <div slot="footer">
+                <hbd-button variant="default" size="sm">Close</hbd-button>
+                <hbd-button variant="primary" size="sm">Cast Spell</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover title="Spell Details" placement="bottom"&gt;
+  &lt;hbd-button slot="trigger" variant="primary"&gt;View Spell&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;
+    &lt;p&gt;&lt;strong&gt;Fireball&lt;/strong&gt; — Evocation · Level 3&lt;/p&gt;
+    &lt;p&gt;A bright streak flashes from your pointing finger…&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button size="sm"&gt;Close&lt;/hbd-button&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Cast Spell&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Placements -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Placements</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>top</code>, <code>bottom</code> (default), <code>left</code>,
+            <code>right</code>. A popover that would overflow the viewport flips to the
+            opposite side automatically.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;justify-content:center;flex-wrap:wrap;padding:var(--hbd-space-12) 0;">
+            <hbd-popover title="Top" placement="top">
+              <hbd-button slot="trigger" variant="primary">Top</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">Appears above the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Flips to bottom if there is no room.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Bottom" placement="bottom">
+              <hbd-button slot="trigger" variant="default">Bottom</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">Default placement.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Anchored just below the trigger.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Left" placement="left">
+              <hbd-button slot="trigger" variant="default">Left</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">To the left of the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Centered vertically.</p>
+              </div>
+            </hbd-popover>
+            <hbd-popover title="Right" placement="right">
+              <hbd-button slot="trigger" variant="gold">Right</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">To the right of the trigger.</p>
+                <p style="margin:var(--hbd-space-1) 0 0;color:var(--hbd-color-text-secondary);">Centered vertically.</p>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover placement="top"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="bottom"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="left"&gt;…&lt;/hbd-popover&gt;
+&lt;hbd-popover placement="right"&gt;…&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With form content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With form content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Popovers are the right home for short forms: filters, quick edits, dice
+            rollers. The focus trap keeps Tab cycling inside the panel; Escape closes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Quick Roll" placement="bottom">
+              <hbd-button slot="trigger" icon-only variant="primary" aria-label="Quick roll">
+                <span class="hbd-button__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="12" height="12" rx="2"/>
+                    <circle cx="5.5" cy="5.5" r="0.9" fill="currentColor"/>
+                    <circle cx="10.5" cy="10.5" r="0.9" fill="currentColor"/>
+                    <circle cx="10.5" cy="5.5" r="0.9" fill="currentColor"/>
+                    <circle cx="5.5" cy="10.5" r="0.9" fill="currentColor"/>
+                    <circle cx="8" cy="8" r="0.9" fill="currentColor"/>
+                  </svg>
+                </span>
+              </hbd-button>
+              <div slot="content">
+                <label style="display:block;font-size:var(--hbd-font-size-label);margin-bottom:var(--hbd-space-1);">Dice type</label>
+                <select style="width:100%;padding:var(--hbd-space-2);font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);border:var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+                  <option>d4</option>
+                  <option>d6</option>
+                  <option selected>d20</option>
+                  <option>d100</option>
+                </select>
+                <label style="display:block;font-size:var(--hbd-font-size-label);margin:var(--hbd-space-3) 0 var(--hbd-space-1);">Count</label>
+                <input type="number" min="1" max="20" value="1"
+                       style="width:100%;padding:var(--hbd-space-2);font-family:var(--hbd-font-family-mono);font-size:var(--hbd-font-size-label);border:var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              </div>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Roll</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover title="Quick Roll"&gt;
+  &lt;hbd-button slot="trigger" icon-only aria-label="Quick roll"&gt;&lt;svg…&gt;&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;
+    &lt;label&gt;Dice type&lt;/label&gt;&lt;select&gt;…&lt;/select&gt;
+    &lt;label&gt;Count&lt;/label&gt;&lt;input type="number"&gt;
+  &lt;/div&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="primary" size="sm"&gt;Roll&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · No title -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No title</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Without <code>title</code>, the header is omitted entirely and the panel
+            becomes a single content area. Escape still closes; click outside still
+            dismisses. Use this for short informational notes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover placement="bottom">
+              <hbd-button slot="trigger" variant="default">More info</hbd-button>
+              <div slot="content">
+                <p style="margin:0;">
+                  Concentration spells end if you take damage and fail a Constitution
+                  save (DC&nbsp;10 or half the damage taken, whichever is higher).
+                </p>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-popover placement="bottom"&gt;
+  &lt;hbd-button slot="trigger"&gt;More info&lt;/hbd-button&gt;
+  &lt;div slot="content"&gt;&lt;p&gt;Concentration spells…&lt;/p&gt;&lt;/div&gt;
+&lt;/hbd-popover&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab to the trigger and press <kbd>Enter</kbd> to open. Tab cycles through
+            the focusable elements inside the panel and wraps at the edges. Press
+            <kbd>Escape</kbd> to close — focus returns to the trigger.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;padding:var(--hbd-space-8) 0;">
+            <hbd-popover title="Keyboard demo" placement="bottom">
+              <hbd-button slot="trigger" variant="gold">Open</hbd-button>
+              <div slot="content">
+                <p style="margin:0 0 var(--hbd-space-2);">Tab between these three buttons.</p>
+                <div style="display:flex;gap:var(--hbd-space-2);">
+                  <hbd-button variant="default" size="sm">One</hbd-button>
+                  <hbd-button variant="default" size="sm">Two</hbd-button>
+                  <hbd-button variant="default" size="sm">Three</hbd-button>
+                </div>
+              </div>
+              <div slot="footer">
+                <hbd-button variant="primary" size="sm">Done</hbd-button>
+              </div>
+            </hbd-popover>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>// Trigger: Tab + Enter to open
+// Panel:   Tab cycles inside; Escape closes
+// Outside: click anywhere outside the panel to dismiss</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Popover divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="13" width="22" height="14" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M20 27l2 4 2-4" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14" cy="18" r="1.2" fill="#7a1212"/>
+        <line x1="18" y1="18" x2="26" y2="18" stroke="#b8893b" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="14" y1="22" x2="24" y2="22" stroke="#7a5a22" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · AVATAR ══════════════════════ -->
+    <!-- The inner anchor satisfies the validator's per-component preview
+         check for hbd-avatar-group.js inside this combined section. -->
+    <section class="ds-section" id="component-avatar" aria-labelledby="heading-avatar">
+      <span id="component-avatar-group" tabindex="-1" aria-hidden="true"></span>
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;10</span>
+        <h2 class="ds-section__heading" id="heading-avatar">Avatar</h2>
+        <p class="ds-section__description">
+          Avatars represent users, characters, and entities. Two content branches:
+          <code>img-src</code> renders the image; everything else falls back to a
+          generic person icon. Rendered as <code>&lt;hbd-avatar&gt;</code>; stack
+          several inside <code>&lt;hbd-avatar-group&gt;</code> for a "party" cluster
+          with a "+N more" overflow bubble.
+        </p>
+
+        <!-- Group 1 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>xs</code>, <code>sm</code>, <code>md</code> (default), <code>lg</code>,
+            <code>xl</code>, <code>2xl</code>. Each step references a
+            <code>--hbd-avatar-size-*</code> token.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);align-items:center;">
+            <hbd-avatar size="xs"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="sm"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="md"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="lg"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="xl"  name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+            <hbd-avatar size="2xl" name="Thorin Oakenshield"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Thorin portrait"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar size="xs" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="sm" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar           name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="lg" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="xl" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar size="2xl" name="Thorin" img-src="/portrait.jpg" img-alt="Thorin"&gt;&lt;/hbd-avatar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Fallback -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Fallback</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Two branches: <code>img-src</code> renders the image; everything else
+            falls back to the generic person icon. The icon also takes over when
+            an authored <code>img-src</code> fails to load (see Group 4).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-avatar size="lg" name="Gandalf the Grey"
+              img-src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%237a5a22'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23f5ecd7'/%3E%3Cpath d='M16 70 Q40 50 64 70 Z' fill='%23f5ecd7'/%3E%3C/svg%3E"
+              img-alt="Gandalf portrait"></hbd-avatar>
+            <hbd-avatar size="lg" name="Bilbo Baggins"></hbd-avatar>
+            <hbd-avatar size="lg"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- Image branch --&gt;
+&lt;hbd-avatar name="Gandalf" img-src="/portrait.jpg" img-alt="Gandalf portrait"&gt;&lt;/hbd-avatar&gt;
+
+&lt;!-- Icon branch (no img-src) --&gt;
+&lt;hbd-avatar name="Bilbo Baggins"&gt;&lt;/hbd-avatar&gt;
+&lt;hbd-avatar&gt;&lt;/hbd-avatar&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Avatar group -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Avatar group</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>&lt;hbd-avatar-group max="5"&gt;</code> with 8 children renders the
+            first 5 and a "+3" overflow bubble. The group's <code>aria-label</code>
+            reports the total count.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;flex-wrap:wrap;">
+            <hbd-avatar-group max="5" size="md" aria-label="The Fellowship">
+              <hbd-avatar name="Aragorn"></hbd-avatar>
+              <hbd-avatar name="Legolas"></hbd-avatar>
+              <hbd-avatar name="Gimli"></hbd-avatar>
+              <hbd-avatar name="Boromir"></hbd-avatar>
+              <hbd-avatar name="Frodo"></hbd-avatar>
+              <hbd-avatar name="Samwise"></hbd-avatar>
+              <hbd-avatar name="Merry"></hbd-avatar>
+              <hbd-avatar name="Pippin"></hbd-avatar>
+            </hbd-avatar-group>
+            <hbd-avatar-group max="3" size="lg" aria-label="Active party">
+              <hbd-avatar name="Aragorn"></hbd-avatar>
+              <hbd-avatar name="Legolas"></hbd-avatar>
+              <hbd-avatar name="Gimli"></hbd-avatar>
+              <hbd-avatar name="Boromir"></hbd-avatar>
+            </hbd-avatar-group>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar-group max="5" size="md" aria-label="The Fellowship"&gt;
+  &lt;hbd-avatar name="Aragorn"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Legolas"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Gimli"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Boromir"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Frodo"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Samwise"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Merry"&gt;&lt;/hbd-avatar&gt;
+  &lt;hbd-avatar name="Pippin"&gt;&lt;/hbd-avatar&gt;
+&lt;/hbd-avatar-group&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Image error fallback -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Image error fallback</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Both avatars below carry a broken <code>img-src</code>. When the image
+            fails to load, the component switches to the generic person icon —
+            the same fallback used when <code>img-src</code> is absent.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:center;">
+            <hbd-avatar size="lg" name="Thorin Oakenshield"
+              img-src="/this-image-does-not-exist-404.png"></hbd-avatar>
+            <hbd-avatar size="lg"
+              img-src="/also-broken.png"></hbd-avatar>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-avatar name="Thorin Oakenshield" img-src="/broken.png"&gt;&lt;/hbd-avatar&gt;
+&lt;!-- Image 404 → generic person icon --&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Avatar divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="18" r="6" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <path d="M11 34 Q22 24 33 34" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="30" cy="13" r="2.4" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · LIST ══════════════════════ -->
+    <section class="ds-section" id="component-list" aria-labelledby="heading-list">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;11</span>
+        <h2 class="ds-section__heading" id="heading-list">List</h2>
+        <p class="ds-section__description">
+          Lists present collections of items in a vertical stack. Use interactive
+          lists for navigation and selection; rich lists for entity collections
+          like spells, monsters, or inventory. Authored as
+          <code>&lt;hbd-list&gt;</code> with <code>&lt;hbd-list-item&gt;</code>
+          children. Each item supports five slots: <code>leading</code>,
+          <code>primary</code>, <code>secondary</code>, <code>trailing</code>,
+          <code>action</code>.
+        </p>
+
+        <!-- Group 1 · Basic list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Plain stacked items — no dividers, no border, just consistent
+            vertical rhythm.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list&gt;
+  &lt;hbd-list-item&gt;&lt;span slot="primary"&gt;Fireball&lt;/span&gt;&lt;/hbd-list-item&gt;
+  &lt;hbd-list-item&gt;&lt;span slot="primary"&gt;Cone of Cold&lt;/span&gt;&lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Divided list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Divided list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>divided</code> adds a hairline rule between adjacent items
+            without changing the outer container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list divided>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list divided&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>bordered</code> wraps the list in a rounded surface — useful
+            when the list sits inside a content column with no other container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Interactive list -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Interactive list</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Items with <code>href</code> render as real anchors — Tab + Enter
+            navigate. The <code>selected</code> attribute applies both a
+            background change AND a left action-bar indicator so selection is
+            not conveyed by colour alone.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item href="#"><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item href="#" selected><span slot="primary">Cone of Cold</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Lightning Bolt</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Magic Missile</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Mage Armor</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;
+  &lt;hbd-list-item href="/spells/fireball"&gt;
+    &lt;span slot="primary"&gt;Fireball&lt;/span&gt;
+  &lt;/hbd-list-item&gt;
+  &lt;hbd-list-item href="/spells/cone-of-cold" selected&gt;
+    &lt;span slot="primary"&gt;Cone of Cold&lt;/span&gt;
+  &lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Rich list — spell compendium -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Rich list &mdash; spell compendium</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            All five slots in use: <code>leading</code> avatar,
+            <code>primary</code> + <code>secondary</code> text, a
+            <code>trailing</code> chip, and an <code>action</code> button that
+            reveals on hover or focus-within.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-list bordered divided>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Fireball"></hbd-avatar>
+                <span slot="primary">Fireball</span>
+                <span slot="secondary">Evocation &middot; Level 3</span>
+                <hbd-chip slot="trailing" size="sm" variant="error" label="Fire"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Cone of Cold"></hbd-avatar>
+                <span slot="primary">Cone of Cold</span>
+                <span slot="secondary">Evocation &middot; Level 5</span>
+                <hbd-chip slot="trailing" size="sm" variant="primary" label="Cold"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Lightning Bolt"></hbd-avatar>
+                <span slot="primary">Lightning Bolt</span>
+                <span slot="secondary">Evocation &middot; Level 3</span>
+                <hbd-chip slot="trailing" size="sm" variant="warning" label="Lightning"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Acid Arrow"></hbd-avatar>
+                <span slot="primary">Acid Arrow</span>
+                <span slot="secondary">Evocation &middot; Level 2</span>
+                <hbd-chip slot="trailing" size="sm" variant="success" label="Acid"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+              <hbd-list-item href="#">
+                <hbd-avatar slot="leading" size="sm" name="Magic Missile"></hbd-avatar>
+                <span slot="primary">Magic Missile</span>
+                <span slot="secondary">Evocation &middot; Level 1</span>
+                <hbd-chip slot="trailing" size="sm" variant="neutral" label="Force"></hbd-chip>
+                <hbd-button slot="action" icon-only variant="default" size="sm" aria-label="More options">
+                  <span class="hbd-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/></svg>
+                  </span>
+                </hbd-button>
+              </hbd-list-item>
+
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list bordered divided&gt;
+  &lt;hbd-list-item href="/spells/fireball"&gt;
+    &lt;hbd-avatar slot="leading" size="sm" name="Fireball"&gt;&lt;/hbd-avatar&gt;
+    &lt;span slot="primary"&gt;Fireball&lt;/span&gt;
+    &lt;span slot="secondary"&gt;Evocation · Level 3&lt;/span&gt;
+    &lt;hbd-chip slot="trailing" size="sm" variant="error" label="Fire"&gt;&lt;/hbd-chip&gt;
+    &lt;hbd-button slot="action" icon-only aria-label="More"&gt;…&lt;/hbd-button&gt;
+  &lt;/hbd-list-item&gt;
+  …
+&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code>, <code>md</code> (default), <code>lg</code>. The
+            <code>sm</code> size has a min-height of 36px — below the
+            WCAG&nbsp;2.5.8 preferred 44px target. Use it only for dense
+            secondary lists.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-4);align-items:stretch;flex-wrap:wrap;">
+            <hbd-list bordered divided size="sm" style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Small &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Small &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+            <hbd-list bordered divided style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Medium &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Medium &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+            <hbd-list bordered divided size="lg" style="flex:1 1 220px;min-width:200px;">
+              <hbd-list-item><span slot="primary">Large &mdash; Fireball</span></hbd-list-item>
+              <hbd-list-item><span slot="primary">Large &mdash; Cone of Cold</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list size="sm"&gt;…&lt;/hbd-list&gt;
+&lt;hbd-list           &gt;…&lt;/hbd-list&gt;
+&lt;hbd-list size="lg"&gt;…&lt;/hbd-list&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · With disabled item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>disabled</code> renders the item at 50% opacity, removes it
+            from the Tab order, and sets <code>aria-disabled="true"</code>.
+            Pointer + keyboard activation are blocked.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:480px;">
+            <hbd-list bordered divided>
+              <hbd-list-item href="#"><span slot="primary">Fireball</span></hbd-list-item>
+              <hbd-list-item href="#" disabled><span slot="primary">Wish &mdash; locked, level 9 required</span></hbd-list-item>
+              <hbd-list-item href="#"><span slot="primary">Magic Missile</span></hbd-list-item>
+            </hbd-list>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-list-item href="/spells/wish" disabled&gt;
+  &lt;span slot="primary"&gt;Wish — locked&lt;/span&gt;
+&lt;/hbd-list-item&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · List divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <line x1="12" y1="14" x2="32" y2="14" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="22" x2="32" y2="22" stroke="#b8893b" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="30" x2="32" y2="30" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="9"  cy="14" r="1.4" fill="#7a1212"/>
+        <circle cx="9"  cy="22" r="1.4" fill="#7a1212"/>
+        <circle cx="9"  cy="30" r="1.4" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · ACCORDION ══════════════════════ -->
+    <section class="ds-section" id="component-accordion" aria-labelledby="heading-accordion">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;12</span>
+        <h2 class="ds-section__heading" id="heading-accordion">Accordion</h2>
+        <p class="ds-section__description">
+          Accordions reveal and hide sections of content behind clickable headers.
+          Use <code>single</code> mode (default) when only one answer should be
+          visible at a time, and <code>multi</code> for independent sections.
+          The expand/collapse animation runs at
+          <code>--hbd-duration-slow</code> (350&nbsp;ms), driving
+          <code>max-height</code> + <code>opacity</code> on the panel — no
+          <code>scrollHeight</code> measurement, no layout thrash.
+        </p>
+
+        <!-- Group 1 · Single mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Single mode (default)</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Opening one item closes the others.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered divided>
+              <hbd-accordion-item title="Spell Components">
+                <p>Spells require some mix of verbal, somatic, and material components. Verbal needs an unsilenced voice; somatic needs a free hand; material requires the listed component (consumed only when the spell says so).</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time" open>
+                <p>Most spells take a single Action. Bonus-action spells fit in alongside an Action, and reaction spells trigger off a specific event. Some rituals or summons take a full minute or longer.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range">
+                <p>Range is the maximum distance to a target. Self spells affect only the caster, Touch needs a free hand, and ranged spells list a distance in feet. Area spells originate from a point within range.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration">
+                <p>Instantaneous spells resolve and end. Concentration spells last until the caster loses concentration — taking damage prompts a Constitution save. Timed spells end automatically when their duration expires.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion bordered divided&gt;
+  &lt;hbd-accordion-item title="Spell Components"&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Casting Time" open&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Spell Range"&gt;…&lt;/hbd-accordion-item&gt;
+  &lt;hbd-accordion-item title="Duration"&gt;…&lt;/hbd-accordion-item&gt;
+&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Multi mode -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Multi mode</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Multiple items can be open at once. Useful for independent sections
+            of a settings panel or a comparison table.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion mode="multi" bordered divided>
+              <hbd-accordion-item title="Spell Components" open>
+                <p>Verbal, somatic, and material components. Material components are consumed only when the spell explicitly says so.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time">
+                <p>Action, Bonus Action, Reaction, 1 Minute, 10 Minutes, or longer for rituals.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range" open>
+                <p>Self, Touch, or a distance in feet. Area-of-effect spells originate from a point within range.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration">
+                <p>Instantaneous, Concentration (until broken), or a timed window.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion mode="multi" bordered divided&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Bordered (no dividers) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Just the outer surface treatment — no dividers between items. Pair
+            with <code>divided</code> for the cleanest look (Groups 1 + 2 above).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range"><p>Self, Touch, or feet.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion bordered&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Divided (no border) -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Divided</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Dividers only — useful when the accordion sits inside an already-
+            bordered container.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion divided>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Spell Range"><p>Self, Touch, or feet.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion divided&gt;…&lt;/hbd-accordion&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · With disabled item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With disabled item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>disabled</code> renders the trigger non-interactive and skips
+            it during ArrowUp/ArrowDown navigation. Reduced opacity provides the
+            visual cue.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:560px;">
+            <hbd-accordion bordered divided>
+              <hbd-accordion-item title="Spell Components"><p>Verbal, somatic, material.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Casting Time"><p>Action / Bonus / Reaction / Ritual.</p></hbd-accordion-item>
+              <hbd-accordion-item title="Wish — locked, level 9 required" disabled>
+                <p>This entry is gated.</p>
+              </hbd-accordion-item>
+              <hbd-accordion-item title="Duration"><p>Instant, Concentration, or timed.</p></hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-accordion-item title="Wish — locked" disabled&gt;…&lt;/hbd-accordion-item&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Animation demonstration -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Animation demonstration</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Open this item to see the 350&nbsp;ms sliding animation. The panel's
+            <code>max-height</code> transitions from <code>0</code> to a
+            content-realistic ceiling at <code>--hbd-duration-slow</code> with
+            <code>--hbd-ease-out</code>. Override the ceiling per-item via
+            <code>--hbd-accordion-panel-max-height</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;max-width:640px;">
+            <hbd-accordion bordered>
+              <hbd-accordion-item title="The Tale of the Tarrasque">
+                <p>The tarrasque is the apex of devouring nature — a single creature so vast that whole baronies vanish where it walks. Sages disagree on its origin: some claim it slumbers beneath the earth, others that it is summoned by ancient curses left unattended.</p>
+                <p>What is certain is that no fortress survives unaltered after a tarrasque has passed. Walls become rubble, fields become craters, and the screams of the doomed echo across centuries in the bardic record.</p>
+                <p>Only the most foolhardy adventurers seek it. The wise prepare contingencies, study the old chants of binding, and pray to whichever gods have not yet abandoned the world.</p>
+                <p>Even slain, the tarrasque is said to leave a curse on the slayer — its bones forever hungering for the warmth of the living. Better to flee. Better to forget. Better to bury the road that leads to its lair and let the maps fall silent.</p>
+              </hbd-accordion-item>
+            </hbd-accordion>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>/* accordion.css */
+.hbd-accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity   var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-accordion__item--open .hbd-accordion__panel {
+  max-height: var(--hbd-accordion-panel-max-height, 40rem);
+  opacity: 1;
+}</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Accordion divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="12" width="24" height="6" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="10" y="20" width="24" height="6" rx="1" fill="#b8893b" stroke="#7a5a22" stroke-width="1.5" opacity="0.85"/>
+        <rect x="10" y="28" width="24" height="6" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <polyline points="28 22 30 24 32 22" fill="none" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TABLE ══════════════════════ -->
+    <section class="ds-section" id="component-table" aria-labelledby="heading-table">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;13</span>
+        <h2 class="ds-section__heading" id="heading-table">Table</h2>
+        <p class="ds-section__description">
+          Tables display structured data in rows and columns. Data is provided
+          via JavaScript properties (<code>table.columns</code>,
+          <code>table.rows</code>) rather than HTML children. The component
+          implements the full ARIA <code>role="grid"</code> keyboard pattern —
+          roving tabindex, arrow keys, <kbd>Home</kbd>/<kbd>End</kbd>,
+          <kbd>Ctrl+Home</kbd>/<kbd>Ctrl+End</kbd>. Header sorting is
+          activated with <kbd>Enter</kbd> or <kbd>Space</kbd>.
+        </p>
+
+        <!-- Shared dataset script — defines window.HBD_TABLE_SPELLS so
+             every group below can wire its own table without repeating
+             the data. -->
+        <script>
+          (function () {
+            if (window.HBD_TABLE_SPELLS) return;
+            window.HBD_TABLE_SPELLS = [
+              { id: 'fireball',   name: 'Fireball',     school: 'Evocation',   level: 3, casting: '1 Action' },
+              { id: 'mage-armor', name: 'Mage Armor',   school: 'Abjuration',  level: 1, casting: '1 Action' },
+              { id: 'cone-cold',  name: 'Cone of Cold', school: 'Evocation',   level: 5, casting: '1 Action' },
+              { id: 'lightning',  name: 'Lightning Bolt', school: 'Evocation', level: 3, casting: '1 Action' },
+              { id: 'invisibility', name: 'Invisibility', school: 'Illusion',  level: 2, casting: '1 Action' },
+            ];
+            window.HBD_TABLE_SPELLS_WIDE = window.HBD_TABLE_SPELLS.map(function (s) {
+              return Object.assign({}, s, {
+                range: '150 ft', duration: 'Instantaneous',
+                components: 'V, S, M', concentration: 'No',
+              });
+            });
+          })();
+        </script>
+
+        <!-- Group 1 · Basic table -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic table</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five rows × four columns of spell data, no sorting, no selection.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-basic" label="Spell list"></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" label="Spell list"&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  const t = document.getElementById('tbl');
+  t.columns = [
+    { key: 'name',    label: 'Name' },
+    { key: 'school',  label: 'School' },
+    { key: 'level',   label: 'Level', align: 'right' },
+    { key: 'casting', label: 'Casting Time' },
+  ];
+  t.rows = [ /* spells */ ];
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-basic');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 2 · Sortable columns -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sortable columns</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click any header (or focus it and press <kbd>Enter</kbd>) to sort.
+            Re-click to toggle direction. The component dispatches
+            <code>hbd:sort</code> on every change.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-sort" label="Sortable spell list" sortable></hbd-table>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Sort:&nbsp;<span id="tbl-sort-out">unsorted</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" sortable&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.columns = [
+    { key: 'name',  label: 'Name',  sortable: true },
+    { key: 'level', label: 'Level', sortable: true, align: 'right',
+      sortType: 'number' },
+    …
+  ];
+  t.addEventListener('hbd:sort', e =&gt; {
+    console.log(e.detail.key, e.detail.direction);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-sort');
+                var out = document.getElementById('tbl-sort-out');
+                if (!t || !out || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name',         sortable: true },
+                  { key: 'school',  label: 'School',       sortable: true },
+                  { key: 'level',   label: 'Level',        sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting', label: 'Casting Time', sortable: false },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+                t.addEventListener('hbd:sort', function (e) {
+                  out.textContent = e.detail.key + ' (' + e.detail.direction + ')';
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 3 · Row selection -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Row selection</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>selectable</code> adds a select-all checkbox in the header
+            row and a per-row checkbox column. The select-all reflects
+            indeterminate state when some (but not all) rows are selected.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-select" label="Selectable spell list" selectable sortable></hbd-table>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Selected:&nbsp;<span id="tbl-select-out">0 rows</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" selectable sortable&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.addEventListener('hbd:selection-change', e =&gt; {
+    console.log(e.detail.selected); // [...rowIds]
+  });
+
+  // Public API:
+  t.getSelectedRows();   // [...rowObjects]
+  t.clearSelection();
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-select');
+                var out = document.getElementById('tbl-select-out');
+                if (!t || !out || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name',         sortable: true },
+                  { key: 'school',  label: 'School',       sortable: true },
+                  { key: 'level',   label: 'Level',        sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+                t.addEventListener('hbd:selection-change', function (e) {
+                  var n = e.detail.selected.length;
+                  out.textContent = n + ' row' + (n === 1 ? '' : 's');
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 4 · Striped -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Striped</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-striped" label="Striped spell list" striped></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table striped&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-striped');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Bordered -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-bordered" label="Bordered spell list" bordered></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table bordered&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-bordered');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> 36px rows · <code>md</code> 48px (default)
+            · <code>lg</code> 64px. <code>sm</code> falls below the
+            SC&nbsp;2.5.8 preferred 44px touch target — use only for dense
+            secondary tables.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-table id="tbl-sm" label="Small spell list" size="sm" bordered></hbd-table>
+            <hbd-table id="tbl-md" label="Medium spell list" bordered></hbd-table>
+            <hbd-table id="tbl-lg" label="Large spell list" size="lg" bordered></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table size="sm"&gt;&lt;/hbd-table&gt;
+&lt;hbd-table          &gt;&lt;/hbd-table&gt;
+&lt;hbd-table size="lg"&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var ids = ['tbl-sm','tbl-md','tbl-lg'];
+                if (!window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                ids.forEach(function (id) {
+                  var t = document.getElementById(id);
+                  if (!t) return;
+                  t.columns = [
+                    { key: 'name',    label: 'Name' },
+                    { key: 'school',  label: 'School' },
+                    { key: 'level',   label: 'Level', align: 'right' },
+                  ];
+                  t.rows = window.HBD_TABLE_SPELLS.slice(0, 3);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 7 · Empty state -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Empty state</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>empty-text</code> sets the message shown when
+            <code>rows.length === 0</code>. The empty row spans all columns.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-empty"
+                       label="Empty spell list"
+                       bordered
+                       empty-text="No spells found. Search the tome again."></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table empty-text="No spells found."&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.columns = [/* columns */];
+  t.rows    = [];   // empty array → empty state appears
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-empty');
+                if (!t) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = [];
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8 · Sticky first column -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sticky first column</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Eight columns of spell metadata. <code>sticky-col</code> keeps the
+            spell name visible while the rest of the row scrolls horizontally.
+            Scroll the canvas sideways to see it in action.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-sticky"
+                       label="Wide spell list"
+                       bordered sortable sticky-col></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table sticky-col bordered sortable&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-sticky');
+                if (!t || !window.HBD_TABLE_SPELLS_WIDE) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',          label: 'Name',          sortable: true, width: '180px' },
+                  { key: 'school',        label: 'School',        sortable: true },
+                  { key: 'level',         label: 'Level',         sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting',       label: 'Casting Time' },
+                  { key: 'range',         label: 'Range' },
+                  { key: 'duration',      label: 'Duration' },
+                  { key: 'components',    label: 'Components' },
+                  { key: 'concentration', label: 'Concentration' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS_WIDE.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Table divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="11" width="26" height="22" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="9"  y1="18" x2="35" y2="18" stroke="#7a5a22" stroke-width="1.2"/>
+        <line x1="9"  y1="25" x2="35" y2="25" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
+        <line x1="22" y1="11" x2="22" y2="33" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
+        <rect x="9"  y="11" width="13" height="7" fill="#b8893b" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · PROGRESS ══════════════════════ -->
+    <section class="ds-section" id="component-progress" aria-labelledby="heading-progress">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;14</span>
+        <h2 class="ds-section__heading" id="heading-progress">Progress Bar</h2>
+        <p class="ds-section__description">
+          Progress bars communicate the completion status of a task. Use
+          <code>determinate</code> when the percentage is known,
+          <code>indeterminate</code> when the duration is unknown, and
+          <code>segmented</code> for step-based progress. The fill transition
+          runs at <code>--hbd-duration-slow</code> (350&nbsp;ms); reduced motion
+          is handled globally by <a href="#foundation-motion">motion.css</a>.
+        </p>
+
+        <!-- Group 1 · Determinate -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Determinate</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Set a <code>value</code> (0–<code>max</code>, default max 100). Add
+            <code>show-value</code> to render <code>N%</code> next to the label.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Loading spellbook"        value="0"   show-value></hbd-progress>
+            <hbd-progress label="Downloading tome"         value="25"  show-value></hbd-progress>
+            <hbd-progress label="Transcribing scroll"      value="66"  show-value></hbd-progress>
+            <hbd-progress label="Enchantment complete"     value="100" show-value variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress label="Loading spellbook" value="0"   show-value&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress label="Downloading tome"  value="25"  show-value&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress label="Enchantment complete" value="100" show-value variant="success"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Colour variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Colour variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>default</code>, <code>success</code>, <code>warning</code>,
+            <code>error</code>. The label text always carries the meaning; the
+            colour is supplementary (SC&nbsp;1.4.1).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Casting (default)"   value="60" show-value></hbd-progress>
+            <hbd-progress label="Spell succeeded"     value="60" show-value variant="success"></hbd-progress>
+            <hbd-progress label="Mana running low"    value="60" show-value variant="warning"></hbd-progress>
+            <hbd-progress label="Critical failure"    value="60" show-value variant="error"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress variant="success" value="60" show-value label="Spell succeeded"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress variant="warning" value="60" show-value label="Mana running low"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress variant="error"   value="60" show-value label="Critical failure"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> (4px) for inline status rows, <code>md</code> (8px)
+            default, <code>lg</code> (12px) for prominent operations.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Small" size="sm" value="50" show-value></hbd-progress>
+            <hbd-progress label="Medium"          value="50" show-value></hbd-progress>
+            <hbd-progress label="Large" size="lg" value="50" show-value></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress size="sm" value="50"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress           value="50"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress size="lg" value="50"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Indeterminate -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Indeterminate</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            No <code>value</code> attribute — duration unknown. The fill
+            shimmers across the track on a CSS animation; ARIA omits
+            <code>aria-valuenow</code> entirely (not an empty string, which
+            would be invalid).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Contacting the arcane network…"></hbd-progress>
+            <hbd-progress label="Summoning familiar…" variant="warning"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;!-- No value attribute → indeterminate mode --&gt;
+&lt;hbd-progress label="Contacting the arcane network…"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Striped -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Striped</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>striped</code> overlays an animated diagonal pattern on top of
+            the fill — a visual cue that a determinate process is still active.
+            The animation runs at <code>--hbd-duration-slow</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Enchanting weapon" value="40" show-value striped></hbd-progress>
+            <hbd-progress label="Brewing potion"    value="75" show-value striped variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress striped value="40" label="Enchanting weapon"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress striped variant="success" value="75" label="Brewing potion"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Segmented -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Segmented</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>segments="N"</code> divides the track into N equal cells.
+            The number of filled cells is <code>round(value / max × segments)</code>.
+            Useful for spell slots, rest counts, ammo, etc.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <hbd-progress label="Spell slots used"        segments="5"  value="2" max="5"></hbd-progress>
+            <hbd-progress label="Dungeon rooms explored"  segments="10" value="7" max="10"></hbd-progress>
+            <hbd-progress label="Rests taken"             segments="3"  value="3" max="3" variant="success"></hbd-progress>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-progress segments="5"  value="2" max="5"  label="Spell slots used"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress segments="10" value="7" max="10" label="Dungeon rooms explored"&gt;&lt;/hbd-progress&gt;
+&lt;hbd-progress segments="3"  value="3" max="3"  variant="success" label="Rests taken"&gt;&lt;/hbd-progress&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Live update demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Live update demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>setValue(n)</code> updates the fill width without rebuilding
+            the component, so the CSS transition stays smooth. Press
+            <strong>Start</strong> to increment by 10% every 500ms.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:480px;">
+            <hbd-progress id="progress-live" label="Casting Fireball" value="0" max="100" show-value></hbd-progress>
+            <div style="display:flex;gap:var(--hbd-space-2);">
+              <hbd-button id="progress-live-start" variant="primary">Start</hbd-button>
+              <hbd-button id="progress-live-reset" variant="default">Reset</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>const bar = document.getElementById('progress');
+const id  = setInterval(() =&gt; {
+  const next = (parseFloat(bar.getAttribute('value')) || 0) + 10;
+  if (next &gt; 100) { bar.setValue(0); }
+  else             { bar.setValue(next); }
+}, 500);</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var bar = document.getElementById('progress-live');
+                var start = document.getElementById('progress-live-start');
+                var reset = document.getElementById('progress-live-reset');
+                if (!bar || !start || !reset) return setTimeout(wire, 50);
+                var timer = null;
+                start.addEventListener('click', function () {
+                  if (timer) return;
+                  timer = setInterval(function () {
+                    var cur = parseFloat(bar.getAttribute('value')) || 0;
+                    var next = cur + 10;
+                    if (next > 100) next = 0;
+                    bar.setValue(next);
+                  }, 500);
+                });
+                reset.addEventListener('click', function () {
+                  if (timer) { clearInterval(timer); timer = null; }
+                  bar.setValue(0);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Progress divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="19" width="28" height="6" rx="3" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="9" y="20" width="14" height="4" rx="2" fill="#7a1212"/>
+        <circle cx="36" cy="22" r="2" fill="#b8893b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SKELETON ══════════════════════ -->
+    <section class="ds-section" id="component-skeleton" aria-labelledby="heading-skeleton">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;15</span>
+        <h2 class="ds-section__heading" id="heading-skeleton">Skeleton Loader</h2>
+        <p class="ds-section__description">
+          Skeleton loaders show the shape of content before it arrives, reducing
+          perceived load time and preventing layout shift. Each skeleton shape is
+          decorative (<code>aria-hidden="true"</code>); the containing element
+          carries <code>aria-busy="true"</code> while the placeholders are visible
+          and flips to <code>aria-busy="false"</code> once real content renders.
+          The shimmer animation runs at <code>--hbd-duration-pulse</code> (1.5&nbsp;s)
+          and respects <code>prefers-reduced-motion</code> via the global motion
+          override.
+        </p>
+
+        <!-- Group 1 · Shape variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Shape variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five primitive shapes. Text variants size to a text token, circle to
+            an avatar token, rect takes an author-supplied <code>height</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text</span>
+              <hbd-skeleton variant="text"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text-sm</span>
+              <hbd-skeleton variant="text-sm"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">text-lg</span>
+              <hbd-skeleton variant="text-lg"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">circle</span>
+              <hbd-skeleton variant="circle"></hbd-skeleton>
+            </div>
+            <div>
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">rect (height="80px")</span>
+              <hbd-skeleton variant="rect" height="80px"></hbd-skeleton>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="text"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text-sm"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text-lg"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="circle"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="rect" height="80px"&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Text block -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Text block</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five text lines with deterministic varied widths — never random, so
+            the placeholder looks identical on every render.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:480px;">
+            <hbd-skeleton variant="text" width="100%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="90%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="75%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="85%"></hbd-skeleton>
+            <hbd-skeleton variant="text" width="40%"></hbd-skeleton>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="text" width="100%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="90%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="75%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="85%"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="text" width="40%"&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Preset — avatar-text -->
+        <div class="ds-preview-group" id="component-skeleton-group">
+          <h3 class="ds-preview-group__label">Preset — avatar-text</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A circle plus two stacked text lines, used for user/profile rows.
+            Wrapped in a live region with <code>aria-busy="true"</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);max-width:480px;">
+            <div aria-busy="true" aria-label="Loading party roster" style="display:flex;flex-direction:column;gap:var(--hbd-space-4);">
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading party roster"&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Preset — card -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — card</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A media rect plus a heading and body lines. Use to mirror a card
+            grid while the images and copy load.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div aria-busy="true" aria-label="Loading card grid"
+                 style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-4);width:100%;">
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="card"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading card grid"&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;hbd-skeleton-group preset="card"&gt;&lt;/hbd-skeleton-group&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Preset — list-item -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — list-item</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Compact row matching <code>hbd-list</code> layout — leading avatar,
+            two text lines, trailing meta line.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:480px;">
+            <div aria-busy="true" aria-label="Loading spell list" style="display:flex;flex-direction:column;gap:var(--hbd-space-2);">
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="list-item"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading spell list"&gt;
+  &lt;hbd-skeleton-group preset="list-item"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Preset — table-row -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Preset — table-row</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A real table header row above five skeleton rows. Each row carries
+            <code>columns="4"</code> so the cells line up with the header.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);">
+            <div style="display:flex;gap:var(--hbd-space-3);padding:0 var(--hbd-space-3);">
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Name</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">School</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Level</span>
+              <span class="hbd-text-micro hbd-text-muted" style="flex:1;text-transform:uppercase;letter-spacing:var(--hbd-letter-spacing-label);">Cast time</span>
+            </div>
+            <div aria-busy="true" aria-label="Loading spell table" style="display:flex;flex-direction:column;gap:var(--hbd-space-2);">
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+              <hbd-skeleton-group preset="table-row" columns="4"></hbd-skeleton-group>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div aria-busy="true" aria-label="Loading spell table"&gt;
+  &lt;hbd-skeleton-group preset="table-row" columns="4"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · No shimmer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No shimmer</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Default shimmer next to the <code>no-shimmer</code> modifier. This
+            is the reduced-motion equivalent — under
+            <code>prefers-reduced-motion: reduce</code> all skeletons render
+            this way automatically.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;gap:var(--hbd-space-6);">
+            <div style="flex:1;">
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">Default (animated)</span>
+              <hbd-skeleton variant="rect" height="48px"></hbd-skeleton>
+            </div>
+            <div style="flex:1;">
+              <span class="hbd-text-micro hbd-text-muted" style="display:block;margin-bottom:var(--hbd-space-1);">no-shimmer</span>
+              <hbd-skeleton variant="rect" height="48px" no-shimmer></hbd-skeleton>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-skeleton variant="rect" height="48px"&gt;&lt;/hbd-skeleton&gt;
+&lt;hbd-skeleton variant="rect" height="48px" no-shimmer&gt;&lt;/hbd-skeleton&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 8 · aria-busy pattern -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">aria-busy pattern</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click to simulate content load. The wrapper toggles between
+            <code>aria-busy="true"</code> (skeletons visible) and
+            <code>aria-busy="false"</code> (real content visible). Assistive
+            tech announces the busy state change.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:480px;">
+            <div id="skeleton-aria-demo" aria-busy="true" aria-label="Loading hero card" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <div data-state="loading" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+                <hbd-skeleton-group preset="avatar-text"></hbd-skeleton-group>
+                <hbd-skeleton variant="text" width="95%"></hbd-skeleton>
+                <hbd-skeleton variant="text" width="75%"></hbd-skeleton>
+              </div>
+              <div data-state="loaded" hidden style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+                <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+                  <hbd-avatar size="md"></hbd-avatar>
+                  <div>
+                    <p class="hbd-text-body hbd-text-primary" style="margin:0;">Elenya Starweaver</p>
+                    <p class="hbd-text-label hbd-text-muted" style="margin:0;">Archmage · 17th level</p>
+                  </div>
+                </div>
+                <p class="hbd-text-body hbd-text-primary" style="margin:0;max-width:60ch;">
+                  Trained in the Tower of Lore, Elenya commands the eight schools of
+                  magic and has bound three legendary wyrms in her service.
+                </p>
+              </div>
+            </div>
+            <div>
+              <hbd-button id="skeleton-aria-toggle" variant="primary">Simulate load</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div id="hero" aria-busy="true" aria-label="Loading hero card"&gt;
+  &lt;!-- skeleton placeholders while loading --&gt;
+  &lt;hbd-skeleton-group preset="avatar-text"&gt;&lt;/hbd-skeleton-group&gt;
+  &lt;!-- … --&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  // when real data arrives
+  hero.setAttribute('aria-busy', 'false');
+  hero.querySelector('[data-state="loading"]').hidden = true;
+  hero.querySelector('[data-state="loaded"]').hidden  = false;
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var demo = document.getElementById('skeleton-aria-demo');
+                var toggle = document.getElementById('skeleton-aria-toggle');
+                if (!demo || !toggle) return setTimeout(wire, 50);
+                var loading = demo.querySelector('[data-state="loading"]');
+                var loaded  = demo.querySelector('[data-state="loaded"]');
+                toggle.addEventListener('click', function () {
+                  var isBusy = demo.getAttribute('aria-busy') === 'true';
+                  if (isBusy) {
+                    demo.setAttribute('aria-busy', 'false');
+                    loading.hidden = true;
+                    loaded.hidden  = false;
+                    toggle.textContent = 'Reset to loading';
+                  } else {
+                    demo.setAttribute('aria-busy', 'true');
+                    loading.hidden = false;
+                    loaded.hidden  = true;
+                    toggle.textContent = 'Simulate load';
+                  }
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Skeleton divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="14" width="24" height="3" rx="1.5" fill="#7a5a22" opacity="0.7"/>
+        <rect x="10" y="21" width="18" height="3" rx="1.5" fill="#7a5a22" opacity="0.55"/>
+        <rect x="10" y="28" width="12" height="3" rx="1.5" fill="#7a5a22" opacity="0.4"/>
+      </svg>
+    </div>
+
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
       <div class="container">
@@ -8608,6 +11256,40 @@ DC <span class="tok-val">20</span> <span class="tok-cmt">— Ancient inscription
       var a = e.target.closest('a[href="#"]');
       if (a) e.preventDefault();
     });
+
+    /* ─────────────────────────────────────────────────
+       COLLAPSIBLE TABLE OF CONTENTS
+       The heading row is a button that toggles the
+       grouped region below it. State is persisted in
+       localStorage under 'hbd-ds-toc-collapsed' so the
+       user's choice survives page reloads.
+    ───────────────────────────────────────────────── */
+    (function () {
+      var STORAGE_KEY = 'hbd-ds-toc-collapsed';
+      var nav    = document.getElementById('ds-toc');
+      var toggle = nav && nav.querySelector('[data-ds-toc-toggle]');
+      var groups = document.getElementById('ds-toc-groups');
+      if (!nav || !toggle || !groups) return;
+
+      function apply(collapsed) {
+        nav.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
+        toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        // display:none in CSS already removes it from layout; the
+        // explicit aria-hidden is belt-and-braces for AT that walks
+        // hidden subtrees (e.g. some screen readers).
+        groups.setAttribute('aria-hidden', collapsed ? 'true' : 'false');
+      }
+
+      var stored = null;
+      try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* private mode */ }
+      apply(stored === 'true');
+
+      toggle.addEventListener('click', function () {
+        var nowCollapsed = nav.getAttribute('data-collapsed') !== 'true';
+        apply(nowCollapsed);
+        try { localStorage.setItem(STORAGE_KEY, String(nowCollapsed)); } catch (e) { /* ignore */ }
+      });
+    })();
   </script>
 
 </body>

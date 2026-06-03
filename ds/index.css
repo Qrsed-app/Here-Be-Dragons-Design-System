@@ -22,9 +22,13 @@
 @import './styles/foundations/spacing.css';
 
 /* 5. Components — alphabetical */
+@import './styles/components/accordion.css';
+@import './styles/components/avatar.css';
+@import './styles/components/badge.css';
 @import './styles/components/breadcrumbs.css';
 @import './styles/components/button.css';
 @import './styles/components/callout.css';
+@import './styles/components/card.css';
 @import './styles/components/checkbox.css';
 @import './styles/components/codeblock.css';
 @import './styles/components/date-picker.css';
@@ -32,14 +36,20 @@
 @import './styles/components/drawer.css';
 @import './styles/components/file-upload.css';
 @import './styles/components/input.css';
+@import './styles/components/list.css';
 @import './styles/components/menu.css';
 @import './styles/components/navbar.css';
 @import './styles/components/pagination.css';
+@import './styles/components/popover.css';
+@import './styles/components/progress.css';
+@import './styles/components/skeleton.css';
 @import './styles/components/spell-card.css';
 @import './styles/components/stat-block.css';
 @import './styles/components/stepper.css';
+@import './styles/components/table.css';
 @import './styles/components/tabs.css';
 @import './styles/components/time-picker.css';
+@import './styles/components/tooltip.css';
 
 /* 6. Patterns */
 @import './styles/components/form-validation.css';

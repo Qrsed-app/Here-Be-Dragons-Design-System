@@ -1,0 +1,98 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/tooltip.css
+ *
+ * Singleton floating tooltip. There is ONE .hbd-tooltip panel in the
+ * document; its placement modifier + position are mutated by
+ * hbd-tooltip.js for each active trigger. Authors do not write
+ * .hbd-tooltip markup directly — they wrap a trigger element in
+ * <hbd-tooltip content="…">.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ */
+
+/* ── 1 · Panel ────────────────────────────────────────────────────── */
+/* position:fixed (not absolute) so the tooltip is NEVER clipped by
+   an ancestor's overflow:hidden — the rect lives in viewport space
+   and the JS writes top/left from getBoundingClientRect(). */
+.hbd-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--hbd-z-tooltip);
+  max-width: var(--hbd-tooltip-max-width);
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  background: var(--hbd-color-text-primary);
+  color: var(--hbd-color-text-inverse);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  font-weight: var(--hbd-font-weight-regular);
+  line-height: var(--hbd-line-height-snug);
+  letter-spacing: var(--hbd-letter-spacing-normal);
+  text-transform: none;
+  border-radius: var(--hbd-radius-sm);
+  box-shadow: var(--hbd-shadow-md);
+  /* pointer-events:none keeps the tooltip from intercepting mouse
+     events on whatever sits beneath it. KNOWN LIMITATION (SC 1.4.13
+     "Hoverable"): the user cannot move the pointer onto the tooltip
+     itself without it dismissing. Acceptable here because tooltips
+     never contain interactive or selectable content by design. */
+  pointer-events: none;
+  white-space: normal;
+  word-wrap: break-word;
+  opacity: 0;
+  /* The visible/hidden flip is opacity-only — the panel stays in
+     the DOM. transition-property opacity so prefers-reduced-motion
+     can collapse it cleanly via the global motion override. */
+  transition: opacity var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+.hbd-tooltip--visible {
+  opacity: 1;
+}
+
+/* ── 2 · Arrow ────────────────────────────────────────────────────── */
+/* The arrow is a CSS triangle: a zero-width/height box with a thick
+   coloured border on one side. The placement modifier on the panel
+   selects which side the arrow points from. */
+.hbd-tooltip__arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: var(--hbd-tooltip-arrow-size) solid transparent;
+  pointer-events: none;
+}
+
+.hbd-tooltip--top .hbd-tooltip__arrow {
+  bottom: calc(-2 * var(--hbd-tooltip-arrow-size));
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--hbd-color-text-primary);
+}
+
+.hbd-tooltip--bottom .hbd-tooltip__arrow {
+  top: calc(-2 * var(--hbd-tooltip-arrow-size));
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--hbd-color-text-primary);
+}
+
+.hbd-tooltip--left .hbd-tooltip__arrow {
+  right: calc(-2 * var(--hbd-tooltip-arrow-size));
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--hbd-color-text-primary);
+}
+
+.hbd-tooltip--right .hbd-tooltip__arrow {
+  left: calc(-2 * var(--hbd-tooltip-arrow-size));
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--hbd-color-text-primary);
+}
+
+/* ── 3 · Content ──────────────────────────────────────────────────── */
+.hbd-tooltip__content {
+  display: inline;
+}

@@ -164,10 +164,12 @@
 /* ── Icon-only modifier ─────────────────────────────────────────────── */
 /* Square button containing only an icon — no visible text. The inner
    button keeps an aria-label sourced from the host (enforced in
-   hbd-button.js), which doubles as the CSS tooltip content via attr().
-   Stacks with the existing variant + size classes. */
+   hbd-button.js). For visible-on-hover/focus tooltip behaviour, wrap
+   this button in <hbd-tooltip content="…"> — see the Tooltip preview.
+   The earlier CSS ::after tooltip was removed when hbd-tooltip
+   superseded it (Phase 4 · C-22 → tooltip migration). Stacks with
+   the existing variant + size classes. */
 .hbd-button--icon-only {
-  position: relative;
   padding: var(--hbd-space-2);
   aspect-ratio: 1;
   flex-shrink: 0;
@@ -199,45 +201,13 @@
   height: var(--hbd-space-6);
 }
 
-/* ── Tooltip on hover / focus ───────────────────────────────────────── */
-/* Pure CSS tooltip — content sourced from the inner button's aria-label
-   via attr(). This guarantees the visible tooltip ALWAYS matches the
-   accessible name. When aria-label is absent the tooltip content is
-   empty and the bubble collapses (also hidden by attribute-presence
-   check in the :hover/:focus rule). The js layer adds .tooltip-dismissed
-   in response to Escape (SC 1.4.13 Dismissible). */
-.hbd-button--icon-only::after {
-  content: attr(aria-label);
-  position: absolute;
-  bottom: calc(100% + var(--hbd-space-1));
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: var(--hbd-space-1) var(--hbd-space-2);
-  background: var(--hbd-color-text-primary);
-  color: var(--hbd-color-text-inverse);
-  font-family: var(--hbd-font-family-ui);
-  font-size: var(--hbd-font-size-micro);
-  font-weight: var(--hbd-font-weight-regular);
-  letter-spacing: var(--hbd-letter-spacing-normal);
-  text-transform: none;
-  border-radius: var(--hbd-radius-sm);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--hbd-duration-fast) var(--hbd-ease-out);
-  z-index: var(--hbd-z-tooltip);
-}
-
-.hbd-button--icon-only[aria-label]:hover::after,
-.hbd-button--icon-only[aria-label]:focus-visible::after {
-  opacity: 1;
-}
-
-/* Escape dismissal — JS adds .tooltip-dismissed; class is removed on
-   the next mouseleave / blur so the tooltip can reappear on next focus. */
-.hbd-button--icon-only.tooltip-dismissed::after {
-  opacity: 0 !important;
-}
+/* ── Tooltip on hover / focus — REMOVED in Phase 4 ──────────────────── */
+/* The previous CSS ::after tooltip was replaced by the hbd-tooltip
+   component. Icon buttons that need a hover/focus label should be
+   wrapped in <hbd-tooltip content="…"> — see ds/components/hbd-tooltip.js
+   and the Tooltip preview section. The aria-label on the inner button
+   is unchanged and still drives the accessible name; hbd-tooltip
+   provides the visible label. */
 
 /* ── Pressed (toggle) state ─────────────────────────────────────────── */
 /* Applied when a toggle button is "on". Reuses the action surface +

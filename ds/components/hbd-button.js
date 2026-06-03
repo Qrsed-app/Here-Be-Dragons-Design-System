@@ -18,9 +18,6 @@ class HbdButton extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this._handleClick = this._handleClick.bind(this);
-    this._onTooltipKeydown = this._onTooltipKeydown.bind(this);
-    this._onTooltipMouseLeave = this._onTooltipMouseLeave.bind(this);
-    this._onTooltipBlur = this._onTooltipBlur.bind(this);
   }
 
   connectedCallback() {
@@ -31,18 +28,18 @@ class HbdButton extends HTMLElement {
     this._render();
     this._upgradeAccessibility();
     this.shadowRoot.addEventListener('click', this._handleClick);
-    this._wireTooltipListeners();
   }
 
   disconnectedCallback() {
     this.shadowRoot.removeEventListener('click', this._handleClick);
-    this._unwireTooltipListeners();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal !== newVal) {
-      // aria-label change doesn't need a structural re-render; just propagate
-      // to the inner <button> so the CSS tooltip's attr() picks it up.
+      // aria-label change doesn't need a structural re-render; just
+      // propagate to the inner <button> so the accessible name stays
+      // in sync. (The previous CSS-tooltip attr() consumer was
+      // removed when hbd-tooltip superseded it.)
       if (name === 'aria-label') {
         const innerBtn = this.shadowRoot && this.shadowRoot.querySelector('button');
         if (innerBtn) {
@@ -54,8 +51,6 @@ class HbdButton extends HTMLElement {
       }
       this._render();
       this._upgradeAccessibility();
-      // Re-wire tooltip listeners on the freshly-rendered inner button.
-      this._wireTooltipListeners();
     }
   }
 
@@ -177,46 +172,6 @@ class HbdButton extends HTMLElement {
     }));
   }
 
-  // ── Tooltip dismissal (SC 1.4.13) ─────────────────────────────────────
-  // The CSS tooltip on icon-only buttons must be dismissible without
-  // moving focus. Escape adds .tooltip-dismissed which forces the bubble
-  // to opacity 0 even while the button is hovered/focused. The class is
-  // cleared on the next blur/mouseleave so the tooltip can reappear on
-  // the user's next interaction.
-  _wireTooltipListeners() {
-    if (!this.hasAttribute('icon-only')) return;
-    const btn = this.shadowRoot.querySelector('button.hbd-button--icon-only');
-    if (!btn) return;
-    // Re-wire is idempotent because we use named handlers; remove first.
-    btn.removeEventListener('keydown', this._onTooltipKeydown);
-    btn.removeEventListener('mouseleave', this._onTooltipMouseLeave);
-    btn.removeEventListener('blur', this._onTooltipBlur);
-    btn.addEventListener('keydown', this._onTooltipKeydown);
-    btn.addEventListener('mouseleave', this._onTooltipMouseLeave);
-    btn.addEventListener('blur', this._onTooltipBlur);
-  }
-  _unwireTooltipListeners() {
-    const btn = this.shadowRoot && this.shadowRoot.querySelector('button.hbd-button--icon-only');
-    if (!btn) return;
-    btn.removeEventListener('keydown', this._onTooltipKeydown);
-    btn.removeEventListener('mouseleave', this._onTooltipMouseLeave);
-    btn.removeEventListener('blur', this._onTooltipBlur);
-  }
-  _onTooltipKeydown(e) {
-    if (e.key !== 'Escape') return;
-    const btn = e.currentTarget;
-    if (btn) btn.classList.add('tooltip-dismissed');
-    // Do not preventDefault — the user may legitimately want Escape to
-    // bubble further (e.g. close a parent dialog). The tooltip just hides.
-  }
-  _onTooltipMouseLeave(e) {
-    const btn = e.currentTarget;
-    if (btn) btn.classList.remove('tooltip-dismissed');
-  }
-  _onTooltipBlur(e) {
-    const btn = e.currentTarget;
-    if (btn) btn.classList.remove('tooltip-dismissed');
-  }
 }
 
 if (!customElements.get('hbd-button')) {
