@@ -353,6 +353,12 @@
   --hbd-list-item-min-height-sm: 36px;
   --hbd-list-item-min-height-lg: 64px;
 
+  /* ── table ─────────────────────────────────────────────── */
+  --hbd-table-row-height: 48px;
+  --hbd-table-row-height-sm: 36px;
+  --hbd-table-row-height-lg: 64px;
+  --hbd-table-header-height: 40px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);

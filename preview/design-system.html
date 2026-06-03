@@ -2237,6 +2237,7 @@
               <li><a class="ds-toc__link" href="#component-list">List</a></li>
               <li><a class="ds-toc__link" href="#component-spell-card">Spell Card</a></li>
               <li><a class="ds-toc__link" href="#component-stat-block">Stat Block</a></li>
+              <li><a class="ds-toc__link" href="#component-table">Table</a></li>
             </ul>
           </div>
 
@@ -9646,6 +9647,375 @@ next.addEventListener('click', () =&gt; stepper.next());</code></pre>
         <rect x="10" y="20" width="24" height="6" rx="1" fill="#b8893b" stroke="#7a5a22" stroke-width="1.5" opacity="0.85"/>
         <rect x="10" y="28" width="24" height="6" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
         <polyline points="28 22 30 24 32 22" fill="none" stroke="#7a1212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TABLE ══════════════════════ -->
+    <section class="ds-section" id="component-table" aria-labelledby="heading-table">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;13</span>
+        <h2 class="ds-section__heading" id="heading-table">Table</h2>
+        <p class="ds-section__description">
+          Tables display structured data in rows and columns. Data is provided
+          via JavaScript properties (<code>table.columns</code>,
+          <code>table.rows</code>) rather than HTML children. The component
+          implements the full ARIA <code>role="grid"</code> keyboard pattern —
+          roving tabindex, arrow keys, <kbd>Home</kbd>/<kbd>End</kbd>,
+          <kbd>Ctrl+Home</kbd>/<kbd>Ctrl+End</kbd>. Header sorting is
+          activated with <kbd>Enter</kbd> or <kbd>Space</kbd>.
+        </p>
+
+        <!-- Shared dataset script — defines window.HBD_TABLE_SPELLS so
+             every group below can wire its own table without repeating
+             the data. -->
+        <script>
+          (function () {
+            if (window.HBD_TABLE_SPELLS) return;
+            window.HBD_TABLE_SPELLS = [
+              { id: 'fireball',   name: 'Fireball',     school: 'Evocation',   level: 3, casting: '1 Action' },
+              { id: 'mage-armor', name: 'Mage Armor',   school: 'Abjuration',  level: 1, casting: '1 Action' },
+              { id: 'cone-cold',  name: 'Cone of Cold', school: 'Evocation',   level: 5, casting: '1 Action' },
+              { id: 'lightning',  name: 'Lightning Bolt', school: 'Evocation', level: 3, casting: '1 Action' },
+              { id: 'invisibility', name: 'Invisibility', school: 'Illusion',  level: 2, casting: '1 Action' },
+            ];
+            window.HBD_TABLE_SPELLS_WIDE = window.HBD_TABLE_SPELLS.map(function (s) {
+              return Object.assign({}, s, {
+                range: '150 ft', duration: 'Instantaneous',
+                components: 'V, S, M', concentration: 'No',
+              });
+            });
+          })();
+        </script>
+
+        <!-- Group 1 · Basic table -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic table</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five rows × four columns of spell data, no sorting, no selection.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-basic" label="Spell list"></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" label="Spell list"&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  const t = document.getElementById('tbl');
+  t.columns = [
+    { key: 'name',    label: 'Name' },
+    { key: 'school',  label: 'School' },
+    { key: 'level',   label: 'Level', align: 'right' },
+    { key: 'casting', label: 'Casting Time' },
+  ];
+  t.rows = [ /* spells */ ];
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-basic');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 2 · Sortable columns -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sortable columns</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Click any header (or focus it and press <kbd>Enter</kbd>) to sort.
+            Re-click to toggle direction. The component dispatches
+            <code>hbd:sort</code> on every change.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-sort" label="Sortable spell list" sortable></hbd-table>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Sort:&nbsp;<span id="tbl-sort-out">unsorted</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" sortable&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.columns = [
+    { key: 'name',  label: 'Name',  sortable: true },
+    { key: 'level', label: 'Level', sortable: true, align: 'right',
+      sortType: 'number' },
+    …
+  ];
+  t.addEventListener('hbd:sort', e =&gt; {
+    console.log(e.detail.key, e.detail.direction);
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-sort');
+                var out = document.getElementById('tbl-sort-out');
+                if (!t || !out || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name',         sortable: true },
+                  { key: 'school',  label: 'School',       sortable: true },
+                  { key: 'level',   label: 'Level',        sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting', label: 'Casting Time', sortable: false },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+                t.addEventListener('hbd:sort', function (e) {
+                  out.textContent = e.detail.key + ' (' + e.detail.direction + ')';
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 3 · Row selection -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Row selection</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>selectable</code> adds a select-all checkbox in the header
+            row and a per-row checkbox column. The select-all reflects
+            indeterminate state when some (but not all) rows are selected.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-select" label="Selectable spell list" selectable sortable></hbd-table>
+          </div>
+          <p class="hbd-text-body hbd-text-primary" style="margin:var(--hbd-space-3) 0 0;">
+            Selected:&nbsp;<span id="tbl-select-out">0 rows</span>
+          </p>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table id="tbl" selectable sortable&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.addEventListener('hbd:selection-change', e =&gt; {
+    console.log(e.detail.selected); // [...rowIds]
+  });
+
+  // Public API:
+  t.getSelectedRows();   // [...rowObjects]
+  t.clearSelection();
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-select');
+                var out = document.getElementById('tbl-select-out');
+                if (!t || !out || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name',         sortable: true },
+                  { key: 'school',  label: 'School',       sortable: true },
+                  { key: 'level',   label: 'Level',        sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+                t.addEventListener('hbd:selection-change', function (e) {
+                  var n = e.detail.selected.length;
+                  out.textContent = n + ' row' + (n === 1 ? '' : 's');
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 4 · Striped -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Striped</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-striped" label="Striped spell list" striped></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table striped&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-striped');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Bordered -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Bordered</h3>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-bordered" label="Bordered spell list" bordered></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table bordered&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-bordered');
+                if (!t || !window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 6 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> 36px rows · <code>md</code> 48px (default)
+            · <code>lg</code> 64px. <code>sm</code> falls below the
+            SC&nbsp;2.5.8 preferred 44px touch target — use only for dense
+            secondary tables.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <hbd-table id="tbl-sm" label="Small spell list" size="sm" bordered></hbd-table>
+            <hbd-table id="tbl-md" label="Medium spell list" bordered></hbd-table>
+            <hbd-table id="tbl-lg" label="Large spell list" size="lg" bordered></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table size="sm"&gt;&lt;/hbd-table&gt;
+&lt;hbd-table          &gt;&lt;/hbd-table&gt;
+&lt;hbd-table size="lg"&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var ids = ['tbl-sm','tbl-md','tbl-lg'];
+                if (!window.HBD_TABLE_SPELLS) return setTimeout(wire, 50);
+                ids.forEach(function (id) {
+                  var t = document.getElementById(id);
+                  if (!t) return;
+                  t.columns = [
+                    { key: 'name',    label: 'Name' },
+                    { key: 'school',  label: 'School' },
+                    { key: 'level',   label: 'Level', align: 'right' },
+                  ];
+                  t.rows = window.HBD_TABLE_SPELLS.slice(0, 3);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 7 · Empty state -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Empty state</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>empty-text</code> sets the message shown when
+            <code>rows.length === 0</code>. The empty row spans all columns.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-empty"
+                       label="Empty spell list"
+                       bordered
+                       empty-text="No spells found. Search the tome again."></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table empty-text="No spells found."&gt;&lt;/hbd-table&gt;
+&lt;script&gt;
+  t.columns = [/* columns */];
+  t.rows    = [];   // empty array → empty state appears
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-empty');
+                if (!t) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',    label: 'Name' },
+                  { key: 'school',  label: 'School' },
+                  { key: 'level',   label: 'Level', align: 'right' },
+                  { key: 'casting', label: 'Casting Time' },
+                ];
+                t.rows = [];
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 8 · Sticky first column -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sticky first column</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Eight columns of spell metadata. <code>sticky-col</code> keeps the
+            spell name visible while the rest of the row scrolls horizontally.
+            Scroll the canvas sideways to see it in action.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;">
+            <hbd-table id="tbl-sticky"
+                       label="Wide spell list"
+                       bordered sortable sticky-col></hbd-table>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-table sticky-col bordered sortable&gt;&lt;/hbd-table&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var t = document.getElementById('tbl-sticky');
+                if (!t || !window.HBD_TABLE_SPELLS_WIDE) return setTimeout(wire, 50);
+                t.columns = [
+                  { key: 'name',          label: 'Name',          sortable: true, width: '180px' },
+                  { key: 'school',        label: 'School',        sortable: true },
+                  { key: 'level',         label: 'Level',         sortable: true, align: 'right', sortType: 'number' },
+                  { key: 'casting',       label: 'Casting Time' },
+                  { key: 'range',         label: 'Range' },
+                  { key: 'duration',      label: 'Duration' },
+                  { key: 'components',    label: 'Components' },
+                  { key: 'concentration', label: 'Concentration' },
+                ];
+                t.rows = window.HBD_TABLE_SPELLS_WIDE.slice();
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Table divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="9" y="11" width="26" height="22" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="9"  y1="18" x2="35" y2="18" stroke="#7a5a22" stroke-width="1.2"/>
+        <line x1="9"  y1="25" x2="35" y2="25" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
+        <line x1="22" y1="11" x2="22" y2="33" stroke="#7a5a22" stroke-width="1"  opacity="0.7"/>
+        <rect x="9"  y="11" width="13" height="7" fill="#b8893b" opacity="0.4"/>
       </svg>
     </div>
 
