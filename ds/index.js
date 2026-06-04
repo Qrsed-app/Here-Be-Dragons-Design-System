@@ -18,6 +18,7 @@ preloadStyles([
   '/ds/styles/components/form-validation.css',
   '/ds/styles/components/input.css',
   '/ds/styles/components/menu.css',
+  '/ds/styles/components/modal.css',
   '/ds/styles/components/navbar.css',
   '/ds/styles/components/pagination.css',
   '/ds/styles/components/tabs.css',
@@ -46,6 +47,7 @@ import './components/hbd-empty.js';
 import './components/hbd-file-upload.js';
 import './components/hbd-input.js';
 import './components/hbd-list.js';
+import './components/hbd-modal.js';
 import './components/hbd-navbar.js';
 import './components/hbd-otp-input.js';
 import './components/hbd-pagination.js';

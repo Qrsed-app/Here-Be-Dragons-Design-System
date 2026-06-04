@@ -1,0 +1,181 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/modal.css
+ *
+ * Modal / dialog — overlays the page with a focused task. Unlike a
+ * drawer it is centred on the screen, sized in absolute units, and
+ * blocks interaction with the page behind via the backdrop.
+ *
+ * Three size variants (--sm / default / --lg / --full) and two
+ * semantic sub-types (--alert for alertdialog). The JS layer drives
+ * the role/aria-modal/labelling; the CSS is type-agnostic.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ * - The backdrop scrim uses rgba(ink-900, 0.7). A semi-transparent
+ *   scrim can't be expressed as a single --hbd-color-* token; this
+ *   is the documented inline-rgba exception, same pattern as drawer.
+ *   Drawer uses 0.6; modal is heavier-blocking and uses 0.7 because
+ *   it must prevent the user from interpreting the page behind as
+ *   interactive at all.
+ *
+ * Reduced motion: the global @media override in foundations/motion.css
+ * collapses these transitions to 0.01ms.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+/* display:contents while closed so the wrapper occupies no layout
+   space; backdrop + container become a fixed overlay when .is-open
+   is applied. Same pattern as hbd-drawer. */
+.hbd-modal {
+  display: contents;
+}
+
+/* ── 2 · Backdrop ─────────────────────────────────────────────────── */
+.hbd-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hbd-z-overlay);
+  background: rgba(26, 20, 16, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-modal.is-open .hbd-modal__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hbd-modal.is-closing .hbd-modal__backdrop {
+  opacity: 0;
+  /* Keep pointer-events on during exit so a stray click during the
+     animation can't fall through to the page underneath. */
+  pointer-events: auto;
+}
+
+/* ── 3 · Container — centres the dialog ──────────────────────────── */
+.hbd-modal__container {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hbd-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hbd-space-4);
+  pointer-events: none;
+}
+.hbd-modal.is-open .hbd-modal__container {
+  pointer-events: auto;
+}
+
+/* ── 4 · Dialog box ───────────────────────────────────────────────── */
+.hbd-modal__dialog {
+  position: relative;
+  background: var(--hbd-color-surface-default);
+  border-radius: var(--hbd-radius-lg);
+  box-shadow: var(--hbd-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--hbd-modal-width-md);
+  max-height: var(--hbd-modal-max-height);
+  /*
+   * overflow:hidden clips the header + footer separators against the
+   * rounded corners. The inner body owns its own scrolling so this
+   * doesn't trap content.
+   */
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(var(--hbd-space-4)) scale(0.97);
+  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out),
+              transform var(--hbd-duration-normal) var(--hbd-ease-out);
+  font-family: var(--hbd-font-family-ui);
+  color: var(--hbd-color-text-primary);
+}
+
+.hbd-modal.is-open .hbd-modal__dialog {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.hbd-modal.is-closing .hbd-modal__dialog {
+  opacity: 0;
+  transform: translateY(var(--hbd-space-4)) scale(0.97);
+}
+
+/* Sizes ------------------------------------------------------------ */
+.hbd-modal--sm .hbd-modal__dialog { max-width: var(--hbd-modal-width-sm); }
+.hbd-modal--lg .hbd-modal__dialog { max-width: var(--hbd-modal-width-lg); }
+.hbd-modal--full .hbd-modal__dialog {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  margin: 0;
+}
+.hbd-modal--full .hbd-modal__container {
+  padding: 0;
+}
+
+/* ── 5 · Header ───────────────────────────────────────────────────── */
+.hbd-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-4);
+  padding: var(--hbd-space-4) var(--hbd-space-6) var(--hbd-space-3);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+
+.hbd-modal__title {
+  font-family: var(--hbd-font-family-accent);
+  font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-bold);
+  letter-spacing: var(--hbd-letter-spacing-display);
+  color: var(--hbd-color-text-primary);
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  line-height: var(--hbd-line-height-snug);
+}
+
+.hbd-modal__close {
+  flex-shrink: 0;
+}
+
+/* When the header has no title (some authors omit it) the close
+   button still anchors at the right edge — flex justify-content
+   already handles that. The empty title cell uses a placeholder
+   <span> from the JS so the row stays a two-child flex. */
+
+/* ── 6 · Body ─────────────────────────────────────────────────────── */
+.hbd-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--hbd-space-4) var(--hbd-space-6);
+  /*
+   * overscroll-behavior:contain stops a scroll near the body edge
+   * from leaking out to the page behind the modal.
+   */
+  overscroll-behavior: contain;
+  color: var(--hbd-color-text-primary);
+  font-size: var(--hbd-font-size-body);
+  line-height: var(--hbd-line-height-body);
+}
+
+/* ── 7 · Footer ───────────────────────────────────────────────────── */
+.hbd-modal__footer {
+  display: flex;
+  gap: var(--hbd-space-2);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  padding: var(--hbd-space-3) var(--hbd-space-6) var(--hbd-space-4);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+
+/* When nothing is slotted into the footer the JS sets data-empty so
+   the row + its separator collapse out of the way. */
+.hbd-modal__footer[data-empty="true"] {
+  display: none;
+}

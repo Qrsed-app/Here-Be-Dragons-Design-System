@@ -2209,6 +2209,7 @@
               <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
               <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
               <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+              <li><a class="ds-toc__link" href="#component-modal">Modal</a></li>
               <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
               <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
               <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
@@ -11194,6 +11195,330 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
         <rect x="10" y="29" width="8" height="1.5" fill="#7a1212"/>
       </svg>
     </div>
+
+    <!-- ══════════════════════ COMPONENT · MODAL ══════════════════════ -->
+    <section class="ds-section" id="component-modal" aria-labelledby="heading-modal">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;19</span>
+        <h2 class="ds-section__heading" id="heading-modal">Modal</h2>
+        <p class="ds-section__description">
+          Modals focus attention on a single task and block the page
+          behind. Use sparingly &mdash; prefer
+          <a href="#component-drawer">drawers</a> for navigation and
+          inline components for forms that don&rsquo;t require full
+          isolation. Escape <em>always</em> closes the modal
+          (SC&nbsp;2.1.2 &mdash; no attribute may remove the keyboard
+          exit path); focus returns to the trigger element on close.
+        </p>
+
+        <!-- Group 1 · Basic dialog -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic dialog</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Title + body + footer. Focus moves into the dialog on
+            open, stays trapped while open, and returns to the
+            triggering button on close.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button id="modal-basic-trigger" variant="primary">Prepare a spell</hbd-button>
+          </div>
+          <hbd-modal id="modal-basic" size="md" title="Prepare Spell">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <label class="hbd-text-label hbd-text-primary" for="modal-basic-name">Spell name</label>
+              <input
+                id="modal-basic-name"
+                type="text"
+                value="Magic Missile"
+                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              <label class="hbd-text-label hbd-text-primary" for="modal-basic-level" style="margin-top:var(--hbd-space-2);">Spell level</label>
+              <select
+                id="modal-basic-level"
+                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+                <option>Cantrip</option>
+                <option selected>1st level</option>
+                <option>2nd level</option>
+                <option>3rd level</option>
+              </select>
+            </div>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-basic" variant="default">Cancel</hbd-button>
+              <hbd-button data-close-modal="modal-basic" variant="primary">Prepare</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal id="prep" title="Prepare Spell"&gt;
+  &lt;label&gt;Spell name&lt;/label&gt;
+  &lt;input type="text" value="Magic Missile"&gt;
+  &lt;div slot="footer"&gt;
+    &lt;hbd-button variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button variant="primary"&gt;Prepare&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-modal&gt;
+&lt;script&gt;
+  document.getElementById('prep-trigger').addEventListener('click', () =&gt; {
+    document.getElementById('prep').show();
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> (400&nbsp;px) for confirmations,
+            <code>md</code> (560&nbsp;px) default,
+            <code>lg</code> (720&nbsp;px) for detailed forms,
+            <code>full</code> for full-screen takeovers.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-size-sm"   variant="default">sm</hbd-button>
+            <hbd-button data-open-modal="modal-size-md"   variant="default">md</hbd-button>
+            <hbd-button data-open-modal="modal-size-lg"   variant="default">lg</hbd-button>
+            <hbd-button data-open-modal="modal-size-full" variant="default">full-screen</hbd-button>
+          </div>
+          <hbd-modal id="modal-size-sm" size="sm" title="Compact dialog">
+            <p>This dialog is sized for short confirmations and yes/no choices.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-size-sm" variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-md" title="Default dialog">
+            <p>Most dialogs use the default medium size &mdash; comfortable
+            for a label-input pair or a paragraph of context.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-size-md" variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-lg" size="lg" title="Wide dialog">
+            <p>The large size is appropriate for multi-column forms, table
+            previews, or detailed entity editors.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-size-lg" variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-full" size="full" title="Full-screen takeover">
+            <p>A full-screen modal fills the entire viewport. Use this
+            sparingly &mdash; usually only for immersive editors or wizards
+            where the surrounding page must completely disappear.</p>
+            <p>Note that even at full-screen size, Escape still closes the
+            modal and focus still returns to the trigger.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-size-full" variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal size="sm"   title="Compact dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal             title="Default dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal size="lg"   title="Wide dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal size="full" title="Full-screen takeover"&gt;&hellip;&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Long scrollable content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long scrollable content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The body area scrolls independently when content exceeds
+            <code>--hbd-modal-max-height</code> (90&nbsp;vh). Header and
+            footer stay pinned. <code>overscroll-behavior:contain</code>
+            keeps a scroll near the edge from leaking to the page.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-scroll" variant="default">Open the bestiary</hbd-button>
+          </div>
+          <hbd-modal id="modal-scroll" title="The Bestiary of Faerûn">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <p>Below is a partial listing of creatures known to the
+              chroniclers of the Realms. The body of this modal scrolls
+              independently of the header and footer.</p>
+              <p><strong>Ancient Red Dragon.</strong> Lairs in volcanic peaks. CR 24. Breath weapon: 90-foot cone of fire.</p>
+              <p><strong>Beholder.</strong> Lawful evil aberration. CR 13. Eye rays: charm, paralysing, fear, slow, enervation, telekinetic, sleep, petrification, disintegration, death.</p>
+              <p><strong>Cloud Giant.</strong> Neutral. CR 9. Native to mountain peaks above the clouds.</p>
+              <p><strong>Death Knight.</strong> Chaotic evil undead. CR 17. Sword strikes deal additional necrotic damage.</p>
+              <p><strong>Erinyes.</strong> Lawful evil devil. CR 12. Wields a longsword and longbow with poison.</p>
+              <p><strong>Frost Giant.</strong> Chaotic evil giant. CR 8. Resistant to cold, immune to frost-based magic.</p>
+              <p><strong>Gorgon.</strong> Unaligned monstrosity. CR 5. Petrifying breath weapon.</p>
+              <p><strong>Hydra.</strong> Unaligned monstrosity. CR 8. Multiple heads regenerate when severed.</p>
+              <p><strong>Iron Golem.</strong> Unaligned construct. CR 16. Immune to most magic; vulnerable to bludgeoning weapons.</p>
+              <p><strong>Lich.</strong> Neutral evil undead. CR 21. Spellcaster of 18th level. Phylactery hidden in a separate plane.</p>
+              <p><strong>Marilith.</strong> Chaotic evil demon. CR 16. Wields six longswords; tail attack causes paralysis.</p>
+              <p><strong>Night Hag.</strong> Neutral evil fiend. CR 5. Visits sleeping victims; can plane shift to dream states.</p>
+              <p><strong>Owlbear.</strong> Unaligned monstrosity. CR 3. Surprisingly affectionate to those who raise them from cubs.</p>
+              <p><strong>Purple Worm.</strong> Unaligned monstrosity. CR 15. Burrows through stone; tail stinger is venomous.</p>
+              <p><strong>Quaggoth.</strong> Chaotic neutral humanoid. CR 2. Underdark tribal warriors with thick fur.</p>
+              <p><strong>Rakshasa.</strong> Lawful evil fiend. CR 13. Spellcaster; reverts to true form on death.</p>
+              <p><strong>Shambling Mound.</strong> Unaligned plant. CR 5. Engulfs prey and absorbs their nutrients.</p>
+              <p><strong>Tarrasque.</strong> Unaligned monstrosity. CR 30. The world&rsquo;s deadliest creature.</p>
+            </div>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-scroll" variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal title="The Bestiary of Faerûn"&gt;
+  &lt;!-- Content that exceeds 90vh scrolls inside the body --&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · alertdialog -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">alertdialog &mdash; destructive</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="alertdialog"</code> focuses the <em>first</em>
+            footer button on open (the safer "Cancel" by convention).
+            Authors must place the safer action first in the footer
+            slot. Escape still closes; backdrop click is suppressed via
+            <code>no-backdrop-close</code> to force an explicit choice.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-alert" variant="primary">Delete character</hbd-button>
+          </div>
+          <hbd-modal
+            id="modal-alert"
+            type="alertdialog"
+            size="sm"
+            no-backdrop-close
+            title="Delete character?">
+            <p>This will permanently delete <strong>Thorin Oakenshield</strong>.
+            This action cannot be undone.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-alert" variant="default">Cancel</hbd-button>
+              <hbd-button data-close-modal="modal-alert" variant="primary">Delete</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal type="alertdialog" no-backdrop-close
+           title="Delete character?"&gt;
+  &lt;p&gt;This will permanently delete &hellip;&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;!-- Cancel first → focused on open (the safer option) --&gt;
+    &lt;hbd-button variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button variant="primary"&gt;Delete&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · No backdrop close -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No backdrop close</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Clicking the backdrop does not dismiss this modal. The user
+            must explicitly press Escape, the × button, or a footer
+            action. Use for steps that must be acknowledged.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-nobd" variant="default">Open guarded modal</hbd-button>
+          </div>
+          <hbd-modal id="modal-nobd" no-backdrop-close title="Read this first">
+            <p>This modal cannot be dismissed by clicking the backdrop.
+            Press Escape, click the &times; button, or use a footer action.</p>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-nobd" variant="primary">I understand</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal no-backdrop-close title="Read this first"&gt;&hellip;&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab through the content &mdash; focus stays trapped inside
+            the dialog. Press Escape to close. Focus returns to the
+            trigger button below when the modal closes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button id="modal-kb-trigger" data-open-modal="modal-kb" variant="default">Open keyboard demo</hbd-button>
+          </div>
+          <hbd-modal id="modal-kb" title="Keyboard navigation demo">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <p>Tab moves forward through the focusable elements inside
+              this dialog. Shift+Tab moves backward. Tab cycles &mdash;
+              you can&rsquo;t escape the trap until you press Escape.</p>
+              <label class="hbd-text-label hbd-text-primary" for="modal-kb-input">A focusable input</label>
+              <input id="modal-kb-input" type="text" value="Tab cycles back to this"
+                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              <a href="#component-modal" style="color:var(--hbd-color-text-link);">A focusable link</a>
+            </div>
+            <div slot="footer">
+              <hbd-button data-close-modal="modal-kb" variant="default">Cancel</hbd-button>
+              <hbd-button data-close-modal="modal-kb" variant="primary">Confirm</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>// Tab and Shift+Tab cycle within the dialog automatically.
+// Escape always closes — even with no-close set.
+// Focus returns to the triggering element on close.</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Modal divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="6" y="6" width="32" height="32" rx="1" fill="none" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
+        <rect x="11" y="13" width="22" height="18" rx="2" fill="#f5ecd7" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="13" y1="18" x2="31" y2="18" stroke="#7a5a22" stroke-width="0.75" opacity="0.6"/>
+        <circle cx="29" cy="15.5" r="1.2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ──────── Modal preview wiring ──────── -->
+    <script>
+      (function () {
+        function wire() {
+          var section = document.getElementById('component-modal');
+          if (!section) return;
+
+          // Open delegation
+          section.addEventListener('click', function (e) {
+            var openBtn = e.target && e.target.closest
+              ? e.target.closest('[data-open-modal]') : null;
+            if (openBtn) {
+              var id = openBtn.getAttribute('data-open-modal');
+              var modal = document.getElementById(id);
+              if (modal && typeof modal.show === 'function') modal.show();
+              return;
+            }
+            var closeBtn = e.target && e.target.closest
+              ? e.target.closest('[data-close-modal]') : null;
+            if (closeBtn) {
+              var cid = closeBtn.getAttribute('data-close-modal');
+              var cmodal = document.getElementById(cid);
+              if (cmodal && typeof cmodal.hide === 'function') cmodal.hide();
+              return;
+            }
+          });
+
+          // Basic-trigger has a non-data attribute (it lives outside
+          // the section's delegation pattern for the code sample
+          // comment). Wire it explicitly.
+          var basicTrigger = document.getElementById('modal-basic-trigger');
+          var basicModal = document.getElementById('modal-basic');
+          if (basicTrigger && basicModal) {
+            basicTrigger.addEventListener('click', function () {
+              basicModal.show();
+            });
+          }
+        }
+        wire();
+      })();
+    </script>
 
     <!-- ──────── Toast preview wiring ──────── -->
     <script>

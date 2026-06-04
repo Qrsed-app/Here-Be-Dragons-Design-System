@@ -383,6 +383,12 @@
   --hbd-toast-progress-height: 3px;
   --hbd-toast-collapse-ceiling: 200px;
 
+  /* ── modal ─────────────────────────────────────────────── */
+  --hbd-modal-width-sm: 400px;
+  --hbd-modal-width-md: 560px;
+  --hbd-modal-width-lg: 720px;
+  --hbd-modal-max-height: 90vh;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);
