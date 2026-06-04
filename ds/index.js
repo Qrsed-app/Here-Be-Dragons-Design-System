@@ -46,6 +46,7 @@ import './components/hbd-drawer.js';
 import './components/hbd-dropdown.js';
 import './components/hbd-empty.js';
 import './components/hbd-file-upload.js';
+import './components/hbd-full-banner.js';
 import './components/hbd-input.js';
 import './components/hbd-list.js';
 import './components/hbd-modal.js';

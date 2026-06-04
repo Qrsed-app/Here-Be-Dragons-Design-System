@@ -1,0 +1,190 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/full-page-banner.css
+ *
+ * Full-page banner — fills the viewport with a single dominant
+ * message (maintenance, launch, restricted, offline). Distinct
+ * from the narrow .hbd-alert--banner ribbon: that is a top-of-page
+ * strip, this is a full-screen takeover with hero typography.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ * - Spec referenced --hbd-color-action-default for the launch
+ *   eyebrow accent — emitted token is --hbd-color-text-emphasis
+ *   (the canonical "emphasis"/action text colour, also consumed
+ *   by hbd-input error text and hbd-link). The launch variant
+ *   uses it so the eyebrow reads as a "highlight" tone against
+ *   the neutral parchment surface.
+ * - The 560px / 440px content widths are promoted to per-component
+ *   tokens (--hbd-full-banner-inner-max-width /
+ *   --hbd-full-banner-description-max-width) so the literals live
+ *   in tokens.json.
+ *
+ * SC 2.4.2 (Page Titled): when used as a true full-page replacement,
+ * the document <title> must reflect the banner state (e.g.
+ * "Maintenance — Here Be Dragons"). That is the author's
+ * responsibility, not this component's — there is no DOM-level
+ * mechanism for the banner to mutate document.title safely.
+ */
+
+/* ── 1 · Base ─────────────────────────────────────────────────────── */
+.hbd-full-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--hbd-space-8) var(--hbd-layout-container-padding);
+  background: var(--hbd-color-surface-default);
+  text-align: center;
+  font-family: var(--hbd-font-family-ui);
+  color: var(--hbd-color-text-primary);
+}
+
+/* ── 2 · Inner ────────────────────────────────────────────────────── */
+.hbd-full-banner__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hbd-space-4);
+  max-width: var(--hbd-full-banner-inner-max-width);
+  width: 100%;
+}
+
+/* ── 3 · Illustration ─────────────────────────────────────────────── */
+.hbd-full-banner__illustration {
+  width: var(--hbd-space-24);
+  height: var(--hbd-space-24);
+  color: var(--hbd-color-text-muted);
+  /*
+   * 0.7 opacity is a documented decorative-illustration exception —
+   * the SVG reinforces the heading and is exempt from SC 1.4.3
+   * contrast. Same stance as hbd-empty.
+   */
+  opacity: 0.7;
+  margin-bottom: var(--hbd-space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hbd-full-banner__illustration svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── 4 · Eyebrow ──────────────────────────────────────────────────── */
+.hbd-full-banner__eyebrow {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-semibold);
+  letter-spacing: var(--hbd-letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-muted);
+  margin: 0;
+}
+
+.hbd-full-banner--maintenance .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-status-warning-icon);
+}
+.hbd-full-banner--restricted .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-status-error-border);
+}
+.hbd-full-banner--launch .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-full-banner--offline .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-text-muted);
+}
+
+/* ── 5 · Heading ──────────────────────────────────────────────────── */
+/*
+ * Fluid heading scale. clamp() interpolates between h2 (~1.75rem)
+ * at small viewports and h1 (~2.5rem) at large viewports. The 5vw
+ * preferred value is a fluid-typography geometric constant — it
+ * cannot be tokenised without removing the responsiveness, and it
+ * is a documented permitted exception (same pattern as
+ * --hbd-font-size-hero in tokens.json).
+ */
+.hbd-full-banner__heading {
+  font-family: var(--hbd-font-family-display);
+  font-size: clamp(var(--hbd-font-size-h2), 5vw, var(--hbd-font-size-h1));
+  font-weight: var(--hbd-font-weight-bold);
+  color: var(--hbd-color-text-primary);
+  margin: 0;
+  line-height: var(--hbd-line-height-display);
+  letter-spacing: var(--hbd-letter-spacing-display);
+}
+
+/* ── 6 · Description ──────────────────────────────────────────────── */
+.hbd-full-banner__description {
+  font-family: var(--hbd-font-family-serif);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-muted);
+  line-height: var(--hbd-line-height-body);
+  max-width: var(--hbd-full-banner-description-max-width);
+  margin: 0;
+}
+
+/* ── 7 · Actions ──────────────────────────────────────────────────── */
+.hbd-full-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hbd-space-2);
+  justify-content: center;
+  align-items: center;
+}
+
+/* When no actions are slotted in, the wrapper collapses so it
+   doesn't leave a phantom gap below the description. */
+.hbd-full-banner__actions[data-empty="true"] {
+  display: none;
+}
+
+/* ── 8 · Meta ─────────────────────────────────────────────────────── */
+.hbd-full-banner__meta {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+  margin-top: var(--hbd-space-4);
+}
+.hbd-full-banner__meta[data-empty="true"] {
+  display: none;
+}
+
+/* ── 9 · Dark modifier — inverted colour scheme ───────────────────── */
+/*
+ * Uses ink-900 as the canvas (the darkest primitive) so the banner
+ * reads as a "lights out" takeover (maintenance / outage). All
+ * inverted text colours pull from the parchment primitives so the
+ * contrast pairs already exist in the system.
+ */
+.hbd-full-banner--dark {
+  background: var(--hbd-color-ink-900);
+  color: var(--hbd-color-parchment-50);
+}
+.hbd-full-banner--dark .hbd-full-banner__heading {
+  color: var(--hbd-color-parchment-50);
+}
+.hbd-full-banner--dark .hbd-full-banner__description,
+.hbd-full-banner--dark .hbd-full-banner__meta {
+  color: var(--hbd-color-parchment-200);
+}
+.hbd-full-banner--dark .hbd-full-banner__illustration {
+  color: var(--hbd-color-parchment-300);
+}
+
+/* Per-variant eyebrow colours in dark mode — fall back to a brighter
+   accent from the same hue family so they still read against ink-900. */
+.hbd-full-banner--dark.hbd-full-banner--maintenance .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-gold-300);
+}
+.hbd-full-banner--dark.hbd-full-banner--restricted .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-crimson-300);
+}
+.hbd-full-banner--dark.hbd-full-banner--launch .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-gold-300);
+}
+.hbd-full-banner--dark.hbd-full-banner--offline .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-parchment-300);
+}

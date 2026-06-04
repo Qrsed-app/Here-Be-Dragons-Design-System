@@ -2224,6 +2224,7 @@
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
               <li><a class="ds-toc__link" href="#component-empty-state">Empty States</a></li>
+              <li><a class="ds-toc__link" href="#component-full-banner">Full-Page Banner</a></li>
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
@@ -11705,6 +11706,177 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <circle cx="22" cy="22" r="11" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-dasharray="42 16"/>
         <circle cx="22" cy="22" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · FULL-PAGE BANNER ══════════════ -->
+    <section class="ds-section" id="component-full-banner" aria-labelledby="heading-full-banner">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;21</span>
+        <h2 class="ds-section__heading" id="heading-full-banner">Full-Page Banner</h2>
+        <p class="ds-section__description">
+          Full-page banners replace the entire viewport with a single
+          focused message. Use them for maintenance windows, critical
+          errors, access restrictions, and major feature launches. Not
+          to be confused with the narrow
+          <a href="#component-alert">alert banner ribbon</a> &mdash;
+          that&rsquo;s a top-of-page strip, this is a full-screen
+          takeover with hero typography.
+          <br><br>
+          <strong>Shown here at reduced height.</strong> In production,
+          <code>min-height: 100vh</code> fills the full viewport. The
+          previews below sit inside <code>min-height: 60vh</code>
+          frames so the takeover effect is visible without claiming
+          the whole preview page.
+        </p>
+
+        <!-- Group 1 · Maintenance -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Maintenance template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use for planned downtime. Pair with a meta line announcing
+            the expected return time and (optionally) a link to a
+            status page.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="maintenance">
+                <hbd-button variant="default">Check status page</hbd-button>
+                <span slot="meta">Expected back online: Friday at 06:00 UTC</span>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;main&gt;
+  &lt;hbd-full-banner template="maintenance"&gt;
+    &lt;hbd-button variant="default"&gt;Check status page&lt;/hbd-button&gt;
+    &lt;span slot="meta"&gt;Expected back online: Friday at 06:00 UTC&lt;/span&gt;
+  &lt;/hbd-full-banner&gt;
+&lt;/main&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Launch -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Launch template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use to surface major releases on first sign-in after a
+            launch &mdash; the user dismisses by acting on the primary
+            CTA. Eyebrow tinted with
+            <code>--hbd-color-text-emphasis</code>.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner
+                template="launch"
+                heading="The Arcane Compendium is here"
+                description="50,000 spells, monsters, and items. Now with search.">
+                <hbd-button variant="primary">Explore now</hbd-button>
+                <hbd-button variant="default">Learn more</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner
+  template="launch"
+  heading="The Arcane Compendium is here"
+  description="50,000 spells, monsters, and items. Now with search."&gt;
+  &lt;hbd-button variant="primary"&gt;Explore now&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Learn more&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Restricted -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Restricted template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use when a user lands on a page their role doesn&rsquo;t
+            permit. Always offer both a way back and a way forward
+            (request access, contact admin, etc.).
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="restricted">
+                <hbd-button variant="default">Go back</hbd-button>
+                <hbd-button variant="primary">Request access</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="restricted"&gt;
+  &lt;hbd-button variant="default"&gt;Go back&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Offline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Offline template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Full-page version of the offline alert. Use when the
+            client is wholly disconnected and no part of the
+            application can render real content.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="offline">
+                <hbd-button variant="primary">Try again</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="offline"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Dark variant -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dark variant</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Adding the <code>dark</code> attribute inverts the canvas
+            to <code>--hbd-color-ink-900</code> and pulls every text
+            colour from the parchment primitives so the contrast pairs
+            already exist in the token system. Eyebrow accents shift
+            to lighter shades of the same hue family
+            (gold-300 / crimson-300) so they remain legible against
+            ink-900.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="maintenance" dark>
+                <hbd-button variant="default">Check status page</hbd-button>
+                <span slot="meta">Expected back online: Friday at 06:00 UTC</span>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="maintenance" dark&gt;
+  &lt;hbd-button variant="default"&gt;Check status page&lt;/hbd-button&gt;
+  &lt;span slot="meta"&gt;Expected back online: Friday at 06:00 UTC&lt;/span&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Full-Page Banner divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="6" y="8" width="32" height="28" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="6" y1="14" x2="38" y2="14" stroke="#7a5a22" stroke-width="0.75" opacity="0.6"/>
+        <rect x="14" y="20" width="16" height="3" rx="1" fill="#7a1212"/>
+        <rect x="11" y="26" width="22" height="2" rx="1" fill="#7a5a22" opacity="0.5"/>
       </svg>
     </div>
 

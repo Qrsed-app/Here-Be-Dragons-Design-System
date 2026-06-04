@@ -397,6 +397,10 @@
   --hbd-spinner-size-xl: 64px;
   --hbd-spinner-stroke: 2px;
 
+  /* ── full-banner ───────────────────────────────────────── */
+  --hbd-full-banner-inner-max-width: 560px;
+  --hbd-full-banner-description-max-width: 440px;
+
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;
   --hbd-checkbox-shadow: 2px 2px 0 var(--hbd-color-parchment-400);
