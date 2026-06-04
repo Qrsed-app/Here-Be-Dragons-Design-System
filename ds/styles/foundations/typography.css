@@ -32,8 +32,14 @@ h1 {
 }
 
 h2 {
-  font-family: var(--hbd-font-family-accent);
+  /* Tiamat Condensed SC for h2 — sets section-title personality
+     across the DS (hbd-modal title, hbd-drawer title, preview
+     .ds-section__heading, etc.). The 700-weight matches the only
+     weight registered in the Tiamat @font-face at the top of this
+     file. */
+  font-family: var(--hbd-font-family-display);
   font-size: var(--hbd-font-size-h2);
+  font-weight: var(--hbd-font-weight-bold);
   letter-spacing: var(--hbd-letter-spacing-display);
   line-height: var(--hbd-line-height-display);
 }
@@ -75,8 +81,12 @@ kbd {
 }
 
 .hbd-text-h2 {
-  font-family: var(--hbd-font-family-accent);
+  /* Tiamat Condensed SC — utility-class twin of the h2 element rule
+     above. Kept in sync so applying .hbd-text-h2 to a non-h2 element
+     (e.g. a <p> styled as a section heading) renders identically. */
+  font-family: var(--hbd-font-family-display);
   font-size: var(--hbd-font-size-h2);
+  font-weight: var(--hbd-font-weight-bold);
   letter-spacing: var(--hbd-letter-spacing-display);
   line-height: var(--hbd-line-height-display);
 }

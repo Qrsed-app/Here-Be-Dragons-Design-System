@@ -2252,7 +2252,9 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Patterns</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-error-states">Error States</a></li>
               <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+              <li><a class="ds-toc__link" href="#component-success-states">Success States</a></li>
             </ul>
           </div>
 
@@ -11877,6 +11879,298 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
         <line x1="6" y1="14" x2="38" y2="14" stroke="#7a5a22" stroke-width="0.75" opacity="0.6"/>
         <rect x="14" y="20" width="16" height="3" rx="1" fill="#7a1212"/>
         <rect x="11" y="26" width="22" height="2" rx="1" fill="#7a5a22" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ PATTERN · ERROR STATES ══════════════════════ -->
+    <section class="ds-section" id="component-error-states" aria-labelledby="heading-error-states">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;2</span>
+        <h2 class="ds-section__heading" id="heading-error-states">Error States</h2>
+        <p class="ds-section__description">
+          Error state templates communicate that something went wrong.
+          Use <a href="#component-empty-state">section-level
+          (<code>hbd-empty</code>)</a> for partial-page failures and
+          <a href="#component-full-banner">full-page
+          (<code>hbd-full-banner</code>)</a> for complete page
+          replacements. Templates that start with <code>error-</code>
+          automatically pick up a crimson tint on the illustration and
+          (for full-page) the eyebrow &mdash; the heading and body
+          text stay neutral so contrast is preserved and the meaning
+          is carried in text (SC&nbsp;3.3.1).
+        </p>
+
+        <!-- Group 1 · Section-level error states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Section-level error states &mdash; <code>hbd-empty</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five templates for partial-page failures. Each pairs a
+            descriptive heading + body with a recovery action.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--hbd-space-4);width:100%;">
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-404">
+                  <hbd-button variant="primary">Go home</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-500">
+                  <hbd-button variant="primary">Try again</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-403">
+                  <hbd-button variant="primary">Request access</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-network">
+                  <hbd-button variant="primary">Retry</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-form">
+                  <hbd-button variant="primary">Review form</hbd-button>
+                </hbd-empty>
+              </div>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="error-404"&gt;
+  &lt;hbd-button variant="primary"&gt;Go home&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-500"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-403"&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-network"&gt;
+  &lt;hbd-button variant="primary"&gt;Retry&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-form"&gt;
+  &lt;hbd-button variant="primary"&gt;Review form&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Full-page error states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full-page error states &mdash; <code>hbd-full-banner</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Three templates for complete page replacement. Shown at
+            reduced height (60&nbsp;vh) inside framed containers; in
+            production these take the full viewport.
+          </p>
+
+          <!-- 404 -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-404">
+                <hbd-button variant="primary">Go home</hbd-button>
+                <hbd-button variant="default">Contact support</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- 500 -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-500">
+                <hbd-button variant="primary">Try again</hbd-button>
+                <hbd-button variant="default">Check status</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- 403 -->
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-403">
+                <hbd-button variant="default">Go back</hbd-button>
+                <hbd-button variant="primary">Request access</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="error-404"&gt;
+  &lt;hbd-button variant="primary"&gt;Go home&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Contact support&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="error-500"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Check status&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="error-403"&gt;
+  &lt;hbd-button variant="default"&gt;Go back&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Error States divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M22 9 L36 33 H8 Z" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+        <line x1="22" y1="17" x2="22" y2="25" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="29" r="1.5" fill="#c0392b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ PATTERN · SUCCESS STATES ══════════════════════ -->
+    <section class="ds-section" id="component-success-states" aria-labelledby="heading-success-states">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;3</span>
+        <h2 class="ds-section__heading" id="heading-success-states">Success States</h2>
+        <p class="ds-section__description">
+          Success state templates confirm that an action completed.
+          Use <a href="#component-empty-state">section-level
+          (<code>hbd-empty</code>)</a> for inline confirmations and
+          <a href="#component-full-banner">full-page
+          (<code>hbd-full-banner</code>)</a> for completing a
+          significant workflow. Templates that start with
+          <code>success-</code> automatically pick up an emerald tint
+          on the illustration and (for full-page) the eyebrow.
+        </p>
+
+        <!-- Group 3 · Section-level success states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Section-level success states &mdash; <code>hbd-empty</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Four templates for inline confirmations. Pair each with
+            the most likely next action.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--hbd-space-4);width:100%;">
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-submitted">
+                  <hbd-button variant="primary">View status</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-saved">
+                  <hbd-button variant="primary">Continue</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-completed">
+                  <hbd-button variant="default">Start over</hbd-button>
+                  <hbd-button variant="primary">Dashboard</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-welcome">
+                  <hbd-button variant="primary">Get started</hbd-button>
+                </hbd-empty>
+              </div>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="success-submitted"&gt;
+  &lt;hbd-button variant="primary"&gt;View status&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-saved"&gt;
+  &lt;hbd-button variant="primary"&gt;Continue&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-completed"&gt;
+  &lt;hbd-button variant="default"&gt;Start over&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Dashboard&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-welcome"&gt;
+  &lt;hbd-button variant="primary"&gt;Get started&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Full-page success states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full-page success states &mdash; <code>hbd-full-banner</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Three templates for finishing a significant workflow.
+            Shown at reduced height (60&nbsp;vh).
+          </p>
+
+          <!-- Submitted -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-submitted">
+                <hbd-button variant="primary">View submission</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- Completed -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-completed">
+                <hbd-button variant="primary">Return home</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- Welcome -->
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-welcome">
+                <hbd-button variant="primary">Enter the realm</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="success-submitted"&gt;
+  &lt;hbd-button variant="primary"&gt;View submission&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="success-completed"&gt;
+  &lt;hbd-button variant="primary"&gt;Return home&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="success-welcome"&gt;
+  &lt;hbd-button variant="primary"&gt;Enter the realm&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Success States divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="22" r="13" fill="none" stroke="#27832e" stroke-width="1.5"/>
+        <polyline points="15,22 20,27 30,17" fill="none" stroke="#27832e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
 

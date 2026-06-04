@@ -86,8 +86,12 @@
 
 /* ── 4 · Heading ──────────────────────────────────────────────────── */
 .hbd-empty__heading {
-  font-family: var(--hbd-font-family-accent);
+  /* Tiamat Condensed SC for the empty-state heading — section-title
+     personality. 700-weight matches the only weight registered in
+     the Tiamat @font-face (foundations/typography.css). */
+  font-family: var(--hbd-font-family-display);
   font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-bold);
   color: var(--hbd-color-text-primary);
   margin: 0;
   line-height: var(--hbd-line-height-display);
@@ -157,4 +161,33 @@
 .hbd-empty--inline .hbd-empty__content {
   flex: 1;
   min-width: 0;
+}
+
+/* ── 8 · Semantic variants — error / success (Phase 5) ───────────── */
+/*
+ * Applied by hbd-empty.js when the template key starts with
+ * "error-" / "success-" (e.g. error-404, success-completed). Also
+ * applied to the legacy "error" template so it picks up the same
+ * tint retroactively.
+ *
+ * Only the illustration is tinted. The heading + description stay
+ * neutral so contrast is preserved and the meaning is carried in
+ * TEXT (SC 1.4.1, SC 3.3.1). The opacity here is slightly higher
+ * than the base illustration (0.8 vs 0.6) so the tinted colour
+ * reads at a usable contrast ratio against the parchment surface.
+ *
+ * Token note: spec asked for --hbd-color-status-error-text /
+ * --hbd-color-status-success-text. Those resolve to parchment-50
+ * (designed for placement on saturated surfaces) and would be
+ * invisible here. We use the matching -border tokens
+ * (crimson-600 / forest-600) which sit on parchment with adequate
+ * contrast.
+ */
+.hbd-empty--error .hbd-empty__illustration {
+  color: var(--hbd-color-status-error-border);
+  opacity: 0.8;
+}
+.hbd-empty--success .hbd-empty__illustration {
+  color: var(--hbd-color-status-success-border);
+  opacity: 0.8;
 }

@@ -111,6 +111,135 @@ const TEMPLATES = {
         '<line x1="20" y1="20" x2="76" y2="76"/>' +
       '</svg>',
   },
+
+  // ── Full-page error templates (Phase 5) ────────────────────────
+  // Heading + description communicate the error in TEXT (SC 3.3.1).
+  // The .hbd-full-banner--error host class tints the eyebrow and
+  // illustration via CSS — colour is supplementary, never the sole
+  // carrier of meaning.
+  'error-404': {
+    eyebrow: '404 — Not Found',
+    heading: 'You’ve wandered off the map',
+    description: 'The page you seek does not exist in this realm. Perhaps it was moved, renamed, or never existed.',
+    // Torn map — rectangle with a jagged tear and a compass rose.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Map left half.
+        '<path d="M12 18 H44 L40 32 L46 44 L40 56 L46 72 L42 84 H12 Z"/>' +
+        // Map right half (slightly offset to suggest a tear).
+        '<path d="M50 16 H84 V84 H50 L54 72 L48 56 L54 44 L48 32 Z"/>' +
+        // Compass rose on the right half.
+        '<circle cx="68" cy="48" r="8"/>' +
+        '<path d="M68 40 L68 56"/>' +
+        '<path d="M60 48 L76 48"/>' +
+      '</svg>',
+  },
+  'error-500': {
+    eyebrow: '500 — Server Error',
+    heading: 'The arcane servers have faltered',
+    description: 'Something broke on our end. Our engineers have been alerted. Please try again in a few moments.',
+    // Broken crystal ball — orb fractured into two halves.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Top arc of the orb.
+        '<path d="M30 50 a18 18 0 0 1 36 0"/>' +
+        // Bottom arc of the orb (slightly offset to suggest fracture).
+        '<path d="M30 52 a18 18 0 0 0 36 0"/>' +
+        // Lightning bolt across the centre.
+        '<path d="M50 32 L42 50 L52 50 L46 68"/>' +
+        // Stand below.
+        '<path d="M34 74 h28"/>' +
+        '<path d="M30 80 h36"/>' +
+      '</svg>',
+  },
+  'error-403': {
+    eyebrow: '403 — Forbidden',
+    heading: 'You shall not pass',
+    description: 'You lack the required permissions to enter this area of the realm.',
+    // Iron gate with vertical bars and a central lock.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Gate frame.
+        '<path d="M16 20 H80 V80 H16 Z"/>' +
+        '<path d="M16 28 H80"/>' +
+        // Vertical bars.
+        '<path d="M28 28 V80"/>' +
+        '<path d="M40 28 V80"/>' +
+        '<path d="M56 28 V80"/>' +
+        '<path d="M68 28 V80"/>' +
+        // Central padlock.
+        '<rect x="42" y="46" width="12" height="14" rx="1.5"/>' +
+        '<path d="M44 46 V42 a4 4 0 0 1 8 0 V46"/>' +
+      '</svg>',
+  },
+
+  // ── Full-page success templates (Phase 5) ──────────────────────
+  'success-submitted': {
+    eyebrow: 'Success',
+    heading: 'Your quest has been accepted',
+    description: 'We’ve received your submission and will be in touch shortly.',
+    // Wax seal with an embossed checkmark.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Outer seal — eight-pointed star edge.
+        '<path d="M48 8 L56 18 L70 14 L70 28 L82 34 L74 46 L82 58 L70 64 L70 78 L56 74 L48 84 L40 74 L26 78 L26 64 L14 58 L22 46 L14 34 L26 28 L26 14 L40 18 Z"/>' +
+        // Inner medallion.
+        '<circle cx="48" cy="46" r="14"/>' +
+        // Embossed checkmark inside.
+        '<polyline points="38,46 45,53 58,40"/>' +
+      '</svg>',
+  },
+  'success-completed': {
+    eyebrow: 'Complete',
+    heading: 'Journey complete',
+    description: 'You’ve reached the end of this path. Well done, adventurer.',
+    // Trophy with laurel branches.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Cup.
+        '<path d="M32 22 h32 v18 a16 16 0 0 1 -32 0 z"/>' +
+        // Side handles.
+        '<path d="M64 26 a6 6 0 0 1 0 14"/>' +
+        '<path d="M32 26 a6 6 0 0 0 0 14"/>' +
+        // Stem + base.
+        '<path d="M48 60 v12"/>' +
+        '<path d="M36 80 h24"/>' +
+        '<path d="M40 72 h16"/>' +
+        // Laurel branches flanking the cup.
+        '<path d="M22 30 q -6 8 0 18"/>' +
+        '<path d="M26 32 l -4 -2"/>' +
+        '<path d="M26 40 l -4 -2"/>' +
+        '<path d="M26 48 l -4 -2"/>' +
+        '<path d="M74 30 q 6 8 0 18"/>' +
+        '<path d="M70 32 l 4 -2"/>' +
+        '<path d="M70 40 l 4 -2"/>' +
+        '<path d="M70 48 l 4 -2"/>' +
+      '</svg>',
+  },
+  'success-welcome': {
+    eyebrow: 'Welcome',
+    heading: 'Your adventure begins',
+    description: 'Your account is ready. The realm awaits.',
+    // Open book with a starburst above.
+    icon:
+      '<svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+        // Book spine (centre vertical line).
+        '<path d="M48 36 V80"/>' +
+        // Left page.
+        '<path d="M48 36 C 36 32, 24 32, 14 36 V76 C 24 72, 36 72, 48 76"/>' +
+        // Right page.
+        '<path d="M48 36 C 60 32, 72 32, 82 36 V76 C 72 72, 60 72, 48 76"/>' +
+        // Ruled lines on each page.
+        '<path d="M22 46 h18"/>' +
+        '<path d="M22 54 h18"/>' +
+        '<path d="M56 46 h18"/>' +
+        '<path d="M56 54 h18"/>' +
+        // Starburst above the centre of the book.
+        '<path d="M48 8 V18"/>' +
+        '<path d="M40 12 L44 18"/>' +
+        '<path d="M56 12 L52 18"/>' +
+      '</svg>',
+  },
 };
 
 const VALID_LEVELS = ['1', '2', '3'];
@@ -200,8 +329,17 @@ class HbdFullBanner extends HTMLElement {
     const headingText = this.getAttribute('heading') || t.heading;
     const descriptionText = this.getAttribute('description') || t.description;
 
-    // 3. Host classes.
+    // 3. Host classes. Templates that start with "error-" or
+    //    "success-" pick up a semantic modifier class so the
+    //    stylesheet can tint the eyebrow + illustration with the
+    //    matching status colour. The heading + description still
+    //    carry the meaning in text (SC 1.4.1, SC 3.3.1).
     const classes = ['hbd-full-banner', `hbd-full-banner--${templateKey}`];
+    if (templateKey.startsWith('error-')) {
+      classes.push('hbd-full-banner--error');
+    } else if (templateKey.startsWith('success-')) {
+      classes.push('hbd-full-banner--success');
+    }
     if (dark) classes.push('hbd-full-banner--dark');
     this.className = classes.join(' ');
     this.setAttribute('data-template', templateKey);

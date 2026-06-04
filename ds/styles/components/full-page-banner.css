@@ -188,3 +188,50 @@
 .hbd-full-banner--dark.hbd-full-banner--offline .hbd-full-banner__eyebrow {
   color: var(--hbd-color-parchment-300);
 }
+
+/* ── 10 · Semantic variants — error / success (Phase 5) ──────────── */
+/*
+ * Applied by hbd-full-banner.js when the template key starts with
+ * "error-" or "success-" (e.g. error-404, success-completed). The
+ * eyebrow + illustration tint to the matching status hue; the heading
+ * + description stay neutral so contrast is preserved and the meaning
+ * is carried in TEXT (SC 1.4.1, SC 3.3.1).
+ *
+ * Token note: spec asked for --hbd-color-status-error-text /
+ * --hbd-color-status-success-text. Those resolve to parchment-50
+ * (near-white) — designed for placement on saturated surfaces, not
+ * on the parchment page background. Using them here would render
+ * the eyebrow / icon invisible. We use the matching -border tokens
+ * (crimson-600 / forest-600) which sit on parchment with adequate
+ * contrast.
+ */
+.hbd-full-banner--error .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-status-error-border);
+}
+.hbd-full-banner--error .hbd-full-banner__illustration {
+  color: var(--hbd-color-status-error-border);
+  /* 0.7 opacity matches the base illustration treatment — decorative,
+     SC 1.4.3-exempt because the heading carries the meaning. */
+  opacity: 0.7;
+}
+
+.hbd-full-banner--success .hbd-full-banner__eyebrow {
+  color: var(--hbd-color-status-success-border);
+}
+.hbd-full-banner--success .hbd-full-banner__illustration {
+  color: var(--hbd-color-status-success-border);
+  opacity: 0.7;
+}
+
+/* Dark-mode overrides for the semantic variants — brighter accent from
+   the same hue so the eyebrow / icon read against ink-900. The
+   illustration tints to the brighter shade because deep crimson /
+   forest on near-black ink would fall below 3:1. */
+.hbd-full-banner--dark.hbd-full-banner--error .hbd-full-banner__eyebrow,
+.hbd-full-banner--dark.hbd-full-banner--error .hbd-full-banner__illustration {
+  color: var(--hbd-color-crimson-300);
+}
+.hbd-full-banner--dark.hbd-full-banner--success .hbd-full-banner__eyebrow,
+.hbd-full-banner--dark.hbd-full-banner--success .hbd-full-banner__illustration {
+  color: var(--hbd-color-forest-300);
+}
