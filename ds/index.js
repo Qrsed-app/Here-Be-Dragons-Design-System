@@ -21,6 +21,7 @@ preloadStyles([
   '/ds/styles/components/modal.css',
   '/ds/styles/components/navbar.css',
   '/ds/styles/components/pagination.css',
+  '/ds/styles/components/spinner.css',
   '/ds/styles/components/tabs.css',
   '/ds/styles/components/time-picker.css',
 ]);
@@ -58,6 +59,7 @@ import './components/hbd-select.js';
 import './components/hbd-skeleton.js';
 import './components/hbd-skeleton-group.js';
 import './components/hbd-slider.js';
+import './components/hbd-spinner.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-split-button.js';
 import './components/hbd-stat-block.js';

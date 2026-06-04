@@ -2227,6 +2227,7 @@
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
+              <li><a class="ds-toc__link" href="#component-spinner">Spinner</a></li>
               <li><a class="ds-toc__link" href="#component-toast">Toast</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
@@ -11224,35 +11225,39 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
           </div>
           <hbd-modal id="modal-basic" size="md" title="Prepare Spell">
             <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
-              <label class="hbd-text-label hbd-text-primary" for="modal-basic-name">Spell name</label>
-              <input
+              <hbd-input
                 id="modal-basic-name"
-                type="text"
+                label="Spell name"
                 value="Magic Missile"
-                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
-              <label class="hbd-text-label hbd-text-primary" for="modal-basic-level" style="margin-top:var(--hbd-space-2);">Spell level</label>
-              <select
+                placeholder="Enter spell name"></hbd-input>
+              <hbd-select
                 id="modal-basic-level"
-                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
-                <option>Cantrip</option>
-                <option selected>1st level</option>
-                <option>2nd level</option>
-                <option>3rd level</option>
-              </select>
+                label="Spell level"
+                value="1">
+                <hbd-option value="0">Cantrip</hbd-option>
+                <hbd-option value="1" selected>1st level</hbd-option>
+                <hbd-option value="2">2nd level</hbd-option>
+                <hbd-option value="3">3rd level</hbd-option>
+              </hbd-select>
             </div>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-basic" variant="default">Cancel</hbd-button>
-              <hbd-button data-close-modal="modal-basic" variant="primary">Prepare</hbd-button>
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Prepare</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
             <summary>View code</summary>
             <pre><code>&lt;hbd-modal id="prep" title="Prepare Spell"&gt;
-  &lt;label&gt;Spell name&lt;/label&gt;
-  &lt;input type="text" value="Magic Missile"&gt;
+  &lt;hbd-input  label="Spell name"  value="Magic Missile"&gt;&lt;/hbd-input&gt;
+  &lt;hbd-select label="Spell level" value="1"&gt;
+    &lt;hbd-option value="0"&gt;Cantrip&lt;/hbd-option&gt;
+    &lt;hbd-option value="1" selected&gt;1st level&lt;/hbd-option&gt;
+    &lt;hbd-option value="2"&gt;2nd level&lt;/hbd-option&gt;
+  &lt;/hbd-select&gt;
   &lt;div slot="footer"&gt;
-    &lt;hbd-button variant="default"&gt;Cancel&lt;/hbd-button&gt;
-    &lt;hbd-button variant="primary"&gt;Prepare&lt;/hbd-button&gt;
+    &lt;!-- data-modal-close on ANY descendant closes the modal --&gt;
+    &lt;hbd-button data-modal-close variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button data-modal-close variant="primary"&gt;Prepare&lt;/hbd-button&gt;
   &lt;/div&gt;
 &lt;/hbd-modal&gt;
 &lt;script&gt;
@@ -11281,21 +11286,21 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
           <hbd-modal id="modal-size-sm" size="sm" title="Compact dialog">
             <p>This dialog is sized for short confirmations and yes/no choices.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-size-sm" variant="default">Close</hbd-button>
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
             </div>
           </hbd-modal>
           <hbd-modal id="modal-size-md" title="Default dialog">
             <p>Most dialogs use the default medium size &mdash; comfortable
             for a label-input pair or a paragraph of context.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-size-md" variant="default">Close</hbd-button>
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
             </div>
           </hbd-modal>
           <hbd-modal id="modal-size-lg" size="lg" title="Wide dialog">
             <p>The large size is appropriate for multi-column forms, table
             previews, or detailed entity editors.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-size-lg" variant="default">Close</hbd-button>
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
             </div>
           </hbd-modal>
           <hbd-modal id="modal-size-full" size="full" title="Full-screen takeover">
@@ -11305,7 +11310,7 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
             <p>Note that even at full-screen size, Escape still closes the
             modal and focus still returns to the trigger.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-size-full" variant="default">Close</hbd-button>
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
@@ -11354,7 +11359,7 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
               <p><strong>Tarrasque.</strong> Unaligned monstrosity. CR 30. The world&rsquo;s deadliest creature.</p>
             </div>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-scroll" variant="default">Close</hbd-button>
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
@@ -11388,8 +11393,8 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
             <p>This will permanently delete <strong>Thorin Oakenshield</strong>.
             This action cannot be undone.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-alert" variant="default">Cancel</hbd-button>
-              <hbd-button data-close-modal="modal-alert" variant="primary">Delete</hbd-button>
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Delete</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
@@ -11399,8 +11404,8 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
   &lt;p&gt;This will permanently delete &hellip;&lt;/p&gt;
   &lt;div slot="footer"&gt;
     &lt;!-- Cancel first → focused on open (the safer option) --&gt;
-    &lt;hbd-button variant="default"&gt;Cancel&lt;/hbd-button&gt;
-    &lt;hbd-button variant="primary"&gt;Delete&lt;/hbd-button&gt;
+    &lt;hbd-button data-modal-close variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button data-modal-close variant="primary"&gt;Delete&lt;/hbd-button&gt;
   &lt;/div&gt;
 &lt;/hbd-modal&gt;</code></pre>
           </details>
@@ -11421,7 +11426,7 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
             <p>This modal cannot be dismissed by clicking the backdrop.
             Press Escape, click the &times; button, or use a footer action.</p>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-nobd" variant="primary">I understand</hbd-button>
+              <hbd-button data-modal-close variant="primary">I understand</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
@@ -11446,14 +11451,20 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
               <p>Tab moves forward through the focusable elements inside
               this dialog. Shift+Tab moves backward. Tab cycles &mdash;
               you can&rsquo;t escape the trap until you press Escape.</p>
-              <label class="hbd-text-label hbd-text-primary" for="modal-kb-input">A focusable input</label>
-              <input id="modal-kb-input" type="text" value="Tab cycles back to this"
-                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              <hbd-input
+                id="modal-kb-input"
+                label="A focusable input"
+                value="Tab cycles back to this"></hbd-input>
+              <hbd-select id="modal-kb-select" label="A focusable select" value="fire">
+                <hbd-option value="fire" selected>Fire</hbd-option>
+                <hbd-option value="cold">Cold</hbd-option>
+                <hbd-option value="lightning">Lightning</hbd-option>
+              </hbd-select>
               <a href="#component-modal" style="color:var(--hbd-color-text-link);">A focusable link</a>
             </div>
             <div slot="footer">
-              <hbd-button data-close-modal="modal-kb" variant="default">Cancel</hbd-button>
-              <hbd-button data-close-modal="modal-kb" variant="primary">Confirm</hbd-button>
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Confirm</hbd-button>
             </div>
           </hbd-modal>
           <details class="ds-preview-code">
@@ -11478,6 +11489,225 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
       </svg>
     </div>
 
+    <!-- ══════════════════════ COMPONENT · SPINNER ══════════════════════ -->
+    <section class="ds-section" id="component-spinner" aria-labelledby="heading-spinner">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;20</span>
+        <h2 class="ds-section__heading" id="heading-spinner">Spinner</h2>
+        <p class="ds-section__description">
+          Spinners indicate that a process is in progress with an
+          unknown duration. Pair every spinner with an accessible
+          <code>label</code> that describes what is loading &mdash; the
+          component renders a visually hidden
+          <code>role="status" aria-live="polite"</code> span so screen
+          readers announce the message. When the layout of the
+          incoming content is predictable, reach for
+          <a href="#component-skeleton">skeleton loaders</a> instead.
+        </p>
+
+        <!-- Group 1 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Four discrete sizes drawn from the
+            <code>--hbd-spinner-size-*</code> tokens. The arc is 75% of
+            the circle so the start/end gap reads as a rotating
+            indicator even at the smallest size.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:flex-end;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="sm" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">sm (16px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="md" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">md (24px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">lg (40px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="xl" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">xl (64px)</span>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner size="sm" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="md" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="lg" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="xl" label="Loading"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Colour variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Colour variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>default</code> uses
+            <code>--hbd-color-surface-action</code> (blood red).
+            <code>muted</code> tints the arc with
+            <code>--hbd-color-text-muted</code> for less urgent
+            indicators. <code>inherit</code> picks up
+            <code>currentColor</code> &mdash; use inside buttons,
+            badges, or any context with a known foreground colour.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">default</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" variant="muted" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">muted</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);background:var(--hbd-color-surface-action);color:var(--hbd-color-text-on-action);padding:var(--hbd-space-4) var(--hbd-space-6);border-radius:var(--hbd-radius-md);">
+              <hbd-spinner size="lg" variant="inherit" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro" style="color:var(--hbd-color-text-on-action);">inherit on action surface</span>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner variant="muted"   label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner variant="inherit" label="Loading"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Inside a button -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Inside a button</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The <code>loading</code> attribute on
+            <code>hbd-button</code> renders a small
+            <code>hbd-spinner</code> with
+            <code>variant="inherit"</code> centred inside the button.
+            The button text fades to transparent and
+            <code>aria-busy="true"</code> is applied so screen readers
+            announce the busy state. Previously each button drew its
+            own ring with a CSS pseudo-element; this is now a single
+            reused component.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button variant="primary" loading>Saving&hellip;</hbd-button>
+            <hbd-button variant="default" loading>Checking&hellip;</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button variant="primary" loading&gt;Saving&hellip;&lt;/hbd-button&gt;
+&lt;hbd-button variant="default" loading&gt;Checking&hellip;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Descriptive labels -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With descriptive label</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Every spinner renders a hidden
+            <code>&lt;span role="status" aria-live="polite"&gt;</code>
+            so the label is announced. Inspect the DOM of each
+            spinner below to see the announcement message.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Loading spell list"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Loading spell list"</code>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Saving character sheet"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Saving character sheet"</code>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Connecting to the arcane network"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Connecting to the arcane network"</code>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner label="Loading spell list"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner label="Saving character sheet"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner label="Connecting to the arcane network"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Page-level loading state -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Page-level loading state</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Wrap the soon-to-be-populated region in a container with
+            <code>aria-busy="true"</code>; centre an <code>xl</code>
+            spinner inside. When data arrives, replace the spinner
+            with real content and set <code>aria-busy="false"</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <div id="spinner-page-region"
+                 aria-busy="true"
+                 aria-label="Loading compendium"
+                 style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);border-radius:var(--hbd-radius-md);padding:var(--hbd-space-8);gap:var(--hbd-space-4);">
+              <div data-state="loading" style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-4);">
+                <hbd-spinner size="xl" label="Loading compendium"></hbd-spinner>
+                <p class="hbd-text-body hbd-text-muted" style="margin:0;">Fetching the compendium&hellip;</p>
+              </div>
+              <div data-state="loaded" hidden style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+                <p class="hbd-text-h3 hbd-text-primary" style="margin:0;">The Compendium of All Wonders</p>
+                <p class="hbd-text-body hbd-text-muted" style="margin:0;">147 entries loaded. Hover any title to expand it.</p>
+              </div>
+            </div>
+            <div>
+              <hbd-button id="spinner-page-complete" variant="primary">Load complete</hbd-button>
+              <hbd-button id="spinner-page-reset"    variant="default">Reset</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div id="region" aria-busy="true" aria-label="Loading compendium"&gt;
+  &lt;hbd-spinner size="xl" label="Loading compendium"&gt;&lt;/hbd-spinner&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  // when data arrives
+  region.setAttribute('aria-busy', 'false');
+  region.querySelector('hbd-spinner').remove();
+  // ...render real content
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var region = document.getElementById('spinner-page-region');
+                var complete = document.getElementById('spinner-page-complete');
+                var reset = document.getElementById('spinner-page-reset');
+                if (!region || !complete || !reset) return setTimeout(wire, 50);
+                var loading = region.querySelector('[data-state="loading"]');
+                var loaded = region.querySelector('[data-state="loaded"]');
+                complete.addEventListener('click', function () {
+                  region.setAttribute('aria-busy', 'false');
+                  loading.hidden = true;
+                  loaded.hidden = false;
+                });
+                reset.addEventListener('click', function () {
+                  region.setAttribute('aria-busy', 'true');
+                  loading.hidden = false;
+                  loaded.hidden = true;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Spinner divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="22" r="11" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-dasharray="42 16"/>
+        <circle cx="22" cy="22" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
     <!-- ──────── Modal preview wiring ──────── -->
     <script>
       (function () {
@@ -11485,7 +11715,9 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
           var section = document.getElementById('component-modal');
           if (!section) return;
 
-          // Open delegation
+          // Open delegation only — closing is handled by hbd-modal
+          // itself: any descendant with [data-modal-close] inside the
+          // modal closes it. Authors don't need to wire anything.
           section.addEventListener('click', function (e) {
             var openBtn = e.target && e.target.closest
               ? e.target.closest('[data-open-modal]') : null;
@@ -11493,15 +11725,6 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
               var id = openBtn.getAttribute('data-open-modal');
               var modal = document.getElementById(id);
               if (modal && typeof modal.show === 'function') modal.show();
-              return;
-            }
-            var closeBtn = e.target && e.target.closest
-              ? e.target.closest('[data-close-modal]') : null;
-            if (closeBtn) {
-              var cid = closeBtn.getAttribute('data-close-modal');
-              var cmodal = document.getElementById(cid);
-              if (cmodal && typeof cmodal.hide === 'function') cmodal.hide();
-              return;
             }
           });
 

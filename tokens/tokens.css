@@ -268,6 +268,7 @@
   --hbd-duration-normal: 200ms;
   --hbd-duration-slow: 350ms;
   --hbd-duration-slower: 500ms;
+  --hbd-duration-spin: 750ms;
   --hbd-duration-pulse: 1500ms;
   --hbd-duration-linger: 5000ms;
   --hbd-duration-linger-lg: 8000ms;
@@ -388,6 +389,13 @@
   --hbd-modal-width-md: 560px;
   --hbd-modal-width-lg: 720px;
   --hbd-modal-max-height: 90vh;
+
+  /* ── spinner ───────────────────────────────────────────── */
+  --hbd-spinner-size-sm: 16px;
+  --hbd-spinner-size-md: 24px;
+  --hbd-spinner-size-lg: 40px;
+  --hbd-spinner-size-xl: 64px;
+  --hbd-spinner-stroke: 2px;
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;

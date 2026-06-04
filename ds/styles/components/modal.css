@@ -79,11 +79,18 @@
   max-width: var(--hbd-modal-width-md);
   max-height: var(--hbd-modal-max-height);
   /*
-   * overflow:hidden clips the header + footer separators against the
-   * rounded corners. The inner body owns its own scrolling so this
-   * doesn't trap content.
+   * Intentionally NOT overflow:hidden. Descendant popovers (the
+   * hbd-select dropdown, hbd-popover, hbd-tooltip, etc.) must be
+   * able to paint OUTSIDE the dialog's rounded box; clipping here
+   * would hide them whenever they extend past a dialog edge. The
+   * body owns its own overflow so long content still scrolls
+   * inside the dialog without leaking past it.
+   *
+   * The rounded corners no longer clip the body's edges either, so
+   * the body's own background must be transparent (it inherits the
+   * dialog's surface) and rounded if it sits at a corner — done via
+   * the body radius rules below.
    */
-  overflow: hidden;
   opacity: 0;
   transform: translateY(var(--hbd-space-4)) scale(0.97);
   transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out),

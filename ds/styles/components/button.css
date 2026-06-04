@@ -116,40 +116,37 @@
 }
 
 /* ── Loading state ──────────────────────────────────────────────────── */
+/*
+ * The loading indicator is an <hbd-spinner> rendered inside the
+ * shadow DOM by hbd-button.js (size=sm, variant=inherit so the arc
+ * inherits the button's text colour). Spinner geometry, animation,
+ * and ARIA come from the spinner component — see hbd-spinner.js and
+ * spinner.css. Here we just hide the slot content and centre the
+ * spinner over the button box.
+ *
+ * The .hbd-button__spinner host gets position:absolute; the .is-loading
+ * rule below establishes the containing block.
+ */
 .hbd-button.is-loading {
   cursor: progress;
   position: relative;
   color: transparent;
 }
-.hbd-button.is-loading > * {
+.hbd-button.is-loading > slot,
+.hbd-button.is-loading > slot[name="icon-left"],
+.hbd-button.is-loading > slot[name="icon-right"] {
   opacity: 0;
 }
-.hbd-button.is-loading::after {
-  content: "";
+.hbd-button__spinner {
   position: absolute;
-  /* Centre the spinner over the button. The button gets position:relative
-     from the .is-loading rule above, so this anchors to its box. Without
-     top/left + transform the absolute element collapses to the top-left
-     corner — visible as the spinner floating above small (icon-only)
-     buttons. */
   top: 50%;
   left: 50%;
-  width: var(--hbd-space-4);
-  height: var(--hbd-space-4);
-  margin: 0;
-  border: var(--hbd-border-width-thin) solid currentColor;
-  border-top-color: transparent;
-  border-radius: var(--hbd-radius-full);
-  /* translate centres, rotate runs the spin — combined into one transform
-     because animating `transform` overrides any non-animated transform. */
-  animation: hbd-button-spin var(--hbd-duration-slower) var(--hbd-ease-linear) infinite;
-}
-
-@keyframes hbd-button-spin {
-  /* Centring offset preserved in both keyframes so the spinner stays
-     visually anchored to the button centre as it rotates. */
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  /* translate centres without disturbing the spinner's own rotation. */
+  transform: translate(-50%, -50%);
+  /* Visible spinner colour follows the button's text colour via the
+     spinner's --inherit variant (set in hbd-button.js render). */
+  color: currentColor;
+  pointer-events: none;
 }
 
 /* ── Icon slots ─────────────────────────────────────────────────────── */

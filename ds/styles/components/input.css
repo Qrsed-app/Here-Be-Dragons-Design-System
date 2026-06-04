@@ -397,16 +397,20 @@
   outline-offset: var(--hbd-focus-offset);
 }
 
-/* Dropdown panel — absolutely positioned within the field wrapper.
-   Slide-open animation: max-height + opacity, --hbd-duration-slow (350ms),
-   --hbd-ease-out. The global prefers-reduced-motion override in
-   foundations/motion.css collapses transitions to 0.01ms automatically. */
+/* Dropdown panel — uses position: fixed with author-supplied
+   viewport coordinates (set inline by hbd-select.js from the
+   trigger's getBoundingClientRect). This is the documented inline-
+   style exception for value-driven layout properties — without it,
+   the panel would be clipped by any scrolling/overflow ancestor
+   between the trigger and the viewport (e.g. an hbd-modal body's
+   scrollable region).
+   Slide-open animation: max-height + opacity, --hbd-duration-slow
+   (350ms), --hbd-ease-out. The global prefers-reduced-motion
+   override in foundations/motion.css collapses transitions to
+   0.01ms automatically. */
 .hbd-field__select-panel {
-  position: absolute;
+  position: fixed;
   z-index: var(--hbd-z-dropdown);
-  top: calc(100% + var(--hbd-space-1));
-  left: 0;
-  right: 0;
   margin: 0;
   padding: 0;
   list-style: none;
