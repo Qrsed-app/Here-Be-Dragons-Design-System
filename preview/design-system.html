@@ -2254,6 +2254,7 @@
             <ul class="ds-toc__list">
               <li><a class="ds-toc__link" href="#component-error-states">Error States</a></li>
               <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+              <li><a class="ds-toc__link" href="#component-layout-utilities">Layout Utilities</a></li>
               <li><a class="ds-toc__link" href="#component-success-states">Success States</a></li>
             </ul>
           </div>
@@ -12171,6 +12172,268 @@ hbdToast.success('Mounted at bottom-center.');</code></pre>
         <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
         <circle cx="22" cy="22" r="13" fill="none" stroke="#27832e" stroke-width="1.5"/>
         <polyline points="15,22 20,27 30,17" fill="none" stroke="#27832e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · LAYOUT UTILITIES ══════════════ -->
+    <section class="ds-section" id="component-layout-utilities" aria-labelledby="heading-layout-utilities">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;4</span>
+        <h2 class="ds-section__heading" id="heading-layout-utilities">Layout Utilities</h2>
+        <p class="ds-section__description">
+          Three small utility components that handle whitespace,
+          proportional sizing, and DOM portalling. They produce no
+          visible UI of their own &mdash; just structure.
+        </p>
+
+        <!-- Hidden anchors so the validator's per-component preview
+             check finds an id for each hbd-*.js file. The visible
+             section id above is the human-facing anchor. -->
+        <span id="component-spacer" aria-hidden="true"></span>
+        <span id="component-aspect-ratio" aria-hidden="true"></span>
+        <span id="component-portal" aria-hidden="true"></span>
+
+        <!-- Group 1 · Vertical spacer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Spacer &mdash; vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>hbd-spacer</code> with a numeric <code>size</code>
+            resolves to <code>var(--hbd-space-N)</code>. The host is
+            <code>role="none"</code> +
+            <code>aria-hidden="true"</code> &mdash; never appears in
+            the accessibility tree or Tab order.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="4"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="4" → 16px gap</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="8"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="8" → 32px gap</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="12"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="12" → 48px gap</span>
+            </div>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div&gt;Block A&lt;/div&gt;
+&lt;hbd-spacer size="8"&gt;&lt;/hbd-spacer&gt;
+&lt;div&gt;Block B&lt;/div&gt;
+
+&lt;!-- Raw CSS values also accepted: --&gt;
+&lt;hbd-spacer size="2rem"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-spacer size="10%"&gt;&lt;/hbd-spacer&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Horizontal spacer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Spacer &mdash; horizontal</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>axis="horizontal"</code> the spacer renders
+            inline width instead of height. Useful between inline
+            badges, chips, or buttons when a flex
+            <code>gap</code> isn&rsquo;t the right tool.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:center;">
+            <div style="display:flex;align-items:center;">
+              <hbd-badge variant="info" count="3"></hbd-badge>
+              <hbd-spacer size="2" axis="horizontal"></hbd-spacer>
+              <hbd-badge variant="success" count="7"></hbd-badge>
+              <hbd-spacer size="4" axis="horizontal"></hbd-spacer>
+              <hbd-badge variant="warning" count="12"></hbd-badge>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge variant="info"    count="3"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-spacer size="2" axis="horizontal"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-badge variant="success" count="7"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-spacer size="4" axis="horizontal"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-badge variant="warning" count="12"&gt;&lt;/hbd-badge&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Aspect ratio presets -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Aspect ratio &mdash; presets</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>hbd-aspect-ratio</code> constrains its child to a
+            fixed ratio via the native <code>aspect-ratio</code> CSS
+            property. Accepts <code>16:9</code> / <code>16/9</code> /
+            <code>1.777</code> notation.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--hbd-space-3);width:100%;">
+
+              <hbd-aspect-ratio ratio="16:9">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">16:9</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="4:3">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">4:3</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="1:1">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">1:1</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="3:2">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">3:2</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="21:9">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">21:9</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="9:16">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">9:16</div>
+              </hbd-aspect-ratio>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-aspect-ratio ratio="16:9"&gt;
+  &lt;div&gt;Sized to a 16:9 box&lt;/div&gt;
+&lt;/hbd-aspect-ratio&gt;
+
+&lt;hbd-aspect-ratio ratio="1:1"&gt;
+  &lt;div&gt;Square box&lt;/div&gt;
+&lt;/hbd-aspect-ratio&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Aspect ratio with image -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Aspect ratio &mdash; with image</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The direct-child CSS rule sets
+            <code>object-fit: cover</code> automatically, so
+            <code>&lt;img&gt;</code> fills the box and crops to fit
+            without distortion. The author is still responsible for
+            the image&rsquo;s <code>alt</code> text.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-3);width:100%;">
+              <hbd-aspect-ratio ratio="16:9">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — wide framing">
+              </hbd-aspect-ratio>
+              <hbd-aspect-ratio ratio="4:3">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — classic framing">
+              </hbd-aspect-ratio>
+              <hbd-aspect-ratio ratio="1:1">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — square framing">
+              </hbd-aspect-ratio>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-aspect-ratio ratio="16:9"&gt;
+  &lt;img src="hero.jpg" alt="Ancient red dragon over Mount Doom"&gt;
+&lt;/hbd-aspect-ratio&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Portal basic -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Portal &mdash; basic</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The paragraph below is authored INSIDE the
+            <code>hbd-portal</code> tag (left-hand block) but renders
+            INSIDE the outlet (right-hand block). Inspect the DOM to
+            confirm the paragraph has been moved.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;gap:var(--hbd-space-4);">
+            <div style="flex:1;background:var(--hbd-color-surface-subtle);padding:var(--hbd-space-3);border:1px dashed var(--hbd-color-border-default);">
+              <span class="hbd-text-micro hbd-text-muted">portal source</span>
+              <hbd-portal target="#portal-outlet-demo">
+                <p style="margin:var(--hbd-space-2) 0 0;font-family:var(--hbd-font-family-ui);color:var(--hbd-color-text-primary);">
+                  I started life inside the &lt;hbd-portal&gt; on the
+                  left, but I render inside the outlet on the right.
+                </p>
+              </hbd-portal>
+            </div>
+            <div style="flex:1;background:var(--hbd-color-surface-default);padding:var(--hbd-space-3);border:1px solid var(--hbd-color-border-subtle);">
+              <span class="hbd-text-micro hbd-text-muted">portal outlet (#portal-outlet-demo)</span>
+              <div id="portal-outlet-demo" style="min-height:var(--hbd-space-12);margin-top:var(--hbd-space-2);"></div>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-portal target="#portal-outlet-demo"&gt;
+  &lt;p&gt;I render inside the outlet, not here.&lt;/p&gt;
+&lt;/hbd-portal&gt;
+
+&lt;!-- elsewhere in the page --&gt;
+&lt;div id="portal-outlet-demo"&gt;&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Portal escape overflow -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Portal &mdash; escape overflow</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The bordered box below has
+            <code>overflow: hidden</code>. The badge is authored
+            inside an <code>hbd-portal</code> targeting
+            <code>body</code> so it escapes the clipping container
+            and appears at the page level instead. (Inspect the DOM
+            &mdash; the badge node lives on
+            <code>&lt;body&gt;</code>.)
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+            <div style="position:relative;overflow:hidden;height:var(--hbd-space-16);background:var(--hbd-color-surface-subtle);border:1px dashed var(--hbd-color-border-default);padding:var(--hbd-space-3);">
+              <span class="hbd-text-micro hbd-text-muted">overflow:hidden container</span>
+              <hbd-portal target="body">
+                <hbd-badge variant="error" count="99" style="position:fixed;top:var(--hbd-space-3);right:var(--hbd-space-3);"></hbd-badge>
+              </hbd-portal>
+            </div>
+            <p class="hbd-text-label hbd-text-muted" style="margin:0;">
+              The error badge appears anchored to the viewport via
+              <code>position: fixed</code> &mdash; impossible from inside
+              the clipped container without the portal moving the
+              element out to <code>&lt;body&gt;</code> first.
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div style="overflow:hidden;"&gt;
+  &lt;hbd-portal target="body"&gt;
+    &lt;hbd-badge variant="error" count="99"
+               style="position:fixed;top:1rem;right:1rem;"&gt;&lt;/hbd-badge&gt;
+  &lt;/hbd-portal&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Layout Utilities divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="10" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="24" y="10" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <rect x="10" y="24" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <rect x="24" y="24" width="10" height="10" fill="#7a1212" opacity="0.5"/>
       </svg>
     </div>
 

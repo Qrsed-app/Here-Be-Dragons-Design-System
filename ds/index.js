@@ -28,6 +28,7 @@ preloadStyles([
 
 import './components/hbd-accordion.js';
 import './components/hbd-alert.js';
+import './components/hbd-aspect-ratio.js';
 import './components/hbd-avatar.js';
 import './components/hbd-avatar-group.js';
 import './components/hbd-badge.js';
@@ -54,12 +55,14 @@ import './components/hbd-navbar.js';
 import './components/hbd-otp-input.js';
 import './components/hbd-pagination.js';
 import './components/hbd-popover.js';
+import './components/hbd-portal.js';
 import './components/hbd-progress.js';
 import './components/hbd-radio-group.js';
 import './components/hbd-select.js';
 import './components/hbd-skeleton.js';
 import './components/hbd-skeleton-group.js';
 import './components/hbd-slider.js';
+import './components/hbd-spacer.js';
 import './components/hbd-spinner.js';
 import './components/hbd-spell-card.js';
 import './components/hbd-split-button.js';
