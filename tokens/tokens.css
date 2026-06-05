@@ -268,7 +268,10 @@
   --hbd-duration-normal: 200ms;
   --hbd-duration-slow: 350ms;
   --hbd-duration-slower: 500ms;
+  --hbd-duration-spin: 750ms;
   --hbd-duration-pulse: 1500ms;
+  --hbd-duration-linger: 5000ms;
+  --hbd-duration-linger-lg: 8000ms;
 
   /* ── ease ──────────────────────────────────────────────── */
   --hbd-ease-linear: linear;
@@ -375,6 +378,28 @@
   --hbd-empty-state-description-max-width: 360px;
   --hbd-empty-state-description-max-width-lg: 480px;
   --hbd-empty-state-min-height-lg: 60vh;
+
+  /* ── toast ─────────────────────────────────────────────── */
+  --hbd-toast-max-width: 360px;
+  --hbd-toast-progress-height: 3px;
+  --hbd-toast-collapse-ceiling: 200px;
+
+  /* ── modal ─────────────────────────────────────────────── */
+  --hbd-modal-width-sm: 400px;
+  --hbd-modal-width-md: 560px;
+  --hbd-modal-width-lg: 720px;
+  --hbd-modal-max-height: 90vh;
+
+  /* ── spinner ───────────────────────────────────────────── */
+  --hbd-spinner-size-sm: 16px;
+  --hbd-spinner-size-md: 24px;
+  --hbd-spinner-size-lg: 40px;
+  --hbd-spinner-size-xl: 64px;
+  --hbd-spinner-stroke: 2px;
+
+  /* ── full-banner ───────────────────────────────────────── */
+  --hbd-full-banner-inner-max-width: 560px;
+  --hbd-full-banner-description-max-width: 440px;
 
   /* ── checkbox ──────────────────────────────────────────── */
   --hbd-checkbox-size: 22px;

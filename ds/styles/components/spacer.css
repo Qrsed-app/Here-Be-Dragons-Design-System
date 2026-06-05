@@ -1,0 +1,19 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/spacer.css
+ *
+ * Explicit-whitespace utility. The element's actual width / height
+ * are written inline by hbd-spacer.js based on the size + axis
+ * attributes — this is the documented inline-style exception for
+ * value-driven layout properties (same pattern as
+ * hbd-skeleton rect height and hbd-progress fill width).
+ *
+ * The component itself is purely decorative: hbd-spacer.js sets
+ * role="none" + aria-hidden="true" so the spacer never appears in
+ * the accessibility tree and never shifts reading or Tab order.
+ */
+
+.hbd-spacer {
+  display: block;
+  flex-shrink: 0;
+}

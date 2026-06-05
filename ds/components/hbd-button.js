@@ -24,6 +24,10 @@ class HbdButton extends HTMLElement {
     adoptStyles(this.shadowRoot, [
       '/tokens/tokens.css',
       '/ds/styles/components/button.css',
+      // Adopted so the inline <hbd-spinner> rendered in the loading
+      // state below picks up its size/stroke/colour rules inside the
+      // button's shadow root.
+      '/ds/styles/components/spinner.css',
     ]);
     this._render();
     this._upgradeAccessibility();
@@ -81,6 +85,17 @@ class HbdButton extends HTMLElement {
       ? '<slot></slot>'
       : '<slot name="icon-left"></slot><slot></slot><slot name="icon-right"></slot>';
 
+    // Loading state: render an <hbd-spinner> overlaid on the button.
+    // The .is-loading rule in button.css hides the slot content and
+    // positions this spinner at the centre. Reusing the spinner
+    // component (rather than the previous ::after pseudo-element)
+    // means the spinner respects --hbd-duration-spin from tokens.json
+    // and inherits the same accessible role="status" announcement
+    // pattern as every other spinner in the DS.
+    const spinnerHtml = isLoading
+      ? '<hbd-spinner class="hbd-button__spinner" size="sm" variant="inherit" label="Loading"></hbd-spinner>'
+      : '';
+
     let toggleAttr = '';
     if (isToggle) {
       if (useChecked) {
@@ -100,6 +115,7 @@ class HbdButton extends HTMLElement {
         ${toggleAttr}
       >
         ${slots}
+        ${spinnerHtml}
       </button>
     `;
   }

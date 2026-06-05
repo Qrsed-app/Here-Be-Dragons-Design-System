@@ -1,0 +1,120 @@
+/*
+ * Here Be Dragons DS
+ * ds/styles/components/spinner.css
+ *
+ * Indeterminate progress indicator. SVG circle with a rotating arc
+ * — more performant than rotating a border-radius element and gives
+ * us precise control over the arc length and gap.
+ *
+ * The JS layer (hbd-spinner.js) authors the SVG; this file only
+ * styles the two <circle> children and applies the rotation. The
+ * geometry constants (cx=12, cy=12, r=10) come from the JS and the
+ * 56.5 dash-array literal is derived from them — see the comment in
+ * §3 below.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-color-action-default — emitted token is
+ *   --hbd-color-surface-action (the canonical "action" fill colour,
+ *   same one consumed by hbd-button primary and hbd-progress fill).
+ * - Spec referenced --hbd-duration-spin (0.75s) — added as a new
+ *   duration token so the value lives in tokens.json.
+ *
+ * Reduced motion: the global @media (prefers-reduced-motion: reduce)
+ * override in foundations/motion.css collapses the spin animation to
+ * 0.01ms, effectively freezing it as a static arc. The arc remains
+ * visually distinct (75% circle + gap) so the indicator is still
+ * legible without motion. No spinner-specific reduced-motion rule
+ * is required.
+ *
+ * SC 2.2.2 exemption: a spinner used as a decorative loading
+ * indicator that auto-removes when loading completes is exempt from
+ * SC 2.2.2 (it is not a moving/blinking/scrolling INFORMATION element;
+ * the information is carried by the role="status" announcement, not
+ * by the motion itself).
+ */
+
+/* ── 1 · Block ────────────────────────────────────────────────────── */
+.hbd-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--hbd-spinner-size-md);
+  height: var(--hbd-spinner-size-md);
+  /* The base spinner uses the action colour so the fill arc inherits
+     it via currentColor by default. The --inherit modifier overrides
+     this with currentColor at the host (see §4). */
+  color: var(--hbd-color-surface-action);
+  line-height: 0;
+}
+
+.hbd-spinner--sm { width: var(--hbd-spinner-size-sm); height: var(--hbd-spinner-size-sm); }
+.hbd-spinner--lg { width: var(--hbd-spinner-size-lg); height: var(--hbd-spinner-size-lg); }
+.hbd-spinner--xl { width: var(--hbd-spinner-size-xl); height: var(--hbd-spinner-size-xl); }
+
+/* ── 2 · Animation ────────────────────────────────────────────────── */
+@keyframes hbd-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.hbd-spinner svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Rotate the entire SVG; the inner -90deg transform on the fill
+     circle (set in JS) anchors the arc start at 12 o'clock. */
+  animation: hbd-spin var(--hbd-duration-spin) linear infinite;
+  transform-origin: center center;
+}
+
+/* ── 3 · Track and fill ───────────────────────────────────────────── */
+/*
+ * Geometry: the SVG viewBox is 0 0 24 24 with both circles at
+ * cx=12 cy=12 r=10. Circumference = 2π × 10 ≈ 62.83. The fill arc
+ * is 75% of the circle, so dash-array = 47.12 visible / 15.71 gap.
+ * We use 47 + 16 (sum 63 ≈ circumference) for clean integer round —
+ * close enough that the gap reads as ~25% of the circle.
+ *
+ * The 47/16 literals are SVG-geometry constants, not visual tokens —
+ * they fall out of the cx/cy/r values defined in JS and cannot be
+ * tokenised without breaking the relationship. Documented exception.
+ */
+.hbd-spinner__track {
+  stroke: var(--hbd-color-border-subtle);
+  fill: none;
+  stroke-width: var(--hbd-spinner-stroke);
+}
+
+.hbd-spinner__fill {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: var(--hbd-spinner-stroke);
+  stroke-linecap: round;
+  stroke-dasharray: 47 16;
+  stroke-dashoffset: 0;
+}
+
+/* ── 4 · Colour variants ──────────────────────────────────────────── */
+.hbd-spinner--muted {
+  color: var(--hbd-color-text-muted);
+}
+.hbd-spinner--muted .hbd-spinner__track {
+  stroke: var(--hbd-color-border-subtle);
+}
+
+.hbd-spinner--inherit {
+  color: inherit;
+}
+.hbd-spinner--inherit .hbd-spinner__track {
+  /* On unknown background colours (button surface, callout surface,
+     etc.) we tint the track from the inherited foreground at 20%
+     opacity so it reads as a subtle complement to the fill arc.
+     stroke-opacity is the only SVG-native way to apply alpha to a
+     stroke without color-mix. */
+  stroke: currentColor;
+  stroke-opacity: 0.2;
+}
+.hbd-spinner--inherit .hbd-spinner__fill {
+  stroke: currentColor;
+}

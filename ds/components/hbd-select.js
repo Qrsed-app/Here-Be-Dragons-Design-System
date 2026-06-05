@@ -454,7 +454,13 @@ class HbdSelect extends HTMLElement {
       : (this._options.findIndex((o) => o.value === this._value && !o.disabled));
     if (this._focusedIndex < 0) this._focusedIndex = this._firstEnabledIndex();
     this._setOpenClass(true);
+    // Position the panel via fixed coordinates derived from the
+    // trigger's viewport rect, so it escapes any scrolling/overflow
+    // ancestor (e.g. an hbd-modal body). See _positionPanel + the
+    // accompanying scroll/resize listeners.
+    this._positionPanel();
     this._addDocListeners();
+    this._addRepositionListeners();
     // Move focus into the active option without rebuilding the panel.
     this._focusActiveOption();
     this.dispatchEvent(new CustomEvent('hbd:open', { bubbles: true, composed: true }));
@@ -464,12 +470,95 @@ class HbdSelect extends HTMLElement {
     if (!this._open) return;
     this._open = false;
     this._removeDocListeners();
+    this._removeRepositionListeners();
+    // Clear the inline max-height set by _positionPanel so the CSS
+    // close-state rule (max-height: 0) actually applies and the
+    // collapse animation runs.
+    const panel = this.shadowRoot.querySelector('.hbd-field__select-panel');
+    if (panel) panel.style.maxHeight = '';
     this._setOpenClass(false);
     if (returnFocus) {
       const trigger = this.shadowRoot.querySelector('.hbd-field__select-trigger');
       if (trigger) trigger.focus({ preventScroll: true });
     }
     this.dispatchEvent(new CustomEvent('hbd:close', { bubbles: true, composed: true }));
+  }
+
+  // Position the dropdown panel so it escapes any scrolling ancestor
+  // (modal body, drawer, table cell, etc.) AND any transformed
+  // ancestor that would otherwise hijack the position:fixed
+  // containing block. Prefers below the trigger; flips above when
+  // below would run off the viewport. Width matches the trigger.
+  //
+  // Subtle point: position:fixed normally anchors to the viewport,
+  // but ANY ancestor with a transform / perspective / filter /
+  // contain becomes the containing block instead. hbd-modal's dialog
+  // has a transform (for the open/close animation), so a fixed panel
+  // inside a modal gets positioned relative to the dialog box, not
+  // the viewport.
+  //
+  // Compensation: zero out the panel's offsets, measure where the
+  // browser actually placed it (panel.getBoundingClientRect() gives
+  // the containing-block origin in viewport space), then set the
+  // panel coords to (trigger viewport rect) MINUS (containing-block
+  // origin). The arithmetic works regardless of whether the
+  // containing block is the viewport or a transformed ancestor.
+  _positionPanel() {
+    const trigger = this.shadowRoot.querySelector('.hbd-field__select-trigger');
+    const panel = this.shadowRoot.querySelector('.hbd-field__select-panel');
+    if (!trigger || !panel) return;
+
+    // Reset positional inline styles to a known origin so we can
+    // measure the containing-block offset. width + maxHeight are
+    // left alone here because they don't affect the panel's
+    // top-left corner — only positional left/top do.
+    panel.style.left = '0px';
+    panel.style.top = '0px';
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+    // With left=0/top=0, the panel's top-left IS the containing
+    // block's origin in viewport coordinates. If an ancestor has a
+    // transform (e.g. hbd-modal's dialog), the containing block is
+    // that ancestor, NOT the viewport — this measurement captures
+    // that automatically.
+    const cbX = panelRect.left;
+    const cbY = panelRect.top;
+
+    const gap = 4;
+    const maxBelow = window.innerHeight - triggerRect.bottom - gap;
+    const maxAbove = triggerRect.top - gap;
+    const preferAbove = maxBelow < 200 && maxAbove > maxBelow;
+
+    const panelTopViewport = preferAbove
+      ? Math.max(gap, triggerRect.top - gap - Math.min(maxAbove, 280))
+      : triggerRect.bottom + gap;
+
+    // Translate viewport coords → containing-block coords.
+    panel.style.left = `${triggerRect.left - cbX}px`;
+    panel.style.top = `${panelTopViewport - cbY}px`;
+    panel.style.width = `${triggerRect.width}px`;
+
+    const maxH = preferAbove ? maxAbove : maxBelow;
+    panel.style.maxHeight = `${Math.max(120, Math.min(280, maxH))}px`;
+  }
+
+  _addRepositionListeners() {
+    if (this._repositionInstalled) return;
+    this._repositionInstalled = true;
+    this._onReposition = () => this._positionPanel();
+    // useCapture: true so we catch scroll inside any container
+    // (modal body, etc.) — scroll events don't bubble.
+    window.addEventListener('scroll', this._onReposition, true);
+    window.addEventListener('resize', this._onReposition);
+  }
+
+  _removeRepositionListeners() {
+    if (!this._repositionInstalled) return;
+    this._repositionInstalled = false;
+    window.removeEventListener('scroll', this._onReposition, true);
+    window.removeEventListener('resize', this._onReposition);
+    this._onReposition = null;
   }
 
   // ── Events ──────────────────────────────────────────────────────────

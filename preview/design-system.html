@@ -2209,6 +2209,7 @@
               <li><a class="ds-toc__link" href="#component-tabs">Tabs</a></li>
               <li><a class="ds-toc__link" href="#component-menu">Dropdown Menu</a></li>
               <li><a class="ds-toc__link" href="#component-drawer">Drawer</a></li>
+              <li><a class="ds-toc__link" href="#component-modal">Modal</a></li>
               <li><a class="ds-toc__link" href="#component-navbar">Navbar</a></li>
               <li><a class="ds-toc__link" href="#component-pagination">Pagination</a></li>
               <li><a class="ds-toc__link" href="#component-stepper-nav">Stepper Navigation</a></li>
@@ -2218,13 +2219,17 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Feedback &amp; status</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-alert">Alert</a></li>
               <li><a class="ds-toc__link" href="#component-badge">Badge</a></li>
               <li><a class="ds-toc__link" href="#component-callout">Callout</a></li>
               <li><a class="ds-toc__link" href="#component-chip">Chip</a></li>
               <li><a class="ds-toc__link" href="#component-empty-state">Empty States</a></li>
+              <li><a class="ds-toc__link" href="#component-full-banner">Full-Page Banner</a></li>
               <li><a class="ds-toc__link" href="#component-popover">Popover</a></li>
               <li><a class="ds-toc__link" href="#component-progress">Progress Bar</a></li>
               <li><a class="ds-toc__link" href="#component-skeleton">Skeleton Loader</a></li>
+              <li><a class="ds-toc__link" href="#component-spinner">Spinner</a></li>
+              <li><a class="ds-toc__link" href="#component-toast">Toast</a></li>
               <li><a class="ds-toc__link" href="#component-tooltip">Tooltip</a></li>
             </ul>
           </div>
@@ -2247,7 +2252,10 @@
           <div class="ds-toc__group">
             <span class="ds-toc__group-label">Patterns</span>
             <ul class="ds-toc__list">
+              <li><a class="ds-toc__link" href="#component-error-states">Error States</a></li>
               <li><a class="ds-toc__link" href="#pattern-form-validation">Form Validation</a></li>
+              <li><a class="ds-toc__link" href="#component-layout-utilities">Layout Utilities</a></li>
+              <li><a class="ds-toc__link" href="#component-success-states">Success States</a></li>
             </ul>
           </div>
 
@@ -10721,6 +10729,1826 @@ const id  = setInterval(() =&gt; {
         <circle cx="22" cy="22" r="2" fill="#b8893b"/>
       </svg>
     </div>
+
+    <!-- ══════════════════════ COMPONENT · ALERT ══════════════════════ -->
+    <section class="ds-section" id="component-alert" aria-labelledby="heading-alert">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;17</span>
+        <h2 class="ds-section__heading" id="heading-alert">Alert</h2>
+        <p class="ds-section__description">
+          Alerts communicate <em>system-level</em> feedback inline within
+          page content — form errors, save confirmations, API responses,
+          maintenance notices. Use <code>type="banner"</code> for
+          site-wide announcements, <code>type="inline"</code> for
+          field-group feedback, and the default <code>type="alert"</code>
+          for section-level messages. For HBD-flavoured authored content
+          (lore, GM tips, "sage advice"), reach for
+          <a href="#component-callout">hbd-callout</a> instead.
+        </p>
+
+        <!-- Group 1 · Four variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Alert — four variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>info</code> is announced silently (role=note);
+            <code>success</code> and <code>warning</code> use
+            role=status (polite); <code>error</code> uses role=alert
+            (assertive). The icon reinforces the variant — colour is
+            not the sole carrier of meaning (SC&nbsp;1.4.1).
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="info" title="Arcane Update">
+              The spell compendium has been updated with new entries from Tasha&rsquo;s Cauldron of Everything.
+            </hbd-alert>
+            <hbd-alert variant="success" title="Character Saved">
+              Your character sheet has been saved successfully to the cloud.
+            </hbd-alert>
+            <hbd-alert variant="warning" title="Session Expiring">
+              Your session will expire in 5 minutes. Save your work to avoid losing progress.
+            </hbd-alert>
+            <hbd-alert variant="error" title="Spell Failed">
+              The server could not process your request. Please check your connection and try again.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info"    title="Arcane Update"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="success" title="Character Saved"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="warning" title="Session Expiring"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="error"   title="Spell Failed"&gt;…&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Dismissible -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dismissible alerts</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Add the <code>dismissible</code> attribute to render the
+            close button. Activating it collapses the alert
+            (opacity + height transition) and removes it from the DOM
+            once the transition ends. A <code>hbd:dismiss</code>
+            CustomEvent bubbles before removal.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="warning" title="Concentration broken" dismissible>
+              You took damage while concentrating; the spell ends.
+            </hbd-alert>
+            <hbd-alert variant="error" title="Roll failed to save" dismissible>
+              The dice service is unreachable. Local rolls have not been written to your campaign log.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="warning" title="Concentration broken" dismissible&gt;
+  You took damage while concentrating; the spell ends.
+&lt;/hbd-alert&gt;
+
+&lt;hbd-alert variant="error" title="Roll failed to save" dismissible&gt;
+  The dice service is unreachable&hellip;
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With action -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With action</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Add a <code>&lt;button class="hbd-alert__action"&gt;</code>
+            inside the alert to render an inline activator. It inherits
+            the variant text colour and shows the underline + focus ring
+            from <code>currentColor</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:640px;">
+            <hbd-alert variant="info" title="New tomes added">
+              Twelve new spells were added in the latest patch.
+              <button class="hbd-alert__action" type="button">View changelog</button>
+            </hbd-alert>
+            <hbd-alert variant="error" title="We could not reach the keep">
+              An unexpected error occurred while loading your campaign.
+              <button class="hbd-alert__action" type="button">Contact support</button>
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info" title="New tomes added"&gt;
+  Twelve new spells were added in the latest patch.
+  &lt;button class="hbd-alert__action" type="button"&gt;View changelog&lt;/button&gt;
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Banner -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Banner</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="banner"</code> is a full-width sticky bar
+            intended for site-wide notices (cookies, maintenance,
+            outages). With the <code>persist</code> attribute, a
+            dismissal is remembered in <code>localStorage</code> under
+            <code>hbd-alert-dismissed-&lt;id&gt;</code>, so the banner
+            does not reappear on subsequent page loads.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);padding:0;">
+            <hbd-alert
+              id="alert-banner-demo"
+              variant="warning"
+              type="banner"
+              title="Scheduled Maintenance"
+              dismissible
+              persist>
+              The server will be unavailable 2:00&ndash;4:00 AM UTC.
+              <button class="hbd-alert__action" type="button">Read more</button>
+            </hbd-alert>
+            <div style="padding:var(--hbd-space-4);">
+              <button id="alert-banner-reset" class="hbd-alert__action" type="button" style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-label);color:var(--hbd-color-text-muted);">
+                Reset persisted dismissal
+              </button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert
+  id="maintenance-banner"
+  variant="warning"
+  type="banner"
+  title="Scheduled Maintenance"
+  dismissible
+  persist&gt;
+  The server will be unavailable 2:00&ndash;4:00 AM UTC.
+&lt;/hbd-alert&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var reset = document.getElementById('alert-banner-reset');
+                if (!reset) return setTimeout(wire, 50);
+                reset.addEventListener('click', function () {
+                  try { localStorage.removeItem('hbd-alert-dismissed-alert-banner-demo'); } catch (_e) {}
+                  // Re-insert a fresh banner so the demo is repeatable
+                  // without a page reload.
+                  var existing = document.getElementById('alert-banner-demo');
+                  if (existing) existing.remove();
+                  var fresh = document.createElement('hbd-alert');
+                  fresh.id = 'alert-banner-demo';
+                  fresh.setAttribute('variant', 'warning');
+                  fresh.setAttribute('type', 'banner');
+                  fresh.setAttribute('title', 'Scheduled Maintenance');
+                  fresh.setAttribute('dismissible', '');
+                  fresh.setAttribute('persist', '');
+                  fresh.innerHTML = 'The server will be unavailable 2:00&ndash;4:00 AM UTC. ' +
+                    '<button class="hbd-alert__action" type="button">Read more</button>';
+                  reset.parentElement.parentElement.insertBefore(fresh, reset.parentElement);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+        <!-- Group 5 · Inline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Inline</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="inline"</code> is compact and single-row,
+            intended to sit directly beneath a field group as a
+            validation or hint message. Smaller icon, label-sized
+            type, no title.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-2);max-width:520px;">
+            <hbd-alert variant="info" type="inline">
+              Casting time updates apply on the next dice roll.
+            </hbd-alert>
+            <hbd-alert variant="warning" type="inline">
+              This name is shared with another character in your party.
+            </hbd-alert>
+            <hbd-alert variant="error" type="inline">
+              Hit points cannot exceed the maximum for this character class.
+            </hbd-alert>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-alert variant="info"    type="inline"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="warning" type="inline"&gt;…&lt;/hbd-alert&gt;
+&lt;hbd-alert variant="error"   type="inline"&gt;…&lt;/hbd-alert&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Dynamic injection -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dynamic injection</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Submit the form to inject a fresh
+            <code>variant="success"</code> alert above it. Because
+            <code>role="status"</code> is set in the markup, the alert
+            is announced by screen readers as soon as it is appended
+            to the DOM (SC&nbsp;4.1.3) &mdash; no extra JS is needed.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);max-width:520px;">
+            <div id="alert-inject-target"></div>
+            <form id="alert-inject-form" style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <label class="hbd-text-label hbd-text-primary" for="alert-inject-name">Character name</label>
+              <input
+                id="alert-inject-name"
+                type="text"
+                value="Elenya"
+                style="font-family:var(--hbd-font-family-ui);font-size:var(--hbd-font-size-body);padding:var(--hbd-space-2) var(--hbd-space-3);border:1.5px solid var(--hbd-color-border-default);border-radius:var(--hbd-radius-md);background:var(--hbd-color-surface-default);color:var(--hbd-color-text-primary);">
+              <div>
+                <hbd-button id="alert-inject-submit" variant="primary">Save character</hbd-button>
+              </div>
+            </form>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>function onSubmit(name) {
+  const alert = document.createElement('hbd-alert');
+  alert.setAttribute('variant', 'success');
+  alert.setAttribute('title', 'Character Saved');
+  alert.setAttribute('dismissible', '');
+  alert.textContent = name + ' has been saved to the cloud.';
+  document.getElementById('inject-target').appendChild(alert);
+  // role="status" + aria-live="polite" announce automatically.
+}</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var form   = document.getElementById('alert-inject-form');
+                var name   = document.getElementById('alert-inject-name');
+                var target = document.getElementById('alert-inject-target');
+                if (!form || !name || !target) return setTimeout(wire, 50);
+                form.addEventListener('submit', function (e) { e.preventDefault(); });
+                form.addEventListener('click', function (e) {
+                  var btn = e.target && e.target.closest && e.target.closest('hbd-button');
+                  if (!btn) return;
+                  if (btn.id !== 'alert-inject-submit') return;
+                  e.preventDefault();
+                  var n = (name.value || '').trim() || 'Your character';
+                  var a = document.createElement('hbd-alert');
+                  a.setAttribute('variant', 'success');
+                  a.setAttribute('title', 'Character Saved');
+                  a.setAttribute('dismissible', '');
+                  a.textContent = n + ' has been saved successfully to the cloud.';
+                  target.appendChild(a);
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Alert divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M22 9 L36 33 H8 Z" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="22" y1="18" x2="22" y2="26" stroke="#7a5a22" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="30" r="1.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · TOAST ══════════════════════ -->
+    <section class="ds-section" id="component-toast" aria-labelledby="heading-toast">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;18</span>
+        <h2 class="ds-section__heading" id="heading-toast">Toast</h2>
+        <p class="ds-section__description">
+          Toasts are brief, auto-dismissing notifications that float at
+          the viewport edge. Use them for action confirmations,
+          background-task outcomes, and non-critical system messages.
+          Authors call <code>hbdToast.show({&hellip;})</code> from any
+          JavaScript on the page; a singleton manager owns the portal,
+          the active stack (max 3), and the overflow queue. Hover or
+          focus pauses the auto-dismiss timer and the countdown bar.
+        </p>
+
+        <!-- Group 1 · Four variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Trigger buttons &mdash; all variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>info</code> / <code>success</code> /
+            <code>warning</code> announce politely; <code>error</code>
+            announces assertively (the container's
+            <code>aria-live</code> is briefly flipped while the toast is
+            appended, then restored to <code>polite</code>).
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="info"    variant="default">Show info</hbd-button>
+            <hbd-button data-toast="success" variant="primary">Show success</hbd-button>
+            <hbd-button data-toast="warning" variant="default">Show warning</hbd-button>
+            <hbd-button data-toast="error"   variant="default">Show error</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({ variant: 'info',    message: 'Spell list updated with 3 new entries.' });
+hbdToast.show({ variant: 'success', message: 'Character sheet saved.' });
+hbdToast.show({ variant: 'warning', message: 'Session expires in 5 minutes.' });
+hbdToast.show({ variant: 'error',   message: 'Failed to load monster stat block.' });</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · With title -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With title</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            A title renders a bold heading above the message body, the
+            same as <a href="#component-alert">hbd-alert</a>. Use to
+            distinguish the headline from the supporting detail.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="with-title" variant="default">Show titled error</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'error',
+  title:   'Enchantment failed',
+  message: 'The item could not be enchanted. Check your reagents.',
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · With undo action -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With undo action</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            An action button renders an inline activator inside the
+            toast. Activating it runs the callback, then dismisses the
+            toast. In this demo, &ldquo;Undo&rdquo; restores the
+            deleted spell and shows a follow-up info toast.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="undo" variant="primary">Delete spell</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'success',
+  message: 'Spell deleted.',
+  action: {
+    label: 'Undo',
+    onClick: () =&gt; {
+      restoreSpell();
+      hbdToast.info('Spell restored to your spellbook.');
+    },
+  },
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Long duration -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long duration</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Pass an explicit <code>duration</code> in milliseconds for
+            messages that need more reading time. 8&nbsp;000 ms maps to
+            the <code>--hbd-duration-linger-lg</code> token.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="long" variant="default">Show 8s warning</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'warning',
+  message: 'Server maintenance begins in 10 minutes.',
+  duration: 8000,
+});</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Position variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Position variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>setPosition</code> moves the portal to one of five
+            placement modifiers. Bottom variants stack new toasts
+            closest to the bottom edge; top-center and bottom-center
+            slide vertically rather than horizontally.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast-pos="top-right"     variant="default">top-right</hbd-button>
+            <hbd-button data-toast-pos="top-center"    variant="default">top-center</hbd-button>
+            <hbd-button data-toast-pos="bottom-right"  variant="default">bottom-right</hbd-button>
+            <hbd-button data-toast-pos="bottom-center" variant="default">bottom-center</hbd-button>
+            <hbd-button data-toast-pos="bottom-left"   variant="default">bottom-left</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.setPosition('bottom-center');
+hbdToast.success('Mounted at bottom-center.');</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Stacking demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Stacking demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Maximum 3 toasts visible simultaneously. Additional toasts
+            queue and appear as space frees up &mdash; click below to
+            push four toasts in rapid succession.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="stack" variant="default">Push 4 toasts</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>for (let i = 1; i &lt;= 4; i++) {
+  hbdToast.show({ variant: 'info', message: `Toast ${i} of 4` });
+}
+// Toast #4 waits until toast #1 is dismissed.</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 7 · Hover pause -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Hover and focus pause</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Hover over the toast to pause auto-dismiss; the progress
+            bar pauses with it. Tabbing into the dismiss or action
+            button has the same effect &mdash; the timer resumes with
+            the remaining duration when focus or pointer leaves.
+            Users with <code>prefers-reduced-motion</code> see no
+            auto-dismiss at all, satisfying SC&nbsp;2.2.1.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-toast="hover" variant="default">Show hover-demo toast</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>hbdToast.show({
+  variant: 'info',
+  title:   'Hover or tab into me',
+  message: 'Auto-dismiss pauses while pointer or focus is over the toast.',
+  duration: 8000,
+});</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Toast divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="8" y="14" width="28" height="14" rx="2" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="11" y1="20" x2="33" y2="20" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <line x1="11" y1="24" x2="25" y2="24" stroke="#7a5a22" stroke-width="1" opacity="0.45"/>
+        <rect x="10" y="29" width="8" height="1.5" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · MODAL ══════════════════════ -->
+    <section class="ds-section" id="component-modal" aria-labelledby="heading-modal">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;19</span>
+        <h2 class="ds-section__heading" id="heading-modal">Modal</h2>
+        <p class="ds-section__description">
+          Modals focus attention on a single task and block the page
+          behind. Use sparingly &mdash; prefer
+          <a href="#component-drawer">drawers</a> for navigation and
+          inline components for forms that don&rsquo;t require full
+          isolation. Escape <em>always</em> closes the modal
+          (SC&nbsp;2.1.2 &mdash; no attribute may remove the keyboard
+          exit path); focus returns to the trigger element on close.
+        </p>
+
+        <!-- Group 1 · Basic dialog -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Basic dialog</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Title + body + footer. Focus moves into the dialog on
+            open, stays trapped while open, and returns to the
+            triggering button on close.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button id="modal-basic-trigger" variant="primary">Prepare a spell</hbd-button>
+          </div>
+          <hbd-modal id="modal-basic" size="md" title="Prepare Spell">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <hbd-input
+                id="modal-basic-name"
+                label="Spell name"
+                value="Magic Missile"
+                placeholder="Enter spell name"></hbd-input>
+              <hbd-select
+                id="modal-basic-level"
+                label="Spell level"
+                value="1">
+                <hbd-option value="0">Cantrip</hbd-option>
+                <hbd-option value="1" selected>1st level</hbd-option>
+                <hbd-option value="2">2nd level</hbd-option>
+                <hbd-option value="3">3rd level</hbd-option>
+              </hbd-select>
+            </div>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Prepare</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal id="prep" title="Prepare Spell"&gt;
+  &lt;hbd-input  label="Spell name"  value="Magic Missile"&gt;&lt;/hbd-input&gt;
+  &lt;hbd-select label="Spell level" value="1"&gt;
+    &lt;hbd-option value="0"&gt;Cantrip&lt;/hbd-option&gt;
+    &lt;hbd-option value="1" selected&gt;1st level&lt;/hbd-option&gt;
+    &lt;hbd-option value="2"&gt;2nd level&lt;/hbd-option&gt;
+  &lt;/hbd-select&gt;
+  &lt;div slot="footer"&gt;
+    &lt;!-- data-modal-close on ANY descendant closes the modal --&gt;
+    &lt;hbd-button data-modal-close variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button data-modal-close variant="primary"&gt;Prepare&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-modal&gt;
+&lt;script&gt;
+  document.getElementById('prep-trigger').addEventListener('click', () =&gt; {
+    document.getElementById('prep').show();
+  });
+&lt;/script&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>sm</code> (400&nbsp;px) for confirmations,
+            <code>md</code> (560&nbsp;px) default,
+            <code>lg</code> (720&nbsp;px) for detailed forms,
+            <code>full</code> for full-screen takeovers.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-size-sm"   variant="default">sm</hbd-button>
+            <hbd-button data-open-modal="modal-size-md"   variant="default">md</hbd-button>
+            <hbd-button data-open-modal="modal-size-lg"   variant="default">lg</hbd-button>
+            <hbd-button data-open-modal="modal-size-full" variant="default">full-screen</hbd-button>
+          </div>
+          <hbd-modal id="modal-size-sm" size="sm" title="Compact dialog">
+            <p>This dialog is sized for short confirmations and yes/no choices.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-md" title="Default dialog">
+            <p>Most dialogs use the default medium size &mdash; comfortable
+            for a label-input pair or a paragraph of context.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-lg" size="lg" title="Wide dialog">
+            <p>The large size is appropriate for multi-column forms, table
+            previews, or detailed entity editors.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <hbd-modal id="modal-size-full" size="full" title="Full-screen takeover">
+            <p>A full-screen modal fills the entire viewport. Use this
+            sparingly &mdash; usually only for immersive editors or wizards
+            where the surrounding page must completely disappear.</p>
+            <p>Note that even at full-screen size, Escape still closes the
+            modal and focus still returns to the trigger.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal size="sm"   title="Compact dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal             title="Default dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal size="lg"   title="Wide dialog"&gt;&hellip;&lt;/hbd-modal&gt;
+&lt;hbd-modal size="full" title="Full-screen takeover"&gt;&hellip;&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Long scrollable content -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Long scrollable content</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The body area scrolls independently when content exceeds
+            <code>--hbd-modal-max-height</code> (90&nbsp;vh). Header and
+            footer stay pinned. <code>overscroll-behavior:contain</code>
+            keeps a scroll near the edge from leaking to the page.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-scroll" variant="default">Open the bestiary</hbd-button>
+          </div>
+          <hbd-modal id="modal-scroll" title="The Bestiary of Faerûn">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <p>Below is a partial listing of creatures known to the
+              chroniclers of the Realms. The body of this modal scrolls
+              independently of the header and footer.</p>
+              <p><strong>Ancient Red Dragon.</strong> Lairs in volcanic peaks. CR 24. Breath weapon: 90-foot cone of fire.</p>
+              <p><strong>Beholder.</strong> Lawful evil aberration. CR 13. Eye rays: charm, paralysing, fear, slow, enervation, telekinetic, sleep, petrification, disintegration, death.</p>
+              <p><strong>Cloud Giant.</strong> Neutral. CR 9. Native to mountain peaks above the clouds.</p>
+              <p><strong>Death Knight.</strong> Chaotic evil undead. CR 17. Sword strikes deal additional necrotic damage.</p>
+              <p><strong>Erinyes.</strong> Lawful evil devil. CR 12. Wields a longsword and longbow with poison.</p>
+              <p><strong>Frost Giant.</strong> Chaotic evil giant. CR 8. Resistant to cold, immune to frost-based magic.</p>
+              <p><strong>Gorgon.</strong> Unaligned monstrosity. CR 5. Petrifying breath weapon.</p>
+              <p><strong>Hydra.</strong> Unaligned monstrosity. CR 8. Multiple heads regenerate when severed.</p>
+              <p><strong>Iron Golem.</strong> Unaligned construct. CR 16. Immune to most magic; vulnerable to bludgeoning weapons.</p>
+              <p><strong>Lich.</strong> Neutral evil undead. CR 21. Spellcaster of 18th level. Phylactery hidden in a separate plane.</p>
+              <p><strong>Marilith.</strong> Chaotic evil demon. CR 16. Wields six longswords; tail attack causes paralysis.</p>
+              <p><strong>Night Hag.</strong> Neutral evil fiend. CR 5. Visits sleeping victims; can plane shift to dream states.</p>
+              <p><strong>Owlbear.</strong> Unaligned monstrosity. CR 3. Surprisingly affectionate to those who raise them from cubs.</p>
+              <p><strong>Purple Worm.</strong> Unaligned monstrosity. CR 15. Burrows through stone; tail stinger is venomous.</p>
+              <p><strong>Quaggoth.</strong> Chaotic neutral humanoid. CR 2. Underdark tribal warriors with thick fur.</p>
+              <p><strong>Rakshasa.</strong> Lawful evil fiend. CR 13. Spellcaster; reverts to true form on death.</p>
+              <p><strong>Shambling Mound.</strong> Unaligned plant. CR 5. Engulfs prey and absorbs their nutrients.</p>
+              <p><strong>Tarrasque.</strong> Unaligned monstrosity. CR 30. The world&rsquo;s deadliest creature.</p>
+            </div>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Close</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal title="The Bestiary of Faerûn"&gt;
+  &lt;!-- Content that exceeds 90vh scrolls inside the body --&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · alertdialog -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">alertdialog &mdash; destructive</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>type="alertdialog"</code> focuses the <em>first</em>
+            footer button on open (the safer "Cancel" by convention).
+            Authors must place the safer action first in the footer
+            slot. Escape still closes; backdrop click is suppressed via
+            <code>no-backdrop-close</code> to force an explicit choice.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-alert" variant="primary">Delete character</hbd-button>
+          </div>
+          <hbd-modal
+            id="modal-alert"
+            type="alertdialog"
+            size="sm"
+            no-backdrop-close
+            title="Delete character?">
+            <p>This will permanently delete <strong>Thorin Oakenshield</strong>.
+            This action cannot be undone.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Delete</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal type="alertdialog" no-backdrop-close
+           title="Delete character?"&gt;
+  &lt;p&gt;This will permanently delete &hellip;&lt;/p&gt;
+  &lt;div slot="footer"&gt;
+    &lt;!-- Cancel first → focused on open (the safer option) --&gt;
+    &lt;hbd-button data-modal-close variant="default"&gt;Cancel&lt;/hbd-button&gt;
+    &lt;hbd-button data-modal-close variant="primary"&gt;Delete&lt;/hbd-button&gt;
+  &lt;/div&gt;
+&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · No backdrop close -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">No backdrop close</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Clicking the backdrop does not dismiss this modal. The user
+            must explicitly press Escape, the × button, or a footer
+            action. Use for steps that must be acknowledged.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button data-open-modal="modal-nobd" variant="default">Open guarded modal</hbd-button>
+          </div>
+          <hbd-modal id="modal-nobd" no-backdrop-close title="Read this first">
+            <p>This modal cannot be dismissed by clicking the backdrop.
+            Press Escape, click the &times; button, or use a footer action.</p>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="primary">I understand</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-modal no-backdrop-close title="Read this first"&gt;&hellip;&lt;/hbd-modal&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Keyboard demo -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Keyboard demo</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Tab through the content &mdash; focus stays trapped inside
+            the dialog. Press Escape to close. Focus returns to the
+            trigger button below when the modal closes.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button id="modal-kb-trigger" data-open-modal="modal-kb" variant="default">Open keyboard demo</hbd-button>
+          </div>
+          <hbd-modal id="modal-kb" title="Keyboard navigation demo">
+            <div style="display:flex;flex-direction:column;gap:var(--hbd-space-3);">
+              <p>Tab moves forward through the focusable elements inside
+              this dialog. Shift+Tab moves backward. Tab cycles &mdash;
+              you can&rsquo;t escape the trap until you press Escape.</p>
+              <hbd-input
+                id="modal-kb-input"
+                label="A focusable input"
+                value="Tab cycles back to this"></hbd-input>
+              <hbd-select id="modal-kb-select" label="A focusable select" value="fire">
+                <hbd-option value="fire" selected>Fire</hbd-option>
+                <hbd-option value="cold">Cold</hbd-option>
+                <hbd-option value="lightning">Lightning</hbd-option>
+              </hbd-select>
+              <a href="#component-modal" style="color:var(--hbd-color-text-link);">A focusable link</a>
+            </div>
+            <div slot="footer">
+              <hbd-button data-modal-close variant="default">Cancel</hbd-button>
+              <hbd-button data-modal-close variant="primary">Confirm</hbd-button>
+            </div>
+          </hbd-modal>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>// Tab and Shift+Tab cycle within the dialog automatically.
+// Escape always closes — even with no-close set.
+// Focus returns to the triggering element on close.</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Modal divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="6" y="6" width="32" height="32" rx="1" fill="none" stroke="#7a5a22" stroke-width="0.75" opacity="0.5"/>
+        <rect x="11" y="13" width="22" height="18" rx="2" fill="#f5ecd7" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="13" y1="18" x2="31" y2="18" stroke="#7a5a22" stroke-width="0.75" opacity="0.6"/>
+        <circle cx="29" cy="15.5" r="1.2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · SPINNER ══════════════════════ -->
+    <section class="ds-section" id="component-spinner" aria-labelledby="heading-spinner">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;20</span>
+        <h2 class="ds-section__heading" id="heading-spinner">Spinner</h2>
+        <p class="ds-section__description">
+          Spinners indicate that a process is in progress with an
+          unknown duration. Pair every spinner with an accessible
+          <code>label</code> that describes what is loading &mdash; the
+          component renders a visually hidden
+          <code>role="status" aria-live="polite"</code> span so screen
+          readers announce the message. When the layout of the
+          incoming content is predictable, reach for
+          <a href="#component-skeleton">skeleton loaders</a> instead.
+        </p>
+
+        <!-- Group 1 · Sizes -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Sizes</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Four discrete sizes drawn from the
+            <code>--hbd-spinner-size-*</code> tokens. The arc is 75% of
+            the circle so the start/end gap reads as a rotating
+            indicator even at the smallest size.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:flex-end;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="sm" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">sm (16px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="md" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">md (24px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">lg (40px)</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="xl" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">xl (64px)</span>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner size="sm" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="md" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="lg" label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner size="xl" label="Loading"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Colour variants -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Colour variants</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>default</code> uses
+            <code>--hbd-color-surface-action</code> (blood red).
+            <code>muted</code> tints the arc with
+            <code>--hbd-color-text-muted</code> for less urgent
+            indicators. <code>inherit</code> picks up
+            <code>currentColor</code> &mdash; use inside buttons,
+            badges, or any context with a known foreground colour.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-8);align-items:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">default</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+              <hbd-spinner size="lg" variant="muted" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro hbd-text-muted">muted</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);background:var(--hbd-color-surface-action);color:var(--hbd-color-text-on-action);padding:var(--hbd-space-4) var(--hbd-space-6);border-radius:var(--hbd-radius-md);">
+              <hbd-spinner size="lg" variant="inherit" label="Loading"></hbd-spinner>
+              <span class="hbd-text-micro" style="color:var(--hbd-color-text-on-action);">inherit on action surface</span>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner variant="muted"   label="Loading"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner variant="inherit" label="Loading"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Inside a button -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Inside a button</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The <code>loading</code> attribute on
+            <code>hbd-button</code> renders a small
+            <code>hbd-spinner</code> with
+            <code>variant="inherit"</code> centred inside the button.
+            The button text fades to transparent and
+            <code>aria-busy="true"</code> is applied so screen readers
+            announce the busy state. Previously each button drew its
+            own ring with a CSS pseudo-element; this is now a single
+            reused component.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-3);">
+            <hbd-button variant="primary" loading>Saving&hellip;</hbd-button>
+            <hbd-button variant="default" loading>Checking&hellip;</hbd-button>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-button variant="primary" loading&gt;Saving&hellip;&lt;/hbd-button&gt;
+&lt;hbd-button variant="default" loading&gt;Checking&hellip;&lt;/hbd-button&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Descriptive labels -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">With descriptive label</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Every spinner renders a hidden
+            <code>&lt;span role="status" aria-live="polite"&gt;</code>
+            so the label is announced. Inspect the DOM of each
+            spinner below to see the announcement message.
+          </p>
+          <div class="ds-preview-canvas" style="gap:var(--hbd-space-6);align-items:center;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Loading spell list"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Loading spell list"</code>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Saving character sheet"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Saving character sheet"</code>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-3);">
+              <hbd-spinner label="Connecting to the arcane network"></hbd-spinner>
+              <code class="hbd-text-micro hbd-text-muted">label="Connecting to the arcane network"</code>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-spinner label="Loading spell list"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner label="Saving character sheet"&gt;&lt;/hbd-spinner&gt;
+&lt;hbd-spinner label="Connecting to the arcane network"&gt;&lt;/hbd-spinner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Page-level loading state -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Page-level loading state</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Wrap the soon-to-be-populated region in a container with
+            <code>aria-busy="true"</code>; centre an <code>xl</code>
+            spinner inside. When data arrives, replace the spinner
+            with real content and set <code>aria-busy="false"</code>.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-4);">
+            <div id="spinner-page-region"
+                 aria-busy="true"
+                 aria-label="Loading compendium"
+                 style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);border-radius:var(--hbd-radius-md);padding:var(--hbd-space-8);gap:var(--hbd-space-4);">
+              <div data-state="loading" style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-4);">
+                <hbd-spinner size="xl" label="Loading compendium"></hbd-spinner>
+                <p class="hbd-text-body hbd-text-muted" style="margin:0;">Fetching the compendium&hellip;</p>
+              </div>
+              <div data-state="loaded" hidden style="display:flex;flex-direction:column;align-items:center;gap:var(--hbd-space-2);">
+                <p class="hbd-text-h3 hbd-text-primary" style="margin:0;">The Compendium of All Wonders</p>
+                <p class="hbd-text-body hbd-text-muted" style="margin:0;">147 entries loaded. Hover any title to expand it.</p>
+              </div>
+            </div>
+            <div>
+              <hbd-button id="spinner-page-complete" variant="primary">Load complete</hbd-button>
+              <hbd-button id="spinner-page-reset"    variant="default">Reset</hbd-button>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div id="region" aria-busy="true" aria-label="Loading compendium"&gt;
+  &lt;hbd-spinner size="xl" label="Loading compendium"&gt;&lt;/hbd-spinner&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  // when data arrives
+  region.setAttribute('aria-busy', 'false');
+  region.querySelector('hbd-spinner').remove();
+  // ...render real content
+&lt;/script&gt;</code></pre>
+          </details>
+          <script>
+            (function () {
+              function wire() {
+                var region = document.getElementById('spinner-page-region');
+                var complete = document.getElementById('spinner-page-complete');
+                var reset = document.getElementById('spinner-page-reset');
+                if (!region || !complete || !reset) return setTimeout(wire, 50);
+                var loading = region.querySelector('[data-state="loading"]');
+                var loaded = region.querySelector('[data-state="loaded"]');
+                complete.addEventListener('click', function () {
+                  region.setAttribute('aria-busy', 'false');
+                  loading.hidden = true;
+                  loaded.hidden = false;
+                });
+                reset.addEventListener('click', function () {
+                  region.setAttribute('aria-busy', 'true');
+                  loading.hidden = false;
+                  loaded.hidden = true;
+                });
+              }
+              wire();
+            })();
+          </script>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Spinner divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="22" r="11" fill="none" stroke="#7a5a22" stroke-width="1.5" stroke-dasharray="42 16"/>
+        <circle cx="22" cy="22" r="2" fill="#7a1212"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · FULL-PAGE BANNER ══════════════ -->
+    <section class="ds-section" id="component-full-banner" aria-labelledby="heading-full-banner">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">N&middot;21</span>
+        <h2 class="ds-section__heading" id="heading-full-banner">Full-Page Banner</h2>
+        <p class="ds-section__description">
+          Full-page banners replace the entire viewport with a single
+          focused message. Use them for maintenance windows, critical
+          errors, access restrictions, and major feature launches. Not
+          to be confused with the narrow
+          <a href="#component-alert">alert banner ribbon</a> &mdash;
+          that&rsquo;s a top-of-page strip, this is a full-screen
+          takeover with hero typography.
+          <br><br>
+          <strong>Shown here at reduced height.</strong> In production,
+          <code>min-height: 100vh</code> fills the full viewport. The
+          previews below sit inside <code>min-height: 60vh</code>
+          frames so the takeover effect is visible without claiming
+          the whole preview page.
+        </p>
+
+        <!-- Group 1 · Maintenance -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Maintenance template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use for planned downtime. Pair with a meta line announcing
+            the expected return time and (optionally) a link to a
+            status page.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="maintenance">
+                <hbd-button variant="default">Check status page</hbd-button>
+                <span slot="meta">Expected back online: Friday at 06:00 UTC</span>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;main&gt;
+  &lt;hbd-full-banner template="maintenance"&gt;
+    &lt;hbd-button variant="default"&gt;Check status page&lt;/hbd-button&gt;
+    &lt;span slot="meta"&gt;Expected back online: Friday at 06:00 UTC&lt;/span&gt;
+  &lt;/hbd-full-banner&gt;
+&lt;/main&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Launch -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Launch template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use to surface major releases on first sign-in after a
+            launch &mdash; the user dismisses by acting on the primary
+            CTA. Eyebrow tinted with
+            <code>--hbd-color-text-emphasis</code>.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner
+                template="launch"
+                heading="The Arcane Compendium is here"
+                description="50,000 spells, monsters, and items. Now with search.">
+                <hbd-button variant="primary">Explore now</hbd-button>
+                <hbd-button variant="default">Learn more</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner
+  template="launch"
+  heading="The Arcane Compendium is here"
+  description="50,000 spells, monsters, and items. Now with search."&gt;
+  &lt;hbd-button variant="primary"&gt;Explore now&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Learn more&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Restricted -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Restricted template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Use when a user lands on a page their role doesn&rsquo;t
+            permit. Always offer both a way back and a way forward
+            (request access, contact admin, etc.).
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="restricted">
+                <hbd-button variant="default">Go back</hbd-button>
+                <hbd-button variant="primary">Request access</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="restricted"&gt;
+  &lt;hbd-button variant="default"&gt;Go back&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Offline -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Offline template</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Full-page version of the offline alert. Use when the
+            client is wholly disconnected and no part of the
+            application can render real content.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="offline">
+                <hbd-button variant="primary">Try again</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="offline"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Dark variant -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Dark variant</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Adding the <code>dark</code> attribute inverts the canvas
+            to <code>--hbd-color-ink-900</code> and pulls every text
+            colour from the parchment primitives so the contrast pairs
+            already exist in the token system. Eyebrow accents shift
+            to lighter shades of the same hue family
+            (gold-300 / crimson-300) so they remain legible against
+            ink-900.
+          </p>
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="maintenance" dark>
+                <hbd-button variant="default">Check status page</hbd-button>
+                <span slot="meta">Expected back online: Friday at 06:00 UTC</span>
+              </hbd-full-banner>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="maintenance" dark&gt;
+  &lt;hbd-button variant="default"&gt;Check status page&lt;/hbd-button&gt;
+  &lt;span slot="meta"&gt;Expected back online: Friday at 06:00 UTC&lt;/span&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Full-Page Banner divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="6" y="8" width="32" height="28" rx="1" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <line x1="6" y1="14" x2="38" y2="14" stroke="#7a5a22" stroke-width="0.75" opacity="0.6"/>
+        <rect x="14" y="20" width="16" height="3" rx="1" fill="#7a1212"/>
+        <rect x="11" y="26" width="22" height="2" rx="1" fill="#7a5a22" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ PATTERN · ERROR STATES ══════════════════════ -->
+    <section class="ds-section" id="component-error-states" aria-labelledby="heading-error-states">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;2</span>
+        <h2 class="ds-section__heading" id="heading-error-states">Error States</h2>
+        <p class="ds-section__description">
+          Error state templates communicate that something went wrong.
+          Use <a href="#component-empty-state">section-level
+          (<code>hbd-empty</code>)</a> for partial-page failures and
+          <a href="#component-full-banner">full-page
+          (<code>hbd-full-banner</code>)</a> for complete page
+          replacements. Templates that start with <code>error-</code>
+          automatically pick up a crimson tint on the illustration and
+          (for full-page) the eyebrow &mdash; the heading and body
+          text stay neutral so contrast is preserved and the meaning
+          is carried in text (SC&nbsp;3.3.1).
+        </p>
+
+        <!-- Group 1 · Section-level error states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Section-level error states &mdash; <code>hbd-empty</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Five templates for partial-page failures. Each pairs a
+            descriptive heading + body with a recovery action.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--hbd-space-4);width:100%;">
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-404">
+                  <hbd-button variant="primary">Go home</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-500">
+                  <hbd-button variant="primary">Try again</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-403">
+                  <hbd-button variant="primary">Request access</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-network">
+                  <hbd-button variant="primary">Retry</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="error-form">
+                  <hbd-button variant="primary">Review form</hbd-button>
+                </hbd-empty>
+              </div>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="error-404"&gt;
+  &lt;hbd-button variant="primary"&gt;Go home&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-500"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-403"&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-network"&gt;
+  &lt;hbd-button variant="primary"&gt;Retry&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="error-form"&gt;
+  &lt;hbd-button variant="primary"&gt;Review form&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Full-page error states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full-page error states &mdash; <code>hbd-full-banner</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Three templates for complete page replacement. Shown at
+            reduced height (60&nbsp;vh) inside framed containers; in
+            production these take the full viewport.
+          </p>
+
+          <!-- 404 -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-404">
+                <hbd-button variant="primary">Go home</hbd-button>
+                <hbd-button variant="default">Contact support</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- 500 -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-500">
+                <hbd-button variant="primary">Try again</hbd-button>
+                <hbd-button variant="default">Check status</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- 403 -->
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="error-403">
+                <hbd-button variant="default">Go back</hbd-button>
+                <hbd-button variant="primary">Request access</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="error-404"&gt;
+  &lt;hbd-button variant="primary"&gt;Go home&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Contact support&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="error-500"&gt;
+  &lt;hbd-button variant="primary"&gt;Try again&lt;/hbd-button&gt;
+  &lt;hbd-button variant="default"&gt;Check status&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="error-403"&gt;
+  &lt;hbd-button variant="default"&gt;Go back&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Request access&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Error States divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <path d="M22 9 L36 33 H8 Z" fill="none" stroke="#c0392b" stroke-width="1.5"/>
+        <line x1="22" y1="17" x2="22" y2="25" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="29" r="1.5" fill="#c0392b"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ PATTERN · SUCCESS STATES ══════════════════════ -->
+    <section class="ds-section" id="component-success-states" aria-labelledby="heading-success-states">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;3</span>
+        <h2 class="ds-section__heading" id="heading-success-states">Success States</h2>
+        <p class="ds-section__description">
+          Success state templates confirm that an action completed.
+          Use <a href="#component-empty-state">section-level
+          (<code>hbd-empty</code>)</a> for inline confirmations and
+          <a href="#component-full-banner">full-page
+          (<code>hbd-full-banner</code>)</a> for completing a
+          significant workflow. Templates that start with
+          <code>success-</code> automatically pick up an emerald tint
+          on the illustration and (for full-page) the eyebrow.
+        </p>
+
+        <!-- Group 3 · Section-level success states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Section-level success states &mdash; <code>hbd-empty</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Four templates for inline confirmations. Pair each with
+            the most likely next action.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--hbd-space-4);width:100%;">
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-submitted">
+                  <hbd-button variant="primary">View status</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-saved">
+                  <hbd-button variant="primary">Continue</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-completed">
+                  <hbd-button variant="default">Start over</hbd-button>
+                  <hbd-button variant="primary">Dashboard</hbd-button>
+                </hbd-empty>
+              </div>
+
+              <div style="background:var(--hbd-color-surface-default);border:1px solid var(--hbd-color-border-subtle);">
+                <hbd-empty template="success-welcome">
+                  <hbd-button variant="primary">Get started</hbd-button>
+                </hbd-empty>
+              </div>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-empty template="success-submitted"&gt;
+  &lt;hbd-button variant="primary"&gt;View status&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-saved"&gt;
+  &lt;hbd-button variant="primary"&gt;Continue&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-completed"&gt;
+  &lt;hbd-button variant="default"&gt;Start over&lt;/hbd-button&gt;
+  &lt;hbd-button variant="primary"&gt;Dashboard&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;
+
+&lt;hbd-empty template="success-welcome"&gt;
+  &lt;hbd-button variant="primary"&gt;Get started&lt;/hbd-button&gt;
+&lt;/hbd-empty&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Full-page success states -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Full-page success states &mdash; <code>hbd-full-banner</code></h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            Three templates for finishing a significant workflow.
+            Shown at reduced height (60&nbsp;vh).
+          </p>
+
+          <!-- Submitted -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-submitted">
+                <hbd-button variant="primary">View submission</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- Completed -->
+          <div class="ds-preview-canvas" style="padding:0;margin-bottom:var(--hbd-space-3);">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-completed">
+                <hbd-button variant="primary">Return home</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <!-- Welcome -->
+          <div class="ds-preview-canvas" style="padding:0;">
+            <div style="width:100%;min-height:60vh;border:1px solid var(--hbd-color-border-subtle);overflow:hidden;">
+              <hbd-full-banner template="success-welcome">
+                <hbd-button variant="primary">Enter the realm</hbd-button>
+              </hbd-full-banner>
+            </div>
+          </div>
+
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-full-banner template="success-submitted"&gt;
+  &lt;hbd-button variant="primary"&gt;View submission&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="success-completed"&gt;
+  &lt;hbd-button variant="primary"&gt;Return home&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;
+
+&lt;hbd-full-banner template="success-welcome"&gt;
+  &lt;hbd-button variant="primary"&gt;Enter the realm&lt;/hbd-button&gt;
+&lt;/hbd-full-banner&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Success States divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <circle cx="22" cy="22" r="13" fill="none" stroke="#27832e" stroke-width="1.5"/>
+        <polyline points="15,22 20,27 30,17" fill="none" stroke="#27832e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════ COMPONENT · LAYOUT UTILITIES ══════════════ -->
+    <section class="ds-section" id="component-layout-utilities" aria-labelledby="heading-layout-utilities">
+      <div class="container">
+        <span class="section-numeral" aria-hidden="true">P&middot;4</span>
+        <h2 class="ds-section__heading" id="heading-layout-utilities">Layout Utilities</h2>
+        <p class="ds-section__description">
+          Three small utility components that handle whitespace,
+          proportional sizing, and DOM portalling. They produce no
+          visible UI of their own &mdash; just structure.
+        </p>
+
+        <!-- Hidden anchors so the validator's per-component preview
+             check finds an id for each hbd-*.js file. The visible
+             section id above is the human-facing anchor. -->
+        <span id="component-spacer" aria-hidden="true"></span>
+        <span id="component-aspect-ratio" aria-hidden="true"></span>
+        <span id="component-portal" aria-hidden="true"></span>
+
+        <!-- Group 1 · Vertical spacer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Spacer &mdash; vertical</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>hbd-spacer</code> with a numeric <code>size</code>
+            resolves to <code>var(--hbd-space-N)</code>. The host is
+            <code>role="none"</code> +
+            <code>aria-hidden="true"</code> &mdash; never appears in
+            the accessibility tree or Tab order.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="4"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="4" → 16px gap</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="8"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="8" → 32px gap</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;">
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <hbd-spacer size="12"></hbd-spacer>
+              <div style="height:var(--hbd-space-8);background:var(--hbd-color-surface-subtle);"></div>
+              <span class="hbd-text-micro hbd-text-muted" style="margin-top:var(--hbd-space-2);">size="12" → 48px gap</span>
+            </div>
+
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div&gt;Block A&lt;/div&gt;
+&lt;hbd-spacer size="8"&gt;&lt;/hbd-spacer&gt;
+&lt;div&gt;Block B&lt;/div&gt;
+
+&lt;!-- Raw CSS values also accepted: --&gt;
+&lt;hbd-spacer size="2rem"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-spacer size="10%"&gt;&lt;/hbd-spacer&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 2 · Horizontal spacer -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Spacer &mdash; horizontal</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            With <code>axis="horizontal"</code> the spacer renders
+            inline width instead of height. Useful between inline
+            badges, chips, or buttons when a flex
+            <code>gap</code> isn&rsquo;t the right tool.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:center;">
+            <div style="display:flex;align-items:center;">
+              <hbd-badge variant="info" count="3"></hbd-badge>
+              <hbd-spacer size="2" axis="horizontal"></hbd-spacer>
+              <hbd-badge variant="success" count="7"></hbd-badge>
+              <hbd-spacer size="4" axis="horizontal"></hbd-spacer>
+              <hbd-badge variant="warning" count="12"></hbd-badge>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-badge variant="info"    count="3"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-spacer size="2" axis="horizontal"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-badge variant="success" count="7"&gt;&lt;/hbd-badge&gt;
+&lt;hbd-spacer size="4" axis="horizontal"&gt;&lt;/hbd-spacer&gt;
+&lt;hbd-badge variant="warning" count="12"&gt;&lt;/hbd-badge&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 3 · Aspect ratio presets -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Aspect ratio &mdash; presets</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            <code>hbd-aspect-ratio</code> constrains its child to a
+            fixed ratio via the native <code>aspect-ratio</code> CSS
+            property. Accepts <code>16:9</code> / <code>16/9</code> /
+            <code>1.777</code> notation.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--hbd-space-3);width:100%;">
+
+              <hbd-aspect-ratio ratio="16:9">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">16:9</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="4:3">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">4:3</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="1:1">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">1:1</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="3:2">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">3:2</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="21:9">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">21:9</div>
+              </hbd-aspect-ratio>
+
+              <hbd-aspect-ratio ratio="9:16">
+                <div style="background:var(--hbd-color-surface-subtle);display:flex;align-items:center;justify-content:center;color:var(--hbd-color-text-muted);font-family:var(--hbd-font-family-mono);">9:16</div>
+              </hbd-aspect-ratio>
+
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-aspect-ratio ratio="16:9"&gt;
+  &lt;div&gt;Sized to a 16:9 box&lt;/div&gt;
+&lt;/hbd-aspect-ratio&gt;
+
+&lt;hbd-aspect-ratio ratio="1:1"&gt;
+  &lt;div&gt;Square box&lt;/div&gt;
+&lt;/hbd-aspect-ratio&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 4 · Aspect ratio with image -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Aspect ratio &mdash; with image</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The direct-child CSS rule sets
+            <code>object-fit: cover</code> automatically, so
+            <code>&lt;img&gt;</code> fills the box and crops to fit
+            without distortion. The author is still responsible for
+            the image&rsquo;s <code>alt</code> text.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--hbd-space-3);width:100%;">
+              <hbd-aspect-ratio ratio="16:9">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — wide framing">
+              </hbd-aspect-ratio>
+              <hbd-aspect-ratio ratio="4:3">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — classic framing">
+              </hbd-aspect-ratio>
+              <hbd-aspect-ratio ratio="1:1">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&amp;auto=format&amp;fit=crop&amp;q=60"
+                     alt="Stylised dragon scales — square framing">
+              </hbd-aspect-ratio>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-aspect-ratio ratio="16:9"&gt;
+  &lt;img src="hero.jpg" alt="Ancient red dragon over Mount Doom"&gt;
+&lt;/hbd-aspect-ratio&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 5 · Portal basic -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Portal &mdash; basic</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The paragraph below is authored INSIDE the
+            <code>hbd-portal</code> tag (left-hand block) but renders
+            INSIDE the outlet (right-hand block). Inspect the DOM to
+            confirm the paragraph has been moved.
+          </p>
+          <div class="ds-preview-canvas" style="align-items:stretch;gap:var(--hbd-space-4);">
+            <div style="flex:1;background:var(--hbd-color-surface-subtle);padding:var(--hbd-space-3);border:1px dashed var(--hbd-color-border-default);">
+              <span class="hbd-text-micro hbd-text-muted">portal source</span>
+              <hbd-portal target="#portal-outlet-demo">
+                <p style="margin:var(--hbd-space-2) 0 0;font-family:var(--hbd-font-family-ui);color:var(--hbd-color-text-primary);">
+                  I started life inside the &lt;hbd-portal&gt; on the
+                  left, but I render inside the outlet on the right.
+                </p>
+              </hbd-portal>
+            </div>
+            <div style="flex:1;background:var(--hbd-color-surface-default);padding:var(--hbd-space-3);border:1px solid var(--hbd-color-border-subtle);">
+              <span class="hbd-text-micro hbd-text-muted">portal outlet (#portal-outlet-demo)</span>
+              <div id="portal-outlet-demo" style="min-height:var(--hbd-space-12);margin-top:var(--hbd-space-2);"></div>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-portal target="#portal-outlet-demo"&gt;
+  &lt;p&gt;I render inside the outlet, not here.&lt;/p&gt;
+&lt;/hbd-portal&gt;
+
+&lt;!-- elsewhere in the page --&gt;
+&lt;div id="portal-outlet-demo"&gt;&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+        <!-- Group 6 · Portal escape overflow -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Portal &mdash; escape overflow</h3>
+          <p class="hbd-text-body hbd-text-muted" style="margin:0 0 var(--hbd-space-3);">
+            The bordered box below has
+            <code>overflow: hidden</code>. The badge is authored
+            inside an <code>hbd-portal</code> targeting
+            <code>body</code> so it escapes the clipping container
+            and appears at the page level instead. (Inspect the DOM
+            &mdash; the badge node lives on
+            <code>&lt;body&gt;</code>.)
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:stretch;gap:var(--hbd-space-3);">
+            <div style="position:relative;overflow:hidden;height:var(--hbd-space-16);background:var(--hbd-color-surface-subtle);border:1px dashed var(--hbd-color-border-default);padding:var(--hbd-space-3);">
+              <span class="hbd-text-micro hbd-text-muted">overflow:hidden container</span>
+              <hbd-portal target="body">
+                <hbd-badge variant="error" count="99" style="position:fixed;top:var(--hbd-space-3);right:var(--hbd-space-3);"></hbd-badge>
+              </hbd-portal>
+            </div>
+            <p class="hbd-text-label hbd-text-muted" style="margin:0;">
+              The error badge appears anchored to the viewport via
+              <code>position: fixed</code> &mdash; impossible from inside
+              the clipped container without the portal moving the
+              element out to <code>&lt;body&gt;</code> first.
+            </p>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;div style="overflow:hidden;"&gt;
+  &lt;hbd-portal target="body"&gt;
+    &lt;hbd-badge variant="error" count="99"
+               style="position:fixed;top:1rem;right:1rem;"&gt;&lt;/hbd-badge&gt;
+  &lt;/hbd-portal&gt;
+&lt;/div&gt;</code></pre>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SIGIL · Layout Utilities divider ── -->
+    <div class="sigil-divider" role="presentation" aria-hidden="true">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="22" cy="22" r="19" stroke="#7a5a22" stroke-width="1" opacity="0.4"/>
+        <rect x="10" y="10" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1.5"/>
+        <rect x="24" y="10" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <rect x="10" y="24" width="10" height="10" fill="none" stroke="#7a5a22" stroke-width="1" opacity="0.6"/>
+        <rect x="24" y="24" width="10" height="10" fill="#7a1212" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ──────── Modal preview wiring ──────── -->
+    <script>
+      (function () {
+        function wire() {
+          var section = document.getElementById('component-modal');
+          if (!section) return;
+
+          // Open delegation only — closing is handled by hbd-modal
+          // itself: any descendant with [data-modal-close] inside the
+          // modal closes it. Authors don't need to wire anything.
+          section.addEventListener('click', function (e) {
+            var openBtn = e.target && e.target.closest
+              ? e.target.closest('[data-open-modal]') : null;
+            if (openBtn) {
+              var id = openBtn.getAttribute('data-open-modal');
+              var modal = document.getElementById(id);
+              if (modal && typeof modal.show === 'function') modal.show();
+            }
+          });
+
+          // Basic-trigger has a non-data attribute (it lives outside
+          // the section's delegation pattern for the code sample
+          // comment). Wire it explicitly.
+          var basicTrigger = document.getElementById('modal-basic-trigger');
+          var basicModal = document.getElementById('modal-basic');
+          if (basicTrigger && basicModal) {
+            basicTrigger.addEventListener('click', function () {
+              basicModal.show();
+            });
+          }
+        }
+        wire();
+      })();
+    </script>
+
+    <!-- ──────── Toast preview wiring ──────── -->
+    <script>
+      (function () {
+        function wire() {
+          if (typeof window.hbdToast === 'undefined') return setTimeout(wire, 50);
+          var section = document.getElementById('component-toast');
+          if (!section) return;
+
+          var MESSAGES = {
+            info:    'Spell list updated with 3 new entries.',
+            success: 'Character sheet saved.',
+            warning: 'Session expires in 5 minutes.',
+            error:   'Failed to load monster stat block.',
+          };
+
+          section.addEventListener('click', function (e) {
+            var trigger = e.target && e.target.closest
+              ? e.target.closest('[data-toast]')
+              : null;
+            var posTrigger = e.target && e.target.closest
+              ? e.target.closest('[data-toast-pos]')
+              : null;
+
+            if (trigger) {
+              var kind = trigger.getAttribute('data-toast');
+              if (kind === 'info' || kind === 'success' || kind === 'warning' || kind === 'error') {
+                window.hbdToast.show({ variant: kind, message: MESSAGES[kind] });
+              } else if (kind === 'with-title') {
+                window.hbdToast.show({
+                  variant: 'error',
+                  title: 'Enchantment failed',
+                  message: 'The item could not be enchanted. Check your reagents.',
+                });
+              } else if (kind === 'undo') {
+                window.hbdToast.show({
+                  variant: 'success',
+                  message: 'Spell deleted.',
+                  action: {
+                    label: 'Undo',
+                    onClick: function () {
+                      window.hbdToast.info('Spell restored to your spellbook.');
+                    },
+                  },
+                });
+              } else if (kind === 'long') {
+                window.hbdToast.show({
+                  variant: 'warning',
+                  message: 'Server maintenance begins in 10 minutes.',
+                  duration: 8000,
+                });
+              } else if (kind === 'stack') {
+                for (var i = 1; i <= 4; i++) {
+                  window.hbdToast.show({
+                    variant: 'info',
+                    message: 'Toast ' + i + ' of 4',
+                  });
+                }
+              } else if (kind === 'hover') {
+                window.hbdToast.show({
+                  variant: 'info',
+                  title: 'Hover or tab into me',
+                  message: 'Auto-dismiss pauses while pointer or focus is over the toast.',
+                  duration: 8000,
+                });
+              }
+            }
+
+            if (posTrigger) {
+              var pos = posTrigger.getAttribute('data-toast-pos');
+              window.hbdToast.setPosition(pos);
+              window.hbdToast.success('Mounted at ' + pos + '.');
+            }
+          });
+        }
+        wire();
+      })();
+    </script>
 
     <!-- ══════════════════════ III. TEXTURE ══════════════════════ -->
     <section class="ds-section" id="texture" aria-labelledby="texture-title">
