@@ -1,0 +1,97 @@
+---
+title: Skeleton Group
+description: Named layout presets that arrange skeleton shapes into recognisable loading patterns.
+---
+
+import { SkeletonGroup } from "@/registry/new-york/skeleton-group/skeleton-group";
+
+`SkeletonGroup` composes multiple `Skeleton` shapes into ready-made loading
+patterns — an avatar-and-text row, a media card, a list item, or a table row.
+The group is decorative and marked `aria-hidden`, so let the containing region
+own `aria-busy` while content loads.
+
+## Presets
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SkeletonGroup preset="avatar-text" style={{ width: '320px' }} />
+      <SkeletonGroup preset="card" style={{ width: '240px' }} />
+      <SkeletonGroup preset="list-item" style={{ width: '320px' }} />
+      <SkeletonGroup preset="table-row" style={{ width: '320px' }} />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SkeletonGroup } from '@/components/ui/skeleton-group';
+
+    <SkeletonGroup preset="avatar-text" />
+    <SkeletonGroup preset="card" />
+    <SkeletonGroup preset="list-item" />
+    <SkeletonGroup preset="table-row" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Card lines
+
+The `card` preset renders a media block plus `lines` text rows (default `3`).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SkeletonGroup preset="card" lines={2} style={{ width: "220px" }} />
+      <SkeletonGroup preset="card" lines={5} style={{ width: "220px" }} />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SkeletonGroup preset="card" lines={2} />
+    <SkeletonGroup preset="card" lines={5} />
+    ```
+  </Tab>
+</Tabs>
+
+## Table columns
+
+The `table-row` preset renders `columns` cells (default `4`).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SkeletonGroup preset="table-row" columns={3} style={{ width: "320px" }} />
+      <SkeletonGroup preset="table-row" columns={6} style={{ width: "320px" }} />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SkeletonGroup preset="table-row" columns={3} />
+    <SkeletonGroup preset="table-row" columns={6} />
+    ```
+  </Tab>
+</Tabs>
+
+## Without shimmer
+
+Set `noShimmer` to disable the shimmer animation; it cascades to every child
+skeleton. Useful for reduced-motion contexts or static placeholders.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SkeletonGroup preset="avatar-text" noShimmer style={{ width: "320px" }} />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SkeletonGroup preset="avatar-text" noShimmer />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/skeleton-group.json
+```

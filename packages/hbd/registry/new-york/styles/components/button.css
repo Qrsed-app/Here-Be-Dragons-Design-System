@@ -1,0 +1,192 @@
+/*
+ * Here Be Dragons DS — button.css
+ * Ported for React / light-DOM from ds/styles/components/button.css.
+ * De-shadowed: ::slotted(x) -> descendant selectors; `> slot` -> `> :not(.hbd-button__spinner)`.
+ * Toggle-group and split-button rules live in their own component CSS (toggle-group / split-button).
+ * Every value still references a --hbd-* token (defined in globals.css). 1:1 with the legacy look.
+ */
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+.hbd-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hbd-space-2);
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-bold);
+  letter-spacing: var(--hbd-letter-spacing-button);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border-width: var(--hbd-border-width-thin);
+  border-style: solid;
+  border-radius: var(--hbd-radius-sm);
+  /* md is the default size — padding sized so total height ≥ 44px (SC 2.5.8) */
+  padding: var(--hbd-space-3) var(--hbd-space-6);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out),
+              transform var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+/* ── Size modifiers ─────────────────────────────────────────────────── */
+.hbd-button--sm {
+  padding: var(--hbd-space-2) var(--hbd-space-4);
+  font-size: var(--hbd-font-size-label);
+}
+.hbd-button--md {
+  padding: var(--hbd-space-3) var(--hbd-space-6);
+  font-size: var(--hbd-font-size-label);
+}
+.hbd-button--lg {
+  padding: var(--hbd-space-4) var(--hbd-space-8);
+  font-size: var(--hbd-font-size-body);
+}
+
+/* ── Variant: default ───────────────────────────────────────────────── */
+.hbd-button--default {
+  background: var(--hbd-color-surface-raised);
+  color: var(--hbd-color-text-primary);
+  border-color: var(--hbd-color-ink-900);
+  box-shadow: var(--hbd-button-shadow);
+}
+.hbd-button--default:hover {
+  background: var(--hbd-color-parchment-300);
+}
+.hbd-button--default:active {
+  transform: translate(var(--hbd-focus-offset), var(--hbd-focus-offset));
+  box-shadow: var(--hbd-button-shadow-active);
+}
+.hbd-button--default.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Variant: primary ───────────────────────────────────────────────── */
+.hbd-button--primary {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-parchment-100);
+  border-color: var(--hbd-color-blood-deep);
+  box-shadow: var(--hbd-button-shadow-primary);
+}
+.hbd-button--primary:hover {
+  background: var(--hbd-color-surface-action-hover);
+}
+.hbd-button--primary:active {
+  transform: translate(var(--hbd-focus-offset), var(--hbd-focus-offset));
+  box-shadow: var(--hbd-button-shadow-primary-active);
+}
+.hbd-button--primary.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Variant: gold ──────────────────────────────────────────────────── */
+.hbd-button--gold {
+  background: var(--hbd-color-gold);
+  color: var(--hbd-color-ink-900);
+  border-color: var(--hbd-color-gold-deep);
+  box-shadow: var(--hbd-button-shadow-gold);
+}
+.hbd-button--gold:hover {
+  background: var(--hbd-color-gold-bright);
+}
+.hbd-button--gold:active {
+  transform: translate(var(--hbd-focus-offset), var(--hbd-focus-offset));
+  box-shadow: var(--hbd-button-shadow-gold-active);
+}
+.hbd-button--gold.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Focus ring ─────────────────────────────────────────────────────── */
+.hbd-button:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* ── Loading state ──────────────────────────────────────────────────── */
+.hbd-button.is-loading {
+  cursor: progress;
+  position: relative;
+  color: transparent;
+}
+/* de-shadowed from `.hbd-button.is-loading > slot[...]` — hide every child
+   except the centred spinner overlay. */
+.hbd-button.is-loading > :not(.hbd-button__spinner) {
+  opacity: 0;
+}
+.hbd-button__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: currentColor;
+  pointer-events: none;
+}
+
+/* ── Icon slots ─────────────────────────────────────────────────────── */
+.hbd-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+}
+
+/* ── Icon-only modifier ─────────────────────────────────────────────── */
+.hbd-button--icon-only {
+  padding: var(--hbd-space-2);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+}
+.hbd-button--sm.hbd-button--icon-only { padding: var(--hbd-space-1); }
+.hbd-button--md.hbd-button--icon-only { padding: var(--hbd-space-2); }
+.hbd-button--lg.hbd-button--icon-only { padding: var(--hbd-space-3); }
+
+/* de-shadowed from ::slotted(svg)/::slotted(.hbd-button__icon) */
+.hbd-button--icon-only .hbd-button__icon,
+.hbd-button--icon-only svg {
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+}
+.hbd-button--sm.hbd-button--icon-only .hbd-button__icon,
+.hbd-button--sm.hbd-button--icon-only svg {
+  width: var(--hbd-space-3);
+  height: var(--hbd-space-3);
+}
+.hbd-button--lg.hbd-button--icon-only .hbd-button__icon,
+.hbd-button--lg.hbd-button--icon-only svg {
+  width: var(--hbd-space-6);
+  height: var(--hbd-space-6);
+}
+
+/* ── Pressed (toggle) state ─────────────────────────────────────────── */
+.hbd-button--pressed {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-surface-action);
+}
+.hbd-button--default.hbd-button--pressed,
+.hbd-button--primary.hbd-button--pressed,
+.hbd-button--gold.hbd-button--pressed {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+  border-color: var(--hbd-color-blood-deep);
+  box-shadow: var(--hbd-button-shadow-primary);
+}
+.hbd-button--pressed:hover {
+  filter: brightness(0.92);
+}
+.hbd-button--pressed.is-disabled,
+.hbd-button--pressed:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

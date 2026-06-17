@@ -1,0 +1,122 @@
+---
+title: OTP Input
+description: A row of single-character cells for one-time passwords and verification codes, with auto-advance, paste, and keyboard navigation.
+---
+
+import { OtpInput } from "@/registry/new-york/otp-input/otp-input";
+import { OtpInputControlledDemo } from "@/components/demos/otp-input-demo";
+
+The HBD OTP input renders a row of single-character cells that auto-advance on
+entry, accept clipboard paste (splitting across cells), and support arrow +
+backspace navigation. It reuses the shared `.hbd-field` label / hint / error
+chrome from the input component.
+
+## Lengths
+
+Only 4- or 6-cell layouts are supported; any other `length` falls back to 6.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <OtpInput label="4-digit PIN" length={4} defaultValue="12" />
+      <OtpInput label="6-digit code" length={6} defaultValue="123" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { OtpInput } from '@/registry/new-york/otp-input/otp-input';
+
+    <OtpInput label="4-digit PIN" length={4} defaultValue="12" />
+    <OtpInput label="6-digit code" length={6} defaultValue="123" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Type and separator
+
+Use `type="alphanumeric"` to allow letters as well as digits, and `separator`
+to split the two groups of three on a 6-cell field.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <OtpInput label="Numeric (default)" length={6} type="numeric" />
+      <OtpInput label="Alphanumeric" length={6} type="alphanumeric" defaultValue="HBD" />
+      <OtpInput label="With separator" length={6} separator defaultValue="123" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <OtpInput label="Numeric (default)" length={6} type="numeric" />
+    <OtpInput label="Alphanumeric" length={6} type="alphanumeric" defaultValue="HBD" />
+    <OtpInput label="With separator" length={6} separator defaultValue="123" />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+`hint` shows helper text, `error` switches the field into the invalid state
+(and is announced via `role="alert"`), `success` tints the filled cells, and
+`disabled` greys out every cell.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <OtpInput label="With hint" length={4} hint="Check your email for the code." />
+      <OtpInput label="Error" length={4} defaultValue="12" error="That code has expired." />
+      <OtpInput label="Success" length={4} defaultValue="1234" success />
+      <OtpInput label="Disabled" length={4} defaultValue="12" disabled />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <OtpInput label="With hint" length={4} hint="Check your email for the code." />
+    <OtpInput label="Error" length={4} defaultValue="12" error="That code has expired." />
+    <OtpInput label="Success" length={4} defaultValue="1234" success />
+    <OtpInput label="Disabled" length={4} defaultValue="12" disabled />
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Drive the value with `value` + `onValueChange`, and react to a fully filled
+field with `onComplete`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <OtpInputControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from 'react';
+    import { OtpInput } from '@/registry/new-york/otp-input/otp-input';
+
+    function VerificationField() {
+      const [code, setCode] = React.useState('');
+
+      return (
+        <OtpInput
+          label="Verification code"
+          length={6}
+          value={code}
+          onValueChange={setCode}
+          onComplete={(value) => console.log('complete', value)}
+          hint="Enter the 6-digit code we sent to your raven."
+        />
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/otp-input.json
+```

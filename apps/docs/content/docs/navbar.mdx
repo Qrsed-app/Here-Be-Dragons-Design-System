@@ -1,0 +1,124 @@
+---
+title: Navbar
+description: Primary top navigation bar with a centred link cluster and a portalled, focus-trapped off-canvas mobile menu.
+---
+
+import {
+  NavbarBasicDemo,
+  NavbarBorderedDemo,
+  NavbarTransparentDemo,
+} from "@/components/demos/navbar-demo";
+
+The HBD navbar reproduces the legacy `hbd-navbar` web component 1:1: a desktop
+row (logo / centred nav / actions) plus a full-viewport mobile menu that mirrors
+the same logo, links and actions. Below the `--hbd-navbar-mobile-breakpoint`
+(768px) the desktop nav hides and a hamburger reveals the mobile menu, which is
+portalled to the body with scroll-lock, a focus trap, return-focus and
+Escape-to-close.
+
+It is a compound component: compose it from `Navbar.Logo`, `Navbar.Link` and
+`Navbar.Actions`. Links auto-mark `.is-active` + `aria-current="page"` when their
+`href` matches the current pathname, or you can force it with the `active` prop.
+
+## Usage
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <NavbarBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Navbar } from '@/components/ui/navbar';
+    import { Button } from '@/components/ui/button';
+
+    <Navbar>
+      <Navbar.Logo>Here Be Dragons</Navbar.Logo>
+      <Navbar.Link href="#" active>Atlas</Navbar.Link>
+      <Navbar.Link href="#">Voyages</Navbar.Link>
+      <Navbar.Link href="#">Crew</Navbar.Link>
+      <Navbar.Link href="#">Lore</Navbar.Link>
+      <Navbar.Actions>
+        <Button variant="default" size="sm">Sign in</Button>
+        <Button variant="primary" size="sm">Set sail</Button>
+      </Navbar.Actions>
+    </Navbar>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variants
+
+Toggle `bordered`, `transparent` or `sticky` to change the bar's chrome. Use
+`sticky` to pin the navbar to the top of the viewport as the page scrolls.
+
+### Bordered
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavbarBorderedDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Navbar bordered>
+      <Navbar.Logo>Cartographers' Guild</Navbar.Logo>
+      <Navbar.Link href="#" active>
+        Maps
+      </Navbar.Link>
+      <Navbar.Link href="#">Instruments</Navbar.Link>
+      <Navbar.Link href="#">Archives</Navbar.Link>
+      <Navbar.Actions>
+        <Button variant="gold" size="sm">
+          Commission
+        </Button>
+      </Navbar.Actions>
+    </Navbar>
+    ```
+  </Tab>
+</Tabs>
+
+### Transparent
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavbarTransparentDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Navbar transparent>
+      <Navbar.Logo>The Leviathan</Navbar.Logo>
+      <Navbar.Link href="#" active>
+        Deck
+      </Navbar.Link>
+      <Navbar.Link href="#">Hold</Navbar.Link>
+      <Navbar.Link href="#">Charts</Navbar.Link>
+      <Navbar.Actions>
+        <Button variant="default" size="sm">
+          Log
+        </Button>
+      </Navbar.Actions>
+    </Navbar>
+    ```
+  </Tab>
+</Tabs>
+
+## Mobile menu
+
+Narrow the viewport below 768px (or resize the preview pane) to collapse the
+desktop nav and reveal the hamburger. Tapping it opens the off-canvas menu, which
+mirrors the logo, links and actions. The menu locks body scroll, traps focus,
+closes on `Escape`, restores focus to the trigger on close, and auto-closes if
+the viewport grows back above the breakpoint. Use `defaultOpen`/`open` +
+`onOpenChange` to control it, and `onOpen`/`onClose` to react to its lifecycle.
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/navbar.json
+```

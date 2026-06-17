@@ -1,0 +1,120 @@
+---
+title: Context Menu
+description: A right-click (or long-press) menu that opens at the cursor with full keyboard navigation.
+---
+
+import {
+  ContextMenuBasicDemo,
+  ContextMenuGroupedDemo,
+  ContextMenuDisabledDemo,
+} from "@/components/demos/context-menu-demo";
+
+The HBD context menu opens at the pointer on right-click (mouse/pen) or after a
+500ms long-press on touch. It reuses the same `.hbd-menu__*` panel and items as
+the dropdown, so items, groups, separators, icons, shortcuts, and destructive
+styling all behave identically. The panel is portalled to `document.body`,
+flips to stay on-screen, and closes on `Escape`, click-outside, or resize.
+
+Items are declared as `ContextMenuItem`, `ContextMenuSeparator`, and
+`ContextMenuGroup` children alongside the right-clickable host content.
+
+## Usage
+
+Right-click (or long-press on touch) inside the canvas to open the menu.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      ContextMenu,
+      ContextMenuItem,
+      ContextMenuSeparator,
+      type ContextMenuSelectDetail,
+    } from '@/components/ui/context-menu';
+
+    const [last, setLast] = React.useState<ContextMenuSelectDetail | null>(null);
+
+    <ContextMenu onSelect={setLast}>
+      <div>Right-click this area</div>
+
+      <ContextMenuItem value="copy" icon="⧉" shortcut="⌘C">Copy</ContextMenuItem>
+      <ContextMenuItem value="duplicate" icon="⎘" shortcut="⌘D">Duplicate</ContextMenuItem>
+      <ContextMenuItem value="rename" icon="✎">Rename</ContextMenuItem>
+      <ContextMenuSeparator />
+      <ContextMenuItem value="delete" icon="🗑" destructive shortcut="⌫">Delete</ContextMenuItem>
+    </ContextMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Groups
+
+Wrap related items in `ContextMenuGroup` for labelled sections. Disabled items
+are skipped by keyboard navigation and cannot be activated.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuGroupedDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ContextMenu onSelect={(d) => console.log(d.value)}>
+      <div>Right-click the map</div>
+
+      <ContextMenuGroup label="View">
+        <ContextMenuItem value="zoom-in" shortcut="+">Zoom in</ContextMenuItem>
+        <ContextMenuItem value="zoom-out" shortcut="−">Zoom out</ContextMenuItem>
+        <ContextMenuItem value="fit">Fit to screen</ContextMenuItem>
+      </ContextMenuGroup>
+      <ContextMenuSeparator />
+      <ContextMenuGroup label="Edit">
+        <ContextMenuItem value="add-marker">Add marker</ContextMenuItem>
+        <ContextMenuItem value="measure" disabled>Measure (coming soon)</ContextMenuItem>
+      </ContextMenuGroup>
+    </ContextMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+## States
+
+Set `disabled` on the root to suppress the trigger entirely — right-click and
+long-press no longer open the menu.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ContextMenu disabled>
+      <div>Right-click does nothing here</div>
+      <ContextMenuItem value="noop">Unavailable</ContextMenuItem>
+    </ContextMenu>
+    ```
+  </Tab>
+</Tabs>
+
+## Props
+
+`ContextMenu` accepts `onSelect({ value, label })`, `onOpenChange(open)`,
+`disabled`, and `className`. Each `ContextMenuItem` accepts `value`, `label`,
+`icon`, `shortcut`, `disabled`, `destructive`, and a per-item `onSelect`
+callback. `ContextMenuGroup` takes a `label`.
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/context-menu.json
+```

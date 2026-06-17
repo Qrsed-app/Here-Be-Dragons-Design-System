@@ -1,0 +1,321 @@
+/*
+ * Here Be Dragons DS — time-picker.css
+ * Ported for React / light-DOM from ds/styles/components/time-picker.css.
+ *
+ * Time picker — keyboard-accessible scroll columns (hour / minute / AM·PM),
+ * click-to-type hour header, Clear/Cancel/Confirm footer. Every value
+ * references a --hbd-* token (defined in globals.css).
+ *
+ * No Shadow DOM here: the legacy element used Shadow DOM but the stylesheet
+ * had no :host / ::slotted / ::part rules — every selector is already a plain
+ * class — so the port is effectively verbatim. The inline absolutely-positioned
+ * panel + max-height/opacity slide (driven by the .hbd-time-picker--open class
+ * on the wrapper) is preserved exactly so the open/close animation lifecycle
+ * runs in React unchanged. No absolute /paths.
+ *
+ * Cell/column heights are local custom properties composed from spacing tokens
+ * (ITEM_H = 36px, COL_H = 180px = 5 rows).
+ */
+
+.hbd-time-picker {
+  --tp-item-h: calc(var(--hbd-space-8) + var(--hbd-space-1)); /* 36px */
+  --tp-col-h: calc(var(--tp-item-h) * 5);                     /* 180px */
+  position: relative;
+  display: inline-block;
+  font-family: var(--hbd-font-family-display);
+}
+
+/* ── Trigger ────────────────────────────────────────────────────────── */
+.hbd-time-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  justify-content: space-between;
+  min-width: 11rem;
+  min-height: var(--hbd-space-12); /* 44px touch target (SC 2.5.8) */
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  background: var(--hbd-color-parchment-300);
+  /* border-strong (ink-700) so the active control boundary meets SC 1.4.11 (≥3:1) */
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  cursor: pointer;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__trigger:hover {
+  border-color: var(--hbd-color-border-strong);
+}
+.hbd-time-picker__trigger:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+.hbd-time-picker--open .hbd-time-picker__trigger {
+  border-color: var(--hbd-color-input-focus-border);
+}
+.hbd-time-picker__trigger-label { flex: 1; text-align: left; white-space: nowrap; }
+.hbd-time-picker__trigger-label--placeholder { color: var(--hbd-color-text-muted); }
+/* CSS-drawn caret (no emoji): a downward triangle built from borders. */
+.hbd-time-picker__caret {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-left: var(--hbd-space-1) solid transparent;
+  border-right: var(--hbd-space-1) solid transparent;
+  border-top: var(--hbd-space-1) solid var(--hbd-color-text-muted);
+}
+
+/* ── Panel ──────────────────────────────────────────────────────────── */
+/* Slide-open animation: max-height + opacity, --hbd-duration-slow (350ms),
+   --hbd-ease-out — matches the select panel pattern. Requires the panel
+   <div> to persist across renders (it stays mounted in the React tree),
+   otherwise the transition cannot interpolate. Reduced-motion override in
+   globals.css collapses the transition to 0.01ms automatically. */
+.hbd-time-picker__panel {
+  position: absolute;
+  top: calc(100% + var(--hbd-space-1));
+  left: 0;
+  z-index: var(--hbd-z-dropdown);
+  min-width: 13.75rem;
+  background: var(--hbd-color-parchment-300);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  box-shadow: var(--hbd-shadow-lg);
+  overflow: hidden;
+  /* Closed state: collapsed + invisible. */
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-time-picker--open .hbd-time-picker__panel {
+  max-height: var(--hbd-time-picker-panel-max-height);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Header (current value + click-to-type hour) ────────────────────── */
+.hbd-time-picker__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--hbd-space-1);
+  padding: var(--hbd-space-2) var(--hbd-space-4);
+  background: var(--hbd-color-parchment-300);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-parchment-400);
+}
+.hbd-time-picker__display-num {
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-2xl);
+  color: var(--hbd-color-text-primary);
+  line-height: var(--hbd-line-height-none);
+  font-variant-numeric: tabular-nums;
+}
+.hbd-time-picker__display-num--editable { cursor: pointer; border-bottom: var(--hbd-border-width-thin) solid transparent; }
+.hbd-time-picker__display-num--editable:hover { color: var(--hbd-color-gold-deep); border-bottom-color: var(--hbd-color-gold-deep); }
+.hbd-time-picker__display-sep { font-family: var(--hbd-font-family-display); font-size: var(--hbd-font-size-xl); color: var(--hbd-color-gold-deep); line-height: var(--hbd-line-height-none); }
+.hbd-time-picker__display-ampm {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  letter-spacing: var(--hbd-letter-spacing-widest);
+  color: var(--hbd-color-gold-deep);
+  margin-left: var(--hbd-space-2);
+  align-self: flex-end;
+}
+.hbd-time-picker__header-input {
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-2xl);
+  color: var(--hbd-color-text-secondary);
+  line-height: var(--hbd-line-height-none);
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+  border: none;
+  border-bottom: var(--hbd-border-width-thin) solid var(--hbd-color-gold-deep);
+  outline: none;
+  width: 2.4ch;
+  padding: 0;
+  text-align: center;
+}
+
+/* ── Columns ────────────────────────────────────────────────────────── */
+.hbd-time-picker__columns {
+  display: flex;
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-parchment-400);
+}
+.hbd-time-picker__column { display: flex; flex-direction: column; flex: 1; }
+.hbd-time-picker__column-label {
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-micro);
+  letter-spacing: var(--hbd-letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--hbd-color-gold-deep);
+  text-align: center;
+  padding: var(--hbd-space-2) var(--hbd-space-1) var(--hbd-space-1);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-parchment-400);
+  background: var(--hbd-color-parchment-300);
+}
+.hbd-time-picker__scroll {
+  height: var(--tp-col-h);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hbd-color-parchment-400) var(--hbd-color-parchment-300);
+}
+.hbd-time-picker__scroll::-webkit-scrollbar { width: var(--hbd-space-1); }
+.hbd-time-picker__scroll::-webkit-scrollbar-track { background: var(--hbd-color-parchment-300); }
+.hbd-time-picker__scroll::-webkit-scrollbar-thumb { background: var(--hbd-color-parchment-400); }
+.hbd-time-picker__divider { width: var(--hbd-border-width-hairline); background: var(--hbd-color-parchment-400); flex-shrink: 0; }
+
+/* ── Cell ───────────────────────────────────────────────────────────── */
+.hbd-time-picker__cell {
+  height: var(--tp-item-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__cell:hover { background: var(--hbd-color-surface-subtle); }
+.hbd-time-picker__cell.is-selected,
+.hbd-time-picker__cell--selected {
+  background: var(--hbd-color-surface-action);
+  color: var(--hbd-color-text-on-action);
+}
+.hbd-time-picker__cell:focus-visible,
+.hbd-time-picker__cell.is-focused {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: calc(-1 * var(--hbd-border-width-thin));
+}
+
+/* ── AM/PM toggle ───────────────────────────────────────────────────── */
+.hbd-time-picker__ampm { display: flex; flex-direction: column; width: 3.25rem; flex-shrink: 0; }
+.hbd-time-picker__ampm-wrap {
+  height: var(--tp-col-h);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-2);
+}
+.hbd-time-picker__ampm-btn {
+  height: var(--tp-item-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  color: var(--hbd-color-text-secondary);
+  background: var(--hbd-color-surface-subtle);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-parchment-400);
+  cursor: pointer;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__ampm-btn:hover { color: var(--hbd-color-text-primary); }
+.hbd-time-picker__ampm-btn.is-active {
+  background: var(--hbd-color-surface-action);
+  border-color: var(--hbd-color-blood-deep);
+  color: var(--hbd-color-text-on-action);
+}
+.hbd-time-picker__ampm-btn:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+.hbd-time-picker__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-parchment-400);
+}
+.hbd-time-picker__clear {
+  background: none;
+  border: none;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  min-height: var(--hbd-space-12);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__clear:hover { color: var(--hbd-color-text-primary); }
+.hbd-time-picker__clear:focus-visible,
+.hbd-time-picker__cancel:focus-visible,
+.hbd-time-picker__confirm:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Cancel — muted text button next to Confirm. Same visual weight as Clear,
+   sits on the right next to the prominent Confirm action. */
+.hbd-time-picker__cancel {
+  background: none;
+  border: none;
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+  min-height: var(--hbd-space-12);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-time-picker__cancel:hover { color: var(--hbd-color-text-primary); }
+
+/* Right-side group: Cancel + Confirm clustered together. */
+.hbd-time-picker__footer-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+}
+.hbd-time-picker__confirm {
+  background: var(--hbd-color-surface-action);
+  border: none;
+  border-radius: var(--hbd-radius-sm);
+  box-shadow: var(--hbd-button-shadow-primary);
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-label);
+  font-weight: var(--hbd-font-weight-bold);
+  letter-spacing: var(--hbd-letter-spacing-button);
+  text-transform: uppercase;
+  color: var(--hbd-color-text-on-action);
+  cursor: pointer;
+  padding: var(--hbd-space-2) var(--hbd-space-4);
+  min-height: var(--hbd-space-12);
+  transition: box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+/* ── Disabled / error ───────────────────────────────────────────────── */
+.hbd-time-picker--disabled .hbd-time-picker__trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: var(--hbd-color-surface-raised);
+}
+.hbd-time-picker--error .hbd-time-picker__trigger {
+  border-color: var(--hbd-color-status-error-surface);
+}
+/* error-message sits on the light page, so it uses a dark error colour
+   (status-error-text is parchment-50, for on-saturated-surface use only). */
+.hbd-time-picker__error-message {
+  display: block;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-blood);
+  margin-top: var(--hbd-space-1);
+}

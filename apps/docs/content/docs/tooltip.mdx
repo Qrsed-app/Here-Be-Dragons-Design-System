@@ -1,0 +1,115 @@
+---
+title: Tooltip
+description: Hover/focus overlay that describes its trigger, ported from the legacy hbd-tooltip web component onto Radix Tooltip.
+---
+
+import {
+  TooltipBasicDemo,
+  TooltipPlacementDemo,
+  TooltipRichDemo,
+} from "@/components/demos/tooltip-demo";
+
+The HBD tooltip wraps Radix Tooltip and re-applies the legacy `.hbd-tooltip`
+BEM classes (including the bespoke CSS-triangle arrow), so it renders the HBD
+look 1:1 while keeping the proven `role="tooltip"` + `aria-describedby` ARIA
+model. It opens on hover (after the token-driven `--hbd-tooltip-delay-show`
+delay) and instantly on focus, dismisses on `Escape`, and portals its panel so
+it is never clipped by ancestor overflow.
+
+Tooltips are an overlay, so they must live in a client tree wrapped in a single
+`TooltipProvider`.
+
+## Usage
+
+The `content` convenience prop renders a default panel. Pass any focusable
+element (here an HBD `Button`) as the `TooltipTrigger` child via `asChild`,
+which is the default.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Tooltip,
+      TooltipProvider,
+      TooltipTrigger,
+    } from '@/components/ui/tooltip';
+    import { Button } from '@/components/ui/button';
+
+    <TooltipProvider>
+      <Tooltip content="Saves your changes to the realm">
+        <TooltipTrigger>
+          <Button variant="primary">Hover or focus me</Button>
+        </TooltipTrigger>
+      </Tooltip>
+    </TooltipProvider>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Placement
+
+`placement` accepts `top`, `bottom`, `left`, or `right`. Radix flips to the
+opposite side and shifts on viewport collision automatically, matching the
+legacy flip + clamp behaviour, and the arrow follows the resolved side.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipPlacementDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TooltipProvider>
+      {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
+        <Tooltip key={side} placement={side} content={`Placed on the ${side}`}>
+          <TooltipTrigger>
+            <Button variant="default">{side}</Button>
+          </TooltipTrigger>
+        </Tooltip>
+      ))}
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
+## Rich content
+
+For more than a plain string, omit `content` and supply an explicit
+`TooltipContent` panel with arbitrary children.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipRichDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TooltipProvider>
+      <Tooltip placement="bottom">
+        <TooltipTrigger>
+          <Button variant="gold">Map legend</Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <strong>Here be dragons.</strong>
+          <br />
+          Uncharted waters beyond this point.
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/tooltip.json
+```

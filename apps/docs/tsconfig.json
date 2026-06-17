@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/lib/utils": ["../../packages/hbd/lib/utils.ts"],
+      "@/registry/*": ["../../packages/hbd/registry/*"],
+      "@/*": ["./*"],
+      "collections/*": ["./.source/*"]
+    },
+    "allowJs": true,
+    "incremental": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../../packages/hbd/registry/**/*.tsx",
+    "../../packages/hbd/lib/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

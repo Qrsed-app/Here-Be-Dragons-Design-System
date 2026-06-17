@@ -1,0 +1,138 @@
+---
+title: Callout
+description: Status callout for info, warning, error, success, and sage-advice messages with optional titles, icons, and dismissal.
+---
+
+import { Callout } from "@/registry/new-york/callout/callout";
+import { CalloutDismissibleDemo } from "@/components/demos/callout-demo";
+
+The HBD callout surfaces inline status messages. It ports the legacy
+`.hbd-callout` look 1:1 using token-backed component CSS, and wires the correct
+ARIA `role` per variant (`note`, `status`, or `alert`) automatically.
+
+## Variants
+
+Five variants cover the standard status spectrum plus the HBD-specific
+`sage-advice` advisory tone.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Callout variant="info">A new map fragment has been added to your atlas.</Callout>
+      <Callout variant="warning">Tides are turning — set sail before dusk.</Callout>
+      <Callout variant="error">The compass needle spins wildly; your bearing is lost.</Callout>
+      <Callout variant="success">Safe harbour reached. Provisions restocked.</Callout>
+      <Callout variant="sage-advice">Trust the stars over the sea charts on a clear night.</Callout>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Callout } from '@/components/ui/callout';
+
+    <Callout variant="info">A new map fragment has been added to your atlas.</Callout>
+    <Callout variant="warning">Tides are turning — set sail before dusk.</Callout>
+    <Callout variant="error">The compass needle spins wildly; your bearing is lost.</Callout>
+    <Callout variant="success">Safe harbour reached. Provisions restocked.</Callout>
+    <Callout variant="sage-advice">Trust the stars over the sea charts on a clear night.</Callout>
+    ```
+
+  </Tab>
+</Tabs>
+
+## With a title
+
+Pass `title` to add a bold heading line. The title is automatically wired to the
+callout's `aria-labelledby`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Callout variant="error" title="Hull breach detected">
+        Water is rising in the lower decks. Man the pumps immediately.
+      </Callout>
+      <Callout variant="success" title="Treasure secured">
+        The chest is aboard and the crew has been paid their share.
+      </Callout>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Callout variant="error" title="Hull breach detected">
+      Water is rising in the lower decks. Man the pumps immediately.
+    </Callout>
+    <Callout variant="success" title="Treasure secured">
+      The chest is aboard and the crew has been paid their share.
+    </Callout>
+    ```
+  </Tab>
+</Tabs>
+
+## Custom icon
+
+Each variant ships a default glyph, but you can override it with the `icon` prop.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Callout variant="sage-advice" icon="🧭" title="Sage advice">
+        A wise navigator keeps a spare compass below deck.
+      </Callout>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Callout variant="sage-advice" icon="🧭" title="Sage advice">
+      A wise navigator keeps a spare compass below deck.
+    </Callout>
+    ```
+  </Tab>
+</Tabs>
+
+## Dismissible
+
+Set `dismissible` to render a dismiss button. Clicking it collapses the callout
+and, once the transition ends, fires `onDismiss`. Dismissal can be controlled
+via `dismissed` / `onDismissedChange` or left uncontrolled with
+`defaultDismissed`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <CalloutDismissibleDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    'use client';
+
+    import * as React from 'react';
+    import { Callout } from '@/components/ui/callout';
+
+    export function CalloutDismissibleDemo() {
+      const [dismissed, setDismissed] = React.useState(false);
+
+      if (dismissed) {
+        return <Callout variant="info">Message dismissed.</Callout>;
+      }
+
+      return (
+        <Callout
+          variant="warning"
+          title="Uncharted waters ahead"
+          dismissible
+          onDismiss={() => setDismissed(true)}
+        >
+          Your voyage strays beyond the mapped coastline.
+        </Callout>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/callout.json
+```

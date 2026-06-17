@@ -1,0 +1,131 @@
+---
+title: Spacer
+description: Explicit-whitespace primitive that inserts token-backed space on the vertical, horizontal, or both axes.
+---
+
+import { Spacer } from "@/registry/new-york/spacer/spacer";
+
+The HBD spacer is a decorative layout primitive that injects deliberate
+whitespace. It renders no visible UI of its own (`role="none"`,
+`aria-hidden="true"`, never in the Tab order) — its only job is to push siblings
+apart by a `size` on a given `axis`.
+
+`size` accepts a numeric spacing-token key (`"1"`–`"32"`, resolving to
+`var(--hbd-space-N)`) or any raw CSS length (`"32px"`, `"2rem"`, `"10%"`).
+
+## Vertical
+
+The default axis. The spacer occupies vertical height between stacked elements.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: '100%' }}>
+        <div>Above</div>
+        <Spacer size="8" />
+        <div>Below (separated by a size-8 spacer)</div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Spacer } from '@/components/ui/spacer';
+
+    <div>Above</div>
+    <Spacer size="8" />
+    <div>Below (separated by a size-8 spacer)</div>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Horizontal
+
+Set `axis="horizontal"` to insert width between inline or flex siblings.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span>Left</span>
+        <Spacer size="6" axis="horizontal" />
+        <span>Right</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <span>Left</span>
+      <Spacer size="6" axis="horizontal" />
+      <span>Right</span>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Sizes
+
+Numeric keys map to the spacing scale (`1, 2, 3, 4, 6, 8, 12, 16, 24, 32`).
+Here each gap grows along the horizontal axis.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span>A</span>
+        <Spacer size="2" axis="horizontal" />
+        <span>B</span>
+        <Spacer size="6" axis="horizontal" />
+        <span>C</span>
+        <Spacer size="16" axis="horizontal" />
+        <span>D</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <span>A</span>
+    <Spacer size="2" axis="horizontal" />
+    <span>B</span>
+    <Spacer size="6" axis="horizontal" />
+    <span>C</span>
+    <Spacer size="16" axis="horizontal" />
+    <span>D</span>
+    ```
+  </Tab>
+</Tabs>
+
+## Raw lengths and both axes
+
+A non-scale `size` passes through verbatim as a CSS length. Use `axis="both"`
+to occupy width and height at once (handy as a square gutter inside a grid).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span>Start</span>
+        <Spacer size="2rem" axis="horizontal" />
+        <span>2rem later</span>
+        <Spacer size="48px" axis="both" style={{ background: "var(--color-fd-muted)" }} />
+        <span>after a 48px both-axis block</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <span>Start</span>
+    <Spacer size="2rem" axis="horizontal" />
+    <span>2rem later</span>
+    <Spacer size="48px" axis="both" />
+    <span>after a 48px both-axis block</span>
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/spacer.json
+```

@@ -1,0 +1,9 @@
+node_modules/
+.next/
+.turbo/
+.source/
+*.tsbuildinfo
+*.log
+.DS_Store
+.env*
+.eslintcache

@@ -1,0 +1,233 @@
+/*
+ * Here Be Dragons DS
+ * registry/new-york/styles/components/alert.css
+ * Ported 1:1 from ds/styles/components/alert.css (already Light DOM — no
+ * :host / ::slotted / ::part to de-shadow). Every var(--hbd-*) reference is
+ * kept verbatim; no absolute /paths. Target: app/components/alert.css.
+ *
+ * The alert is the generic system-level equivalent of hbd-callout —
+ * application feedback (form errors, system notices, API responses).
+ * Same visual DNA (left-bar status surface, icon, body, dismiss),
+ * different role (no sage-advice variant, adds banner + inline types,
+ * adds focus-able action button).
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-color-status-*-bg / --hbd-color-status-*-text;
+ *   emitted tokens are --hbd-color-status-*-surface / -text. The
+ *   saturated "-surface" colour is the canonical "filled" status bg.
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ *
+ * Reduced motion: dismiss + injection transitions collapse to 0.01ms
+ * via the global motion override in foundations/motion.css.
+ */
+
+/* ── 1 · Base ─────────────────────────────────────────────────────── */
+.hbd-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hbd-space-3);
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  border-radius: var(--hbd-radius-md);
+  border-left: var(--hbd-border-width-thick) solid transparent;
+  position: relative;
+  font-family: var(--hbd-font-family-ui);
+  /*
+   * max-height + overflow:hidden is the open-state ceiling used so
+   * the dismiss transition can animate to 0. Same pattern as
+   * callout.css; --hbd-callout-dismiss-max-height is the shared
+   * ceiling token (no real alert exceeds it).
+   */
+  overflow: hidden;
+  max-height: var(--hbd-callout-dismiss-max-height);
+  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out),
+              transform var(--hbd-duration-normal) var(--hbd-ease-out),
+              max-height var(--hbd-duration-normal) var(--hbd-ease-out),
+              padding var(--hbd-duration-normal) var(--hbd-ease-out),
+              margin var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+
+/* ── 2 · Variants ─────────────────────────────────────────────────── */
+.hbd-alert--info {
+  background-color: var(--hbd-color-status-info-surface);
+  border-left-color: var(--hbd-color-status-info-border);
+  color: var(--hbd-color-status-info-text);
+}
+.hbd-alert--success {
+  background-color: var(--hbd-color-status-success-surface);
+  border-left-color: var(--hbd-color-status-success-border);
+  color: var(--hbd-color-status-success-text);
+}
+.hbd-alert--warning {
+  background-color: var(--hbd-color-status-warning-surface);
+  border-left-color: var(--hbd-color-status-warning-border);
+  color: var(--hbd-color-status-warning-text);
+}
+.hbd-alert--error {
+  background-color: var(--hbd-color-status-error-surface);
+  border-left-color: var(--hbd-color-status-error-border);
+  color: var(--hbd-color-status-error-text);
+}
+
+/* ── 3 · Icon ─────────────────────────────────────────────────────── */
+.hbd-alert__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  margin-top: var(--hbd-space-1);
+  color: currentColor;
+}
+.hbd-alert__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── 4 · Body ─────────────────────────────────────────────────────── */
+.hbd-alert__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+}
+
+.hbd-alert__title {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: inherit;
+  margin: 0;
+  line-height: var(--hbd-line-height-snug);
+}
+
+.hbd-alert__content {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: inherit;
+  margin: 0;
+  line-height: var(--hbd-line-height-body);
+}
+
+/* ── 5 · Action ───────────────────────────────────────────────────── */
+.hbd-alert__action {
+  margin-top: var(--hbd-space-2);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  align-self: flex-start;
+}
+.hbd-alert__action:hover {
+  text-decoration-thickness: var(--hbd-border-width-thin);
+}
+.hbd-alert__action:focus-visible {
+  outline: var(--hbd-border-width-thin) solid currentColor;
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* ── 6 · Dismiss button ───────────────────────────────────────────── */
+.hbd-alert__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: flex-start;
+  /*
+   * ≥44px touch target (SC 2.5.8) via min-size; visual glyph stays
+   * small. Negative margin compensates so the bigger hit-box doesn't
+   * inflate the alert's visual height — same trick as callout.
+   */
+  min-width: var(--hbd-space-12);
+  min-height: var(--hbd-space-12);
+  margin: calc(-1 * var(--hbd-space-2)) calc(-1 * var(--hbd-space-2)) calc(-1 * var(--hbd-space-2)) 0;
+  padding: var(--hbd-space-1);
+  background: none;
+  border: none;
+  border-radius: var(--hbd-radius-sm);
+  color: currentColor;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-alert__dismiss:hover {
+  opacity: 1;
+}
+.hbd-alert__dismiss:focus-visible {
+  outline: var(--hbd-border-width-thin) solid currentColor;
+  outline-offset: var(--hbd-focus-offset);
+}
+.hbd-alert__dismiss svg {
+  width: var(--hbd-space-3);
+  height: var(--hbd-space-3);
+  display: block;
+}
+
+/* ── 7 · Dismissed state — collapse height + fade ─────────────────── */
+.hbd-alert.is-dismissed {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--hbd-space-1)));
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* ── 8 · Banner — full-width sticky bar ───────────────────────────── */
+.hbd-alert--banner {
+  position: sticky;
+  top: 0;
+  z-index: var(--hbd-z-sticky);
+  border-radius: 0;
+  border-left: none;
+  border-bottom: var(--hbd-border-width-hairline) solid currentColor;
+  padding: var(--hbd-space-2) var(--hbd-layout-container-padding);
+  width: 100%;
+}
+.hbd-alert--banner .hbd-alert__body {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--hbd-space-2);
+}
+.hbd-alert--banner .hbd-alert__action {
+  margin-top: 0;
+}
+
+/* ── 9 · Inline — compact, field-adjacent ─────────────────────────── */
+.hbd-alert--inline {
+  border-left-width: var(--hbd-border-width-thin);
+  border-radius: var(--hbd-radius-sm);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  gap: var(--hbd-space-2);
+}
+.hbd-alert--inline .hbd-alert__icon {
+  width: var(--hbd-space-3);
+  height: var(--hbd-space-3);
+  margin-top: 0;
+  align-self: center;
+}
+.hbd-alert--inline .hbd-alert__title {
+  font-size: var(--hbd-font-size-label);
+}
+.hbd-alert--inline .hbd-alert__content {
+  font-size: var(--hbd-font-size-label);
+  line-height: var(--hbd-line-height-snug);
+}
+.hbd-alert--inline .hbd-alert__body {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--hbd-space-2);
+}
+.hbd-alert--inline .hbd-alert__action {
+  margin-top: 0;
+}

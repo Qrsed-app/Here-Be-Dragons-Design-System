@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar-group",
+  "type": "registry:ui",
+  "title": "Avatar Group",
+  "description": "Composes Avatar children into an overlapping stack: renders the first `max` (default 5) and appends a \"+N\" overflow bubble for the rest. `size` propagates to every child and drives the bubble size. Host is role=group with a default aria-label reporting the TOTAL count (\"N participants\"); the overflow bubble is role=img aria-label \"N more\".",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils",
+    "@hbd/avatar"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/avatar-group/avatar-group.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { Avatar, type AvatarProps } from \"@/registry/new-york/avatar/avatar\";\n\n// Ported 1:1 from ds/components/hbd-avatar-group.js + the .hbd-avatar-group*\n// rules extracted from ds/styles/components/avatar.css (shipped in\n// avatar-group.css). Composes <Avatar> children into an overlapping stack,\n// renders the first `max`, and appends a \"+N\" overflow bubble for the rest.\n//\n// Behaviour parity with the WC:\n//   - max (default 5): visible avatars before the overflow bubble. When the\n//     child count is <= max, the bubble is omitted.\n//   - size: propagated to EVERY child avatar (overrides their own size),\n//     and drives the overflow-bubble size.\n//   - host: role=\"group\" + a default aria-label reporting the TOTAL count\n//     (\"N participants\"), which authors may override via aria-label.\n//   - overflow bubble: role=\"img\", aria-label \"N more\", reuses the\n//     .hbd-avatar + .hbd-avatar--{size} base classes for visual parity.\n\nconst SIZES = [\"xs\", \"sm\", \"md\", \"lg\", \"xl\", \"2xl\"] as const;\ntype AvatarSize = (typeof SIZES)[number];\n\nexport interface AvatarGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, \"children\"> {\n  /** Number of avatars rendered before the overflow bubble (default 5). */\n  max?: number;\n  /** Propagated to every child avatar, overriding their own size. */\n  size?: AvatarSize;\n  /** <Avatar> children (extra non-Avatar nodes are ignored, matching the WC). */\n  children?: React.ReactNode;\n}\n\nconst AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(\n  ({ max = 5, size, className, children, \"aria-label\": ariaLabel, ...props }, ref) => {\n    // Mirror the WC's _max getter: only finite positive values win, else 5.\n    const resolvedMax = Number.isFinite(max) && max > 0 ? max : 5;\n    // Mirror the WC's _size getter: only the known sizes are honoured.\n    const resolvedSize = size && SIZES.includes(size) ? size : undefined;\n\n    // Collect only the Avatar children (the WC snapshots `:scope > hbd-avatar`).\n    const avatars = React.Children.toArray(children).filter(\n      (child): child is React.ReactElement<AvatarProps> =>\n        React.isValidElement(child) && child.type === Avatar,\n    );\n\n    const total = avatars.length;\n    const overflowCount = Math.max(0, total - resolvedMax);\n    const visible = avatars.slice(0, resolvedMax);\n\n    // Propagate the group size onto every visible avatar when set.\n    const rendered = visible.map((avatar) =>\n      resolvedSize ? React.cloneElement(avatar, { size: resolvedSize }) : avatar,\n    );\n\n    // Bubble size: group size if set, else the first visible avatar's size,\n    // else \"md\" (matches the WC's sizeClass logic).\n    const bubbleSize: AvatarSize =\n      resolvedSize ?? (visible[0]?.props.size as AvatarSize | undefined) ?? \"md\";\n\n    // Default aria-label reports the TOTAL count (not just visible) so SR\n    // users get accurate info; authors can override via aria-label.\n    const count = total;\n    const defaultLabel = `${count} ${count === 1 ? \"participant\" : \"participants\"}`;\n\n    return (\n      <div\n        ref={ref}\n        className={cn(\"hbd-avatar-group\", className)}\n        role=\"group\"\n        aria-label={ariaLabel ?? defaultLabel}\n        {...props}\n      >\n        {rendered}\n        {overflowCount > 0 ? (\n          <span\n            className={cn(\"hbd-avatar\", `hbd-avatar--${bubbleSize}`, \"hbd-avatar-group__overflow\")}\n            role=\"img\"\n            aria-label={`${overflowCount} more`}\n          >\n            +{overflowCount}\n          </span>\n        ) : null}\n      </div>\n    );\n  },\n);\nAvatarGroup.displayName = \"AvatarGroup\";\n\nexport { AvatarGroup };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+/*
+ * Here Be Dragons DS — spacer.css
+ * Ported for React / light-DOM from ds/styles/components/spacer.css.
+ * No Shadow DOM in the source, so nothing to de-shadow — the .hbd-spacer class
+ * already targets the light-DOM element.
+ *
+ * Explicit-whitespace utility. The element's actual width / height are written
+ * inline by <Spacer> based on the size + axis props — the documented inline-style
+ * exception for value-driven layout properties (same pattern as skeleton rect
+ * height and progress fill width).
+ *
+ * The component itself is purely decorative: <Spacer> sets role="none" +
+ * aria-hidden="true" so the spacer never appears in the accessibility tree and
+ * never shifts reading or Tab order.
+ */
+
+.hbd-spacer {
+  display: block;
+  flex-shrink: 0;
+}

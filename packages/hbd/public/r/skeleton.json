@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "Decorative placeholder shape shown while real content loads. Light-DOM, aria-hidden; the surrounding container owns the aria-busy loading affordance. Variants: text, text-sm, text-lg, circle, rect (height required). Optional shimmer animation.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/skeleton/skeleton.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-skeleton.js + ds/styles/components/skeleton.css\n// (light DOM — no Shadow DOM).\n//\n// A decorative placeholder shape shown while real content loads. The\n// skeleton itself is aria-hidden — the SURROUNDING container that becomes\n// the real content owns the aria-busy loading affordance:\n//\n//   <div aria-busy=\"true\" aria-label=\"Loading spell list\">\n//     <Skeleton variant=\"text\" />\n//   </div>\n//\n// width/height are author-supplied, value-driven properties carried via the\n// inline style prop (documented dynamic exception, same as progress fill\n// width). They are NOT tokenised. Everything else lives in skeleton.css.\n\nconst VARIANTS = [\"text\", \"text-sm\", \"text-lg\", \"circle\", \"rect\"] as const;\n\nexport interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** text (default) · text-sm · text-lg · circle · rect (height required) */\n  variant?: (typeof VARIANTS)[number];\n  /** CSS width override (e.g. \"120px\", \"60%\"). */\n  width?: string;\n  /** CSS height override (required for the \"rect\" variant). */\n  height?: string;\n  /** Disable the shimmer animation (static placeholder / reduced-motion look). */\n  noShimmer?: boolean;\n}\n\nconst Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(\n  ({ variant = \"text\", width, height, noShimmer = false, className, style, ...props }, ref) => {\n    // Match the WC: lowercase the raw value, then fall back to \"text\" for\n    // anything not in VARIANTS (the WC does `(variant || 'text').toLowerCase()`).\n    const raw = String(variant).toLowerCase() as (typeof VARIANTS)[number];\n    const safeVariant = VARIANTS.includes(raw) ? raw : \"text\";\n\n    return (\n      <div\n        ref={ref}\n        aria-hidden=\"true\"\n        className={cn(\n          \"hbd-skeleton\",\n          `hbd-skeleton--${safeVariant}`,\n          noShimmer && \"hbd-skeleton--no-shimmer\",\n          className,\n        )}\n        style={{\n          ...(width != null ? { width } : null),\n          ...(height != null ? { height } : null),\n          ...style,\n        }}\n        {...props}\n      />\n    );\n  },\n);\nSkeleton.displayName = \"Skeleton\";\n\nexport { Skeleton };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

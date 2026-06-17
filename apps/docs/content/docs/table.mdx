@@ -1,0 +1,157 @@
+---
+title: Data Table
+description: Token-backed data table with sortable headers, row selection, sticky columns, and three densities.
+---
+
+import {
+  TableBasicDemo,
+  TableSortableDemo,
+  TableStripedDemo,
+  TableSizesDemo,
+  TableEmptyDemo,
+  TableSelectableDemo,
+} from "@/components/demos/table-demo";
+
+The HBD table renders a `role="grid"` data table from `columns` + `rows` props.
+It reproduces the legacy `.hbd-table` markup, ARIA, and the roving-tabindex grid
+keyboard pattern 1:1 with token-backed component CSS — not Tailwind utilities.
+
+Sorting and selection are controlled-first (`sortKey`/`sortDir` + `onSort`,
+`selected` + `onSelectionChange`) with uncontrolled fallbacks
+(`defaultSortKey`, `defaultSortDir`, `defaultSelected`).
+
+## Basic
+
+Pass column definitions and row data. Each row needs a unique `id`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TableBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Table, type TableColumn, type TableRow } from '@/components/ui/table';
+
+    const columns: TableColumn[] = [
+      { key: 'name', label: 'Vessel' },
+      { key: 'captain', label: 'Captain' },
+      { key: 'crew', label: 'Crew', align: 'right', sortType: 'number' },
+      { key: 'status', label: 'Status' },
+    ];
+
+    const rows: TableRow[] = [
+      { id: 1, name: 'The Kraken', captain: 'Elara Voss', crew: 48, status: 'At sea' },
+      { id: 2, name: 'Dawn Treader', captain: 'Marek Tide', crew: 31, status: 'In port' },
+      { id: 3, name: 'Salt Wraith', captain: 'Yara Finch', crew: 22, status: 'At sea' },
+    ];
+
+    <Table columns={columns} rows={rows} />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variants
+
+Combine the boolean flags `sortable`, `bordered`, and `striped`. With `sortable`,
+every column opts in (unless it sets `sortable: false`); click a header — or focus
+it and press <kbd>Enter</kbd>/<kbd>Space</kbd> — to cycle ascending → descending.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TableSortableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table columns={columns} rows={rows} sortable bordered defaultSortKey="crew" />
+    ```
+  </Tab>
+</Tabs>
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TableStripedDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table columns={columns} rows={rows} striped bordered />
+    ```
+  </Tab>
+</Tabs>
+
+## Sizes
+
+Three densities via the `size` prop: `sm`, `md` (default), and `lg`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TableSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table columns={columns} rows={rows} size="sm" bordered />
+    <Table columns={columns} rows={rows} size="md" bordered />
+    <Table columns={columns} rows={rows} size="lg" bordered />
+    ```
+  </Tab>
+</Tabs>
+
+## Selection
+
+Set `selectable` to add a leading checkbox column. Drive it as a controlled
+component with `selected` + `onSelectionChange`; the header checkbox toggles all
+rows and shows an indeterminate state for partial selections.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TableSelectableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [selected, setSelected] = React.useState<string[]>(['1']);
+
+    <Table
+      columns={columns}
+      rows={rows}
+      selectable
+      bordered
+      selected={selected}
+      onSelectionChange={({ selected }) => setSelected(selected)}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Empty state
+
+When `rows` is empty, the table renders a single row with `emptyText`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TableEmptyDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table columns={columns} rows={[]} bordered emptyText="No vessels logged" />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/table.json
+```

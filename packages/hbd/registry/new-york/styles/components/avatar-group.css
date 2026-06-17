@@ -1,0 +1,46 @@
+/*
+ * Here Be Dragons DS
+ * styles/components/avatar-group.css
+ *
+ * Extracted from ds/styles/components/avatar.css (.hbd-avatar-group* rules).
+ * Composes <hbd-avatar> children into an overlapping stack with a "+N"
+ * overflow bubble. The base .hbd-avatar / .hbd-avatar--{size} styling is
+ * provided by the @hbd/avatar registry dependency (avatar.css); this file
+ * ships ONLY the group-specific rules. The overflow bubble reuses the
+ * .hbd-avatar + .hbd-avatar--{size} base classes for parity with siblings.
+ *
+ * Naming notes:
+ * - Spec referenced --hbd-spacing-N — emitted tokens are --hbd-space-N.
+ */
+
+/* ── Avatar group ─────────────────────────────────────────────────── */
+/* row-reverse + negative left margin produces a "stack" where the
+   FIRST authored avatar visually sits on the LEFT, layered on top of
+   the next one. The flex-direction handles the z-order naturally —
+   later children paint underneath earlier children. */
+.hbd-avatar-group {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
+.hbd-avatar-group > .hbd-avatar,
+.hbd-avatar-group > .hbd-avatar-group__overflow {
+  margin-left: calc(-1 * var(--hbd-space-2));
+}
+.hbd-avatar-group > .hbd-avatar:last-child,
+.hbd-avatar-group > .hbd-avatar-group__overflow:last-child {
+  margin-left: 0;
+}
+
+/* Overflow bubble — same size + shape as an avatar, neutral fill,
+   carries "+N" text. Inherits all .hbd-avatar base + size styles via
+   the dual class names the markup writes. */
+.hbd-avatar-group__overflow {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-secondary);
+  font-family: var(--hbd-font-family-ui);
+  font-weight: var(--hbd-font-weight-semibold);
+  font-size: var(--hbd-font-size-label);
+  letter-spacing: var(--hbd-letter-spacing-normal);
+  user-select: none;
+}

@@ -1,0 +1,119 @@
+---
+title: Split Button
+description: A primary action paired with a chevron trigger that opens a dropdown of alternative actions.
+---
+
+import {
+  SplitButtonBasicDemo,
+  SplitButtonVariantsDemo,
+  SplitButtonSizesDemo,
+  SplitButtonStatesDemo,
+} from "@/components/demos/split-button-demo";
+
+The HBD split button joins two token-backed buttons: a wide **primary action**
+on the left and a narrow **chevron trigger** on the right. Clicking the action
+fires `onAction`; clicking the chevron opens a dropdown of alternative actions.
+Menu items are declared with `SplitButton.Item` children or an `items` prop, and
+choosing one fires `onSelect` and closes the panel.
+
+## Usage
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SplitButtonBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SplitButton } from '@/components/ui/split-button';
+
+    <SplitButton
+      label="Save"
+      onAction={() => save()}
+      onSelect={(detail) => run(detail.value)}
+    >
+      <SplitButton.Item value="save-as">Save as…</SplitButton.Item>
+      <SplitButton.Item value="save-copy">Save a copy</SplitButton.Item>
+      <SplitButton.Item value="save-template">Save as template</SplitButton.Item>
+    </SplitButton>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variants
+
+The `variant` is shared by both halves.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SplitButtonVariantsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const items = [
+      { value: 'pdf', label: 'Export as PDF' },
+      { value: 'png', label: 'Export as PNG' },
+      { value: 'svg', label: 'Export as SVG' },
+    ];
+
+    <SplitButton label="Default" variant="default" items={items} />
+    <SplitButton label="Primary" variant="primary" items={items} />
+    <SplitButton label="Gold" variant="gold" items={items} />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SplitButtonSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SplitButton label="Small" size="sm" items={items} />
+    <SplitButton label="Medium" size="md" items={items} />
+    <SplitButton label="Large" size="lg" items={items} />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+The whole control can be disabled, and individual menu items can be marked
+`disabled` so they are skipped during keyboard navigation.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SplitButtonStatesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SplitButton label="Disabled" disabled items={[{ value: 'x', label: 'Unavailable' }]} />
+
+    <SplitButton label="Deploy">
+      <SplitButton.Item value="staging">To staging</SplitButton.Item>
+      <SplitButton.Item value="production">To production</SplitButton.Item>
+      <SplitButton.Item value="rollback" disabled>
+        Rollback (no history)
+      </SplitButton.Item>
+    </SplitButton>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/split-button.json
+```

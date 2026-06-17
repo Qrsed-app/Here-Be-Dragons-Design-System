@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "HBD button: default/primary/gold variants, sm/md/lg sizes, icon-only, loading spinner overlay, and pressed (toggle) state. Brutalist offset shadow + sharp corners.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "class-variance-authority",
+    "@radix-ui/react-slot"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils",
+    "@hbd/spinner"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/button/button.tsx",
+      "content": "import * as React from \"react\";\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { cn } from \"@/lib/utils\";\nimport { Spinner } from \"@/registry/new-york/spinner/spinner\";\n\n// Ported from ds/components/hbd-button.js + ds/styles/components/button.css.\n// Variants map to the legacy .hbd-button--{variant}/--{size} classes so the\n// de-shadowed button.css reproduces the exact HBD look 1:1. Tailwind utilities\n// are NOT used for the visual design here — the token-backed component CSS is.\nconst buttonVariants = cva(\"hbd-button\", {\n  variants: {\n    variant: {\n      default: \"hbd-button--default\",\n      primary: \"hbd-button--primary\",\n      gold: \"hbd-button--gold\",\n    },\n    size: {\n      sm: \"hbd-button--sm\",\n      md: \"hbd-button--md\",\n      lg: \"hbd-button--lg\",\n    },\n    iconOnly: { true: \"hbd-button--icon-only\", false: \"\" },\n  },\n  defaultVariants: { variant: \"primary\", size: \"md\", iconOnly: false },\n});\n\nexport interface ButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {\n  /** Render as the child element (Radix Slot) instead of a <button>. */\n  asChild?: boolean;\n  /** Show the loading spinner overlay; also disables the button. */\n  loading?: boolean;\n  /** Toggle \"on\" state (renders the pressed look + aria-pressed). */\n  pressed?: boolean;\n  /** Icon-only buttons MUST also receive an aria-label. */\n  leftIcon?: React.ReactNode;\n  rightIcon?: React.ReactNode;\n}\n\nconst Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\n  (\n    {\n      className,\n      variant,\n      size,\n      iconOnly,\n      asChild = false,\n      loading = false,\n      pressed,\n      disabled,\n      leftIcon,\n      rightIcon,\n      children,\n      type,\n      ...props\n    },\n    ref,\n  ) => {\n    const Comp = asChild ? Slot : \"button\";\n\n    const content = asChild ? (\n      children\n    ) : (\n      <>\n        {loading && (\n          <Spinner className=\"hbd-button__spinner\" size=\"sm\" variant=\"inherit\" label=\"Loading\" />\n        )}\n        {!iconOnly && leftIcon ? <span className=\"hbd-button__icon\">{leftIcon}</span> : null}\n        {children}\n        {!iconOnly && rightIcon ? <span className=\"hbd-button__icon\">{rightIcon}</span> : null}\n      </>\n    );\n\n    return (\n      <Comp\n        ref={ref}\n        type={asChild ? undefined : (type ?? \"button\")}\n        className={cn(\n          buttonVariants({ variant, size, iconOnly }),\n          pressed && \"hbd-button--pressed\",\n          loading && \"is-loading\",\n          disabled && \"is-disabled\",\n          className,\n        )}\n        disabled={asChild ? undefined : disabled || loading}\n        aria-busy={loading || undefined}\n        aria-pressed={pressed}\n        {...props}\n      >\n        {content}\n      </Comp>\n    );\n  },\n);\nButton.displayName = \"Button\";\n\nexport { Button, buttonVariants };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

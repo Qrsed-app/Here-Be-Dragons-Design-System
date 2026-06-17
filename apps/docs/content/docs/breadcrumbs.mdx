@@ -1,0 +1,128 @@
+---
+title: Breadcrumbs
+description: Token-backed WAI-ARIA breadcrumb trail with data-driven or compound items and optional middle-crumb truncation.
+---
+
+import {
+  BreadcrumbsBasicDemo,
+  BreadcrumbsCompoundDemo,
+  BreadcrumbsTruncateDemo,
+  BreadcrumbsLabelDemo,
+} from "@/components/demos/breadcrumbs-demo";
+
+The HBD breadcrumbs render a WAI-ARIA 1.2 trail — a `<nav>` wrapping an ordered
+list, with a decorative `›` separator before every crumb except the first and
+the final crumb marked up as a non-link `<span aria-current="page">`. It
+reproduces the legacy `.hbd-breadcrumbs` look 1:1 with token-backed component
+CSS, and accepts crumbs either as a data-driven `items` array or as compound
+`Breadcrumbs.Item` children.
+
+## Usage
+
+Pass an `items` array of `{ label, href, current? }`. The last crumb defaults to
+the current page (non-link) automatically; omit `href` on any crumb to render it
+as plain text.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <BreadcrumbsBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Breadcrumbs } from '@/components/ui/breadcrumbs';
+
+    <Breadcrumbs
+      items={[
+        { label: 'Atlas', href: '/atlas' },
+        { label: 'Northern Seas', href: '/atlas/northern-seas' },
+        { label: 'Kraken Trench' },
+      ]}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Compound items
+
+For full control over each crumb, use the compound `Breadcrumbs.Item` API
+instead of `items`. A crumb with an `href` renders a link; one without renders
+as the current page.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <BreadcrumbsCompoundDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Breadcrumbs>
+      <Breadcrumbs.Item href="/atlas">Atlas</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="/atlas/northern-seas">Northern Seas</Breadcrumbs.Item>
+      <Breadcrumbs.Item>Kraken Trench</Breadcrumbs.Item>
+    </Breadcrumbs>
+    ```
+  </Tab>
+</Tabs>
+
+## Truncation
+
+Set `truncate` to a threshold to collapse the middle crumbs behind an ellipsis
+once the count exceeds it — keeping the first and last visible. Clicking the `…`
+button expands the full path and fires `hbd:expand`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <BreadcrumbsTruncateDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Breadcrumbs
+      truncate={3}
+      items={[
+        { label: "Atlas", href: "/atlas" },
+        { label: "Northern Seas", href: "#" },
+        { label: "Frostbite Strait", href: "#" },
+        { label: "Glacier Bay", href: "#" },
+        { label: "Kraken Trench" },
+      ]}
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## Accessible label
+
+The surrounding `<nav>` is labelled "Breadcrumb" by default. Pass `label` to
+override it, or `labelledBy` to associate the nav with a visible heading's `id`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <BreadcrumbsLabelDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Breadcrumbs
+      label="Voyage trail"
+      items={[
+        { label: "Home Port", href: "/" },
+        { label: "Open Water", href: "#" },
+        { label: "Edge of the Map" },
+      ]}
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/breadcrumbs.json
+```

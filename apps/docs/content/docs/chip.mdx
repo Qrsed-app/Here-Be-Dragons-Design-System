@@ -1,0 +1,197 @@
+---
+title: Chip
+description: A labelled pill with optional icon, removable and selectable behaviour.
+---
+
+import { Chip } from "@/registry/new-york/chip/chip";
+import { ChipSelectableDemo, ChipRemovableDemo } from "@/components/demos/chip-demo";
+
+The HBD chip is a compact, token-backed pill used for tags, filters, and
+attributes. It renders as a static `<span>` by default, a toggle `<button>`
+when `selectable`, and gains an inline remove (✕) button when `removable`.
+
+## Variants
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip variant="neutral">Neutral</Chip>
+      <Chip variant="primary">Primary</Chip>
+      <Chip variant="success">Success</Chip>
+      <Chip variant="warning">Warning</Chip>
+      <Chip variant="error">Error</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Chip } from '@/components/ui/chip';
+
+    <Chip variant="neutral">Neutral</Chip>
+    <Chip variant="primary">Primary</Chip>
+    <Chip variant="success">Success</Chip>
+    <Chip variant="warning">Warning</Chip>
+    <Chip variant="error">Error</Chip>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Outline
+
+Set `outline` for a lighter, border-only treatment of any variant.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip variant="primary" outline>
+        Primary
+      </Chip>
+      <Chip variant="success" outline>
+        Success
+      </Chip>
+      <Chip variant="warning" outline>
+        Warning
+      </Chip>
+      <Chip variant="error" outline>
+        Error
+      </Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip variant="primary" outline>
+      Primary
+    </Chip>
+    <Chip variant="success" outline>
+      Success
+    </Chip>
+    <Chip variant="warning" outline>
+      Warning
+    </Chip>
+    <Chip variant="error" outline>
+      Error
+    </Chip>
+    ```
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip size="sm">Small</Chip>
+      <Chip size="md">Medium</Chip>
+      <Chip size="lg">Large</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip size="sm">Small</Chip>
+    <Chip size="md">Medium</Chip>
+    <Chip size="lg">Large</Chip>
+    ```
+  </Tab>
+</Tabs>
+
+## With icon
+
+Pass any node to `icon`; it is rendered before the label and hidden from
+assistive tech (`aria-hidden`).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip variant="success" icon={<span>✔</span>}>
+        Verified
+      </Chip>
+      <Chip variant="warning" icon={<span>⚑</span>}>
+        Flagged
+      </Chip>
+      <Chip variant="primary" outline icon={<span>★</span>}>
+        Featured
+      </Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip variant="success" icon={<span>✔</span>}>
+      Verified
+    </Chip>
+    <Chip variant="warning" icon={<span>⚑</span>}>
+      Flagged
+    </Chip>
+    <Chip variant="primary" outline icon={<span>★</span>}>
+      Featured
+    </Chip>
+    ```
+  </Tab>
+</Tabs>
+
+## Removable
+
+Add `removable` for an inline remove button. `onRemove({ label })` fires when
+it is activated — drop the chip from your own state to dismiss it.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ChipRemovableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [tags, setTags] = React.useState(['Compass', 'Astrolabe', 'Sextant']);
+
+    {tags.map((label) => (
+      <Chip
+        key={label}
+        variant="primary"
+        removable
+        onRemove={() => setTags((prev) => prev.filter((t) => t !== label))}
+      >
+        {label}
+      </Chip>
+    ))}
+    ```
+
+  </Tab>
+</Tabs>
+
+## Selectable
+
+With `selectable`, the chip renders as a toggle `<button>` exposing
+`aria-pressed`. It is controlled via `selected`; `onToggle({ selected, label })`
+signals the next state.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ChipSelectableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [selected, setSelected] = React.useState<string[]>(['Dragons']);
+
+    <Chip
+      selectable
+      selected={selected.includes('Dragons')}
+      onToggle={({ selected: next, label }) =>
+        setSelected((prev) =>
+          next ? [...prev, label] : prev.filter((l) => l !== label),
+        )
+      }
+    >
+      Dragons
+    </Chip>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/chip.json
+```

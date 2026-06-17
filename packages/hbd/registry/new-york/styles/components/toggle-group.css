@@ -1,0 +1,69 @@
+/*
+ * Here Be Dragons DS — toggle-group.css
+ * Ported for React / light-DOM from the .hbd-toggle-group rules that lived
+ * inside ds/styles/components/button.css.
+ *
+ * De-shadowed:
+ *   `.hbd-toggle-group > hbd-button`            -> `.hbd-toggle-group > .hbd-button--in-group`
+ *   `:host(.hbd-button--in-group) .hbd-button`  -> `.hbd-button--in-group` (the button IS the
+ *                                                  in-group element in light DOM; no inner host).
+ *   `:host(.hbd-button--in-group-vertical) ...` -> `.hbd-button--in-group-vertical`.
+ *
+ * Every value still references a --hbd-* token (defined in globals.css). 1:1 with the legacy look.
+ */
+
+/* ── Toggle group ───────────────────────────────────────────────────── */
+/* Renders a single visually-joined control by stripping each button's own
+   border + radius (see .hbd-button--in-group rules below) and applying the
+   group's border + radius around the whole row. */
+.hbd-toggle-group {
+  display: inline-flex;
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  overflow: hidden;
+}
+.hbd-toggle-group > .hbd-button--in-group {
+  display: inline-flex;
+  /* Hairline separator between adjacent buttons inside the group. */
+  border-right: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+.hbd-toggle-group > .hbd-button--in-group:last-child {
+  border-right: none;
+}
+
+/* Vertical orientation — separator on bottom instead of right. All
+   children stretch to the widest sibling so the column is a single
+   uniform stack (otherwise each row would shrink to its own label). */
+.hbd-toggle-group--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+.hbd-toggle-group--vertical > .hbd-button--in-group {
+  border-right: none;
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  width: 100%;
+}
+.hbd-toggle-group--vertical > .hbd-button--in-group:last-child {
+  border-bottom: none;
+}
+/* Stretch the in-group button to fill its column slot when vertical. */
+.hbd-button--in-group-vertical {
+  width: 100%;
+}
+
+/* ── In-group button overrides ──────────────────────────────────────── */
+/* Strip the button's own border + radius + offset shadow so the GROUP's
+   border is the only visible boundary. In the WC this lived inside each
+   button's shadow root as :host(.hbd-button--in-group) .hbd-button; in
+   light DOM the button element itself carries the marker class. */
+.hbd-button--in-group {
+  border-radius: 0;
+  border-width: 0;
+  box-shadow: none;
+}
+.hbd-button--in-group:active {
+  /* Suppress the translate-on-press inside a group — it would slide
+     individual buttons out of the joined row. Keep the colour change. */
+  transform: none;
+  box-shadow: none;
+}

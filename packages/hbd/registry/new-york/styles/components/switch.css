@@ -1,0 +1,165 @@
+/*
+ * Here Be Dragons DS — switch.css
+ * Ported for React / light-DOM from ds/styles/components/input.css (§2m Switch)
+ * + the shared label/hint rules from ds/styles/components/checkbox.css and the
+ * field error/message rules from ds/styles/components/input.css.
+ *
+ * De-shadowed + self-contained: the legacy <hbd-switch> adopted tokens.css +
+ * checkbox.css + input.css into its shadow root. Here every selector it relied
+ * on is flattened into this one file so the React component renders 1:1 in the
+ * light DOM. Every value still references a --hbd-* token (defined in globals.css).
+ * No absolute /paths.
+ *
+ * Size modifiers re-point the four --hbd-switch-* custom properties; the md
+ * defaults live at :root in globals.css, so there is no .hbd-switch--md rule
+ * (matching the legacy CSS exactly).
+ */
+
+/* ── Block ──────────────────────────────────────────────────────────── */
+.hbd-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hbd-space-3);
+  /* Vertical padding lifts the total tap area to ≥44px (SC 2.5.8):
+     track height + 2× space-3 padding clears the minimum on all sizes. */
+  padding: var(--hbd-space-3) 0;
+  cursor: pointer;
+}
+.hbd-switch--label-left {
+  flex-direction: row-reverse;
+}
+
+/* Visually-hidden native input — same clip technique as checkbox/radio. */
+.hbd-switch__input {
+  position: absolute;
+  width: var(--hbd-border-width-hairline);
+  height: var(--hbd-border-width-hairline);
+  margin: calc(-1 * var(--hbd-border-width-hairline));
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Track — pill-shaped outer container. border-strong (ink-700, ~11.4:1
+   on parchment) is used as a SURFACE for the "off" state — matches the
+   precedent set on input/checkbox/radio borders for SC 1.4.11 (the
+   spec's border-default would be ~2.06:1 and fail). */
+.hbd-switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--hbd-switch-width);
+  height: var(--hbd-switch-height);
+  background: var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-full);
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-in-out);
+}
+
+/* Thumb — circular indicator that translates on check. */
+.hbd-switch__thumb {
+  position: absolute;
+  top: var(--hbd-switch-thumb-offset);
+  left: var(--hbd-switch-thumb-offset);
+  width: var(--hbd-switch-thumb-size);
+  height: var(--hbd-switch-thumb-size);
+  background: var(--hbd-color-surface-default);
+  border-radius: var(--hbd-radius-full);
+  box-shadow: var(--hbd-shadow-sm);
+  transition: transform var(--hbd-duration-fast) var(--hbd-ease-in-out);
+}
+
+/* Checked — track tints to action, thumb slides right. */
+.hbd-switch--checked .hbd-switch__track {
+  background: var(--hbd-color-surface-action);
+}
+.hbd-switch--checked .hbd-switch__thumb {
+  transform: translateX(calc(
+    var(--hbd-switch-width)
+    - var(--hbd-switch-thumb-size)
+    - (2 * var(--hbd-switch-thumb-offset))
+  ));
+}
+
+/* Focus ring via adjacent-sibling pattern. */
+.hbd-switch__input:focus-visible + .hbd-switch__track {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Hover — single brightness filter covers both off + on states. */
+.hbd-switch:not(.hbd-switch--disabled):hover .hbd-switch__track {
+  filter: brightness(0.92);
+}
+
+/* Disabled — visual + cursor only; native input carries the actual
+   disabled HTML attribute. */
+.hbd-switch--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.hbd-switch--disabled .hbd-switch__track {
+  pointer-events: none;
+}
+
+/* Label + hint stack — vertical column when both are present. */
+.hbd-switch__label-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+}
+
+/* Label + hint (shared with .hbd-radio + .hbd-checkbox in the legacy CSS,
+   inlined here as the single source for the switch). */
+.hbd-switch__label {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  line-height: var(--hbd-line-height-body);
+  cursor: pointer;
+}
+.hbd-switch__hint {
+  display: block;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  color: var(--hbd-color-text-muted);
+  margin-top: var(--hbd-space-1);
+}
+
+/* Size modifiers — re-point the four switch custom properties at the
+   per-size tokens. Same custom-property override technique, but every
+   value still resolves through a --hbd-* token (no hard-coded literals).
+   md uses the :root defaults from globals.css (no rule, as in the legacy). */
+.hbd-switch--sm {
+  --hbd-switch-width: var(--hbd-switch-sm-width);
+  --hbd-switch-height: var(--hbd-switch-sm-height);
+  --hbd-switch-thumb-size: var(--hbd-switch-sm-thumb-size);
+  --hbd-switch-thumb-offset: var(--hbd-switch-sm-thumb-offset);
+}
+.hbd-switch--lg {
+  --hbd-switch-width: var(--hbd-switch-lg-width);
+  --hbd-switch-height: var(--hbd-switch-lg-height);
+  --hbd-switch-thumb-size: var(--hbd-switch-lg-thumb-size);
+  --hbd-switch-thumb-offset: var(--hbd-switch-lg-thumb-offset);
+}
+
+/* ── Field error message ─────────────────────────────────────────────── */
+/* Carried from input.css so the switch's error wiring is self-contained:
+   the error message is hidden by default and revealed when the field is in
+   the error state. */
+.hbd-field__error {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-label);
+  line-height: var(--hbd-line-height-body);
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant dark red */
+  color: var(--hbd-color-text-emphasis);
+  display: none;
+}
+.hbd-field--error .hbd-field__error {
+  display: block;
+}
+/* Label text matches the error message colour for visual consistency. */
+.hbd-switch--error .hbd-switch__label {
+  color: var(--hbd-color-text-emphasis);
+}

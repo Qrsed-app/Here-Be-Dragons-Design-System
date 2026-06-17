@@ -1,0 +1,147 @@
+---
+title: Checkbox
+description: Token-backed checkbox with hint, error, indeterminate, and controlled state support.
+---
+
+import {
+  CheckboxStatesDemo,
+  CheckboxDisabledDemo,
+  CheckboxHintErrorDemo,
+  CheckboxControlledDemo,
+  CheckboxIndeterminateDemo,
+} from "@/components/demos/checkbox-demo";
+
+The HBD checkbox wraps a visually-hidden native `<input type="checkbox">` with a
+CSS-drawn control box, reproducing the legacy `.hbd-checkbox` look 1:1. It works
+uncontrolled (`defaultChecked`) or controlled (`checked` + `onCheckedChange`),
+and supports hint text, error messages, and an indeterminate state.
+
+## States
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxStatesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Checkbox } from '@/components/ui/checkbox';
+
+    <Checkbox>Unchecked</Checkbox>
+    <Checkbox defaultChecked>Checked</Checkbox>
+    <Checkbox indeterminate>Indeterminate</Checkbox>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Checkbox disabled>Disabled</Checkbox>
+    <Checkbox disabled defaultChecked>
+      Disabled &amp; checked
+    </Checkbox>
+    ```
+  </Tab>
+</Tabs>
+
+## Hint &amp; error
+
+Pass `hint` for helper text and `error` to surface a validation message. The
+error text is wired to the input via `aria-describedby` and announced with
+`role="alert"`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxHintErrorDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Checkbox hint="We'll only email you about active voyages.">
+      Subscribe to dispatches
+    </Checkbox>
+
+    <Checkbox error="You must accept the terms to continue.">
+      I accept the terms of the voyage
+    </Checkbox>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Drive the checkbox from React state with `checked` and `onCheckedChange`. The
+handler receives `{ checked, value }`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [accepted, setAccepted] = React.useState(false);
+
+    <Checkbox
+      checked={accepted}
+      onCheckedChange={({ checked }) => setAccepted(checked)}
+      hint="Toggle me — the state below stays in sync."
+    >
+      I accept the terms of the voyage
+    </Checkbox>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Select all (indeterminate)
+
+A parent checkbox shows the indeterminate state when only some children are
+checked, becoming fully checked once all are selected.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxIndeterminateDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const items = ['Compass', 'Astrolabe', 'Sextant'];
+    const [checked, setChecked] = React.useState<string[]>(['Compass']);
+
+    const allChecked = checked.length === items.length;
+    const someChecked = checked.length > 0 && !allChecked;
+
+    <Checkbox
+      checked={allChecked}
+      indeterminate={someChecked}
+      onCheckedChange={({ checked }) =>
+        setChecked(checked ? [...items] : [])
+      }
+    >
+      Pack all instruments
+    </Checkbox>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/checkbox.json
+```

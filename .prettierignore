@@ -1,0 +1,10 @@
+**/node_modules
+**/.next
+**/.source
+**/public
+**/tokens
+# CSS is shipped byte-faithful to the original DS — never reformat it
+**/*.css
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

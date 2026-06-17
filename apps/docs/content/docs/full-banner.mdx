@@ -1,0 +1,132 @@
+---
+title: Full-Page Banner
+description: Full-page takeover that fills the viewport with a single dominant message for maintenance, launch, error, and success screens.
+---
+
+import { FullPageBanner } from "@/registry/new-york/full-banner/full-banner";
+import { Button } from "@/registry/new-york/button/button";
+
+The `FullPageBanner` is a full-page takeover that fills the viewport with one
+dominant message. It ships ten authoring templates across four families
+(operational, error, success) and emits the legacy `.hbd-full-banner` BEM
+classes so the token-backed component CSS reproduces the exact HBD look 1:1.
+Pass `<Button>` CTAs as children for the actions row and `meta` for the line
+below it.
+
+## Templates
+
+The `template` prop selects the eyebrow, heading, description, and decorative
+illustration. The default is `maintenance`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <FullPageBanner template="maintenance" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { FullPageBanner } from '@/components/ui/full-banner';
+
+    <FullPageBanner template="maintenance" />
+    <FullPageBanner template="launch" />
+    <FullPageBanner template="restricted" />
+    <FullPageBanner template="offline" />
+    ```
+
+  </Tab>
+</Tabs>
+
+<Preview>
+  <FullPageBanner template="launch" />
+</Preview>
+
+## Error states
+
+The `error-404`, `error-500`, and `error-403` templates tint the eyebrow and
+illustration to the error hue via the `hbd-full-banner--error` modifier.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FullPageBanner template="error-404">
+        <Button variant="primary">Return home</Button>
+        <Button variant="default">Go back</Button>
+      </FullPageBanner>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FullPageBanner template="error-404">
+      <Button variant="primary">Return home</Button>
+      <Button variant="default">Go back</Button>
+    </FullPageBanner>
+    ```
+  </Tab>
+</Tabs>
+
+## Success states
+
+The `success-submitted`, `success-completed`, and `success-welcome` templates
+tint to the success hue. Use the `meta` prop for a supporting line below the
+actions.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FullPageBanner template="success-welcome" meta="Signed up on June 17, 2026">
+        <Button variant="gold">Enter the realm</Button>
+      </FullPageBanner>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FullPageBanner template="success-welcome" meta="Signed up on June 17, 2026">
+      <Button variant="gold">Enter the realm</Button>
+    </FullPageBanner>
+    ```
+  </Tab>
+</Tabs>
+
+## Custom content
+
+Every template's `eyebrow`, `heading`, and `description` can be overridden.
+Use `headingLevel` to set the semantic heading tag (`"1"` default, `"2"`,
+`"3"`) and `dark` to flip to the inverted ink-900 colour scheme.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FullPageBanner
+        template="restricted"
+        eyebrow="Members only"
+        heading="This vault is sealed"
+        description="Ask your dungeon master to grant the Keeper role to continue."
+        headingLevel="2"
+        dark
+      >
+        <Button variant="primary">Request access</Button>
+      </FullPageBanner>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FullPageBanner
+      template="restricted"
+      eyebrow="Members only"
+      heading="This vault is sealed"
+      description="Ask your dungeon master to grant the Keeper role to continue."
+      headingLevel="2"
+      dark
+    >
+      <Button variant="primary">Request access</Button>
+    </FullPageBanner>
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/full-banner.json
+```

@@ -1,0 +1,247 @@
+/*
+ * Here Be Dragons DS
+ * styles/components/navbar.css
+ *
+ * De-shadowed from ds/styles/components/navbar.css. The legacy WC was a
+ * Light-DOM custom element (NOT Shadow DOM), so there were no :host /
+ * ::slotted / ::part rules to rewrite — every selector below is carried
+ * over verbatim, including the .is-open state class and EVERY token ref.
+ *
+ * Primary top navigation bar. Logo on the left, nav links in the centre,
+ * actions on the right. Below the mobile breakpoint the nav collapses
+ * into a hamburger that opens a full-height drawer-style menu.
+ *
+ * Notes:
+ * - All values via --hbd-* tokens, with one documented exception: the
+ *   media-query value 768px appears as a literal because CSS @media
+ *   queries cannot consume CSS custom properties. The same value is
+ *   exposed as --hbd-navbar-mobile-breakpoint for JS to read.
+ * - Active link text uses --hbd-color-text-emphasis (blood) for on-page
+ *   contrast — the spec's --hbd-color-action-default also resolves to
+ *   blood, but text-emphasis is the semantic match for "emphatic text
+ *   on parchment".
+ * - Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N.
+ * - The React port renders the mobile menu via a portal to document.body
+ *   (the WC kept it as a direct child of the host, but position:fixed +
+ *   inset:0 makes the two equivalent). The .is-open class is applied to
+ *   the portalled menu root so its transform/visibility reveal matches.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+.hbd-navbar {
+  display: block;
+  width: 100%;
+  height: var(--hbd-navbar-height);
+  background: var(--hbd-color-surface-default);
+  box-shadow: var(--hbd-shadow-sm);
+  z-index: var(--hbd-z-sticky);
+}
+.hbd-navbar--sticky {
+  position: sticky;
+  top: 0;
+}
+.hbd-navbar--transparent {
+  background: transparent;
+  box-shadow: none;
+}
+.hbd-navbar--bordered {
+  box-shadow: none;
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+
+/* ── 2 · Inner container ──────────────────────────────────────────── */
+.hbd-navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--hbd-layout-container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--hbd-layout-container-padding);
+  gap: var(--hbd-space-4);
+}
+
+/* ── 3 · Logo / brand area ────────────────────────────────────────── */
+.hbd-navbar__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--hbd-space-2);
+  font-family: var(--hbd-font-family-display);
+  font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-bold);
+  letter-spacing: var(--hbd-letter-spacing-display);
+  color: var(--hbd-color-text-primary);
+  text-decoration: none;
+}
+/* Slotted anchor tags get the logo styling automatically. */
+.hbd-navbar__logo a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+}
+.hbd-navbar__logo a:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+  border-radius: var(--hbd-radius-sm);
+}
+
+/* ── 4 · Desktop nav (hidden on mobile by default) ────────────────── */
+.hbd-navbar__nav {
+  display: none;
+}
+
+.hbd-navbar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hbd-space-1);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--hbd-radius-md);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out),
+              background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-navbar__link:hover {
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-subtle);
+}
+.hbd-navbar__link.is-active {
+  color: var(--hbd-color-text-emphasis);
+  background: var(--hbd-color-surface-subtle);
+  font-weight: var(--hbd-font-weight-semibold);
+}
+.hbd-navbar__link:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* ── 5 · Actions ──────────────────────────────────────────────────── */
+.hbd-navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  flex-shrink: 0;
+}
+
+/* ── 6 · Hamburger (visible on mobile by default) ─────────────────── */
+.hbd-navbar__hamburger {
+  display: inline-flex;
+}
+
+/* ── 7 · Mobile menu ──────────────────────────────────────────────── */
+/* Full-viewport sliding panel with the same focus-trap + scroll-lock
+   semantics as <hbd-drawer>. Below the breakpoint it sits off-canvas
+   to the left and slides in when .is-open is added. */
+.hbd-navbar__mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hbd-z-modal);
+  display: flex;
+  flex-direction: column;
+  background: var(--hbd-color-surface-default);
+  box-shadow: var(--hbd-shadow-xl);
+  transform: translateX(-100%);
+  transition: transform var(--hbd-duration-normal) var(--hbd-ease-out);
+  /* aria-hidden=true initially; JS flips it on open. visibility:hidden
+     also keeps the off-canvas panel out of the accessibility tree. */
+  visibility: hidden;
+}
+.hbd-navbar.is-open .hbd-navbar__mobile-menu,
+.hbd-navbar__mobile-menu.is-open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.hbd-navbar__mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-3);
+  height: var(--hbd-navbar-height);
+  padding: 0 var(--hbd-layout-container-padding);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+
+.hbd-navbar__mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+  padding: var(--hbd-space-4);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hbd-navbar__mobile-link {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  width: 100%;
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--hbd-radius-md);
+  /* min-height meets SC 2.5.8 touch target. */
+  min-height: var(--hbd-input-min-height);
+  transition: color var(--hbd-duration-fast) var(--hbd-ease-out),
+              background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-navbar__mobile-link:hover {
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-subtle);
+}
+.hbd-navbar__mobile-link.is-active {
+  color: var(--hbd-color-text-emphasis);
+  background: var(--hbd-color-surface-subtle);
+  font-weight: var(--hbd-font-weight-semibold);
+}
+.hbd-navbar__mobile-link:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+.hbd-navbar__mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+/* Hide the mobile-actions row when there's nothing slotted into it. */
+.hbd-navbar__mobile-actions:empty {
+  display: none;
+}
+
+/* ── 8 · Desktop breakpoint ───────────────────────────────────────── */
+/* The 768px literal mirrors --hbd-navbar-mobile-breakpoint. CSS @media
+   queries cannot consume custom properties — the navbar JS reads the
+   token for its own resize-handling so the two stay in sync. */
+@media (min-width: 768px) {
+  .hbd-navbar__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--hbd-space-1);
+    flex: 1;
+    justify-content: center;
+  }
+  .hbd-navbar__hamburger {
+    display: none;
+  }
+  .hbd-navbar__mobile-menu {
+    /* Force the off-canvas panel hidden on desktop — even if the JS
+       didn't clean up .is-open on a fast resize, the media query wins. */
+    display: none;
+  }
+}
