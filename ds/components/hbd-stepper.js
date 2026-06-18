@@ -25,7 +25,7 @@ class HbdStepper extends HTMLElement {
   static get observedAttributes() {
     return [
       'value', 'min', 'max', 'step', 'label', 'hint', 'error',
-      'required', 'disabled', 'name', 'size',
+      'required', 'disabled', 'name', 'size', 'thin',
     ];
   }
 
@@ -140,9 +140,12 @@ class HbdStepper extends HTMLElement {
     const hasError = error != null && error !== '';
     const hasHint = hint != null && hint !== '';
 
+    const thin = this.hasAttribute('thin');
+
     const classes = ['hbd-field', `hbd-field--${this._size}`];
     if (hasError) classes.push('hbd-field--error');
     if (disabled) classes.push('hbd-field--disabled');
+    if (thin)     classes.push('hbd-field--thin');
 
     const describedBy = this._describedBy([
       hasHint ? `hint-${uid}` : '',
