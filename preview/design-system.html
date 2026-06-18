@@ -5847,6 +5847,38 @@ Whispers of a hidden vault beneath the keep followed."></hbd-textarea>
           </details>
         </div>
 
+        <!-- Group 1b · Thin variant -->
+        <div class="ds-preview-group">
+          <h3 class="ds-preview-group__label">Thin variant</h3>
+          <p class="ds-section__description" style="margin-bottom:var(--hbd-space-4);">
+            Add <code>thin</code> to collapse the stepper to its intrinsic width — useful inside
+            table cells, inline forms, or anywhere the full-width stretch is unwanted.
+          </p>
+          <div class="ds-preview-canvas" style="flex-direction:column;align-items:flex-start;gap:var(--hbd-space-6);">
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-4);">
+              <hbd-stepper thin min="1" max="9" value="3" step="1" label="Spell level"></hbd-stepper>
+              <hbd-stepper thin min="1" max="20" value="1" step="1" label="Character level"></hbd-stepper>
+              <hbd-stepper thin min="0" max="99" value="5" step="1" label="Quantity"></hbd-stepper>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-4);">
+              <hbd-stepper thin size="sm" min="1" max="9" value="1" step="1" label="sm"></hbd-stepper>
+              <hbd-stepper thin size="md" min="1" max="9" value="1" step="1" label="md"></hbd-stepper>
+              <hbd-stepper thin size="lg" min="1" max="9" value="1" step="1" label="lg"></hbd-stepper>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--hbd-space-4);">
+              <hbd-stepper thin min="1" max="9" value="3" step="1" label="With error" error="Required"></hbd-stepper>
+              <hbd-stepper thin min="1" max="9" value="3" step="1" label="Disabled" disabled></hbd-stepper>
+            </div>
+          </div>
+          <details class="ds-preview-code">
+            <summary>View code</summary>
+            <pre><code>&lt;hbd-stepper thin min="1" max="9" value="3" step="1" label="Spell level"&gt;&lt;/hbd-stepper&gt;
+&lt;!-- thin + size --&gt;
+&lt;hbd-stepper thin size="sm" min="1" max="9" value="1" label="sm"&gt;&lt;/hbd-stepper&gt;
+&lt;hbd-stepper thin size="lg" min="1" max="9" value="1" label="lg"&gt;&lt;/hbd-stepper&gt;</code></pre>
+          </details>
+        </div>
+
         <!-- Group 2 · Decimal step -->
         <div class="ds-preview-group">
           <h3 class="ds-preview-group__label">Decimal step</h3>

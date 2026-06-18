@@ -482,7 +482,9 @@
   --hbd-slider-thumb-size-lg: 24px;
 
   /* ── stepper ───────────────────────────────────────────── */
-  --hbd-stepper-button-width: 40px;
+  --hbd-stepper-button-width: 32px;
+  --hbd-stepper-thin-button-width: 24px;
+  --hbd-stepper-thin-input-width: 20px;
 
   /* ── stepper-nav ───────────────────────────────────────── */
   --hbd-stepper-nav-indicator-size: 32px;

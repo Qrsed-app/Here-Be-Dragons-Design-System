@@ -1110,6 +1110,31 @@
   color: var(--hbd-color-text-emphasis);
 }
 
+/* ── 2o-thin · Thin stepper modifier ───────────────────────────────── */
+/* Collapses the field wrapper to intrinsic width so the stepper sits
+   inline rather than stretching to fill its grid column.
+   The input is clamped to --hbd-stepper-thin-input-width (48px) — wide
+   enough for 3-digit integers in JetBrains Mono but no wider.
+   Apply via the `thin` attribute on <hbd-stepper>. */
+
+.hbd-field--thin {
+  width: auto;
+  display: inline-flex;
+}
+
+.hbd-field--thin .hbd-stepper {
+  width: auto;
+}
+
+.hbd-field--thin .hbd-stepper__button {
+  width: var(--hbd-stepper-thin-button-width);
+}
+
+.hbd-field--thin .hbd-stepper__input {
+  width: var(--hbd-stepper-thin-input-width);
+  flex: none;
+}
+
 /* ── 2p · Combobox (autocomplete / strict / multi) ──────────────────── */
 /* Combobox combines a text input with a filterable suggestion list.
    The wrapper hosts chips (multi mode) + the native <input>, with a clear
