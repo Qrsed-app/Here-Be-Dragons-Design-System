@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build:globals": "node scripts/build-globals.mjs",
-    "registry:build": "shadcn build",
+    "registry:build": "shadcn build && cp registry.json public/r/registry.json",
     "registry:serve": "serve public",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
