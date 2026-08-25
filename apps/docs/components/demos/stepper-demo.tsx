@@ -25,6 +25,30 @@ export function StepperSizesDemo() {
   );
 }
 
+/** Thin: collapses each field to its intrinsic width so they sit inline. */
+export function StepperThinDemo() {
+  return (
+    <>
+      <Stepper thin label="Spell level" defaultValue="3" min={1} max={9} />
+      <Stepper thin label="Character level" defaultValue="1" min={1} max={20} />
+      <Stepper thin label="Quantity" defaultValue="5" min={0} max={99} />
+    </>
+  );
+}
+
+/** Thin composes with the size modifier and the field states. */
+export function StepperThinSizesDemo() {
+  return (
+    <>
+      <Stepper thin size="sm" label="sm" defaultValue="1" min={1} max={9} />
+      <Stepper thin size="md" label="md" defaultValue="1" min={1} max={9} />
+      <Stepper thin size="lg" label="lg" defaultValue="1" min={1} max={9} />
+      <Stepper thin label="Error" defaultValue="3" min={1} max={9} error="Required" />
+      <Stepper thin label="Disabled" defaultValue="3" min={1} max={9} disabled />
+    </>
+  );
+}
+
 /** Step + bounds: half-step increments clamped between -1 and 1. */
 export function StepperStepDemo() {
   return (

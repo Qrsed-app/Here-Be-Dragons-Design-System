@@ -509,7 +509,9 @@
   --hbd-slider-thumb-size-lg: 24px;
 
   /* ── stepper ───────────────────────────────────────────── */
-  --hbd-stepper-button-width: 40px;
+  --hbd-stepper-button-width: 32px;
+  --hbd-stepper-thin-button-width: 24px;
+  --hbd-stepper-thin-input-width: 20px;
 
   /* ── stepper-nav ───────────────────────────────────────── */
   --hbd-stepper-nav-indicator-size: 32px;
@@ -8627,6 +8629,36 @@ button.hbd-stepper__indicator {
 /* Error: tint the value text so it matches the label + error message. */
 .hbd-field--error .hbd-stepper__input {
   color: var(--hbd-color-text-emphasis);
+}
+
+/* ── Thin modifier ──────────────────────────────────────────────────── */
+/* Collapses the field wrapper to intrinsic width so the stepper sits
+   inline rather than stretching to fill its grid column.
+   The buttons narrow to --hbd-stepper-thin-button-width (24px) and the input
+   is clamped to --hbd-stepper-thin-input-width (20px).
+   Apply via the `thin` prop on <Stepper>. */
+
+.hbd-field--thin {
+  width: auto;
+  display: inline-flex;
+}
+
+.hbd-field--thin .hbd-stepper {
+  width: auto;
+}
+
+.hbd-field--thin .hbd-stepper__button {
+  width: var(--hbd-stepper-thin-button-width);
+}
+
+.hbd-field--thin .hbd-stepper__input {
+  width: var(--hbd-stepper-thin-input-width);
+  /* content-box, unlike everything else here: the WC sized this input inside a
+     shadow root, where the host page's border-box reset did not reach. Under
+     Tailwind's preflight the same 20px would swallow the 8px side padding and
+     clip the value, so keep the token meaning "room for the digits". */
+  box-sizing: content-box;
+  flex: none;
 }
 
 /* ──────── switch.css ──────── */

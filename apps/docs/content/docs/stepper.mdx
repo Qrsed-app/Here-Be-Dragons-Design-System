@@ -6,6 +6,8 @@ description: Token-backed numeric stepper — a number input flanked by decremen
 import {
   StepperBasicDemo,
   StepperSizesDemo,
+  StepperThinDemo,
+  StepperThinSizesDemo,
   StepperStepDemo,
   StepperStatesDemo,
   StepperControlledDemo,
@@ -48,6 +50,45 @@ while the buttons are mouse/touch targets.
     <Stepper size="sm" label="Small" defaultValue="1" />
     <Stepper size="md" label="Medium" defaultValue="1" />
     <Stepper size="lg" label="Large" defaultValue="1" />
+    ```
+  </Tab>
+</Tabs>
+
+## Thin
+
+`thin` collapses the field to its intrinsic width instead of stretching to fill
+its column — for table cells, inline forms, and anywhere a full-width stepper is
+too much. Both step buttons and the value field narrow accordingly.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperThinDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper thin label="Spell level" defaultValue="3" min={1} max={9} />
+    <Stepper thin label="Character level" defaultValue="1" min={1} max={20} />
+    <Stepper thin label="Quantity" defaultValue="5" min={0} max={99} />
+    ```
+  </Tab>
+</Tabs>
+
+It composes with `size` and with the error / disabled states.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperThinSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper thin size="sm" label="sm" defaultValue="1" min={1} max={9} />
+    <Stepper thin size="lg" label="lg" defaultValue="1" min={1} max={9} />
+    <Stepper thin label="Error" defaultValue="3" min={1} max={9} error="Required" />
+    <Stepper thin label="Disabled" defaultValue="3" min={1} max={9} disabled />
     ```
   </Tab>
 </Tabs>

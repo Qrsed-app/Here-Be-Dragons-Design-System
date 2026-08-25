@@ -90,6 +90,8 @@ export interface StepperProps
   required?: boolean;
   /** Disables the input and both step buttons. */
   disabled?: boolean;
+  /** Collapses the field to its intrinsic width so it sits inline. */
+  thin?: boolean;
   /** Form field name. */
   name?: string;
   /** Fired on commit (button/key/blur) with the {value, name} detail (hbd:change). */
@@ -125,6 +127,7 @@ const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(
       error,
       required = false,
       disabled = false,
+      thin = false,
       name,
       id: idProp,
       onValueChange,
@@ -281,6 +284,7 @@ const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(
           fieldVariants({ size }),
           hasError && "hbd-field--error",
           disabled && "hbd-field--disabled",
+          thin && "hbd-field--thin",
           className,
         )}
         {...props}
