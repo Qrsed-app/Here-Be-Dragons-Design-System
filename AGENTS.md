@@ -51,6 +51,12 @@ runs React 19.
    compiles them to `public/r/*.json`. After changing component source, rebuild the registry
    (below) so `/r` stays in sync.
 
+7. **`.hbd-<block>` names are a GLOBAL namespace.** Every component stylesheet is folded into
+   one `globals.css`, so two files declaring the same block collide and the one folded later
+   (alphabetical) wins. Before naming a block, check it is unused:
+   `grep -rn "^\.hbd-<block> *{" packages/hbd/registry/new-york/styles/components/`.
+   Prefix a sub-component with its parent (`.hbd-stepper-nav`, not `.hbd-stepper`).
+
 ## Recipes
 
 ### Run the docs locally
@@ -72,14 +78,44 @@ pnpm --filter @hbd/registry registry:build    # rebuild /r/*.json
 pnpm --filter @hbd/registry registry:build    # shadcn build -> packages/hbd/public/r
 ```
 
+### Add or change a design token
+
+- **Value used by every theme** → `packages/hbd/tokens/tokens.css` (the `:root` block).
+- **Value that differs per theme** → also add it to each of `tokens/themes/{light,dark,high-contrast}.css`,
+  which override under `[data-theme="…"]`. A token defined only in `tokens.css` is theme-invariant
+  by design — that is a choice, not an oversight, so make it deliberately.
+- **Should it become a Tailwind utility** (`bg-*`, `text-*`)? Only then add a mapping to
+  `scripts/theme-inline.css` (the `@theme inline` block). Most `--hbd-*` tokens are consumed by
+  component CSS via `var()` and need no entry.
+- Then regenerate: `build:globals`, then `registry:build`.
+
+There is no `tokens.json` any more — it was dropped in the shadcn migration. `tokens.css` is
+the single source of truth.
+
 ### Add or edit a component
 
-- Source: `packages/hbd/registry/new-york/<name>/<name>.tsx` (+ `"use client"` if it uses
-  hooks). Component CSS: `registry/new-york/styles/components/<name>.css`.
-- Add `"use client"` only if needed; preserve BEM classes; import `cn` from `@/lib/utils`.
-- Add/adjust the item in `registry.json` (`type: "registry:ui"`, `files[]`,
-  `registryDependencies` as `@hbd/<dep>`, npm `dependencies`).
-- Run `build:globals` (if you touched CSS) then `registry:build`.
+End-to-end checklist — a component is not done until every box is ticked:
+
+1. **Source** — `packages/hbd/registry/new-york/<name>/<name>.tsx`. Add `"use client"` only if
+   it uses hooks or handlers. Import `cn` from `@/lib/utils`; map variants to BEM classes with
+   `cva` + `cn()`.
+2. **CSS** — `registry/new-york/styles/components/<name>.css`. Unique block name (rule 7); every
+   value via `var(--hbd-*)`. No new file is needed if the component reuses another's chrome —
+   the stepper, for example, borrows `.hbd-field` from `@hbd/input`.
+3. **Registry item** — add to `registry.json`: `type: "registry:ui"`, `title`, `description`
+   (consumers see this), `files[]`, npm `dependencies`, and `registryDependencies` as
+   `@hbd/<dep>`. Nearly every component needs `@hbd/hbd-theme` and `@hbd/utils`; add
+   `@hbd/input` etc. when reusing another component's CSS or code.
+4. **Rebuild** — `build:globals` (if you touched CSS), then `registry:build`.
+5. **Docs page** — `apps/docs/content/docs/<name>.mdx` (see below).
+6. **Nav** — add the page to the right group in `apps/docs/content/docs/meta.json`, or it is
+   built but unreachable.
+7. **Verify** — the three commands at the bottom of this file, plus _look at the page_.
+
+Adding a `.css` file here ships it to every consumer automatically: `build:globals` globs the
+whole directory into `app/globals.css`, which is the single file `@hbd/hbd-theme` installs.
+There is no per-component CSS registration step, and equally no way to ship a component's CSS
+without shipping it to everyone.
 
 ### Document a component (apps/docs)
 
@@ -89,6 +125,34 @@ pnpm --filter @hbd/registry registry:build    # shadcn build -> packages/hbd/pub
 - **Interactive / stateful examples** → a `"use client"` demo component in
   `apps/docs/components/demos/<name>-demo.tsx`, imported into the MDX. **Never** put
   `useState`/handlers directly in `.mdx` (MDX renders on the server).
+
+## CSS / theming gotchas (learned the hard way)
+
+- **Porting a web component flips the box model.** The legacy `ds/` components rendered into
+  `attachShadow()`, where the host page's `* { box-sizing: border-box }` reset never reached, so
+  elements fell back to `content-box`. In the registry the same CSS is light-DOM and Tailwind's
+  preflight makes everything `border-box`. An explicit `width`/`height` therefore changes meaning:
+  `width: 20px` on a padded element meant _20px of content_ before and _20px total_ after. This
+  bit the stepper's `thin` variant — the value clipped to a ~4px sliver. When porting, grep the
+  source CSS for explicit sizes on padded or bordered elements and set `box-sizing: content-box`
+  on those rules rather than re-tuning the token.
+- **Nothing catches a block-name collision** — not typecheck, not lint, not the build. Two files
+  declaring the same `.hbd-<block>` both fold into `globals.css` and the later one silently wins.
+  Audit with:
+
+  ```bash
+  grep -h -oE '^\.hbd-[a-z0-9-]+ *\{' packages/hbd/registry/new-york/styles/components/*.css \
+    | sort | uniq -d
+  ```
+
+  **Known collision:** `stepper-nav.css` and `stepper.css` both declare `.hbd-stepper`. Because
+  `stepper.css` folds later, `StepperNav` inherits the numeric stepper's `display:flex`, border,
+  `border-radius` and `overflow:hidden` — a visible stray box around the nav in the docs.
+  (`avatar.css` / `avatar-group.css` also share `.hbd-avatar-group`, but the rules are identical,
+  so that one is harmless duplication.)
+
+- **Only CSS decides the look.** Typecheck, lint and the docs build all stay green while a
+  component renders wrong. Anything that changes CSS needs an actual look at the page.
 
 ## Docs / MDX gotchas (learned the hard way)
 
@@ -123,6 +187,8 @@ pnpm --filter @hbd/registry registry:build    # shadcn build -> packages/hbd/pub
 - ❌ Use member-access (`<X.Member>`) on client components inline in MDX.
 - ❌ Add `react`/`react-dom` as hard `dependencies` of `@hbd/registry` (keep them
   `peerDependencies`).
+- ❌ Reuse an existing `.hbd-<block>` name for a different component (rule 7).
+- ❌ Ship a CSS change without looking at the rendered page — nothing else catches it.
 
 ## Verify before you're done
 
@@ -131,3 +197,14 @@ pnpm typecheck                         # both packages (React 19)
 pnpm lint                              # 0 errors (warnings OK)
 pnpm --filter @hbd/docs build          # static export must be green (55/55 pages)
 ```
+
+Green checks do **not** mean the component looks right — they cannot see CSS. If you touched
+any styling, serve the export and look:
+
+```bash
+pnpm --filter @hbd/docs build && (cd apps/docs/out && python3 -m http.server 8080)
+# then open http://localhost:8080/docs/<name>.html
+```
+
+To sanity-check a change against the pre-migration look, `git worktree add /tmp/hbd-main main`
+gives you the old web-component build to compare side by side.

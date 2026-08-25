@@ -51,11 +51,9 @@ The first `@hbd/*` install pulls **`@hbd/hbd-theme`**, which writes the complete
 
 Dark / high-contrast themes are attribute-driven and also respond to the `.dark` class:
 
-```html
-<html data-theme="dark">
-  <!-- or class="dark" -->
-  <html data-theme="high-contrast"></html>
-</html>
+```text
+<html data-theme="dark">            <!-- or class="dark" -->
+<html data-theme="high-contrast">
 ```
 
 > All component styles ship **inside `globals.css`** (one import, loaded by your app root) rather than as per-component files — this is Vite/Next-safe (Next forbids global-CSS imports outside the root layout) and lets one import pull in the whole DS.
@@ -67,8 +65,8 @@ Dark / high-contrast themes are attribute-driven and also respond to the `.dark`
 ### Build
 
 ```bash
-cd registry-app
-npx shadcn@latest build        # registry.json -> public/r/*.json
+# from the repo root (this package is packages/hbd)
+pnpm --filter @hbd/registry registry:build   # shadcn build: registry.json -> public/r/*.json
 ```
 
 `public/r/*.json` are the only artifacts a consumer needs — serve them as static files over HTTP.
@@ -83,8 +81,8 @@ Serve `public/` from any static host (Vercel, GitHub Pages, `npx serve public`, 
 (`tokens/tokens.css` / `tokens/themes/*.css`) or any component CSS:
 
 ```bash
-npm run build:globals      # tokens + themes + @theme + all component CSS -> app/globals.css
-npm run registry:build     # then rebuild the registry (= npx shadcn build)
+pnpm --filter @hbd/registry build:globals    # tokens + themes + @theme + all component CSS -> app/globals.css
+pnpm --filter @hbd/registry registry:build   # then rebuild the registry (= shadcn build)
 ```
 
 `scripts/build-globals.mjs` is self-contained (reads `tokens/*`,

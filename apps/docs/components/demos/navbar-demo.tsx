@@ -35,7 +35,7 @@ export function NavbarBasicDemo() {
 export function NavbarBorderedDemo() {
   return (
     <Navbar bordered style={{ width: "100%" }}>
-      <Navbar.Logo>Cartographers' Guild</Navbar.Logo>
+      <Navbar.Logo>Cartographers&rsquo; Guild</Navbar.Logo>
       <Navbar.Link href="#" active>
         Maps
       </Navbar.Link>

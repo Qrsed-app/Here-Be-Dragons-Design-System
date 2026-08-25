@@ -15,6 +15,7 @@ export default tseslint.config(
       "**/.next/**",
       "**/.source/**",
       "**/dist/**",
+      "**/out/**",
       "**/*.css",
     ],
   },
@@ -44,6 +45,11 @@ export default tseslint.config(
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
     },
+  },
+  {
+    // Config files (next.config.mjs, turbo helpers) run in Node, not the browser.
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: { globals: globals.node },
   },
   prettier,
 );
