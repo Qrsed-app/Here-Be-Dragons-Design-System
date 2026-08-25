@@ -1,0 +1,163 @@
+/*
+ * Here Be Dragons DS
+ * stepper.css (numeric stepper)
+ *
+ * Ported from ds/styles/components/input.css §2o (Numeric stepper). The WC
+ * <hbd-stepper> adopts input.css and renders the .hbd-stepper* unit inside the
+ * shared .hbd-field chrome; that field chrome is provided by the @hbd/input
+ * registry dependency, so this file ships ONLY the .hbd-stepper* rules.
+ *
+ * Three-part control: decrement button + native number input + increment
+ * button — sits inside .hbd-field__input-wrapper. Focus ring is applied
+ * ONCE on the whole stepper via :focus-within (cleaner than three rings).
+ * The native input is the sole Tab stop; buttons are tabindex="-1" and
+ * reached by mouse/touch only.
+ */
+
+.hbd-stepper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  /* border-strong (ink-700, ~11.4:1 on parchment) meets SC 1.4.11 — same
+     precedent as the other input borders (border-default would be ~2.06:1). */
+  border: var(--hbd-input-border-width) solid var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-md);
+  overflow: hidden;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-stepper:focus-within {
+  border-color: var(--hbd-color-input-focus-border);
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Step buttons — flank the native input. */
+.hbd-stepper__button {
+  flex-shrink: 0;
+  width: var(--hbd-stepper-button-width);
+  min-height: var(--hbd-input-min-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hbd-color-surface-subtle);
+  border: none;
+  border-radius: 0;
+  color: var(--hbd-color-text-primary);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-h4);
+  cursor: pointer;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out);
+  user-select: none;
+}
+.hbd-stepper__button--decrement {
+  border-right: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+.hbd-stepper__button--increment {
+  border-left: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+}
+.hbd-stepper__button:not(:disabled):not(.is-disabled):hover {
+  background: var(--hbd-color-surface-raised);
+}
+.hbd-stepper__button:not(:disabled):not(.is-disabled):active {
+  background: var(--hbd-color-border-subtle);
+}
+/* Focus ring is handled by :focus-within on the parent .hbd-stepper. */
+.hbd-stepper__button:focus-visible {
+  outline: none;
+}
+.hbd-stepper__button:disabled,
+.hbd-stepper__button.is-disabled {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Native number input — centred, monospace value, no native spin buttons. */
+.hbd-stepper__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  font-family: var(--hbd-font-family-mono);
+  font-size: var(--hbd-font-size-body);
+  font-weight: var(--hbd-font-weight-medium);
+  color: var(--hbd-color-text-primary);
+  background: var(--hbd-color-surface-default);
+  padding: var(--hbd-input-padding-y) var(--hbd-space-2);
+  outline: none;
+  min-height: var(--hbd-input-min-height);
+  -moz-appearance: textfield;
+}
+.hbd-stepper__input::-webkit-outer-spin-button,
+.hbd-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Size modifiers — mirror the .hbd-field--sm/lg modifiers used by other
+   form inputs. Button height + input height + font-size all step together. */
+.hbd-field--sm .hbd-stepper__button,
+.hbd-field--sm .hbd-stepper__input {
+  min-height: var(--hbd-space-8);
+  font-size: var(--hbd-font-size-label);
+}
+.hbd-field--sm .hbd-stepper__input {
+  padding: var(--hbd-space-1) var(--hbd-space-2);
+}
+.hbd-field--lg .hbd-stepper__button,
+.hbd-field--lg .hbd-stepper__input {
+  min-height: calc(var(--hbd-input-min-height) + var(--hbd-space-2));
+  font-size: var(--hbd-font-size-body);
+}
+.hbd-field--lg .hbd-stepper__input {
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+}
+
+/* Field-level disabled and error states — wrap the .hbd-stepper unit. */
+.hbd-field--disabled .hbd-stepper {
+  border-color: var(--hbd-color-border-subtle);
+  background: var(--hbd-color-surface-subtle);
+  opacity: 0.5;
+}
+.hbd-field--disabled .hbd-stepper__input {
+  background: var(--hbd-color-surface-subtle);
+  color: var(--hbd-color-text-disabled);
+}
+.hbd-field--error .hbd-stepper {
+  border-color: var(--hbd-color-status-error-border);
+}
+/* Error: tint the value text so it matches the label + error message. */
+.hbd-field--error .hbd-stepper__input {
+  color: var(--hbd-color-text-emphasis);
+}
+
+/* ── Thin modifier ──────────────────────────────────────────────────── */
+/* Collapses the field wrapper to intrinsic width so the stepper sits
+   inline rather than stretching to fill its grid column.
+   The buttons narrow to --hbd-stepper-thin-button-width (24px) and the input
+   is clamped to --hbd-stepper-thin-input-width (20px).
+   Apply via the `thin` prop on <Stepper>. */
+
+.hbd-field--thin {
+  width: auto;
+  display: inline-flex;
+}
+
+.hbd-field--thin .hbd-stepper {
+  width: auto;
+}
+
+.hbd-field--thin .hbd-stepper__button {
+  width: var(--hbd-stepper-thin-button-width);
+}
+
+.hbd-field--thin .hbd-stepper__input {
+  width: var(--hbd-stepper-thin-input-width);
+  /* content-box, unlike everything else here: the WC sized this input inside a
+     shadow root, where the host page's border-box reset did not reach. Under
+     Tailwind's preflight the same 20px would swallow the 8px side padding and
+     clip the value, so keep the token meaning "room for the digits". */
+  box-sizing: content-box;
+  flex: none;
+}

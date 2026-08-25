@@ -1,0 +1,80 @@
+/*
+ * Here Be Dragons DS
+ * skeleton-group.css
+ *
+ * Preset layouts that arrange multiple .hbd-skeleton shapes into
+ * recognisable patterns. Extracted from ds/styles/components/skeleton.css —
+ * the base .hbd-skeleton rules (shape variants + shimmer) ship with the
+ * @hbd/skeleton registry item, which this composes. Only the
+ * .hbd-skeleton-group* rules live here.
+ *
+ * Light DOM, fully tokenised.
+ */
+
+/* ── Group presets ────────────────────────────────────────────────── */
+.hbd-skeleton-group {
+  display: flex;
+  gap: var(--hbd-space-3);
+  width: 100%;
+  align-items: stretch;
+}
+
+.hbd-skeleton-group--avatar-text {
+  align-items: center;
+}
+
+.hbd-skeleton-group--card {
+  flex-direction: column;
+  gap: var(--hbd-space-3);
+}
+
+.hbd-skeleton-group--list-item {
+  align-items: center;
+}
+
+.hbd-skeleton-group--table-row {
+  align-items: center;
+}
+
+/*
+ * Body wrapper used inside avatar-text and list-item presets — holds
+ * the stacked text lines next to the circle. Light-DOM, all tokenised.
+ */
+.hbd-skeleton-group__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  min-width: 0;
+}
+
+.hbd-skeleton-group__body--tight {
+  gap: var(--hbd-space-1);
+}
+
+/*
+ * Card preset body — padding inside the imaginary card surface so
+ * the text lines don't kiss the edge.
+ */
+.hbd-skeleton-group__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-3);
+}
+
+/*
+ * list-item preset has a fixed-size avatar slot. The avatar circle
+ * inside it uses width/height: 100% of the slot.
+ */
+.hbd-skeleton-group--list-item .hbd-skeleton--circle {
+  width: var(--hbd-avatar-size-sm);
+  height: var(--hbd-avatar-size-sm);
+}
+
+/* table-row preset distributes cells evenly across the row. */
+.hbd-skeleton-group--table-row .hbd-skeleton {
+  flex: 1;
+  height: var(--hbd-table-row-height-sm);
+  border-radius: var(--hbd-radius-md);
+}

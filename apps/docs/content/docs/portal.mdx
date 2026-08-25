@@ -1,0 +1,80 @@
+---
+title: Portal
+description: Relocate children into a different part of the DOM tree, with React tear-down on unmount.
+---
+
+import { PortalTargetDemo, PortalPrependDemo } from "@/components/demos/portal-demo";
+
+The HBD `Portal` renders its children into a target element elsewhere in the
+document instead of inline, mirroring the legacy `hbd-portal` web component.
+It is built on `ReactDOM.createPortal`, so the subtree is torn down on unmount —
+when the portal disappears, its children disappear. This is the primitive that
+overlay components (modals, drawers, tooltips) use to escape clipping and
+stacking-context traps.
+
+## Usage
+
+Pass a CSS selector (or an `Element`) as `target`. The children are removed from
+where they are written and mounted into that target instead. If the target can't
+be resolved, it falls back to `document.body`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <PortalTargetDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Portal } from '@/components/ui/portal';
+
+    // The <p> is written here but rendered inside #portal-target.
+    <Portal target="#portal-target">
+      <p>Teleported content.</p>
+    </Portal>
+
+    <div id="portal-target">children land here</div>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Insertion order
+
+By default the portalled node is appended to the end of the target. Set
+`prepend` to insert it at the start instead — matching the order semantics of
+the original web component.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <PortalPrependDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Portal target="#target">
+      <p>Appended — goes last</p>
+    </Portal>
+
+    <Portal target="#target" prepend>
+      <p>Prepended — goes first</p>
+    </Portal>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Props
+
+| Prop       | Type                        | Default  | Description                                                            |
+| ---------- | --------------------------- | -------- | ---------------------------------------------------------------------- |
+| `target`   | `string \| Element \| null` | `"body"` | CSS selector or element to render into. Falls back to `document.body`. |
+| `prepend`  | `boolean`                   | `false`  | Insert at the start of the target instead of the end.                  |
+| `children` | `React.ReactNode`           | —        | Content to relocate into the target.                                   |
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/portal.json
+```

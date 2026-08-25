@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "divider",
+  "type": "registry:ui",
+  "title": "Divider",
+  "description": "Light-DOM separator: horizontal/vertical rules, subtle/strong/gold colours, solid/dashed/double styles, plus labelled and ornamental (decorative sigil) variants. role=separator with aria-orientation; ornamental is aria-hidden.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/divider/divider.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-divider.js + ds/styles/components/divider.css.\n// Light-DOM web component, so the CSS already targets .hbd-divider* directly.\n// Four variants:\n//   horizontal | vertical -> structural <hr>/<div role=\"separator\">, no children\n//   with-label            -> flex rule with a centred label span (role=\"separator\")\n//   ornamental            -> purely decorative (aria-hidden) sigil between fade lines\n// Variant -> legacy BEM class so the de-shadowed CSS reproduces the look 1:1.\n\nconst VARIANTS = [\"horizontal\", \"vertical\", \"with-label\", \"ornamental\"] as const;\nconst COLORS = [\"default\", \"subtle\", \"strong\", \"gold\"] as const;\nconst STYLE_TYPES = [\"solid\", \"dashed\", \"double\"] as const;\n\nexport interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** horizontal (default) · vertical · with-label · ornamental */\n  variant?: (typeof VARIANTS)[number];\n  /** default · subtle · strong · gold */\n  color?: (typeof COLORS)[number];\n  /** solid (default) · dashed · double — maps the WC `style-type` attribute */\n  styleType?: (typeof STYLE_TYPES)[number];\n  /** Label text (with-label) or ornament glyph (ornamental). */\n  children?: React.ReactNode;\n}\n\nfunction dividerClasses(\n  variant: (typeof VARIANTS)[number],\n  color: (typeof COLORS)[number],\n  styleType: (typeof STYLE_TYPES)[number],\n): string {\n  return cn(\n    \"hbd-divider\",\n    variant === \"vertical\" && \"hbd-divider--vertical\",\n    variant === \"with-label\" && \"hbd-divider--with-label\",\n    variant === \"ornamental\" && \"hbd-divider--ornamental\",\n    color !== \"default\" && `hbd-divider--${color}`,\n    styleType === \"dashed\" && \"hbd-divider--dashed\",\n    styleType === \"double\" && \"hbd-divider--double\",\n  );\n}\n\n/** Plain-text accessible name extracted from label children (mirrors WC). */\nfunction textContent(node: React.ReactNode): string {\n  if (node === null || node === undefined || typeof node === \"boolean\") return \"\";\n  if (typeof node === \"string\" || typeof node === \"number\") return String(node);\n  if (Array.isArray(node)) return node.map(textContent).join(\"\");\n  if (React.isValidElement(node)) {\n    return textContent((node.props as { children?: React.ReactNode }).children);\n  }\n  return \"\";\n}\n\nconst Divider = React.forwardRef<HTMLDivElement, DividerProps>(\n  (\n    {\n      variant = \"horizontal\",\n      color = \"default\",\n      styleType = \"solid\",\n      className,\n      children,\n      ...props\n    },\n    ref,\n  ) => {\n    const classes = cn(dividerClasses(variant, color, styleType), className);\n\n    if (variant === \"with-label\") {\n      const label = textContent(children).trim();\n      return (\n        <div\n          ref={ref}\n          className={classes}\n          role=\"separator\"\n          aria-orientation=\"horizontal\"\n          aria-label={label || undefined}\n          {...props}\n        >\n          <span className=\"hbd-divider__label\">{children}</span>\n        </div>\n      );\n    }\n\n    if (variant === \"ornamental\") {\n      return (\n        <div ref={ref} className={classes} aria-hidden=\"true\" {...props}>\n          <span className=\"hbd-divider__ornament\">{children}</span>\n        </div>\n      );\n    }\n\n    // horizontal / vertical: structural separator, no children.\n    return (\n      <div\n        ref={ref}\n        className={classes}\n        role=\"separator\"\n        aria-orientation={variant === \"vertical\" ? \"vertical\" : \"horizontal\"}\n        {...props}\n      />\n    );\n  },\n);\nDivider.displayName = \"Divider\";\n\nexport { Divider };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

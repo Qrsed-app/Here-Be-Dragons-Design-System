@@ -1,0 +1,215 @@
+---
+title: Slider
+description: Token-backed range slider with single or two-handle values, ticks, and field chrome.
+---
+
+import { Slider } from "@/registry/new-york/slider/slider";
+import { SliderControlledDemo, SliderRangeDemo } from "@/components/demos/slider-demo";
+
+The HBD slider re-bases the legacy `hbd-slider` web component on
+`@radix-ui/react-slider`, giving full keyboard support (Arrow / Home / End /
+Page) for free while re-applying the exact `.hbd-slider*` classes. It supports a
+single value or a two-handle range, plus optional label, value readout, ticks,
+hint, and error chrome.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: '100%', maxWidth: '20rem' }}>
+        <Slider label="Volume" defaultValue={40} showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Slider } from '@/components/ui/slider';
+
+    <Slider label="Volume" defaultValue={40} showValue />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+          width: "100%",
+          maxWidth: "20rem",
+        }}
+      >
+        <Slider size="sm" label="Small" defaultValue={30} showValue />
+        <Slider size="md" label="Medium" defaultValue={50} showValue />
+        <Slider size="lg" label="Large" defaultValue={70} showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Slider size="sm" label="Small" defaultValue={30} showValue />
+    <Slider size="md" label="Medium" defaultValue={50} showValue />
+    <Slider size="lg" label="Large" defaultValue={70} showValue />
+    ```
+  </Tab>
+</Tabs>
+
+## Ticks
+
+Render evenly-spaced tick marks and labels below the track with `showTicks`.
+Use `tickCount` (min 2, default 5) to control how many appear.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", maxWidth: "20rem" }}>
+        <Slider
+          label="Difficulty"
+          min={0}
+          max={100}
+          step={25}
+          defaultValue={50}
+          showValue
+          showTicks
+          tickCount={5}
+        />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Slider
+      label="Difficulty"
+      min={0}
+      max={100}
+      step={25}
+      defaultValue={50}
+      showValue
+      showTicks
+      tickCount={5}
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+`hint` adds helper text below the track; `error` switches the field to its error
+look with `role="alert"`. `disabled` greys the whole field out.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+          width: "100%",
+          maxWidth: "20rem",
+        }}
+      >
+        <Slider
+          label="Brightness"
+          defaultValue={60}
+          hint="Drag to adjust the lantern glow."
+          showValue
+        />
+        <Slider
+          label="Crew size"
+          defaultValue={12}
+          error="Not enough hands for this voyage."
+          showValue
+        />
+        <Slider label="Disabled" defaultValue={40} disabled showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Slider
+      label="Brightness"
+      defaultValue={60}
+      hint="Drag to adjust the lantern glow."
+      showValue
+    />
+    <Slider
+      label="Crew size"
+      defaultValue={12}
+      error="Not enough hands for this voyage."
+      showValue
+    />
+    <Slider label="Disabled" defaultValue={40} disabled showValue />
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Pass `value` and `onValueChange` to control the slider from React state. The
+callback receives a `number` for a single slider.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SliderControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [volume, setVolume] = React.useState(40);
+
+    <Slider
+      label="Volume"
+      value={volume}
+      onValueChange={(v) => setVolume(v as number)}
+      showValue
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Range
+
+Set `range` to get a two-handle slider. The value becomes a `[low, high]` tuple,
+and `onValueChange` receives the tuple.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <SliderRangeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [price, setPrice] = React.useState<[number, number]>([200, 750]);
+
+    <Slider
+      label="Price range"
+      range
+      min={0}
+      max={1000}
+      step={50}
+      value={price}
+      onValueChange={(v) => setPrice(v as [number, number])}
+      showValue
+      showTicks
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/slider.json
+```

@@ -1,0 +1,265 @@
+/*
+ * Here Be Dragons DS
+ * registry/new-york/styles/components/file-upload.css
+ *
+ * Ported 1:1 (de-shadowed) from ds/styles/components/file-upload.css.
+ * The WC rendered in Shadow DOM and adopted tokens.css + accessibility.css +
+ * input.css alongside this file; in the React port the component renders in
+ * light DOM, so there is no :host / ::slotted / ::part to rewrite — every
+ * selector below is the verbatim original. The shared .hbd-field label / hint /
+ * error / footer chrome comes from the input.css dependency; the global
+ * .hbd-sr-only + :focus-visible ring come from hbd-theme globals.
+ *
+ * File upload — dropzone, file list rows, per-file progress, image previews.
+ * The outer wrapper uses .hbd-field for label / hint / error / footer
+ * continuity with the other form inputs.
+ *
+ * All values via --hbd-* tokens.
+ */
+
+/* ── 1 · Block ─────────────────────────────────────────────────────── */
+.hbd-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  width: 100%;
+}
+
+/* ── 2 · Dropzone — the interactive drop target ────────────────────── */
+.hbd-file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hbd-space-2);
+  min-height: var(--hbd-file-upload-dropzone-min-height);
+  padding: var(--hbd-space-6);
+  /* border-strong (ink-700, ~11.4:1 on parchment) — same SC 1.4.11
+     precedent as the input borders. border-default would be ~2.06:1. */
+  border: var(--hbd-border-width-thin) dashed var(--hbd-color-border-strong);
+  border-radius: var(--hbd-radius-lg);
+  background: var(--hbd-color-surface-subtle);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              box-shadow var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+
+.hbd-file-upload__dropzone:hover {
+  border-color: var(--hbd-color-surface-action);
+  background: var(--hbd-color-surface-default);
+}
+
+.hbd-file-upload__dropzone:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}
+
+/* Active drag state — solid border + soft halo. The halo uses
+   --hbd-color-gold-deep at the focus-ring offset distance to mirror the
+   focus pattern; fully tokenised, no inline rgba. */
+.hbd-file-upload--drag-over .hbd-file-upload__dropzone {
+  border-style: solid;
+  border-color: var(--hbd-color-surface-action);
+  background: var(--hbd-color-surface-default);
+  box-shadow: 0 0 0 var(--hbd-space-1) var(--hbd-color-gold-deep);
+}
+
+/* Field-level error — tint the dropzone border. */
+.hbd-file-upload--error .hbd-file-upload__dropzone {
+  border-color: var(--hbd-color-status-error-border);
+}
+
+/* Disabled — visual + cursor only; pointer events are also blocked. */
+.hbd-file-upload--disabled .hbd-file-upload__dropzone {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── 3 · Prompt text & icon ────────────────────────────────────────── */
+.hbd-file-upload__icon {
+  color: var(--hbd-color-text-muted);
+  width: var(--hbd-space-8);
+  height: var(--hbd-space-8);
+}
+
+.hbd-file-upload__prompt {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-secondary);
+  margin: 0;
+}
+
+/* Browse affordance — visually-textual link inside the prompt. */
+.hbd-file-upload__browse {
+  color: var(--hbd-color-text-emphasis);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: var(--hbd-font-weight-medium);
+}
+
+.hbd-file-upload__constraints {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+  margin: 0;
+}
+
+/* ── 4 · Hidden native file input ──────────────────────────────────── */
+/* Canonical visually-hidden technique lives in the global .hbd-sr-only
+   (hbd-theme) — applied to the native input in the React component to avoid
+   duplicating the hairline-clip literal here. This rule only adds the
+   component-specific pointer-events guard. */
+.hbd-file-upload__input {
+  pointer-events: none;
+}
+
+/* ── 5 · File list ─────────────────────────────────────────────────── */
+.hbd-file-upload__file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-2);
+  margin: var(--hbd-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hbd-file-upload__file-item {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-3);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  background: var(--hbd-color-surface-default);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  border-radius: var(--hbd-radius-md);
+}
+
+/* ── 6 · File preview thumbnail ────────────────────────────────────── */
+.hbd-file-upload__file-preview {
+  width: var(--hbd-file-upload-preview-size);
+  height: var(--hbd-file-upload-preview-size);
+  border-radius: var(--hbd-radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--hbd-color-surface-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hbd-color-text-muted);
+}
+.hbd-file-upload__file-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── 7 · File info (name + size + progress) ────────────────────────── */
+.hbd-file-upload__file-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hbd-space-1);
+}
+
+.hbd-file-upload__file-name {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hbd-file-upload__file-size {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+}
+
+/* Per-file error message — on-page dark red, same precedent as the other
+   form inputs (status-error-text is near-white and unreadable here). */
+.hbd-file-upload__file-error {
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-emphasis);
+}
+
+/* ── 8 · Progress bar ──────────────────────────────────────────────── */
+.hbd-file-upload__file-progress {
+  height: var(--hbd-file-upload-progress-height);
+  background: var(--hbd-color-border-subtle);
+  border-radius: var(--hbd-radius-full);
+  overflow: hidden;
+}
+
+/* JS sets width inline — value-driven, cannot be expressed in pure CSS.
+   Documented exception (parallel to slider fill, textarea autoresize). */
+.hbd-file-upload__file-bar {
+  height: 100%;
+  width: 0;
+  background: var(--hbd-color-surface-action);
+  border-radius: var(--hbd-radius-full);
+  transition: width var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+
+.hbd-file-upload__file-item.is-complete .hbd-file-upload__file-bar {
+  background: var(--hbd-color-status-success-border);
+}
+.hbd-file-upload__file-item.is-error .hbd-file-upload__file-bar {
+  background: var(--hbd-color-status-error-border);
+}
+
+/* ── 9 · File status icon (right of info) ──────────────────────────── */
+.hbd-file-upload__file-status {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-6);
+  height: var(--hbd-space-6);
+  color: var(--hbd-color-text-muted);
+}
+.hbd-file-upload__file-item.is-complete .hbd-file-upload__file-status {
+  color: var(--hbd-color-status-success-border);
+}
+.hbd-file-upload__file-item.is-error .hbd-file-upload__file-status {
+  color: var(--hbd-color-status-error-border);
+}
+
+/* ── 10 · Remove button ────────────────────────────────────────────── */
+/* min-width/min-height lifts the tap area toward SC 2.5.8; the X icon
+   sits at its natural size inside via flex centring. */
+.hbd-file-upload__file-remove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--hbd-space-8);
+  min-height: var(--hbd-space-8);
+  padding: var(--hbd-space-2);
+  background: none;
+  border: none;
+  border-radius: var(--hbd-radius-sm);
+  color: var(--hbd-color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+/* Icon sizing — the SVG carries explicit width/height but ensure it
+   isn't crushed by the flex parent's defaults. */
+.hbd-file-upload__file-remove svg {
+  flex-shrink: 0;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+}
+.hbd-file-upload__file-remove:hover {
+  color: var(--hbd-color-text-emphasis);
+  background: var(--hbd-color-surface-subtle);
+}
+.hbd-file-upload__file-remove:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: var(--hbd-focus-offset);
+}

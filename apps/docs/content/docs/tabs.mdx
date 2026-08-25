@@ -1,0 +1,180 @@
+---
+title: Tabs
+description: Token-backed tabs with horizontal and vertical orientations, count badges, and controlled or uncontrolled selection.
+---
+
+import {
+  TabsBasicDemo,
+  TabsBadgeDemo,
+  TabsVerticalDemo,
+  TabsDisabledDemo,
+  TabsControlledDemo,
+} from "@/components/demos/tabs-demo";
+
+The HBD tabs organise related content into selectable panels, reproducing the
+legacy `.hbd-tabs` look 1:1 with token-backed component CSS. The compound API —
+`Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` — is built on Radix Tabs, so
+it ships the full ARIA model (`role="tablist"`/`tab`/`tabpanel`, roving
+tabindex, Arrow / Home / End navigation that follows orientation) for free. It
+works uncontrolled (`defaultValue`) or controlled (`value` + `onValueChange`).
+
+## Usage
+
+Give each `TabsTrigger` a `value` that matches a `TabsContent`. In single
+(default) mode only the active panel is mounted. Pass `label` for an accessible
+name on the tablist.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TabsBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Tabs,
+      TabsList,
+      TabsTrigger,
+      TabsContent,
+    } from '@/components/ui/tabs';
+
+    <Tabs defaultValue="map" label="Voyage sections">
+      <TabsList>
+        <TabsTrigger value="map">Map</TabsTrigger>
+        <TabsTrigger value="crew">Crew</TabsTrigger>
+        <TabsTrigger value="log">Captain&apos;s log</TabsTrigger>
+      </TabsList>
+      <TabsContent value="map">Chart the uncharted edges…</TabsContent>
+      <TabsContent value="crew">Twelve hands aboard…</TabsContent>
+      <TabsContent value="log">Day 14 — fair winds from the east…</TabsContent>
+    </Tabs>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Badges
+
+A `TabsTrigger` accepts a `badge` (string or number) rendered as a count chip
+after the label.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TabsBadgeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Tabs defaultValue="inbox" label="Mailboxes">
+      <TabsList>
+        <TabsTrigger value="inbox" badge={8}>
+          Inbox
+        </TabsTrigger>
+        <TabsTrigger value="sent">Sent</TabsTrigger>
+        <TabsTrigger value="drafts" badge={2}>
+          Drafts
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="inbox">Eight unread dispatches…</TabsContent>
+      <TabsContent value="sent">Every letter you've sent…</TabsContent>
+      <TabsContent value="drafts">Two messages still waiting…</TabsContent>
+    </Tabs>
+    ```
+  </Tab>
+</Tabs>
+
+## Orientation
+
+Set `orientation="vertical"` to stack the triggers in a column to the left of
+the panels. Arrow-key navigation follows the orientation automatically.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TabsVerticalDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Tabs orientation="vertical" defaultValue="north" label="Compass headings">
+      <TabsList>
+        <TabsTrigger value="north">North</TabsTrigger>
+        <TabsTrigger value="east">East</TabsTrigger>
+        <TabsTrigger value="south">South</TabsTrigger>
+        <TabsTrigger value="west">West</TabsTrigger>
+      </TabsList>
+      <TabsContent value="north">Hold the bearing toward the pole star…</TabsContent>
+      <TabsContent value="east">Toward the rising sun…</TabsContent>
+      <TabsContent value="south">Into warmer seas…</TabsContent>
+      <TabsContent value="west">Past the sunset edge…</TabsContent>
+    </Tabs>
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+A `disabled` trigger renders dimmed and non-interactive, and roving keyboard
+navigation skips straight past it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TabsDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Tabs defaultValue="overview" label="Chart sections">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="soundings" disabled>
+          Soundings
+        </TabsTrigger>
+        <TabsTrigger value="hazards">Hazards</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">The lie of the coastline…</TabsContent>
+      <TabsContent value="soundings">Depth readings — not yet surveyed…</TabsContent>
+      <TabsContent value="hazards">Reefs, shoals, and the rocks…</TabsContent>
+    </Tabs>
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Drive the active tab from React with `value` + `onValueChange`. The callback
+receives the legacy `hbd:change` detail shape — `{ value }`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TabsControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState('overview');
+
+    <Tabs value={value} onValueChange={(detail) => setValue(detail.value)} label="Account tabs">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">A summary of the voyage so far.</TabsContent>
+      <TabsContent value="activity">The running log of every port…</TabsContent>
+      <TabsContent value="settings">Adjust the watch rotation…</TabsContent>
+    </Tabs>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/tabs.json
+```

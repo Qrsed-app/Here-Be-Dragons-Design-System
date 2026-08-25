@@ -1,0 +1,159 @@
+---
+title: Textarea
+description: Token-backed multi-line text field with label, hint, validation states, character count, and auto-resize.
+---
+
+import {
+  TextareaBasicDemo,
+  TextareaSizesDemo,
+  TextareaStatesDemo,
+  TextareaCharCountDemo,
+  TextareaAutoresizeDemo,
+  TextareaControlledDemo,
+} from "@/components/demos/textarea-demo";
+
+The HBD `Textarea` wraps a native `<textarea>` in the shared `.hbd-field` chrome —
+label, hint, error/success messages, and a live character counter — using
+token-backed component CSS, not Tailwind utilities. It is controlled-first: pass
+`value` + `onValueChange`, or omit them and rely on `defaultValue` for an
+uncontrolled field.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Textarea } from '@/components/ui/textarea';
+
+    <Textarea
+      label="Captain's log"
+      placeholder="Today we sailed past the edge of the map…"
+      rows={4}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea size="sm" label="Small" placeholder="sm" rows={2} />
+    <Textarea size="md" label="Medium" placeholder="md" rows={2} />
+    <Textarea size="lg" label="Large" placeholder="lg" rows={2} />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+The `error` and `success` props drive the validation chrome. A non-empty `error`
+sets `aria-invalid` and shows the error message with `role="alert"`; `success`
+shows only when there is no error. The `hint` is hidden while an error or success
+message is visible.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaStatesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea label="With hint" hint="Describe the encounter in a sentence or two." />
+    <Textarea label="Notes" error="This entry cannot be left blank." />
+    <Textarea label="Notes" success="Logged to the ship's archive." defaultValue="Calm seas." />
+    <Textarea label="Disabled" placeholder="Unavailable" disabled />
+    <Textarea label="Read only" defaultValue="Locked entry — cannot edit." readOnly />
+    ```
+  </Tab>
+</Tabs>
+
+## Character count
+
+Setting `maxLength` enables the live character counter, which announces politely
+as you type and warns as you approach (and exceed) the limit.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaCharCountDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea
+      label="Bio"
+      hint="Keep it brief."
+      maxLength={120}
+      defaultValue="Here be dragons."
+      rows={3}
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## Auto-resize
+
+With `autoresize`, the field measures its content and grows to fit — no scrollbar,
+no fixed height. Combine it with a controlled `value` to keep React in sync.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaAutoresizeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState('This field grows as you type.');
+
+    <Textarea label="Auto-resize" autoresize value={value} onValueChange={setValue} rows={2} />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Pass `value` and `onValueChange` to own the field's state in React. `onValueChange`
+fires on every keystroke with the new string.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState('');
+
+    <Textarea
+      label="Message"
+      placeholder="Write your dispatch…"
+      value={value}
+      onValueChange={setValue}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/textarea.json
+```

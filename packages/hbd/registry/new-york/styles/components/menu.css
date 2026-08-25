@@ -1,0 +1,187 @@
+/*
+ * Here Be Dragons DS — menu.css
+ * Ported for React / light-DOM from ds/styles/components/menu.css.
+ * Shared menu panel owned by dropdown and reused by context-menu + split-button.
+ * De-shadowed: the panel lived in a shadow root anchored to .hbd-dropdown; here
+ * the same .hbd-menu / .hbd-menu__* classes render in the light DOM. Positioning
+ * is still set inline by JS (top/left/right/bottom) on the .hbd-menu element.
+ * Every value still references a --hbd-* token (defined in globals.css).
+ * 1:1 with the legacy look.
+ */
+
+/* ── 1 · Panel ────────────────────────────────────────────────────── */
+/* Slide-open animation: max-height + opacity + padding, on
+   --hbd-duration-slow with --hbd-ease-out. Mirrors the combobox /
+   select panel from input.css so all dropdown surfaces share one
+   motion. The global prefers-reduced-motion override in
+   foundations/motion.css collapses these to ~0ms automatically.
+   `overflow: hidden` clips the content during the height collapse. */
+.hbd-menu {
+  /* Positioning is set inline by JS via top/left/right/bottom. The menu
+     is `position: absolute` for dropdowns and `position: fixed` for
+     context menus — JS sets the right value. */
+  position: absolute;
+  z-index: var(--hbd-z-dropdown);
+  min-width: var(--hbd-menu-min-width);
+  max-width: var(--hbd-menu-max-width);
+  margin: 0;
+  list-style: none;
+  background: var(--hbd-color-surface-raised);
+  border: var(--hbd-border-width-hairline) solid var(--hbd-color-border-ink-brown);
+  border-radius: var(--hbd-radius-md);
+  box-shadow: var(--hbd-shadow-lg);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  /* Closed state: collapsed to zero height + invisible + no padding. */
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height var(--hbd-duration-slow) var(--hbd-ease-out),
+              opacity var(--hbd-duration-slow) var(--hbd-ease-out),
+              padding var(--hbd-duration-slow) var(--hbd-ease-out);
+}
+.hbd-menu--open {
+  max-height: var(--hbd-menu-max-height);
+  padding: var(--hbd-space-1) 0;
+  opacity: 1;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+
+/* ── 2 · Menu item ────────────────────────────────────────────────── */
+.hbd-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--hbd-space-2);
+  padding: var(--hbd-space-2) var(--hbd-space-3);
+  width: 100%;
+  min-height: var(--hbd-space-8);
+  background: none;
+  border: none;
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  color: var(--hbd-color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--hbd-duration-fast) var(--hbd-ease-out),
+              color var(--hbd-duration-fast) var(--hbd-ease-out);
+}
+.hbd-menu__item:hover,
+.hbd-menu__item.is-focused {
+  background: var(--hbd-color-surface-subtle);
+}
+.hbd-menu__item:focus-visible {
+  outline: var(--hbd-border-width-thin) solid var(--hbd-color-focus-ring-outline);
+  outline-offset: calc(-1 * var(--hbd-border-width-thin));
+}
+
+/* Destructive — on-page error colour (blood) for text + icon, with a
+   subtle blood-tinted hover. color-mix is well-supported in modern
+   browsers; the @supports fallback keeps older engines functional. */
+.hbd-menu__item--destructive {
+  color: var(--hbd-color-text-emphasis);
+}
+.hbd-menu__item--destructive:hover,
+.hbd-menu__item--destructive.is-focused {
+  background: color-mix(in srgb,
+    var(--hbd-color-status-error-surface) 15%,
+    transparent);
+}
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .hbd-menu__item--destructive:hover,
+  .hbd-menu__item--destructive.is-focused {
+    background: var(--hbd-color-surface-subtle);
+  }
+}
+
+/* Disabled — visual + pointer-events block. */
+.hbd-menu__item--disabled,
+.hbd-menu__item[aria-disabled="true"] {
+  color: var(--hbd-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── 3 · Item sub-elements ────────────────────────────────────────── */
+.hbd-menu__item-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-4);
+  height: var(--hbd-space-4);
+  color: var(--hbd-color-text-muted);
+}
+.hbd-menu__item--destructive .hbd-menu__item-icon {
+  color: var(--hbd-color-text-emphasis);
+}
+
+.hbd-menu__item-label {
+  flex: 1;
+  /* Long labels truncate with ellipsis rather than expand the panel
+     past max-width — the title attribute (set in JS) preserves full text. */
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hbd-menu__item-shortcut {
+  flex-shrink: 0;
+  font-family: var(--hbd-font-family-mono);
+  font-size: var(--hbd-font-size-micro);
+  color: var(--hbd-color-text-muted);
+  letter-spacing: var(--hbd-letter-spacing-normal);
+}
+
+.hbd-menu__item-arrow {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hbd-space-3);
+  height: var(--hbd-space-3);
+  color: var(--hbd-color-text-muted);
+}
+
+/* ── 4 · Groups + separator ───────────────────────────────────────── */
+.hbd-menu__group {
+  display: block;
+}
+.hbd-menu__group + .hbd-menu__group {
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  margin-top: var(--hbd-space-1);
+  padding-top: var(--hbd-space-1);
+}
+.hbd-menu__group-label {
+  display: block;
+  padding: var(--hbd-space-2) var(--hbd-space-3) var(--hbd-space-1);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-micro);
+  font-weight: var(--hbd-font-weight-semibold);
+  color: var(--hbd-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--hbd-letter-spacing-label);
+}
+
+.hbd-menu__separator {
+  height: var(--hbd-border-width-hairline);
+  margin: var(--hbd-space-1) 0;
+  background: var(--hbd-color-border-subtle);
+  border: none;
+}
+
+/* ── 5 · Host wrapper (dropdown / context-menu shells) ───────────── */
+/* The dropdown shell has the trigger + the menu. position:relative
+   makes the menu's absolute positioning anchor here. */
+.hbd-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Context menu shell — the wrapped content area takes the host's
+   layout; the menu is position:fixed in JS so it doesn't need this. */
+.hbd-context-menu {
+  display: contents;
+}

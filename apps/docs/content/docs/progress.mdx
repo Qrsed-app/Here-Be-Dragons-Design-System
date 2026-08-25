@@ -1,0 +1,156 @@
+---
+title: Progress
+description: Token-backed progress indicator with determinate, indeterminate, and segmented modes.
+---
+
+import { Progress } from "@/registry/new-york/progress/progress";
+
+The HBD progress bar reproduces the legacy `.hbd-progress` look 1:1 using
+token-backed component CSS. It supports three modes — determinate (a sized fill
+bar driven by `value`), indeterminate (a shimmering bar when `value` is
+omitted), and segmented (N filled cells of M via `segments`).
+
+## Determinate
+
+Set `value` (and optionally `max`, default `100`) to render a sized fill. Add
+`label` and `showValue` to render the label row.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: '100%', display: 'grid', gap: 'var(--hbd-space-4, 1rem)' }}>
+        <Progress value={25} />
+        <Progress value={60} label="Uploading map" showValue />
+        <Progress value={3} max={5} label="Chapter 3 of 5" showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Progress } from '@/components/ui/progress';
+
+    <Progress value={25} />
+    <Progress value={60} label="Uploading map" showValue />
+    <Progress value={3} max={5} label="Chapter 3 of 5" showValue />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variants
+
+The `variant` prop tints the fill: `default`, `success`, `warning`, and `error`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", display: "grid", gap: "var(--hbd-space-4, 1rem)" }}>
+        <Progress value={70} variant="default" label="Default" showValue />
+        <Progress value={70} variant="success" label="Success" showValue />
+        <Progress value={70} variant="warning" label="Warning" showValue />
+        <Progress value={70} variant="error" label="Error" showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={70} variant="default" label="Default" showValue />
+    <Progress value={70} variant="success" label="Success" showValue />
+    <Progress value={70} variant="warning" label="Warning" showValue />
+    <Progress value={70} variant="error" label="Error" showValue />
+    ```
+  </Tab>
+</Tabs>
+
+## Sizes
+
+The `size` prop controls the track height: `sm`, `md` (default), and `lg`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", display: "grid", gap: "var(--hbd-space-4, 1rem)" }}>
+        <Progress value={50} size="sm" />
+        <Progress value={50} size="md" />
+        <Progress value={50} size="lg" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={50} size="sm" />
+    <Progress value={50} size="md" />
+    <Progress value={50} size="lg" />
+    ```
+  </Tab>
+</Tabs>
+
+## Striped
+
+Add `striped` to overlay an animated diagonal stripe on a determinate bar.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", display: "grid", gap: "var(--hbd-space-4, 1rem)" }}>
+        <Progress value={45} striped label="Forging" showValue />
+        <Progress value={80} striped variant="success" label="Almost done" showValue />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={45} striped label="Forging" showValue />
+    <Progress value={80} striped variant="success" label="Almost done" showValue />
+    ```
+  </Tab>
+</Tabs>
+
+## Indeterminate
+
+Omit `value` for a shimmering bar that signals work of unknown duration.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", display: "grid", gap: "var(--hbd-space-4, 1rem)" }}>
+        <Progress label="Summoning…" />
+        <Progress variant="warning" label="Reticulating splines…" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress label="Summoning…" />
+    <Progress variant="warning" label="Reticulating splines…" />
+    ```
+  </Tab>
+</Tabs>
+
+## Segmented
+
+Set `segments` to render N discrete cells; the number filled is derived from
+`value` / `max`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: "100%", display: "grid", gap: "var(--hbd-space-4, 1rem)" }}>
+        <Progress segments={5} value={3} max={5} label="3 of 5 quests" />
+        <Progress segments={8} value={62} variant="success" label="Inventory" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress segments={5} value={3} max={5} label="3 of 5 quests" />
+    <Progress segments={8} value={62} variant="success" label="Inventory" />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/progress.json
+```

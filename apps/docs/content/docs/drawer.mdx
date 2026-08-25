@@ -1,0 +1,198 @@
+---
+title: Drawer
+description: A sliding overlay panel with four placements, focus trap, scroll lock, and Escape-to-dismiss.
+---
+
+import {
+  DrawerBasicDemo,
+  DrawerPlacementDemo,
+  DrawerSizeDemo,
+  DrawerFooterDemo,
+  DrawerSidebarDemo,
+  DrawerControlledDemo,
+} from "@/components/demos/drawer-demo";
+
+The HBD drawer is a portalled overlay panel built on Radix Dialog. It reproduces
+the legacy `hbd-drawer` web component 1:1 — modal focus trap, body scroll lock,
+focus return on close, and Escape / backdrop dismissal — using the token-backed
+`drawer.css`. The compound API exposes `Drawer`, `Drawer.Trigger`,
+`Drawer.Content`, and `Drawer.Close`.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Drawer } from '@/components/ui/drawer';
+    import { Button } from '@/components/ui/button';
+
+    <Drawer>
+      <Drawer.Trigger>
+        <Button variant="primary">Open drawer</Button>
+      </Drawer.Trigger>
+      <Drawer.Content title="Ship's manifest">
+        <p>A sliding overlay panel for secondary navigation, filters, or detail views.</p>
+      </Drawer.Content>
+    </Drawer>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Placement
+
+Set `placement` to `left` (default), `right`, `top`, or `bottom`. Each panel
+slides in from its corresponding edge.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerPlacementDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Drawer placement="right">
+      <Drawer.Trigger>
+        <Button variant="default">right</Button>
+      </Drawer.Trigger>
+      <Drawer.Content title="right drawer">
+        <p>This panel slides in from the right edge of the viewport.</p>
+      </Drawer.Content>
+    </Drawer>
+    ```
+  </Tab>
+</Tabs>
+
+## Sizes
+
+The `wide` prop widens left/right panels; `tall` heightens top/bottom panels.
+Each is ignored on the opposite axis.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerSizeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Drawer placement="right" wide>
+      <Drawer.Trigger>
+        <Button variant="default">Wide (right)</Button>
+      </Drawer.Trigger>
+      <Drawer.Content title="Wide panel">…</Drawer.Content>
+    </Drawer>
+
+    <Drawer placement="bottom" tall>
+      <Drawer.Trigger>
+        <Button variant="default">Tall (bottom)</Button>
+      </Drawer.Trigger>
+      <Drawer.Content title="Tall panel">…</Drawer.Content>
+    </Drawer>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Footer & actions
+
+Pass a `footer` to `Drawer.Content` to render an action row. Wrap buttons in
+`Drawer.Close` (with `asChild`) to dismiss the drawer on click.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerFooterDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Drawer placement="right">
+      <Drawer.Trigger>
+        <Button variant="primary">Edit settings</Button>
+      </Drawer.Trigger>
+      <Drawer.Content
+        title="Voyage settings"
+        footer={
+          <>
+            <Drawer.Close asChild>
+              <Button variant="default">Cancel</Button>
+            </Drawer.Close>
+            <Drawer.Close asChild>
+              <Button variant="gold">Save changes</Button>
+            </Drawer.Close>
+          </>
+        }
+      >
+        <p>Action rows live in the footer.</p>
+      </Drawer.Content>
+    </Drawer>
+    ```
+  </Tab>
+</Tabs>
+
+## Sidebar mode
+
+`noBackdrop` removes the scrim, scroll lock, and pointer blocking so the rest of
+the page stays interactive — ideal for a persistent navigation sidebar. The
+drawer still traps focus and closes on Escape or the ✕ button.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerSidebarDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Drawer placement="left" noBackdrop>
+      <Drawer.Trigger>
+        <Button variant="default">Open sidebar</Button>
+      </Drawer.Trigger>
+      <Drawer.Content title="Navigation">
+        <p>No backdrop, no scroll lock.</p>
+      </Drawer.Content>
+    </Drawer>
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Drive the open state from React with `open` + `onOpenChange`. The `onOpen` and
+`onClose` callbacks mirror the legacy `hbd:open` / `hbd:close` events.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [open, setOpen] = React.useState(false);
+
+    <Button variant="primary" onClick={() => setOpen(true)}>
+      Open programmatically
+    </Button>
+    <Drawer open={open} onOpenChange={setOpen} placement="right">
+      <Drawer.Content title="Controlled drawer">
+        <p>This drawer's open state is driven entirely from React.</p>
+      </Drawer.Content>
+    </Drawer>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/drawer.json
+```

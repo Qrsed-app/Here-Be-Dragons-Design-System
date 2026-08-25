@@ -1,0 +1,159 @@
+---
+title: Modal
+description: A centred overlay dialog with a backdrop scrim, focus trap, and an always-available Escape exit.
+---
+
+import {
+  ModalBasicDemo,
+  ModalSizesDemo,
+  ModalFooterDemo,
+  ModalAlertDemo,
+} from "@/components/demos/modal-demo";
+
+The HBD modal is a hand-ported overlay dialog (no Radix) that preserves the
+legacy web component's lifecycle 1:1 — backdrop scrim, focus trap, body-scroll
+lock, return-focus, stacked z-index, and a close transition that waits for the
+dialog's `transitionend` before releasing focus. It is controlled-first via
+`open` + `onOpenChange`, with `defaultOpen` for uncontrolled use.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ModalBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from 'react';
+    import { Modal } from '@/components/ui/modal';
+    import { Button } from '@/components/ui/button';
+
+    function BasicExample() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <Button variant="primary" onClick={() => setOpen(true)}>
+            Open modal
+          </Button>
+          <Modal open={open} onOpenChange={setOpen} title="Ship's manifest">
+            <p>A centred overlay dialog with a backdrop scrim.</p>
+          </Modal>
+        </>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+Set `size` to `sm`, `md` (default), `lg`, or `full` to control the dialog width.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ModalSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Modal size="sm" open={open} onOpenChange={setOpen} title="sm modal">
+      <p>This dialog uses the sm width.</p>
+    </Modal>
+    <Modal size="lg" open={open} onOpenChange={setOpen} title="lg modal">
+      <p>This dialog uses the lg width.</p>
+    </Modal>
+    <Modal size="full" open={open} onOpenChange={setOpen} title="full modal">
+      <p>This dialog uses the full width.</p>
+    </Modal>
+    ```
+  </Tab>
+</Tabs>
+
+## Footer actions
+
+Pass a `footer` to render an action row. Wrap buttons in `ModalClose` to
+dismiss the modal when they are clicked.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ModalFooterDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Modal, ModalClose } from '@/components/ui/modal';
+    import { Button } from '@/components/ui/button';
+
+    <Modal
+      open={open}
+      onOpenChange={setOpen}
+      title="Voyage settings"
+      footer={
+        <>
+          <ModalClose asChild>
+            <Button variant="default">Cancel</Button>
+          </ModalClose>
+          <ModalClose asChild>
+            <Button variant="gold">Save changes</Button>
+          </ModalClose>
+        </>
+      }
+    >
+      <p>The footer is a flex row aligned to the end.</p>
+    </Modal>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Alert dialog
+
+Use `type="alertdialog"` for destructive confirmations. It applies
+`role="alertdialog"` and focuses the first footer action on open. Pair it with
+`noBackdropClose` so the choice is deliberate — Escape still cancels.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <ModalAlertDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Modal, ModalClose } from '@/components/ui/modal';
+    import { Button } from '@/components/ui/button';
+
+    <Modal
+      open={open}
+      onOpenChange={setOpen}
+      type="alertdialog"
+      title="Delete this chart?"
+      noBackdropClose
+      footer={
+        <>
+          <ModalClose asChild>
+            <Button variant="default">Cancel</Button>
+          </ModalClose>
+          <ModalClose asChild>
+            <Button variant="primary">Delete</Button>
+          </ModalClose>
+        </>
+      }
+    >
+      <p>This action cannot be undone.</p>
+    </Modal>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/modal.json
+```

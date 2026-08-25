@@ -1,0 +1,96 @@
+---
+title: Avatar
+description: Represents a user with a photo, falling back to a generic icon when no image is available.
+---
+
+import { Avatar } from "@/registry/new-york/avatar/avatar";
+
+The HBD avatar renders a user image when `imgSrc` is provided and loads
+successfully, and gracefully falls back to a generic person icon otherwise. The
+host element carries `role="img"` plus an accessible label derived from
+`imgAlt`, then `name`, then `"Avatar"`.
+
+## Sizes
+
+Six sizes are available: `xs`, `sm`, `md` (default), `lg`, `xl`, and `2xl`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar size="xs" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+      <Avatar size="sm" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+      <Avatar size="md" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+      <Avatar size="lg" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+      <Avatar size="xl" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+      <Avatar size="2xl" name="Ada Lovelace" imgSrc="https://i.pravatar.cc/96?img=5" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Avatar } from '@/components/ui/avatar';
+
+    <Avatar size="xs" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    <Avatar size="sm" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    <Avatar size="md" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    <Avatar size="lg" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    <Avatar size="xl" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    <Avatar size="2xl" name="Ada Lovelace" imgSrc="/ada.jpg" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## With an image
+
+Pass `imgSrc` to show a photo. Provide `imgAlt` for the accessible name when it
+should differ from `name`; when omitted, `name` is used instead.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar size="xl" name="Grace Hopper" imgSrc="https://i.pravatar.cc/96?img=47" />
+      <Avatar
+        size="xl"
+        name="Alan Turing"
+        imgSrc="https://i.pravatar.cc/96?img=12"
+        imgAlt="Portrait of Alan Turing"
+      />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Avatar size="xl" name="Grace Hopper" imgSrc="/grace.jpg" />
+    <Avatar size="xl" name="Alan Turing" imgSrc="/alan.jpg" imgAlt="Portrait of Alan Turing" />
+    ```
+  </Tab>
+</Tabs>
+
+## Fallback
+
+When `imgSrc` is absent — or the image fails to load — the avatar renders a
+generic person icon. The accessible label still resolves from `name`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar size="md" name="Katherine Johnson" />
+      <Avatar size="lg" name="No image" imgSrc="https://example.invalid/missing.png" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {/* No image at all */}
+    <Avatar size="md" name="Katherine Johnson" />
+
+    {/* Broken URL falls back to the icon */}
+    <Avatar size="lg" name="No image" imgSrc="/broken.png" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/avatar.json
+```

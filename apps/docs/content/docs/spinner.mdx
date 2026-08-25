@@ -1,0 +1,108 @@
+---
+title: Spinner
+description: Indeterminate progress arc for loading states, with an accessible status announcement.
+---
+
+import { Spinner } from "@/registry/new-york/spinner/spinner";
+import { Button } from "@/registry/new-york/button/button";
+
+The HBD spinner renders an indeterminate progress arc. The SVG is `aria-hidden`,
+while a visually-hidden `role="status"` `aria-live="polite"` span carries the
+accessible name (defaults to `"Loading"`, override with the `label` prop).
+
+## Sizes
+
+Four fixed sizes: `sm` (16px), `md` (24px, default), `lg` (40px), and `xl` (64px).
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner size="sm" />
+      <Spinner size="md" />
+      <Spinner size="lg" />
+      <Spinner size="xl" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Spinner } from '@/components/ui/spinner';
+
+    <Spinner size="sm" />
+    <Spinner size="md" />
+    <Spinner size="lg" />
+    <Spinner size="xl" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variants
+
+`default` uses the action colour, `muted` is dimmed, and `inherit` follows
+`currentColor` — ideal inside buttons and coloured surfaces.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner variant="default" />
+      <Spinner variant="muted" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner variant="default" />
+    <Spinner variant="muted" />
+    ```
+  </Tab>
+</Tabs>
+
+## Usage inside a button
+
+Use `variant="inherit"` so the spinner adopts the button's text colour.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="primary">
+        <Spinner size="sm" variant="inherit" label="Saving" />
+        Saving…
+      </Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from '@/components/ui/button';
+    import { Spinner } from '@/components/ui/spinner';
+
+    <Button variant="primary">
+      <Spinner size="sm" variant="inherit" label="Saving" />
+      Saving…
+    </Button>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Accessible label
+
+The `label` prop sets the text announced by assistive technology via the
+`role="status"` region. It defaults to `"Loading"`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner label="Fetching results" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner label="Fetching results" />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/spinner.json
+```

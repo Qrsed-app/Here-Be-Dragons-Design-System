@@ -1,0 +1,132 @@
+---
+title: Input
+description: Token-backed text field with label, hint, validation states, prefix/suffix, and a built-in password toggle.
+---
+
+import { Input } from "@/registry/new-york/input/input";
+
+The HBD `Input` is the canonical form field. It owns the shared `.hbd-field`
+chrome — label, hint, error/success messages, character count, prefix/suffix,
+and the password eye toggle — using token-backed component CSS, not Tailwind
+utilities. Restricted `type` values follow the HBD allow-list (`text`, `email`,
+`password`, `search`, `tel`, `url`, `number`); anything else falls back to `text`.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <Input label="Display name" placeholder="Brave adventurer" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Input } from '@/components/ui/input';
+
+    <Input label="Display name" placeholder="Brave adventurer" />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Input size="sm" label="Small" placeholder="sm" />
+      <Input size="md" label="Medium" placeholder="md" />
+      <Input size="lg" label="Large" placeholder="lg" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input size="sm" label="Small" placeholder="sm" />
+    <Input size="md" label="Medium" placeholder="md" />
+    <Input size="lg" label="Large" placeholder="lg" />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+The `error` and `success` props drive the validation chrome. A non-empty `error`
+sets `aria-invalid` and shows the error message; `success` shows only when there
+is no error. The `hint` is hidden while an error or success message is visible.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Input label="With hint" hint="Use 3–20 characters." placeholder="username" />
+      <Input
+        label="Email"
+        type="email"
+        error="That email is already taken."
+        defaultValue="dragon@example"
+      />
+      <Input label="Email" type="email" success="Looks good!" defaultValue="dragon@example.com" />
+      <Input label="Disabled" placeholder="Unavailable" disabled />
+      <Input label="Read only" defaultValue="Locked value" readOnly />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input label="With hint" hint="Use 3–20 characters." placeholder="username" />
+    <Input
+      label="Email"
+      type="email"
+      error="That email is already taken."
+      defaultValue="dragon@example"
+    />
+    <Input label="Email" type="email" success="Looks good!" defaultValue="dragon@example.com" />
+    <Input label="Disabled" placeholder="Unavailable" disabled />
+    <Input label="Read only" defaultValue="Locked value" readOnly />
+    ```
+  </Tab>
+</Tabs>
+
+## Prefix & suffix
+
+Static text rendered inside the field's leading or trailing edge. The suffix is
+ignored for `type="password"`, where the eye toggle owns that slot.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Input label="Price" type="number" prefix="$" placeholder="0.00" />
+      <Input label="Weight" type="number" suffix="kg" placeholder="0" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input label="Price" type="number" prefix="$" placeholder="0.00" />
+    <Input label="Weight" type="number" suffix="kg" placeholder="0" />
+    ```
+  </Tab>
+</Tabs>
+
+## Password & character count
+
+`type="password"` adds an accessible show/hide eye toggle. Setting `maxLength`
+enables the live character counter, which announces politely as you type.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Input label="Password" type="password" placeholder="••••••••" required />
+      <Input label="Bio" hint="Keep it short." maxLength={80} defaultValue="Here be dragons." />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input label="Password" type="password" placeholder="••••••••" required />
+    <Input label="Bio" hint="Keep it short." maxLength={80} defaultValue="Here be dragons." />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/input.json
+```

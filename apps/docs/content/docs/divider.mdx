@@ -1,0 +1,146 @@
+---
+title: Divider
+description: Token-backed separator with structural, labelled, and ornamental variants.
+---
+
+import { Divider } from "@/registry/new-york/divider/divider";
+
+The HBD divider reproduces the legacy `.hbd-divider` look 1:1 using token-backed
+component CSS. It renders an accessible `role="separator"` for structural and
+labelled rules, and a decorative `aria-hidden` sigil for ornamental flourishes.
+
+## Variants
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--hbd-space-6, 1.5rem)' }}>
+        <Divider variant="horizontal" />
+        <Divider variant="with-label">Section</Divider>
+        <Divider variant="ornamental">&#10070;</Divider>
+        <div style={{ display: 'flex', alignItems: 'center', height: '2rem', gap: 'var(--hbd-space-4, 1rem)' }}>
+          <span>Left</span>
+          <Divider variant="vertical" />
+          <span>Right</span>
+        </div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Divider } from '@/components/ui/divider';
+
+    <Divider variant="horizontal" />
+    <Divider variant="with-label">Section</Divider>
+    <Divider variant="ornamental">&#10070;</Divider>
+
+    <span>Left</span>
+    <Divider variant="vertical" />
+    <span>Right</span>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Colors
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--hbd-space-6, 1.5rem)",
+        }}
+      >
+        <Divider color="default" />
+        <Divider color="subtle" />
+        <Divider color="strong" />
+        <Divider color="gold" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Divider color="default" />
+    <Divider color="subtle" />
+    <Divider color="strong" />
+    <Divider color="gold" />
+    ```
+  </Tab>
+</Tabs>
+
+## Style types
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--hbd-space-6, 1.5rem)",
+        }}
+      >
+        <Divider styleType="solid" />
+        <Divider styleType="dashed" />
+        <Divider styleType="double" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Divider styleType="solid" />
+    <Divider styleType="dashed" />
+    <Divider styleType="double" />
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+Combine variants, colors, and style types to delineate content. The labelled and
+ornamental variants are ideal for breaking up long-form parchment text.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--hbd-space-6, 1.5rem)",
+        }}
+      >
+        <Divider variant="with-label" color="gold">
+          Chapter II
+        </Divider>
+        <Divider variant="ornamental" color="gold">
+          &#10071;
+        </Divider>
+        <Divider color="strong" styleType="double" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Divider variant="with-label" color="gold">
+      Chapter II
+    </Divider>
+    <Divider variant="ornamental" color="gold">
+      &#10071;
+    </Divider>
+    <Divider color="strong" styleType="double" />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/divider.json
+```

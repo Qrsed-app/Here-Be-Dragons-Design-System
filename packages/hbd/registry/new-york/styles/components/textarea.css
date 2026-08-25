@@ -1,0 +1,61 @@
+/*
+ * Here Be Dragons DS — textarea delta CSS
+ * Ported from ds/styles/components/input.css (sections 2h, 2i, 2j).
+ *
+ * The textarea REUSES the shared .hbd-field chrome shipped by @hbd/input
+ * (field wrapper, label, input-wrapper, base/state/size surface rules,
+ * messages, footer-message colours). This file ships ONLY the
+ * multiline-specific delta so the field chrome is never duplicated:
+ *   - the textarea surface overrides (min/max-height, resize)
+ *   - the auto-resize modifier
+ *   - the footer row layout
+ *   - the char-count warning / over-limit states
+ *
+ * Every value references a --hbd-* token (no hard-coded literals). These
+ * selectors live in the light DOM (the source had no :host/::slotted/::part
+ * constructs for the textarea delta), so no de-shadowing transform was
+ * required beyond carrying the rules verbatim.
+ */
+
+/* ── Textarea (multiline) — extends the shared input surface ─────────── */
+/* Inherits all base / state / size rules from the combined
+   .hbd-field__input,.hbd-field__textarea selectors provided by @hbd/input.
+   Only the multiline-specific properties are declared here. */
+.hbd-field__textarea {
+  min-height: var(--hbd-textarea-min-height);
+  max-height: var(--hbd-textarea-max-height);
+  resize: vertical;
+  overflow-y: auto;
+  line-height: var(--hbd-line-height-body);
+}
+
+/* Auto-resize: JS sizes the height inline; CSS only removes the manual
+   handle and the scrollbar so growth is seamless. */
+.hbd-field--autoresize .hbd-field__textarea {
+  resize: none;
+  overflow: hidden;
+  height: auto;
+}
+
+/* ── Footer row (hint/error/success + char-count) ───────────────────── */
+/* Allows the message to sit left and the counter to sit right. */
+.hbd-field__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--hbd-space-2);
+}
+
+/* ── Character-count warning / over-limit states ────────────────────── */
+/* The status-*-text tokens are near-white (for text on a saturated
+   surface) and would be invisible on the parchment page, so on-page dark
+   colours are used instead. */
+.hbd-field__char-count--warning {
+  /* gold-deep (~5.6:1 on parchment) — AA-compliant warning tint */
+  color: var(--hbd-color-gold-deep);
+}
+.hbd-field__char-count--over {
+  /* text-emphasis (blood, ~12.8:1 on parchment) — AA-compliant over-limit tint */
+  color: var(--hbd-color-text-emphasis);
+  font-weight: var(--hbd-font-weight-medium);
+}

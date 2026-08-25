@@ -1,0 +1,266 @@
+/*
+ * Here Be Dragons DS
+ * styles/components/drawer.css
+ *
+ * De-shadowed from ds/styles/components/drawer.css. The legacy WC was a
+ * Shadow-DOM custom element whose .is-open / .is-closing modifiers drove
+ * a `transition: transform` on the panel, and whose JS waited for the
+ * panel's transitionend before tearing down (scroll-lock release,
+ * focus-return, hbd:close). This React port plumbs portal + focus-trap +
+ * scroll-lock + return-focus + Escape + outside-pointerdown via Radix
+ * Dialog. Radix keeps the Content/Overlay mounted during the exit because
+ * we express enter/exit as @keyframes keyed off data-state (Radix Presence
+ * waits for the animation to finish before unmounting) — this reproduces
+ * the WC's transitionend close lifecycle 1:1.
+ *
+ * Class bridging (Radix):
+ * - .hbd-drawer__backdrop is re-applied to Radix Dialog.Overlay,
+ *   .hbd-drawer__panel to Radix Dialog.Content. The wrapper .hbd-drawer
+ *   (+ placement / --wide / --tall / --no-backdrop modifiers) is re-applied
+ *   to the Content so the placement transforms resolve identically.
+ * - data-state="open" -> the WC's .is-open reveal (slide-in).
+ *   data-state="closed" -> the WC's .is-closing exit (slide-out).
+ *   The legacy .is-open / .is-closing classes are ALSO emitted from the
+ *   React side off the resolved data-state so any author CSS keyed on them
+ *   keeps working.
+ *
+ * Notes:
+ * - All values via --hbd-* tokens.
+ * - The backdrop scrim uses rgba(ink-900, 0.6) — the documented inline-rgba
+ *   exception carried verbatim from the source (a 60% ink-900 overlay is
+ *   not representable as a single --hbd-color-* token without color-mix).
+ * - Spec referenced --hbd-spacing-N; emitted tokens are --hbd-space-N.
+ * - No absolute /paths: tokens come from the app globals, not a <link>.
+ */
+
+/* ── 1 · Wrapper ──────────────────────────────────────────────────── */
+/* In the WC the wrapper was `display: contents` and the fixed children
+   (backdrop + panel) did the overlay work. With Radix the Overlay and
+   Content are portalled siblings, so the wrapper class lives on Content
+   alongside the panel class — it only carries the placement modifiers
+   that the panel transform rules below read. */
+.hbd-drawer {
+  display: contents;
+}
+
+/* ── 2 · Backdrop ─────────────────────────────────────────────────── */
+/* Semi-transparent scrim covering the viewport. Documented rgba
+   exception — a 60% ink-900 overlay is not representable as a single
+   --hbd-color-* token without color-mix at the call site. */
+.hbd-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hbd-z-overlay);
+  background: rgba(26, 20, 16, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer__backdrop[data-state="open"],
+.hbd-drawer.is-open .hbd-drawer__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hbd-drawer__backdrop[data-state="closed"],
+.hbd-drawer.is-closing .hbd-drawer__backdrop {
+  opacity: 0;
+  /* Keep pointer-events on briefly so a backdrop click during the exit
+     animation doesn't fall through to the page underneath. */
+  pointer-events: auto;
+}
+
+/* ── 3 · Panel ────────────────────────────────────────────────────── */
+.hbd-drawer__panel {
+  position: fixed;
+  z-index: var(--hbd-z-modal);
+  background: var(--hbd-color-surface-default);
+  box-shadow: var(--hbd-shadow-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* All placements share the same transition timing on transform. The
+     prefers-reduced-motion global override collapses this to ~0ms.
+     Enter/exit are expressed as @keyframes (keyed off data-state) so
+     Radix Presence keeps the panel mounted through the exit, matching
+     the WC's transitionend-driven close. */
+  transition: transform var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+
+/* Left placement (default). */
+.hbd-drawer--left .hbd-drawer__panel {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--hbd-drawer-width);
+  transform: translateX(-100%);
+}
+.hbd-drawer--left.is-open .hbd-drawer__panel { transform: translateX(0); }
+.hbd-drawer--left.is-closing .hbd-drawer__panel { transform: translateX(-100%); }
+.hbd-drawer--left .hbd-drawer__panel[data-state="open"] {
+  transform: translateX(0);
+  animation: hbd-drawer-slide-in-left var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--left .hbd-drawer__panel[data-state="closed"] {
+  transform: translateX(-100%);
+  animation: hbd-drawer-slide-out-left var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--left.hbd-drawer--wide .hbd-drawer__panel { width: var(--hbd-drawer-width-wide); }
+
+/* Right placement. */
+.hbd-drawer--right .hbd-drawer__panel {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--hbd-drawer-width);
+  transform: translateX(100%);
+}
+.hbd-drawer--right.is-open .hbd-drawer__panel { transform: translateX(0); }
+.hbd-drawer--right.is-closing .hbd-drawer__panel { transform: translateX(100%); }
+.hbd-drawer--right .hbd-drawer__panel[data-state="open"] {
+  transform: translateX(0);
+  animation: hbd-drawer-slide-in-right var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--right .hbd-drawer__panel[data-state="closed"] {
+  transform: translateX(100%);
+  animation: hbd-drawer-slide-out-right var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--right.hbd-drawer--wide .hbd-drawer__panel { width: var(--hbd-drawer-width-wide); }
+
+/* Top placement. */
+.hbd-drawer--top .hbd-drawer__panel {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--hbd-drawer-height);
+  transform: translateY(-100%);
+  border-radius: 0 0 var(--hbd-radius-lg) var(--hbd-radius-lg);
+}
+.hbd-drawer--top.is-open .hbd-drawer__panel { transform: translateY(0); }
+.hbd-drawer--top.is-closing .hbd-drawer__panel { transform: translateY(-100%); }
+.hbd-drawer--top .hbd-drawer__panel[data-state="open"] {
+  transform: translateY(0);
+  animation: hbd-drawer-slide-in-top var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--top .hbd-drawer__panel[data-state="closed"] {
+  transform: translateY(-100%);
+  animation: hbd-drawer-slide-out-top var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--top.hbd-drawer--tall .hbd-drawer__panel { height: var(--hbd-drawer-height-tall); }
+
+/* Bottom placement. */
+.hbd-drawer--bottom .hbd-drawer__panel {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--hbd-drawer-height);
+  transform: translateY(100%);
+  border-radius: var(--hbd-radius-lg) var(--hbd-radius-lg) 0 0;
+}
+.hbd-drawer--bottom.is-open .hbd-drawer__panel { transform: translateY(0); }
+.hbd-drawer--bottom.is-closing .hbd-drawer__panel { transform: translateY(100%); }
+.hbd-drawer--bottom .hbd-drawer__panel[data-state="open"] {
+  transform: translateY(0);
+  animation: hbd-drawer-slide-in-bottom var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--bottom .hbd-drawer__panel[data-state="closed"] {
+  transform: translateY(100%);
+  animation: hbd-drawer-slide-out-bottom var(--hbd-duration-normal) var(--hbd-ease-out);
+}
+.hbd-drawer--bottom.hbd-drawer--tall .hbd-drawer__panel { height: var(--hbd-drawer-height-tall); }
+
+/* ── Slide keyframes ──────────────────────────────────────────────── */
+/* These replace the WC's bare `transition: transform` so Radix Presence
+   keeps the node mounted through the exit (it watches animationName).
+   Endpoints + timing match the legacy is-open / is-closing transforms
+   exactly, so the motion is identical. */
+@keyframes hbd-drawer-slide-in-left {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes hbd-drawer-slide-out-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes hbd-drawer-slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes hbd-drawer-slide-out-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes hbd-drawer-slide-in-top {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes hbd-drawer-slide-out-top {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+@keyframes hbd-drawer-slide-in-bottom {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes hbd-drawer-slide-out-bottom {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
+
+/* ── 4 · Header / body / footer ───────────────────────────────────── */
+.hbd-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hbd-space-3);
+  padding: var(--hbd-space-4) var(--hbd-space-4) var(--hbd-space-3);
+  border-bottom: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+
+.hbd-drawer__title {
+  font-family: var(--hbd-font-family-accent);
+  font-size: var(--hbd-font-size-h3);
+  font-weight: var(--hbd-font-weight-semibold);
+  letter-spacing: var(--hbd-letter-spacing-wide);
+  color: var(--hbd-color-text-primary);
+  margin: 0;
+}
+
+.hbd-drawer__close {
+  flex-shrink: 0;
+}
+
+.hbd-drawer__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--hbd-space-4);
+  overscroll-behavior: contain;
+  color: var(--hbd-color-text-primary);
+  font-family: var(--hbd-font-family-ui);
+  font-size: var(--hbd-font-size-body);
+  line-height: var(--hbd-line-height-body);
+}
+
+.hbd-drawer__footer {
+  display: flex;
+  gap: var(--hbd-space-2);
+  justify-content: flex-end;
+  padding: var(--hbd-space-3) var(--hbd-space-4);
+  border-top: var(--hbd-border-width-hairline) solid var(--hbd-color-border-subtle);
+  flex-shrink: 0;
+}
+/* Hide the footer row entirely when nothing is slotted in. The React side
+   sets data-empty="true" when no footer content is provided, mirroring the
+   WC's slotchange-driven flag. */
+.hbd-drawer__footer[data-empty="true"] {
+  display: none;
+}
+
+/* ── 5 · Sidebar mode ─────────────────────────────────────────────── */
+/* When the host has the no-backdrop attribute the drawer behaves as a
+   sidebar: no scrim, no pointer-blocking, but the same transform
+   transitions. */
+.hbd-drawer.hbd-drawer--no-backdrop .hbd-drawer__backdrop {
+  display: none;
+}

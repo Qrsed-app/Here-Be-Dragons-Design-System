@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spacer",
+  "type": "registry:ui",
+  "title": "Spacer",
+  "description": "Explicit-whitespace layout utility. Decorative light-DOM element (role=none aria-hidden) whose width/height are written inline from size + axis.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/spacer/spacer.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-spacer.js (light DOM — no Shadow DOM).\n// Explicit-whitespace utility. Produces no visible UI: width/height are written\n// inline based on size + axis, and the element is decorative (role=\"none\"\n// aria-hidden=\"true\") so it never enters the a11y tree or Tab order.\n//\n// `size` accepts a numeric token key (\"1\"..\"32\") OR a raw CSS length\n// (\"32px\", \"2rem\", \"10%\"). Numeric keys in the emitted spacing scale resolve to\n// var(--hbd-space-N); anything else passes through verbatim. The inline\n// width/height style is the documented dynamic exception (same pattern as\n// skeleton rect height and progress fill width).\n\nconst AXES = [\"vertical\", \"horizontal\", \"both\"] as const;\ntype Axis = (typeof AXES)[number];\n\n// Mirror of the emitted spacing scale (tokens.json → spacing → --hbd-space-N).\n// Numeric keys outside this set fall through to \"treat as raw CSS\".\nconst VALID_SCALE = new Set([\"1\", \"2\", \"3\", \"4\", \"6\", \"8\", \"12\", \"16\", \"24\", \"32\"]);\n\nfunction resolveSize(size?: string | number): string {\n  if (size === undefined || size === null || size === \"\") return \"\";\n  const key = String(size);\n  if (VALID_SCALE.has(key)) return `var(--hbd-space-${key})`;\n  return key;\n}\n\nexport interface SpacerProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Numeric token key (\"1\"..\"32\") or a raw CSS length (\"32px\", \"2rem\", \"10%\"). */\n  size?: string | number;\n  /** \"vertical\" (default) | \"horizontal\" | \"both\". */\n  axis?: Axis;\n}\n\nconst Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(\n  ({ size, axis = \"vertical\", className, style, ...props }, ref) => {\n    const value = resolveSize(size);\n    // Match the WC _axis(): lowercase-normalize, fall back to \"vertical\" for any\n    // unrecognized value (mirrors VALID_AXES.includes(raw) ? raw : 'vertical').\n    const raw = String(axis ?? \"vertical\").toLowerCase();\n    const a: Axis = (AXES as readonly string[]).includes(raw) ? (raw as Axis) : \"vertical\";\n\n    // Reset whichever inline dimension isn't in play so toggling axis at runtime\n    // never leaves a stale value behind (matches the WC _render reset).\n    const dynamicStyle: React.CSSProperties = {\n      height: a === \"vertical\" || a === \"both\" ? value || undefined : undefined,\n      width: a === \"horizontal\" || a === \"both\" ? value || undefined : undefined,\n    };\n\n    return (\n      <div\n        ref={ref}\n        className={cn(\"hbd-spacer\", className)}\n        role=\"none\"\n        aria-hidden=\"true\"\n        style={{ ...dynamicStyle, ...style }}\n        {...props}\n      />\n    );\n  },\n);\nSpacer.displayName = \"Spacer\";\n\nexport { Spacer };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

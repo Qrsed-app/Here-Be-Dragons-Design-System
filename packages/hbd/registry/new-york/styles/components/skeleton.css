@@ -1,0 +1,95 @@
+/*
+ * Here Be Dragons DS — skeleton.css
+ * Ported for React / light-DOM from ds/styles/components/skeleton.css.
+ * The legacy WC was already Light DOM (no :host/::slotted/::part), so the
+ * de-shadow is a no-op — the .hbd-skeleton classes, every var(--hbd-*) ref,
+ * and the @keyframes are kept verbatim for a 1:1 render.
+ *
+ * The .hbd-skeleton-group* preset rules ship with the separate
+ * skeleton-group registry item, not here.
+ *
+ * Decorative placeholder shapes that mimic content while it loads.
+ * The skeleton itself carries aria-hidden="true"; the surrounding
+ * container that BECOMES the real content owns aria-busy.
+ *
+ * Reduced motion: handled globally by hbd-theme globals.css. The
+ * shimmer animation-duration collapses to 0.01ms under
+ * @media (prefers-reduced-motion: reduce). The .hbd-skeleton--no-shimmer
+ * modifier is a hard-coded equivalent (used to demo the reduced-motion
+ * appearance without needing to toggle the OS pref).
+ */
+
+/* ── 1 · Base ─────────────────────────────────────────────────────── */
+.hbd-skeleton {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--hbd-skeleton-base-color);
+  border-radius: var(--hbd-radius-sm);
+}
+
+/* ── 2 · Shimmer ──────────────────────────────────────────────────── */
+/*
+ * The gradient stops 0% / 50% / 100% are POSITIONAL within the
+ * linear-gradient function and have no token meaning — they describe
+ * where the bright midpoint sits relative to the sweep. They are a
+ * documented permitted structural literal exception.
+ */
+.hbd-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--hbd-skeleton-shimmer-color) 50%,
+    transparent 100%
+  );
+  animation: hbd-skeleton-shimmer var(--hbd-duration-pulse)
+    ease-in-out infinite;
+}
+
+.hbd-skeleton--no-shimmer::after {
+  display: none;
+}
+
+@keyframes hbd-skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── 3 · Shape variants ───────────────────────────────────────────── */
+.hbd-skeleton--text {
+  height: var(--hbd-font-size-body);
+  width: 100%;
+  border-radius: var(--hbd-radius-sm);
+}
+
+.hbd-skeleton--text-sm {
+  height: var(--hbd-font-size-label);
+  width: 80%;
+  border-radius: var(--hbd-radius-sm);
+}
+
+.hbd-skeleton--text-lg {
+  height: var(--hbd-font-size-h3);
+  width: 60%;
+  border-radius: var(--hbd-radius-sm);
+}
+
+.hbd-skeleton--circle {
+  border-radius: var(--hbd-radius-full);
+  width: var(--hbd-avatar-size-md);
+  height: var(--hbd-avatar-size-md);
+  flex-shrink: 0;
+}
+
+/*
+ * .hbd-skeleton--rect — height is author-supplied via inline style
+ * (documented inline-style exception: rect height is a value-driven
+ * layout property that varies per call site, like progress fill width).
+ */
+.hbd-skeleton--rect {
+  width: 100%;
+  border-radius: var(--hbd-radius-md);
+}

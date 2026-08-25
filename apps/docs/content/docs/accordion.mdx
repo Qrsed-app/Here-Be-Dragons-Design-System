@@ -1,0 +1,167 @@
+---
+title: Accordion
+description: Token-backed disclosure group with single and multi expand modes, bordered, divided, and flush variants.
+---
+
+import {
+  AccordionBasicDemo,
+  AccordionMultiDemo,
+  AccordionVariantsDemo,
+  AccordionDisabledDemo,
+  AccordionControlledDemo,
+} from "@/components/demos/accordion-demo";
+
+The HBD accordion condenses long, secondary content into expandable sections,
+reproducing the legacy `.hbd-accordion` look 1:1 with token-backed component CSS.
+It uses a compound `Accordion` + `Accordion.Item` API, works uncontrolled
+(`defaultValue` / `defaultValues`) or controlled (`value` / `values`), and is
+fully keyboard accessible — each trigger is a real `<button>` with
+`aria-expanded`, and Arrow / Home / End keys move focus between triggers.
+
+## Usage
+
+In single mode (the default), opening an item collapses the previously open one.
+Each item is identified by its `value`, falling back to its index.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Accordion, AccordionItem } from '@/components/ui/accordion';
+
+    <Accordion defaultValue="origins">
+      <AccordionItem value="origins" title="What does 'Here Be Dragons' mean?">
+        Medieval cartographers inked the phrase on the uncharted edges of
+        their maps to mark dangerous or unexplored territory.
+      </AccordionItem>
+      <AccordionItem value="usage" title="When should I reach for an accordion?">
+        Use it to condense long, secondary content into scannable sections.
+      </AccordionItem>
+      <AccordionItem value="a11y" title="Is it keyboard accessible?">
+        Yes — each trigger is a real button with aria-expanded.
+      </AccordionItem>
+    </Accordion>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Modes
+
+Set `mode="multi"` to let items toggle independently — any number can be open at
+once. Use `defaultValues` (multi) instead of `defaultValue` (single) to seed the
+open set.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionMultiDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion mode="multi" defaultValues={["compass", "sextant"]}>
+      <AccordionItem value="compass" title="Compass">
+        Points the way north so a navigator can hold a steady bearing.
+      </AccordionItem>
+      <AccordionItem value="sextant" title="Sextant">
+        Measures the angle between a star and the horizon to fix latitude.
+      </AccordionItem>
+      <AccordionItem value="astrolabe" title="Astrolabe">
+        An older instrument for locating the positions of stars.
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+## Variants
+
+Three boolean variants control the chrome: `bordered` boxes the whole group,
+`divided` adds hairline rules between items, and `flush` strips the border for
+embedding inside an existing surface.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionVariantsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion bordered defaultValue="0">
+      …
+    </Accordion>
+    <Accordion divided defaultValue="0">
+      …
+    </Accordion>
+    <Accordion flush defaultValue="0">
+      …
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+A disabled `Accordion.Item` renders a dimmed, non-interactive trigger that is
+also skipped by roving keyboard navigation.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion defaultValue="available">
+      <AccordionItem value="available" title="Available chapter">
+        This section is open and fully interactive.
+      </AccordionItem>
+      <AccordionItem value="locked" title="Locked chapter" disabled>
+        You should not be able to reach or open this one.
+      </AccordionItem>
+      <AccordionItem value="next" title="Next chapter">
+        Arrow keys jump straight past the locked item above.
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Drive the open state from React with `value` + `onValueChange` (single mode) or
+`values` + `onValueChange` (multi mode). The callback receives the new key
+(`string | null`) for single mode or the key array for multi mode.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [open, setOpen] = React.useState<string | null>('north');
+
+    <Accordion value={open} onValueChange={(v) => setOpen(v as string | null)}>
+      <AccordionItem value="north" title="Northern passage">…</AccordionItem>
+      <AccordionItem value="south" title="Southern passage">…</AccordionItem>
+      <AccordionItem value="east" title="Eastern passage">…</AccordionItem>
+    </Accordion>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/accordion.json
+```

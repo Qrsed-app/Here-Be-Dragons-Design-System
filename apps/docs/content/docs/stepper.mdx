@@ -1,0 +1,173 @@
+---
+title: Stepper
+description: Token-backed numeric stepper — a number input flanked by decrement and increment buttons inside the shared field chrome.
+---
+
+import {
+  StepperBasicDemo,
+  StepperSizesDemo,
+  StepperThinDemo,
+  StepperThinSizesDemo,
+  StepperStepDemo,
+  StepperStatesDemo,
+  StepperControlledDemo,
+} from "@/components/demos/stepper-demo";
+
+The HBD `Stepper` is a native `<input type="number">` flanked by decrement (−)
+and increment (+) buttons, wrapped in the shared `.hbd-field` chrome (label,
+hint, error). The input is the sole Tab stop; keyboard users adjust with the
+arrow keys (`PageUp`/`PageDown` for ±10·step, `Home`/`End` for the bounds),
+while the buttons are mouse/touch targets.
+
+## Basic
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Stepper } from '@/components/ui/stepper';
+
+    <Stepper label="Quantity" defaultValue="1" min={0} max={10} />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper size="sm" label="Small" defaultValue="1" />
+    <Stepper size="md" label="Medium" defaultValue="1" />
+    <Stepper size="lg" label="Large" defaultValue="1" />
+    ```
+  </Tab>
+</Tabs>
+
+## Thin
+
+`thin` collapses the field to its intrinsic width instead of stretching to fill
+its column — for table cells, inline forms, and anywhere a full-width stepper is
+too much. Both step buttons and the value field narrow accordingly.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperThinDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper thin label="Spell level" defaultValue="3" min={1} max={9} />
+    <Stepper thin label="Character level" defaultValue="1" min={1} max={20} />
+    <Stepper thin label="Quantity" defaultValue="5" min={0} max={99} />
+    ```
+  </Tab>
+</Tabs>
+
+It composes with `size` and with the error / disabled states.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperThinSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper thin size="sm" label="sm" defaultValue="1" min={1} max={9} />
+    <Stepper thin size="lg" label="lg" defaultValue="1" min={1} max={9} />
+    <Stepper thin label="Error" defaultValue="3" min={1} max={9} error="Required" />
+    <Stepper thin label="Disabled" defaultValue="3" min={1} max={9} disabled />
+    ```
+  </Tab>
+</Tabs>
+
+## Step & bounds
+
+`step` controls the increment (and is used to round away float drift), while
+`min`/`max` clamp the value and disable the matching button at each boundary.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperStepDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper
+      label="Rudder trim"
+      defaultValue="0"
+      min={-1}
+      max={1}
+      step={0.5}
+      hint="Use ± or the arrow keys to adjust in 0.5 steps."
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## States
+
+A non-empty `error` sets `aria-invalid` and shows the error message (hiding the
+`hint`). `disabled` greys out the input and both buttons.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperStatesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper label="Crew" defaultValue="4" hint="Recommended: 4–8 sailors." min={0} />
+    <Stepper label="Rations" defaultValue="0" error="At least one barrel is required." min={0} />
+    <Stepper label="Cannons" defaultValue="2" disabled />
+    ```
+  </Tab>
+</Tabs>
+
+## Controlled
+
+Pass `value` and `onValueChange` to own the state in React. `onValueChange`
+fires only on commit (button, arrow key, or blur) — not on every keystroke.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState('3');
+
+    <Stepper
+      label="Gold doubloons"
+      value={value}
+      onValueChange={setValue}
+      min={0}
+      max={20}
+      required
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/stepper.json
+```

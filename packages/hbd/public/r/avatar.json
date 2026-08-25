@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "Circular avatar with two content branches: <img> when imgSrc loads, generic person icon on absent/failed image. Sizes xs/sm/md/lg/xl/2xl. role=img + aria-label for a single SR-readable image.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/avatar/avatar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-avatar.js (light DOM — no Shadow DOM).\n// Two content branches, matching the WC exactly:\n//   1. <img>        — when imgSrc is set AND loads successfully\n//   2. generic icon — fallback (image absent or onError fired)\n// The host carries role=\"img\" + aria-label so the inner <img alt=\"\"> doesn't\n// double-announce. The accessible name follows the WC preference order:\n//   img-alt (when the attribute is present, even if empty) → name → \"Avatar\".\n\nconst SIZES = [\"xs\", \"sm\", \"md\", \"lg\", \"xl\", \"2xl\"] as const;\n\nexport interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {\n  /** Full name — used only for the accessible label. */\n  name?: string;\n  /** Image URL. When it loads, the <img> branch renders; on error it falls back. */\n  imgSrc?: string;\n  /** Image alt text. When provided (even \"\"), it wins the accessible-name race. */\n  imgAlt?: string;\n  /** xs · sm · md (default) · lg · xl · 2xl */\n  size?: (typeof SIZES)[number];\n}\n\nconst Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(\n  ({ name = \"\", imgSrc = \"\", imgAlt, size = \"md\", className, ...props }, ref) => {\n    const [imgFailed, setImgFailed] = React.useState(false);\n\n    // A new imgSrc deserves a fresh attempt — reset the failure flag.\n    React.useEffect(() => {\n      setImgFailed(false);\n    }, [imgSrc]);\n\n    const useImage = Boolean(imgSrc) && !imgFailed;\n\n    // Accessible name: img-alt (when present, even empty) → name → \"Avatar\".\n    const trimmedName = name.trim();\n    const accessibleName = (imgAlt != null ? imgAlt : \"\") || trimmedName || \"Avatar\";\n\n    return (\n      <span\n        ref={ref}\n        className={cn(\"hbd-avatar\", `hbd-avatar--${size}`, className)}\n        role=\"img\"\n        aria-label={accessibleName}\n        {...props}\n      >\n        {useImage ? (\n          <img\n            className=\"hbd-avatar__img\"\n            src={imgSrc}\n            alt=\"\"\n            aria-hidden=\"true\"\n            loading=\"lazy\"\n            onError={() => setImgFailed(true)}\n          />\n        ) : (\n          <span className=\"hbd-avatar__icon\" aria-hidden=\"true\">\n            <svg\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              strokeWidth=\"1.6\"\n              strokeLinecap=\"round\"\n              strokeLinejoin=\"round\"\n            >\n              <circle cx=\"12\" cy=\"9\" r=\"3.5\" />\n              <path d=\"M5 20a7 7 0 0 1 14 0\" />\n            </svg>\n          </span>\n        )}\n      </span>\n    );\n  },\n);\nAvatar.displayName = \"Avatar\";\n\nexport { Avatar };\n",
+      "type": "registry:ui"
+    }
+  ]
+}

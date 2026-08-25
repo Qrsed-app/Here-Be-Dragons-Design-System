@@ -1,0 +1,178 @@
+---
+title: File Upload
+description: Drag-and-drop or click-to-browse file field with previews, per-file progress, and validation.
+---
+
+import { FileUpload } from "@/registry/new-york/file-upload/file-upload";
+import {
+  FileUploadBasicDemo,
+  FileUploadProgressDemo,
+  FileUploadRejectionDemo,
+} from "@/components/demos/file-upload-demo";
+
+The HBD file upload pairs a keyboard-accessible dropzone (`role="button"`) with
+native HTML5 drag-and-drop. It reproduces the legacy `.hbd-file-upload` look
+using token-backed component CSS and the shared `.hbd-field` chrome from the
+input styles. It supports single or multiple files, MIME/extension restriction,
+max size and max count limits, image thumbnails, and per-file progress.
+
+## Basic
+
+Click the dropzone to browse or drag files onto it. Pass `accept`, `multiple`,
+`maxSize`, and `maxFiles` to constrain the selection — the constraints render as
+a summary line and are announced via `aria-describedby`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { FileUpload } from '@/components/ui/file-upload';
+
+    <FileUpload
+      label="Upload artefacts"
+      hint="PNG, JPG or PDF up to 5 MB"
+      accept="image/*,.pdf"
+      multiple
+      maxSize={5 * 1024 * 1024}
+      maxFiles={4}
+      onChange={({ files }) => console.log(files)}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## With label and hint
+
+A plain field with a label and helper text. With no `accept`/`maxSize`/`maxFiles`
+props, no constraints line is shown.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUpload
+        label="Attach evidence"
+        hint="Optional. One file at a time."
+        style={{ width: "100%", maxWidth: "28rem" }}
+      />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload label="Attach evidence" hint="Optional. One file at a time." />
+    ```
+  </Tab>
+</Tabs>
+
+## Upload progress
+
+Drive the file list with the controlled `files` / `onFilesChange` API to render
+per-file progress bars (`role="progressbar"`) and the complete / error status
+icons. Each `FileRecord` carries `status`, `progress`, and `error`.
+
+<Tabs items={['Preview', 'Code']}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadProgressDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [records, setRecords] = React.useState<FileRecord[]>([]);
+
+    <FileUpload
+      label="Upload with progress"
+      multiple
+      files={records}
+      onFilesChange={(next) =>
+        setRecords(
+          next.map((r) =>
+            r.status === 'idle' ? { ...r, status: 'uploading' } : r,
+          ),
+        )
+      }
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+## States
+
+### Error
+
+Pass `error` to set the field-level error message, the `--error` modifier, and
+`aria-invalid` on the dropzone.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUpload
+        label="Upload map"
+        error="A file is required before continuing."
+        style={{ width: "100%", maxWidth: "28rem" }}
+      />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload label="Upload map" error="A file is required before continuing." />
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+`disabled` removes the dropzone from the tab order and blocks the picker and
+drag-and-drop.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUpload
+        label="Upload locked"
+        hint="Sign in to upload."
+        disabled
+        style={{ width: "100%", maxWidth: "28rem" }}
+      />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload label="Upload locked" hint="Sign in to upload." disabled />
+    ```
+  </Tab>
+</Tabs>
+
+## Rejected files
+
+Files failing `accept`, `maxSize`, or `maxFiles` are not added — they are
+reported through `onRejected` with a per-file reason so you can surface them.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadRejectionDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload
+      label="Images only"
+      accept="image/*"
+      maxSize={1024 * 1024}
+      onRejected={({ rejected }) => console.log(rejected)}
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## Install
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/file-upload.json
+```

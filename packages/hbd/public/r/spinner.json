@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Indeterminate loading arc. Light-DOM SVG with a role=status announcement.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "@hbd/hbd-theme",
+    "@hbd/utils"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/spinner/spinner.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-spinner.js (light DOM — no Shadow DOM).\n// Indeterminate progress arc. The SVG is aria-hidden; the accessible name is\n// carried by a visually-hidden role=\"status\" aria-live=\"polite\" span.\n// SVG geometry (cx=12 cy=12 r=10 on a 24 viewBox) + the 47/16 dash-array are\n// constants paired with spinner.css — do not tokenise.\n\nconst SIZES = [\"sm\", \"md\", \"lg\", \"xl\"] as const;\nconst VARIANTS = [\"default\", \"muted\", \"inherit\"] as const;\n\nexport interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {\n  /** sm 16px · md 24px (default) · lg 40px · xl 64px */\n  size?: (typeof SIZES)[number];\n  /** default = action colour · muted · inherit = currentColor (use inside buttons) */\n  variant?: (typeof VARIANTS)[number];\n  /** Accessible label announced via role=\"status\". Defaults to \"Loading\". */\n  label?: string;\n}\n\nconst Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(\n  ({ size = \"md\", variant = \"default\", label = \"Loading\", className, ...props }, ref) => {\n    return (\n      <span\n        ref={ref}\n        className={cn(\n          \"hbd-spinner\",\n          size !== \"md\" && `hbd-spinner--${size}`,\n          variant !== \"default\" && `hbd-spinner--${variant}`,\n          className,\n        )}\n        {...props}\n      >\n        <svg\n          viewBox=\"0 0 24 24\"\n          xmlns=\"http://www.w3.org/2000/svg\"\n          aria-hidden=\"true\"\n          focusable=\"false\"\n        >\n          <circle className=\"hbd-spinner__track\" cx=\"12\" cy=\"12\" r=\"10\" />\n          <circle\n            className=\"hbd-spinner__fill\"\n            cx=\"12\"\n            cy=\"12\"\n            r=\"10\"\n            transform=\"rotate(-90 12 12)\"\n          />\n        </svg>\n        <span className=\"hbd-sr-only\" role=\"status\" aria-live=\"polite\">\n          {label}\n        </span>\n      </span>\n    );\n  },\n);\nSpinner.displayName = \"Spinner\";\n\nexport { Spinner };\n",
+      "type": "registry:ui"
+    }
+  ]
+}
