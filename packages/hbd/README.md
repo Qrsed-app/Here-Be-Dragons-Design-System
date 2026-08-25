@@ -1,9 +1,9 @@
 # Here Be Dragons — shadcn Registry
 
-A **custom [shadcn](https://ui.shadcn.com/docs/registry) registry** that ships the entire Here Be Dragons design system as React + Tailwind v4 components, reproducing the original Web-Component look **1:1**.
+A **custom [shadcn](https://ui.shadcn.com/docs/registry) registry** that ships the entire Here Be Dragons design system as React + Tailwind v4 components — a D&D / fantasy look, fully token-driven.
 
 - **51 components** + a token **theme** + the `cn` util — installable with `npx shadcn add @hbd/<name>`.
-- Ported from the framework-agnostic HBD Web Components, carrying the design tokens (`tokens/`) and the de-shadowed component CSS over **verbatim** (1:1).
+- Token-driven: every colour / size / radius / motion comes from the design tokens in `tokens/`; component CSS is plain light-DOM CSS folded into the theme.
 - Targets **React / Next.js / Vite** (and anything Tailwind v4 + shadcn).
 
 ---
@@ -58,7 +58,7 @@ Dark / high-contrast themes are attribute-driven and also respond to the `.dark`
 </html>
 ```
 
-> All component styles ship **inside `globals.css`** (one import, loaded by your app root) rather than as per-component files — this is Vite/Next-safe (Next forbids global-CSS imports outside the root layout) and matches the original single-stylesheet DS.
+> All component styles ship **inside `globals.css`** (one import, loaded by your app root) rather than as per-component files — this is Vite/Next-safe (Next forbids global-CSS imports outside the root layout) and lets one import pull in the whole DS.
 
 ---
 
@@ -104,14 +104,14 @@ The component CSS sources live in `registry/new-york/styles/components/`.
 ├── scripts/build-globals.mjs     # regenerates app/globals.css
 ├── registry/new-york/
 │   ├── <component>/<component>.tsx
-│   ├── styles/components/*.css    # de-shadowed CSS sources (folded into globals on build)
+│   ├── styles/components/*.css    # light-DOM CSS sources (folded into globals on build)
 │   └── fonts/                     # Tiamat Condensed SC (woff2/woff/ttf)
 └── public/r/*.json               # BUILD OUTPUT — what consumers fetch
 ```
 
 ### Conventions (every component follows)
 
-- Legacy **BEM classes preserved verbatim** (`.hbd-button--primary`, `.is-loading`, …) so the de-shadowed CSS renders identically; Tailwind utilities are additive (layout) only.
+- **BEM classes preserved verbatim** (`.hbd-button--primary`, `.is-loading`, …) so the component CSS targets them; Tailwind utilities are additive (layout) only.
 - kebab attributes → camelCase props; `hbd:*` events → `on*` callbacks; slots → children / compound members.
 - Controlled-first stateful/overlay components (`value`/`onValueChange`, `open`/`onOpenChange`, with `defaultX`).
 - Radix used only where it preserves the exact look (switch, radio-group, slider, tabs, tooltip, popover, dialog for drawer/modal); everything else hand-ported. `@floating-ui/react` for combobox.
