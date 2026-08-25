@@ -16,7 +16,7 @@ In your shadcn project (Tailwind v4, `components.json` present), register the na
 // components.json
 {
   "registries": {
-    "@hbd": "https://YOUR_HOST/r/{name}.json",
+    "@hbd": "https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/{name}.json",
   },
 }
 ```
@@ -31,7 +31,7 @@ npx shadcn@latest add @hbd/date-picker   # also pulls time-picker, input, theme,
 Or add directly by URL without registering:
 
 ```bash
-npx shadcn@latest add https://YOUR_HOST/r/button.json
+npx shadcn@latest add https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/button.json
 ```
 
 Use them like any shadcn component:
@@ -73,7 +73,9 @@ pnpm --filter @hbd/registry registry:build   # shadcn build: registry.json -> pu
 
 ### Host
 
-Serve `public/` from any static host (Vercel, GitHub Pages, `npx serve public`, `python3 -m http.server`). Set the real URL in `registry.json` → `homepage`, and tell consumers to map `@hbd` to `https://YOUR_HOST/r/{name}.json`.
+Published by the `deploy-docs` workflow to https://qrsed-app.github.io/Here-Be-Dragons-Design-System, so the registry lives at `https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/{name}.json` — that is the value consumers map `@hbd` to, and it is already `registry.json` → `homepage`.
+
+To host it elsewhere, serve `public/` from any static host (`npx serve public`, `python3 -m http.server`, S3, …), update `homepage`, and set `NEXT_PUBLIC_SITE_URL` at docs-build time so the install snippets follow.
 
 ### Regenerate the theme `globals.css`
 

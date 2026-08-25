@@ -64,7 +64,11 @@ The registry ships React + Tailwind v4 components installable with the shadcn CL
 Tailwind-v4 shadcn project, register the namespace once in `components.json`:
 
 ```jsonc
-{ "registries": { "@hbd": "https://YOUR_HOST/r/{name}.json" } }
+{
+  "registries": {
+    "@hbd": "https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/{name}.json",
+  },
+}
 ```
 
 Then add components — dependencies and the token theme are pulled automatically:
@@ -100,8 +104,9 @@ hosts anywhere static.
 - **Vercel (server):** remove `output: 'export'` from `apps/docs/next.config.mjs` and point
   Vercel at the repo (build via `turbo run build --filter=@hbd/docs`).
 
-The built `/r/*.json` are served as static files too, so `npx shadcn add https://host/r/<name>.json`
-works from the deployed site.
+The built `/r/*.json` are served as static files too, so
+`npx shadcn add https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/<name>.json` works from the deployed site
+— which is exactly what each component page shows under **Install**.
 
 ---
 

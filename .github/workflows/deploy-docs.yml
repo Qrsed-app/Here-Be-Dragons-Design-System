@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Before the build: its base_url is baked into the docs' install snippets.
+      - uses: actions/configure-pages@v5
+        id: pages
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
@@ -36,6 +40,9 @@ jobs:
         env:
           # Repo-name base path so assets/links resolve under /<repo>/.
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          # Published origin + path, so `npx shadcn add <url>` on every component
+          # page points at this deployment instead of localhost.
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
         run: pnpm --filter @hbd/docs build
 
       # GitHub Pages (Jekyll) ignores folders starting with "_" (e.g. _next)
@@ -43,7 +50,6 @@ jobs:
       - name: Disable Jekyll
         run: touch apps/docs/out/.nojekyll
 
-      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/docs/out

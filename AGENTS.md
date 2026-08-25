@@ -125,6 +125,21 @@ without shipping it to everyone.
 - **Interactive / stateful examples** → a `"use client"` demo component in
   `apps/docs/components/demos/<name>-demo.tsx`, imported into the MDX. **Never** put
   `useState`/handlers directly in `.mdx` (MDX renders on the server).
+- **Install snippet** — end the page with the same block every other page uses, written
+  against the LOCAL registry:
+
+  ````md
+  ## Install
+
+  ```bash
+  npx shadcn@latest add http://localhost:3001/r/<name>.json
+  ```
+  ````
+
+  Write `localhost:3001` literally. A deployed build rewrites it to the published registry
+  via the `remarkRegistryUrl` plugin in `source.config.ts`, driven by `NEXT_PUBLIC_SITE_URL`
+  (the deploy workflow feeds it from `actions/configure-pages`). Do **not** hardcode the
+  public URL — local builds would then advertise a host that has not been deployed yet.
 
 ## CSS / theming gotchas (learned the hard way)
 
