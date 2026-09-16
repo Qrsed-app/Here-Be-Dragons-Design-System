@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state. shadcn/ui API in the Here Be Dragons look: faded ink illustration, Cinzel title, serif description. Adds size (sm, lg), variant (error, success) and a horizontal orientation.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

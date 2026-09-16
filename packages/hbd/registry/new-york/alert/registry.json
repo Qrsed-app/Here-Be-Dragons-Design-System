@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention. shadcn/ui API in the Here Be Dragons look: saturated status surface with a heavy left rule. Adds info, success, warning, error and sage-advice variants, banner and inline layouts, and AlertIcon and AlertAction parts.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

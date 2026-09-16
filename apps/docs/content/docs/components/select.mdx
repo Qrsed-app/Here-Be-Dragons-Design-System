@@ -1,0 +1,391 @@
+---
+title: Select
+description: Displays a list of options for the user to pick from — triggered by a button.
+---
+
+import {
+  SelectClearableDemo,
+  SelectDemo,
+  SelectDisabledDemo,
+  SelectFieldDemo,
+  SelectGroupsDemo,
+  SelectItemAlignedDemo,
+  SelectScrollableDemo,
+  SelectSizesDemo,
+} from "@/components/examples/select-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Select,
+      SelectContent,
+      SelectGroup,
+      SelectItem,
+      SelectLabel,
+      SelectTrigger,
+      SelectValue,
+    } from "@/components/ui/select";
+
+    export function SelectDemo() {
+      return (
+        <Select>
+          <SelectTrigger className="w-64">
+            <SelectValue placeholder="Choose a port…" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectGroup>
+              <SelectLabel>Ports of call</SelectLabel>
+              <SelectItem value="lisbon">Lisbon</SelectItem>
+              <SelectItem value="cadiz">Cádiz</SelectItem>
+              <SelectItem value="tangier">Tangier</SelectItem>
+              <SelectItem value="valletta">Valletta</SelectItem>
+              <SelectItem value="constantinople">Constantinople</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/select
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/select.json
+```
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+```
+
+```tsx
+<Select>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+The chosen value is shown as a manuscript chip in the trigger. `position="popper"` drops the list
+below the trigger at the trigger's width — the Here Be Dragons select always opened that way. The
+Radix default, `item-aligned`, lays the list over the trigger instead (see
+[Item-aligned](#item-aligned)).
+
+## Examples
+
+### Clearable
+
+Here Be Dragons addition — pass `onClear` to put a × inside the chip. Radix cannot empty an
+uncontrolled select, so control the value and reset it to `""` to bring the placeholder back.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectClearableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [port, setPort] = React.useState("lisbon");
+
+    <div className="flex flex-col gap-3">
+      <Select value={port} onValueChange={setPort}>
+        <SelectTrigger className="w-64" onClear={() => setPort("")}>
+          <SelectValue placeholder="Choose a port…" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="lisbon">Lisbon</SelectItem>
+          <SelectItem value="cadiz">Cádiz</SelectItem>
+          <SelectItem value="tangier">Tangier</SelectItem>
+        </SelectContent>
+      </Select>
+      <span className="font-sans text-sm text-muted-foreground">Value: {port || "(empty)"}</span>
+    </div>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Groups
+
+`SelectLabel` heads a `SelectGroup`. The selected item carries a gold edge and check; disabled items
+are skipped by keyboard navigation and type-ahead.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectGroupsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Select defaultValue="caravel">
+      <SelectTrigger className="w-64">
+        <SelectValue placeholder="Pick a class…" />
+      </SelectTrigger>
+      <SelectContent position="popper">
+        <SelectGroup>
+          <SelectLabel>Sail</SelectLabel>
+          <SelectItem value="caravel">Caravel</SelectItem>
+          <SelectItem value="carrack">Carrack</SelectItem>
+          <SelectItem value="galleon">Galleon</SelectItem>
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>Oar</SelectLabel>
+          <SelectItem value="galley">Galley</SelectItem>
+          <SelectItem value="longship" disabled>
+            Longship (unavailable)
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+`lg` is a Here Be Dragons addition.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Select>
+      <SelectTrigger size="sm" className="w-64">
+        <SelectValue placeholder="Small" />
+      </SelectTrigger>
+      <SelectContent position="popper">…</SelectContent>
+    </Select>
+    <Select>
+      <SelectTrigger className="w-64">
+        <SelectValue placeholder="Default" />
+      </SelectTrigger>
+      <SelectContent position="popper">…</SelectContent>
+    </Select>
+    <Select>
+      <SelectTrigger size="lg" className="w-64">
+        <SelectValue placeholder="Large" />
+      </SelectTrigger>
+      <SelectContent position="popper">…</SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
+### Label, Description and Error
+
+Compose with [Field](/docs/components/field). `aria-invalid` on the trigger turns its border red;
+`data-invalid` on the field colours the label.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectFieldDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
+
+    <div className="flex w-64 flex-col gap-6">
+      <Field>
+        <FieldLabel htmlFor="cargo">Cargo hold</FieldLabel>
+        <Select>
+          <SelectTrigger id="cargo" className="w-full">
+            <SelectValue placeholder="Select cargo…" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectItem value="spices">Spices</SelectItem>
+            <SelectItem value="silk">Silk</SelectItem>
+            <SelectItem value="gold">Gold</SelectItem>
+          </SelectContent>
+        </Select>
+        <FieldDescription>Heavier cargo slows the ship.</FieldDescription>
+      </Field>
+      <Field data-invalid>
+        <FieldLabel htmlFor="destination">
+          Destination
+          <span aria-hidden="true">*</span>
+        </FieldLabel>
+        <Select required>
+          <SelectTrigger id="destination" className="w-full" aria-invalid>
+            <SelectValue placeholder="Select…" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectItem value="indies">The Indies</SelectItem>
+            <SelectItem value="cathay">Cathay</SelectItem>
+          </SelectContent>
+        </Select>
+        <FieldError>Choose a destination before setting sail.</FieldError>
+      </Field>
+    </div>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Select disabled defaultValue="indies">
+      <SelectTrigger className="w-64">
+        <SelectValue placeholder="Select…" />
+      </SelectTrigger>
+      <SelectContent position="popper">
+        <SelectItem value="indies">The Indies</SelectItem>
+        <SelectItem value="cathay">Cathay</SelectItem>
+      </SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
+### Scrollable
+
+Past 280px the list scrolls, with scroll buttons at its ends. `SelectSeparator` rules off a group.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectScrollableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Select>
+      <SelectTrigger className="w-64">
+        <SelectValue placeholder="Choose a creature…" />
+      </SelectTrigger>
+      <SelectContent position="popper">
+        <SelectGroup>
+          <SelectLabel>Dragons</SelectLabel>
+          <SelectItem value="red">Red dragon</SelectItem>
+          <SelectItem value="blue">Blue dragon</SelectItem>
+          <SelectItem value="green">Green dragon</SelectItem>
+          <SelectItem value="black">Black dragon</SelectItem>
+          <SelectItem value="white">White dragon</SelectItem>
+        </SelectGroup>
+        <SelectSeparator />
+        <SelectGroup>
+          <SelectLabel>Giants</SelectLabel>
+          <SelectItem value="hill">Hill giant</SelectItem>
+          <SelectItem value="stone">Stone giant</SelectItem>
+          <SelectItem value="frost">Frost giant</SelectItem>
+          <SelectItem value="fire">Fire giant</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
+### Item-aligned
+
+Without `position`, Radix opens the list over the trigger with the selected item lined up on it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SelectItemAlignedDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Select defaultValue="tangier">
+      <SelectTrigger className="w-64">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="lisbon">Lisbon</SelectItem>
+        <SelectItem value="cadiz">Cádiz</SelectItem>
+        <SelectItem value="tangier">Tangier</SelectItem>
+        <SelectItem value="valletta">Valletta</SelectItem>
+      </SelectContent>
+    </Select>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### SelectTrigger
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Height, padding and type size. `lg` is a Here Be Dragons addition.",
+    },
+    onClear: {
+      type: "() => void",
+      description:
+        "Here Be Dragons addition. Shows a × inside the value chip while a value is selected and the select is enabled; called when it is pressed.",
+    },
+    clearLabel: {
+      type: "string",
+      default: '"Clear selection"',
+      description: "Here Be Dragons addition. Accessible name of the × button.",
+    },
+  }}
+/>
+
+### SelectContent
+
+<TypeTable
+  type={{
+    position: {
+      type: '"item-aligned" | "popper"',
+      default: '"item-aligned"',
+      description: "`popper` opens the list below the trigger at its width, 4px away.",
+    },
+    align: {
+      type: '"start" | "center" | "end"',
+      default: '"center"',
+      description: "Alignment against the trigger in `popper` mode.",
+    },
+  }}
+/>
+
+Every other prop goes to the matching part of [Radix Select](https://www.radix-ui.com/primitives/docs/components/select)
+(`Select` → `Root`, `SelectItem` → `Item`, and so on).

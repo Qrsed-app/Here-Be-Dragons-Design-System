@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from — triggered by a button. shadcn/ui API in the Here Be Dragons look: an ink-bordered field whose chosen value becomes a manuscript chip, and a parchment list that marks the selected entry with a gold edge. Adds an lg trigger size and an optional clear button (onClear).",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

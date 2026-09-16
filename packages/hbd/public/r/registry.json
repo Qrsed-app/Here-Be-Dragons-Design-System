@@ -1,868 +1,1602 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "hbd",
-  "homepage": "https://qrsed-app.github.io/Here-Be-Dragons-Design-System",
+  "homepage": "https://ds.qrsed.com",
   "items": [
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "hbd-theme",
-      "type": "registry:style",
+      "name": "theme",
       "title": "Here Be Dragons Theme",
-      "description": "The full HBD token system: primitive palette, semantic layer, spell-school accents, light/dark/high-contrast themes, and the Tailwind v4 @theme inline utilities. Ships the complete globals.css.",
-      "dependencies": ["tailwindcss"],
-      "devDependencies": ["tw-animate-css"],
-      "files": [
-        {
-          "path": "app/globals.css",
-          "type": "registry:file",
-          "target": "app/globals.css"
-        },
-        {
-          "path": "registry/new-york/fonts/assets_TiamatCondensedSC-Regular.woff2",
-          "type": "registry:file",
-          "target": "public/fonts/assets_TiamatCondensedSC-Regular.woff2"
-        },
-        {
-          "path": "registry/new-york/fonts/assets_TiamatCondensedSC-Regular.woff",
-          "type": "registry:file",
-          "target": "public/fonts/assets_TiamatCondensedSC-Regular.woff"
-        },
-        {
-          "path": "registry/new-york/fonts/assets_TiamatCondensedSC-Regular.ttf",
-          "type": "registry:file",
-          "target": "public/fonts/assets_TiamatCondensedSC-Regular.ttf"
-        }
+      "description": "Parchment, ink and blood: the full shadcn variable set plus the HBD palette, status and spell-school colours, radii and offset shadows. Merged into your CSS file — nothing is overwritten wholesale. Light, .dark and .high-contrast. Ships no font files: it only sets the font-family variables, so add @hbd/fonts for our typefaces or point the variables at your own.",
+      "devDependencies": [
+        "tw-animate-css"
       ],
       "cssVars": {
         "theme": {
-          "font-display": "'Tiamat Condensed SC', 'Cinzel', serif",
-          "font-serif": "'IM Fell English', 'Georgia', serif",
           "font-sans": "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
-          "font-mono": "'JetBrains Mono', monospace",
-          "radius": "3px"
+          "font-serif": "'IM Fell English', 'Georgia', serif",
+          "font-mono": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace",
+          "font-display": "'Cinzel', 'Palatino Linotype', 'Book Antiqua', serif",
+          "font-accent": "'Cinzel', 'Palatino Linotype', 'Book Antiqua', serif",
+          "font-heading": "'Cinzel', 'Palatino Linotype', 'Book Antiqua', serif",
+          "radius-sm": "1px",
+          "radius-md": "2px",
+          "radius-lg": "3px",
+          "radius-xl": "4px",
+          "ease-spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+          "ease-anticipate": "cubic-bezier(0.4, -0.3, 0.2, 1.3)",
+          "animate-hbd-spin": "hbd-spin 750ms linear infinite",
+          "animate-hbd-shimmer": "hbd-shimmer 1500ms ease-in-out infinite",
+          "animate-hbd-progress-stripe": "hbd-progress-stripe 350ms linear infinite",
+          "animate-hbd-progress-indeterminate": "hbd-progress-indeterminate 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite"
         },
         "light": {
+          "radius": "3px",
           "background": "#f5ecd7",
           "foreground": "#1a1410",
+          "card": "#f5ecd7",
+          "card-foreground": "#1a1410",
+          "popover": "#d4bc88",
+          "popover-foreground": "#1a1410",
           "primary": "#7a1212",
           "primary-foreground": "#fdf8f0",
+          "secondary": "#d4bc88",
+          "secondary-foreground": "#1a1410",
+          "muted": "#ead9b3",
+          "muted-foreground": "#5a4530",
+          "accent": "#ead9b3",
+          "accent-foreground": "#1a1410",
+          "destructive": "#c0392b",
+          "destructive-foreground": "#fdf8f0",
           "border": "#c4a07a",
-          "ring": "#d4a548"
+          "input": "#c4a07a",
+          "ring": "#7a5a22",
+          "chart-1": "#b8893b",
+          "chart-2": "#7a1212",
+          "chart-3": "#1e3a5f",
+          "chart-4": "#2d5a3d",
+          "chart-5": "#6b3fa0",
+          "sidebar": "#ead9b3",
+          "sidebar-foreground": "#1a1410",
+          "sidebar-primary": "#7a1212",
+          "sidebar-primary-foreground": "#fdf8f0",
+          "sidebar-accent": "#d4bc88",
+          "sidebar-accent-foreground": "#1a1410",
+          "sidebar-border": "#dcc4a0",
+          "sidebar-ring": "#7a5a22",
+          "surface": "#ead9b3",
+          "surface-foreground": "#1a1410",
+          "surface-subtle": "#ead9b3",
+          "surface-muted": "#ead9b3",
+          "surface-raised": "#d4bc88",
+          "surface-overlay": "#1a1410",
+          "surface-inverse": "#1a1410",
+          "surface-code": "#1a1410",
+          "primary-hover": "#4a0808",
+          "primary-active": "#3d0505",
+          "foreground-secondary": "#3d3020",
+          "foreground-placeholder": "#a07c57",
+          "foreground-disabled": "#a07c57",
+          "foreground-inverse": "#fdf8f0",
+          "foreground-link": "#1a3d8a",
+          "foreground-link-hover": "#0a1a3d",
+          "foreground-heading": "#1a1410",
+          "foreground-emphasis": "#7a1212",
+          "foreground-emphasis-strong": "#4a0808",
+          "foreground-gold": "#7a5a22",
+          "border-subtle": "#dcc4a0",
+          "border-strong": "#3d3020",
+          "border-action": "#9e1818",
+          "border-error": "#c0392b",
+          "border-gold": "#7a5a22",
+          "border-ink": "#3d2817",
+          "input-focus": "#b8893b",
+          "destructive-hover": "#9e1818",
+          "success": "#2d5a3d",
+          "success-foreground": "#fdf8f0",
+          "success-border": "#27832e",
+          "success-icon": "#27832e",
+          "warning": "#b8893b",
+          "warning-foreground": "#1a1410",
+          "warning-border": "#b08800",
+          "warning-icon": "#8c6d00",
+          "info": "#1e3a5f",
+          "info-foreground": "#fdf8f0",
+          "info-border": "#2254b8",
+          "info-icon": "#1a3d8a",
+          "error": "#7a1212",
+          "error-foreground": "#fdf8f0",
+          "error-border": "#c0392b",
+          "error-icon": "#c0392b",
+          "school-abjuration": "#7a5a22",
+          "school-abjuration-accent": "#d4a548",
+          "school-abjuration-foreground": "#fdf8f0",
+          "school-conjuration": "#2d5a3d",
+          "school-conjuration-accent": "#5aab74",
+          "school-conjuration-foreground": "#fdf8f0",
+          "school-divination": "#1e3a5f",
+          "school-divination-accent": "#4a7ab8",
+          "school-divination-foreground": "#fdf8f0",
+          "school-enchantment": "#a8336b",
+          "school-enchantment-accent": "#e8736a",
+          "school-enchantment-foreground": "#fdf8f0",
+          "school-evocation": "#7a1212",
+          "school-evocation-accent": "#d4a548",
+          "school-evocation-foreground": "#fdf8f0",
+          "school-illusion": "#6b3fa0",
+          "school-illusion-accent": "#6090e0",
+          "school-illusion-foreground": "#fdf8f0",
+          "school-necromancy": "#1e3320",
+          "school-necromancy-accent": "#33a03a",
+          "school-necromancy-foreground": "#fdf8f0",
+          "school-transmutation": "#9a5414",
+          "school-transmutation-accent": "#e8c040",
+          "school-transmutation-foreground": "#fdf8f0",
+          "syntax-default": "#fdf8f0",
+          "syntax-keyword": "#d4a548",
+          "syntax-string": "#90d095",
+          "syntax-comment": "#c4a07a",
+          "syntax-number": "#96baec",
+          "syntax-function": "#d4bc88",
+          "syntax-operator": "#f5ecd7",
+          "ink-950": "#0d0a07",
+          "ink-900": "#1a1410",
+          "ink-800": "#2e2418",
+          "ink-700": "#3d3020",
+          "ink-600": "#5a4530",
+          "ink-500": "#7a5f42",
+          "ink-400": "#a07c57",
+          "ink-300": "#c4a07a",
+          "ink-200": "#dcc4a0",
+          "ink-100": "#ede3d0",
+          "ink-50": "#f5f0e8",
+          "ink-brown": "#3d2817",
+          "ink-faded": "#6b4f35",
+          "parchment-950": "#2a2419",
+          "parchment-900": "#3d3520",
+          "parchment-800": "#5c5035",
+          "parchment-700": "#7a6b48",
+          "parchment-600": "#9e8c62",
+          "parchment-500": "#bba87c",
+          "parchment-400": "#a88d5a",
+          "parchment-300": "#d4bc88",
+          "parchment-200": "#ead9b3",
+          "parchment-100": "#f5ecd7",
+          "parchment-50": "#fdf8f0",
+          "crimson-950": "#3d0505",
+          "crimson-900": "#5a0a0a",
+          "crimson-800": "#7a1010",
+          "crimson-700": "#9e1818",
+          "crimson-600": "#c0392b",
+          "crimson-500": "#d94e3e",
+          "crimson-400": "#e8736a",
+          "crimson-300": "#f0a09a",
+          "crimson-200": "#f7ccc9",
+          "crimson-100": "#fbe8e7",
+          "crimson-50": "#fdf4f4",
+          "gold-900": "#4a3800",
+          "gold-800": "#6b5100",
+          "gold-700": "#8c6d00",
+          "gold-600": "#b08800",
+          "gold-500": "#d4a500",
+          "gold-400": "#e8c040",
+          "gold-300": "#f0d47a",
+          "gold-200": "#f7e8b0",
+          "gold-100": "#faf3d8",
+          "gold-50": "#fdf9ed",
+          "gold": "#b8893b",
+          "gold-bright": "#d4a548",
+          "gold-deep": "#7a5a22",
+          "forest-900": "#0d2e10",
+          "forest-800": "#164a1a",
+          "forest-700": "#1e6624",
+          "forest-600": "#27832e",
+          "forest-500": "#33a03a",
+          "forest-400": "#5cbb63",
+          "forest-300": "#90d095",
+          "forest-200": "#bce5be",
+          "forest-100": "#ddf2de",
+          "forest-50": "#f0faf0",
+          "sapphire-900": "#0a1a3d",
+          "sapphire-800": "#122860",
+          "sapphire-700": "#1a3d8a",
+          "sapphire-600": "#2254b8",
+          "sapphire-500": "#3068d4",
+          "sapphire-400": "#6090e0",
+          "sapphire-300": "#96baec",
+          "sapphire-200": "#c2d8f5",
+          "sapphire-100": "#e0ecfb",
+          "sapphire-50": "#f0f6fd",
+          "sapphire": "#1e3a5f",
+          "blood": "#7a1212",
+          "blood-deep": "#4a0808",
+          "emerald": "#2d5a3d",
+          "emerald-bright": "#5aab74",
+          "azure": "#4a7ab8",
+          "amethyst": "#6b3fa0",
+          "rose": "#a8336b",
+          "umber": "#9a5414",
+          "nightshade": "#1e3320",
+          "shadow-bg": "#2a1f17",
+          "shadow-sm": "0 1px 2px rgba(26, 20, 16, 0.12)",
+          "shadow-md": "0 2px 6px rgba(26, 20, 16, 0.16), 0 1px 2px rgba(26, 20, 16, 0.10)",
+          "shadow-lg": "0 4px 12px rgba(26, 20, 16, 0.18), 0 2px 4px rgba(26, 20, 16, 0.12)",
+          "shadow-xl": "0 8px 24px rgba(26, 20, 16, 0.22), 0 4px 8px rgba(26, 20, 16, 0.14)",
+          "shadow-inner": "inset 0 1px 3px rgba(26, 20, 16, 0.20)"
         },
         "dark": {
           "background": "#1a1410",
           "foreground": "#fdf8f0",
+          "card": "#1a1410",
+          "card-foreground": "#fdf8f0",
+          "popover": "#3d3020",
+          "popover-foreground": "#fdf8f0",
           "primary": "#c0392b",
           "primary-foreground": "#fdf8f0",
+          "secondary": "#3d3020",
+          "secondary-foreground": "#fdf8f0",
+          "muted": "#2e2418",
+          "muted-foreground": "#d4bc88",
+          "accent": "#2e2418",
+          "accent-foreground": "#fdf8f0",
+          "destructive": "#9e1818",
+          "destructive-foreground": "#fdf8f0",
           "border": "#5a4530",
-          "ring": "#d4a548"
+          "input": "#5a4530",
+          "ring": "#d4a548",
+          "chart-1": "#b8893b",
+          "chart-2": "#7a1212",
+          "chart-3": "#1e3a5f",
+          "chart-4": "#2d5a3d",
+          "chart-5": "#6b3fa0",
+          "sidebar": "#2e2418",
+          "sidebar-foreground": "#fdf8f0",
+          "sidebar-primary": "#c0392b",
+          "sidebar-primary-foreground": "#fdf8f0",
+          "sidebar-accent": "#3d3020",
+          "sidebar-accent-foreground": "#fdf8f0",
+          "sidebar-border": "#3d3020",
+          "sidebar-ring": "#d4a548",
+          "surface": "#2e2418",
+          "surface-foreground": "#fdf8f0",
+          "surface-subtle": "#2e2418",
+          "surface-muted": "#2e2418",
+          "surface-raised": "#3d3020",
+          "surface-overlay": "#0d0a07",
+          "primary-hover": "#9e1818",
+          "foreground-secondary": "#f5ecd7",
+          "foreground-inverse": "#1a1410",
+          "foreground-link": "#96baec",
+          "foreground-link-hover": "#c2d8f5",
+          "foreground-heading": "#fdf8f0",
+          "foreground-emphasis": "#e8736a",
+          "foreground-emphasis-strong": "#f0a09a",
+          "foreground-gold": "#d4a548",
+          "border-subtle": "#3d3020",
+          "border-strong": "#a07c57",
+          "border-gold": "#d4a548",
+          "destructive-hover": "#7a1010",
+          "shadow-sm": "0 1px 2px rgba(26, 20, 16, 0.40)",
+          "shadow-md": "0 2px 6px rgba(26, 20, 16, 0.50), 0 1px 2px rgba(26, 20, 16, 0.35)",
+          "shadow-lg": "0 4px 12px rgba(26, 20, 16, 0.55), 0 2px 4px rgba(26, 20, 16, 0.40)",
+          "shadow-xl": "0 8px 24px rgba(26, 20, 16, 0.60), 0 4px 8px rgba(26, 20, 16, 0.45)",
+          "shadow-inner": "inset 0 1px 3px rgba(26, 20, 16, 0.60)"
         }
-      }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground font-serif text-[1.0625rem] leading-[1.7] antialiased": {}
+          }
+        },
+        ".high-contrast": {
+          "--background": "#fdf8f0",
+          "--card": "#fdf8f0",
+          "--popover": "#fdf8f0",
+          "--primary": "#1a1410",
+          "--secondary": "#fdf8f0",
+          "--muted": "#fdf8f0",
+          "--muted-foreground": "#1a1410",
+          "--accent": "#fdf8f0",
+          "--destructive": "#5a0a0a",
+          "--border": "#1a1410",
+          "--input": "#1a1410",
+          "--sidebar": "#fdf8f0",
+          "--sidebar-primary": "#1a1410",
+          "--sidebar-accent": "#fdf8f0",
+          "--sidebar-border": "#1a1410",
+          "--surface": "#fdf8f0",
+          "--surface-subtle": "#fdf8f0",
+          "--surface-muted": "#fdf8f0",
+          "--surface-raised": "#fdf8f0",
+          "--primary-hover": "#0d0a07",
+          "--foreground-secondary": "#1a1410",
+          "--foreground-disabled": "#3d3020",
+          "--foreground-gold": "#6b5100",
+          "--border-subtle": "#1a1410",
+          "--border-strong": "#1a1410",
+          "--border-gold": "#6b5100",
+          "--destructive-hover": "#3d0505",
+          "--success": "#fdf8f0",
+          "--success-foreground": "#1a1410",
+          "--warning": "#fdf8f0",
+          "--info": "#fdf8f0",
+          "--info-foreground": "#1a1410",
+          "--error": "#fdf8f0",
+          "--error-foreground": "#1a1410"
+        },
+        "@keyframes hbd-spin": {
+          "from": {
+            "transform": "rotate(0deg)"
+          },
+          "to": {
+            "transform": "rotate(360deg)"
+          }
+        },
+        "@keyframes hbd-shimmer": {
+          "0%": {
+            "transform": "translateX(-100%)"
+          },
+          "100%": {
+            "transform": "translateX(100%)"
+          }
+        },
+        "@keyframes hbd-progress-stripe": {
+          "from": {
+            "background-position": "32px 0"
+          },
+          "to": {
+            "background-position": "0 0"
+          }
+        },
+        "@keyframes hbd-progress-indeterminate": {
+          "0%": {
+            "transform": "translateX(-100%)"
+          },
+          "100%": {
+            "transform": "translateX(350%)"
+          }
+        }
+      },
+      "type": "registry:theme"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "utils",
-      "type": "registry:lib",
-      "title": "cn utility",
-      "description": "clsx + tailwind-merge class combiner used by every component.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "files": [
-        {
-          "path": "lib/utils.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "spinner",
-      "type": "registry:ui",
-      "title": "Spinner",
-      "description": "Indeterminate loading arc. Light-DOM SVG with a role=status announcement.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/spinner/spinner.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "button",
-      "type": "registry:ui",
-      "title": "Button",
-      "description": "HBD button: default/primary/gold variants, sm/md/lg sizes, icon-only, loading spinner overlay, and pressed (toggle) state. Brutalist offset shadow + sharp corners.",
+      "name": "fonts",
+      "title": "Here Be Dragons Fonts",
+      "description": "The Here Be Dragons typefaces — Cinzel, IM Fell English, Roboto and JetBrains Mono — as npm packages imported from your CSS, so your bundler serves them and nothing is fetched at runtime (offline and Electron safe). Optional: skip it, or override --font-display / --font-sans, to use your own.",
       "dependencies": [
-        "clsx",
-        "tailwind-merge",
-        "class-variance-authority",
-        "@radix-ui/react-slot"
+        "@fontsource/cinzel",
+        "@fontsource/im-fell-english",
+        "@fontsource/jetbrains-mono",
+        "@fontsource/roboto"
       ],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/spinner"],
-      "files": [
-        {
-          "path": "registry/new-york/button/button.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "css": {
+        "@import \"@fontsource/cinzel/400.css\"": {},
+        "@import \"@fontsource/cinzel/600.css\"": {},
+        "@import \"@fontsource/cinzel/700.css\"": {},
+        "@import \"@fontsource/cinzel/900.css\"": {},
+        "@import \"@fontsource/im-fell-english/400.css\"": {},
+        "@import \"@fontsource/im-fell-english/400-italic.css\"": {},
+        "@import \"@fontsource/jetbrains-mono/400.css\"": {},
+        "@import \"@fontsource/jetbrains-mono/500.css\"": {},
+        "@import \"@fontsource/roboto/300.css\"": {},
+        "@import \"@fontsource/roboto/400.css\"": {},
+        "@import \"@fontsource/roboto/400-italic.css\"": {},
+        "@import \"@fontsource/roboto/500.css\"": {},
+        "@import \"@fontsource/roboto/600.css\"": {},
+        "@import \"@fontsource/roboto/700.css\"": {}
+      },
+      "type": "registry:theme"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "skeleton",
-      "type": "registry:ui",
-      "title": "Skeleton",
-      "description": "Decorative placeholder shape shown while real content loads. Light-DOM, aria-hidden; the surrounding container owns the aria-busy loading affordance. Variants: text, text-sm, text-lg, circle, rect (height required). Optional shimmer animation.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/skeleton/skeleton.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "badge",
-      "type": "registry:ui",
-      "title": "Badge",
-      "description": "HBD badge: count indicator (capped to \"{max}+\", default 99) or coloured status dot. Five colour variants (primary/success/warning/error/neutral). The visible count truncates but the accessible name reports the real count; dot variants carry role=status + aria-label only when a label is provided.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/badge/badge.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "avatar",
-      "type": "registry:ui",
-      "title": "Avatar",
-      "description": "Circular avatar with two content branches: <img> when imgSrc loads, generic person icon on absent/failed image. Sizes xs/sm/md/lg/xl/2xl. role=img + aria-label for a single SR-readable image.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/avatar/avatar.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "aspect-ratio",
-      "type": "registry:ui",
-      "title": "Aspect Ratio",
-      "description": "Light-DOM layout wrapper that constrains its first child to a fixed aspect ratio via the native CSS aspect-ratio property. Accepts colon (16:9), slash (16/9), or decimal (1.777) notation.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/aspect-ratio/aspect-ratio.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "divider",
-      "type": "registry:ui",
-      "title": "Divider",
-      "description": "Light-DOM separator: horizontal/vertical rules, subtle/strong/gold colours, solid/dashed/double styles, plus labelled and ornamental (decorative sigil) variants. role=separator with aria-orientation; ornamental is aria-hidden.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/divider/divider.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "verdict": "fixed: divider item was missing from registry.json (could not be installed); added it matching the canonical hand-ported CSS-paired item shape. The divider.tsx and divider.css port files were already faithful to source."
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "spacer",
-      "type": "registry:ui",
-      "title": "Spacer",
-      "description": "Explicit-whitespace layout utility. Decorative light-DOM element (role=none aria-hidden) whose width/height are written inline from size + axis.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/spacer/spacer.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "verdict": "fixed: restored the source's axis .toLowerCase() normalization that the port dropped (non-lowercase axis values now resolve like the WC instead of silently falling back to vertical)"
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "portal",
-      "type": "registry:ui",
-      "title": "Portal",
-      "description": "Relocates its children into a target element elsewhere in the document (default body), via ReactDOM.createPortal. Supports prepend to insert at the start of the target. Light DOM, no styles \u2014 cascade reaches the moved nodes from the target's ancestry, mirroring the hbd-portal web component.",
-      "dependencies": [],
-      "registryDependencies": ["@hbd/hbd-theme"],
-      "files": [
-        {
-          "path": "registry/new-york/portal/portal.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "verdict": "fixed: portal was missing from registry.json; added the registry item (no-CSS Light-DOM component, empty dependencies, @hbd/hbd-theme registryDependency). The portal.tsx port itself was already faithful \u2014 no code changes needed."
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "progress",
-      "type": "registry:ui",
-      "title": "Progress",
-      "description": "Light-DOM progress bar with three modes: determinate (sized fill + ARIA value), indeterminate (animated shimmer), and segmented (N filled cells of M). default/success/warning/error variants, sm/md/lg sizes, optional label, value readout, and striped overlay.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/progress/progress.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "verdict": "fixed: progress item was missing from registry.json (port files existed but were never registered, so shadcn add could not install it) \u2014 added the item with cva in dependencies. TSX/CSS/ARIA were already faithful."
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "chip",
-      "type": "registry:ui",
-      "title": "Chip",
-      "description": "Labelled pill with optional leading icon, removable (\u2715) button, and selectable toggle behaviour. primary/success/warning/error/neutral variants, sm/md/lg sizes, outline modifier, and selected (aria-pressed) state. Cancelable onToggle/onRemove callbacks.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/chip/chip.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "codeblock",
-      "type": "registry:ui",
-      "title": "Codeblock",
-      "description": "Display-only dark code surface with optional filename/language header, line-number gutter, and copy-to-clipboard button.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/codeblock/codeblock.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "empty",
-      "type": "registry:ui",
-      "title": "Empty State",
-      "description": "Empty-state templates that fill the space where content would appear and communicate why it is absent and what to do next. 13 canonical templates (no-data, no-results, error/offline, error-4xx/5xx/network/form, success-*) with size, inline, and semantic error/success tint variants. Hand-ported light-DOM, no Radix.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/empty/empty.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "verdict": "ok"
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "full-banner",
-      "type": "registry:ui",
-      "title": "Full-Page Banner",
-      "description": "Light-DOM full-screen takeover that fills the viewport with a single dominant message. Ten templates (maintenance/launch/restricted/offline + error-404/500/403 + success-submitted/completed/welcome) with bespoke inline illustrations, optional dark inverted scheme, and a configurable semantic heading level (h1/h2/h3). error-*/success-* keys add a status-tinted eyebrow + illustration while meaning stays in text. Slots: children -> actions row, meta prop -> meta line.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/full-banner/full-banner.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "spell-card",
-      "type": "registry:ui",
-      "title": "Spell Card",
-      "description": "Light-DOM presentational card for a D&D spell: school colour band, ornamental gold corners, level/cantrip badge, school eyebrow, name heading, ritual/concentration tags, a casting-time/range/components/duration meta grid (dl/dt/dd), italic description, optional \"At Higher Levels\" and footer zones. Eight spell-school colour modifiers. role=article with an aria-label woven from the spell name; tabbable with a focus-visible ring.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/spell-card/spell-card.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "stat-block",
-      "type": "registry:ui",
-      "title": "Stat Block",
-      "description": "Light-DOM D&D 5e creature/NPC stat block: name + subtitle header, basic stats (AC/HP/Speed), a six-ability score table with modifiers, property rows (saving throws/skills/immunities/senses/languages/CR), and trait/action/reaction/legendary-action sections. role=article with aria-label; legendary and compact density modifiers. Purely presentational.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/stat-block/stat-block.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "input",
-      "type": "registry:ui",
-      "title": "Input",
-      "description": "HBD canonical form field: label + input + hint/error/success + live char-count + prefix/suffix + password eye toggle. Owns the shared .hbd-field chrome (and the form-validation helpers) that textarea, otp-input, select trigger, stepper, and combobox reuse. sm/md/lg sizes, error/success/disabled/readonly states, aria-invalid + aria-describedby wiring, controlled-first value.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/input/input.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "textarea",
-      "type": "registry:ui",
-      "title": "Textarea",
-      "description": "Multiline form field reusing the shared .hbd-field chrome (label + input-wrapper + footer): native <textarea> with optional auto-resize (height from scrollHeight), manual vertical resize, hint/error/success footer messages, and a tri-state character counter (default -> warning at >=80% -> over at >=100% of maxLength). sm/md/lg sizes; error/success/disabled/readonly state modifiers. Controlled-first (value + onValueChange) with uncontrolled defaultValue fallback. hbd:input -> onInput and hbd:change -> onChange callbacks receive { value, name }. aria-describedby wires hint/error/success/count ids; aria-invalid + role=alert/status on messages.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
-      "files": [
-        {
-          "path": "registry/new-york/textarea/textarea.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "checkbox",
-      "type": "registry:ui",
-      "title": "Checkbox",
-      "description": "HBD checkbox: native <input type=checkbox> visually hidden (clip technique) behind a CSS-drawn .hbd-checkbox__control box with a brutalist offset shadow (--hbd-checkbox-shadow*). Controlled-first (checked + onCheckedChange, defaultChecked uncontrolled fallback) with checked, indeterminate (mixed dash), disabled, and error states. Carries the WC ARIA exactly: aria-describedby links hint + error spans, aria-invalid/aria-required on the input, role=alert on the error message.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/checkbox/checkbox.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "switch",
-      "type": "registry:ui",
-      "title": "Switch",
-      "description": "Binary on/off control with immediate-effect semantics. A visually-hidden native input[role=switch] carries focus, keyboard activation (Space toggles) and form value; a presentational pill track + sliding thumb provide the visuals. sm/md/lg sizes (token-driven), left/right label position, optional hint, and error state with aria-invalid + aria-describedby wiring. Controlled-first via checked + onCheckedChange (detail {checked, value}), with defaultChecked uncontrolled fallback.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/switch/switch.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "radio-group",
-      "type": "registry:ui",
-      "title": "Radio Group",
-      "description": "HBD radio group: a real <fieldset>/<legend> radiogroup built on Radix RadioGroup with the legacy .hbd-* BEM classes re-applied. Roving-tabindex keyboard model (ArrowUp/Down/Left/Right move + select, Home/End), vertical or horizontal orientation, per-option label + hint, and field error wiring (aria-invalid/aria-describedby/role=alert). Controlled value + onValueChange (legacy { value, name } detail), optional defaultValue, and items[] prop or <RadioGroup.Item> children.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-radio-group"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/radio-group/radio-group.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "slider",
-      "type": "registry:ui",
-      "title": "Slider",
-      "description": "HBD slider: single-handle or two-handle range, sm/md/lg sizes, optional value readout, tick marks, and hint/error footer. Re-based on @radix-ui/react-slider with the legacy .hbd-slider* classes re-applied to Track/Range/Thumb; controlled value (number | [low, high]) + onValueChange, plus onValueCommit. Full Arrow/Home/End/PageUp/PageDown keyboard support and per-thumb accessible names with aria-invalid/aria-describedby error wiring.",
+      "name": "accordion",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content. shadcn/ui API in the Here Be Dragons look: parchment-tinted open rows, blood-red open titles, IM Fell body copy.",
       "dependencies": [
-        "clsx",
-        "tailwind-merge",
-        "class-variance-authority",
-        "@radix-ui/react-slider"
+        "lucide-react",
+        "radix-ui"
       ],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/slider/slider.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "otp-input",
-      "type": "registry:ui",
-      "title": "OTP Input",
-      "description": "One-time-password / verification-code input: a row of single-character cells that auto-advance on entry, accept clipboard paste (spread across cells), and support arrow/backspace/Home/End navigation. 4 or 6 cells; numeric or alphanumeric; optional inline separator (length 6). Controlled-first value + onValueChange + onComplete, with label/hint/error field chrome and aria-invalid/aria-describedby wiring.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
-      "files": [
-        {
-          "path": "registry/new-york/otp-input/otp-input.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "file-upload",
-      "type": "registry:ui",
-      "title": "File Upload",
-      "description": "Hand-ported light-DOM dropzone (role=button, click-to-browse + HTML5 drag-and-drop) with single/multiple files, MIME/extension accept, max-size, max-files, per-file progress bars, image thumbnails via FileReader, and per-file/field error states. Drag-over halo via .hbd-file-upload--drag-over; per-file is-uploading/is-complete/is-error states. Reuses the shared .hbd-field label/hint/error/footer chrome from input. Controlled-first (files + onFilesChange, defaultFiles uncontrolled fallback) with an imperative getFiles/setProgress/setFileError ref handle. hbd:files-added -> onChange, hbd:file-removed -> onRemove, hbd:rejected -> onRejected.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
-      "files": [
-        {
-          "path": "registry/new-york/file-upload/file-upload.tsx",
+          "path": "registry/new-york/accordion/accordion.tsx",
           "type": "registry:ui"
         }
       ],
-      "verdict": "fixed: added @hbd/input to registryDependencies"
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "toggle-group",
-      "type": "registry:ui",
-      "title": "Toggle Group",
-      "description": "HBD toggle group: a row (or column) of joined toggle buttons. Single mode is radio-like (role=radiogroup, one-of-N, roving tabindex, arrows move+select); multi mode is independent on/off (role=group, aria-pressed). Controlled value(s) + onValueChange. Composes the HBD Button.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-toggle-group"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/button"],
-      "files": [
-        {
-          "path": "registry/new-york/toggle-group/toggle-group.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "alert",
-      "type": "registry:ui",
       "title": "Alert",
-      "description": "Standalone system-level feedback banner: form errors, system notices, API responses. info/success/warning/error variants each map to a role + aria-live (error: alert/assertive, success+warning: status/polite, info: note/no aria-live) carried on the host. alert/banner/inline layout types, optional bold title (wires aria-labelledby), and a dismissible \u00d7 button that animates max-height+opacity collapse then fires onDismiss({variant,type}) and unmounts. persist remembers dismissed state in localStorage under 'hbd-alert-dismissed-<id|uid>'. Exposes an imperative dismiss(); action buttons via Alert.Action carry .hbd-alert__action. Hand-ported light-DOM, no Radix.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "description": "Displays a callout for user attention. shadcn/ui API in the Here Be Dragons look: saturated status surface with a heavy left rule. Adds info, success, warning, error and sage-advice variants, banner and inline layouts, and AlertIcon and AlertAction parts.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/alert/alert.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "callout",
-      "type": "registry:ui",
-      "title": "Callout",
-      "description": "HBD status callout: info / warning / error / success saturated surfaces plus the HBD-specific \"sage-advice\" advisory variant (pale-gold dashed accent, serif-italic body). Optional bold title (wires aria-labelledby) and a dismissible button whose collapse animation (opacity + max-height + padding + margin on --hbd-duration-slow) fires onDismiss once before unmount. Variant drives role: note (info/success/sage-advice), status (warning), alert (error).",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "alert-dialog",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response. shadcn/ui API in the Here Be Dragons look: parchment panel, Cinzel title ruled off from the message, offset-shadow actions.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/callout/callout.tsx",
+          "path": "registry/new-york/alert-dialog/alert-dialog.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "breadcrumbs",
-      "type": "registry:ui",
-      "title": "Breadcrumbs",
-      "description": "WAI-ARIA 1.2 breadcrumb trail (nav > ol > li) with a decorative \u203a separator, aria-current=page on the final crumb, and an optional truncate threshold that collapses the middle crumbs behind an ellipsis button (fires hbd:expand). Dual API: compound Breadcrumbs + Breadcrumbs.Item, or a data-driven items[] prop.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio. shadcn/ui API (Radix, numeric ratio) in the Here Be Dragons look: content is clipped and its direct child fills the box with object-fit: cover.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/breadcrumbs/breadcrumbs.tsx",
+          "path": "registry/new-york/aspect-ratio/aspect-ratio.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "avatar-group",
-      "type": "registry:ui",
-      "title": "Avatar Group",
-      "description": "Composes Avatar children into an overlapping stack: renders the first `max` (default 5) and appends a \"+N\" overflow bubble for the rest. `size` propagates to every child and drives the bubble size. Host is role=group with a default aria-label reporting the TOTAL count (\"N participants\"); the overflow bubble is role=img aria-label \"N more\".",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/avatar"],
+      "name": "avatar",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user. shadcn/ui API (Radix) in the Here Be Dragons look: parchment ring, muted fallback, overlapping group with a count bubble. Adds xs, xl and 2xl sizes.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/avatar-group/avatar-group.tsx",
+          "path": "registry/new-york/avatar/avatar.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "badge",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge. shadcn/ui API (variant, asChild) in the Here Be Dragons look: compact Roboto pill in blood, parchment and ink. Adds success and warning variants.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/badge/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links. shadcn/ui API in the Here Be Dragons look: Cinzel display crumbs with a › separator and a hairline underline on hover.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/breadcrumb/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "button",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button. shadcn/ui API (variant, size, asChild) in the Here Be Dragons look: display type, offset ink shadow, sharp corners. Adds a gold variant.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/button/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "button-group",
+      "title": "Button Group",
+      "description": "Groups related buttons together, joining their edges into one control. shadcn/ui API in the Here Be Dragons look: the halves share one offset ink shadow, as the old split button did.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/button-group/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "calendar",
+      "title": "Calendar",
+      "description": "A date field component that allows users to enter and edit date. shadcn/ui API (react-day-picker) in the Here Be Dragons look: raised parchment, Cinzel month caption, round blood-red selected days and half-filled range edges.",
+      "dependencies": [
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/calendar/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "card",
-      "type": "registry:ui",
       "title": "Card",
-      "description": "Compound card surface grouping related content and optional actions. Four layouts (basic / interactive / media / horizontal), three surface modifiers (default shadow / bordered / elevated), and slotted sub-parts (Media, Header, Title, Body, Footer, Badge). Interactive cards render as a focusable role=button div or, with href, an inner native anchor.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "description": "Displays a card with header, content, and footer. shadcn/ui API in the Here Be Dragons look: parchment surface, Cinzel title, serif body, hairline footer rule. Adds size (sm, lg, flush), variant (bordered, elevated), interactive and asChild.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/card/card.tsx",
           "type": "registry:ui"
         }
       ],
-      "cssVars": {}
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "list",
-      "type": "registry:ui",
-      "title": "List",
-      "description": "HBD compound List + List.Item: static / href (<a>) / selectable (<button>) items with leading, primary, secondary, trailing, and hover-revealed action slots. Cancelable onSelect (return false to veto), selected indicator + aria-current, sm/md/lg, divided/bordered/flush variants.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "checkbox",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and not checked. shadcn/ui API in the Here Be Dragons look: a parchment box with an offset shadow and a hand-drawn tick, crimson when checked or indeterminate.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/list/list.tsx",
+          "path": "registry/new-york/checkbox/checkbox.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "accordion",
-      "type": "registry:ui",
-      "title": "Accordion",
-      "description": "Hand-ported (no Radix) vertically-stacked expand/collapse panels. Compound Accordion + Accordion.Item API; single (default, one-open) or multi (independent) expand; controlled value/values + onValueChange with uncontrolled defaultValue/defaultValues; heading-level 2|3|4. Real <button> trigger with aria-expanded/aria-controls, role=region panel with aria-labelledby; roving ArrowUp/ArrowDown + Home/End keyboard nav skipping disabled; CSS-only max-height open animation driven by .hbd-accordion__item--open. onOpen/onClose carry { index, title }.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "chip",
+      "title": "Chip",
+      "description": "A compact pill for tags, filters and attributes, with an optional icon, remove button and pressable toggle (Radix Toggle). Here Be Dragons component with a shadcn/ui-style API: default, primary, success, warning and destructive variants, sm/default/lg sizes and an outline style.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/accordion/accordion.tsx",
+          "path": "registry/new-york/chip/chip.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "tabs",
-      "type": "registry:ui",
-      "title": "Tabs",
-      "description": "HBD tabs: a role=tablist navigation built on Radix Tabs with the legacy .hbd-* BEM classes re-applied to Root/List/Trigger/Content (className + asChild) so the de-shadowed tabs.css renders 1:1, including the active 'ribbon' indicator (.hbd-tabs__tab::before driven by --hbd-tabs-indicator-*). Horizontal/vertical orientation, roving-tabindex keyboard (arrows follow orientation, Home/End), aria-selected/controls/labelledby, lazy (Radix unmount) or eager (forceMount) panel mode, optional count badge, and a scrollable overflow variant with JS scroll-prev/next buttons + scroll-into-view. Controlled-first via value + onValueChange (legacy hbd:change { value } detail), with defaultValue uncontrolled fallback. Compound members TabsList / TabsTrigger / TabsContent (+ optional TabsPanels).",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-tabs"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "codeblock",
+      "title": "Code Block",
+      "description": "Displays code on a dark surface with an optional filename/language header, line-number gutter, copy-to-clipboard button and syntax token colours from the theme. Here Be Dragons component with a shadcn/ui-style composition API.",
+      "dependencies": [],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/tabs/tabs.tsx",
+          "path": "registry/new-york/codeblock/codeblock.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "stepper-nav",
-      "type": "registry:ui",
-      "title": "Stepper Nav",
-      "description": "Step-progress navigation: a horizontal or vertical row/column of numbered step indicators joined by connectors. Each step's status is active (the current index), completed (before it), upcoming (after it), or an explicit error override. Renders a real <nav>/<ol> landmark with aria-current=step; SR-only Completed:/Error: prefixes carry progress without colour. Controlled-first activeStep + onStepChange (legacy hbd:change { step, label }) with defaultActiveStep fallback. Non-linear mode renders completed/error indicators as real <button>s that move the active step on click. Compound <StepperNav> + <StepperNav.Step> or a data-driven steps[] prop.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "collapsible",
+      "title": "Collapsible",
+      "description": "An interactive component which expands/collapses a panel. shadcn/ui API; unstyled like upstream, so it takes on the Here Be Dragons look of whatever you compose inside it.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/stepper-nav/stepper-nav.tsx",
+          "path": "registry/new-york/collapsible/collapsible.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "stepper",
-      "type": "registry:ui",
-      "title": "Stepper",
-      "description": "HBD numeric +/- stepper: a native number input flanked by decrement (\u2212) and increment (+) buttons, wrapped in the shared .hbd-field chrome (label + hint + error). Controlled-first value + onValueChange (string), min/max/step, sm/md/lg sizes, error/disabled states. Keyboard: the input is the sole Tab stop (buttons are tabIndex=-1); ArrowUp/Down = \u00b1step, PageUp/Down = \u00b110\u00b7step, Home = min, End = max. A `thin` prop collapses the field to its intrinsic width for inline / table-cell use. Reuses @hbd/input's .hbd-field field chrome.",
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
+      "name": "command",
+      "title": "Command",
+      "description": "Fast, composable, unstyled command menu for React. shadcn/ui API in the Here Be Dragons look: a parchment search band over the select's option list, with ink focus rings on the active row. Adds a data-checked hook that gives the chosen item the select's gold edge.",
+      "dependencies": [
+        "cmdk",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/dialog.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/stepper/stepper.tsx",
+          "path": "registry/new-york/command/command.tsx",
           "type": "registry:ui"
         }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "table",
-      "type": "registry:ui",
-      "title": "Table",
-      "description": "HBD data table: real <table role=grid> with sortable headers (hbd:sort -> onSort with {key,direction} + aria-sort ascending/descending/none), optional row selection via a leading checkbox column (select-all + per-row, hbd:selection-change -> onSelectionChange with {selected}), three row-height sizes (sm/md/lg), striped/bordered variants, sticky header and sticky first column. Data is driven by the columns + rows props (the WC's JS-property API). Sorting + selection are controlled-first (sortKey/sortDir + onSort, selected + onSelectionChange) with uncontrolled fallbacks (defaultSortKey/defaultSortDir/defaultSelected). Carries the WC ARIA verbatim: role=grid/row/columnheader/gridcell, aria-rowcount/colcount, aria-rowindex, aria-selected, aria-multiselectable, plus the full roving-tabindex grid keyboard pattern (arrows/Home/End, Enter/Space to sort).",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/checkbox"],
-      "files": [
-        {
-          "path": "registry/new-york/table/table.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "skeleton-group",
-      "type": "registry:ui",
-      "title": "Skeleton Group",
-      "description": "Preset skeleton layouts that arrange multiple Skeleton shapes into recognisable loading patterns: avatar-text (default), card, list-item, table-row. Light-DOM, decorative; the group is aria-hidden while the surrounding container owns aria-busy. Widths cycle deterministically (no Math.random). noShimmer cascades to every child skeleton. Composes the Skeleton primitive.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/skeleton"],
-      "files": [
-        {
-          "path": "registry/new-york/skeleton-group/skeleton-group.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "tooltip",
-      "type": "registry:ui",
-      "title": "Tooltip",
-      "description": "HBD tooltip: a floating label shown on hover (after the --hbd-tooltip-delay-show delay) / focus (instant), built on Radix Tooltip with the legacy .hbd-* BEM classes re-applied to the Content panel (className via asChild) so the de-shadowed tooltip.css renders 1:1, including the CSS-triangle arrow (.hbd-tooltip__arrow driven by --hbd-tooltip-arrow-size) and placement top|bottom|left|right with collision flip + shift (the WC's opposite-side flip + viewport clamp). role=tooltip on the panel with aria-describedby wired trigger->panel; aria-live=off; Escape + pointer-down dismiss keeping trigger focus. Token-driven show delay via the --hbd-tooltip-delay-show token (overridable with the legacy `delay` prop); a `content` convenience prop or compound Tooltip.Trigger / Tooltip.Content members. Controlled-first overlay via open + onOpenChange + defaultOpen.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-tooltip"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/tooltip/tooltip.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "popover",
-      "type": "registry:ui",
-      "title": "Popover",
-      "description": "HBD popover: a click-triggered, non-modal (aria-modal=\"false\", no backdrop/scroll-lock) floating panel built on Radix Popover, with the legacy .hbd-popover* BEM classes re-applied to the Radix parts so the de-shadowed popover.css renders 1:1. Compound Popover + Popover.Trigger (asChild) / Popover.Content / Popover.Close. Content renders the optional title header (with an icon-only \u2715 Button), body (children), optional footer prop, and a CSS-triangle arrow that tracks the resolved data-side after collision flip. placement (top/bottom default/left/right) + offset flow via context (default 8). Escape + outside-pointerdown dismissal, focus trap + focus return, and aria-haspopup/expanded/controls wiring all come from Radix. Controlled-first: open + onOpenChange + defaultOpen, plus onOpen/onClose bridging the WC's hbd:open/hbd:close events.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-popover"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/button"],
-      "files": [
-        {
-          "path": "registry/new-york/popover/popover.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "dropdown",
-      "type": "registry:ui",
-      "title": "Dropdown",
-      "description": "Trigger button + action menu panel using ARIA menu/menuitem semantics. Owns the shared menu primitives (Dropdown.Item / Dropdown.Separator / Dropdown.Group) reused by context-menu and split-button. Roving tabindex, Arrow/Home/End + first-character typeahead, Enter/Space activation, Escape, Tab dismissal, outside-click, and viewport-flip placement, ported 1:1 from hbd-dropdown.js + menu-controller.js.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
-      "files": [
-        {
-          "path": "registry/new-york/dropdown/dropdown.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "context-menu",
-      "type": "registry:ui",
       "title": "Context Menu",
-      "description": "Right-click (and touch long-press) menu that reuses the shared menu panel/items + menu.css owned by @hbd/dropdown. onContextMenu (mouse/pen) and a 500ms touch long-press (8px move tolerance) open a position:fixed panel at the cursor with viewport-edge flipping (clamp x/y on-screen). Reuses Dropdown.Item / Dropdown.Separator / Dropdown.Group as compound members, rebuilding them into role=menuitem rows with roving tabindex, Arrow/Home/End + first-character typeahead, Enter/Space activation, and the .is-focused state. Escape / click-outside / window-resize close; focus returns to the right-clicked host. hbd:select -> onSelect({ value, label }); onOpenChange notifies open/close. Owns NO CSS \u2014 the only shell rule (.hbd-context-menu { display: contents }) lives in the dropdown-owned menu.css.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/dropdown"],
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a right click. shadcn/ui API in the Here Be Dragons look, sharing the Dropdown Menu's raised parchment panel, Roboto items and blood-tinted destructive variant.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/context-menu/context-menu.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "split-button",
-      "type": "registry:ui",
-      "title": "Split Button",
-      "description": "Two HBD buttons joined into one visual unit: a wide primary ACTION half on the left and a narrow CHEVRON TRIGGER on the right. Clicking the action fires onAction; clicking the chevron opens a hand-ported dropdown menu of alternative actions (SplitButton.Item children or an items[] prop). The panel is an absolutely-positioned descendant so the legacy .hbd-split-button--open .hbd-split-button__panel rule drives the opacity/transform transition AND the chevron rotation 1:1. Controlled-first open + onOpenChange with defaultOpen fallback, roving menu keyboard nav (Escape/Tab/Enter/Space/Arrow/Home/End), capture-phase outside-click, and focus return to the trigger. Menu rows reuse the .hbd-field__option chrome. variant (default/primary/gold), size (sm/md/lg), disabled. role=menu/menuitem with aria-haspopup/expanded/controls/label.",
+      "name": "dialog",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert. shadcn/ui API in the Here Be Dragons look: parchment panel, Cinzel title, ruled header and footer, offset-shadow close button. Adds a size prop (sm, lg, full) on DialogContent.",
       "dependencies": [
-        "clsx",
-        "tailwind-merge",
-        "class-variance-authority",
-        "@radix-ui/react-slot"
+        "radix-ui"
       ],
       "registryDependencies": [
-        "@hbd/hbd-theme",
-        "@hbd/utils",
-        "@hbd/button",
-        "@hbd/dropdown",
-        "@hbd/input"
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
       ],
       "files": [
         {
-          "path": "registry/new-york/split-button/split-button.tsx",
+          "path": "registry/new-york/dialog/dialog.tsx",
           "type": "registry:ui"
         }
-      ]
-    },
-    {
-      "name": "select",
-      "type": "registry:ui",
-      "title": "Select",
-      "description": "Fully-accessible custom select (combobox + listbox) on the shared .hbd-field chrome. Owns the option/group model (Select.Option + Select.Group). Controlled value + onValueChange + defaultValue, hidden native <select> form fallback, keyboard typeahead/Arrow/Home/End/Escape, click-outside, and fixed-coordinate panel positioning that escapes scrolling/transformed ancestors.",
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
-      "dependencies": ["clsx", "tailwind-merge", "class-variance-authority"],
-      "files": [
-        {
-          "path": "registry/new-york/select/select.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "combobox",
-      "type": "registry:ui",
-      "title": "Combobox",
-      "description": "HBD combobox / autocomplete: a filterable text input + listbox suggestion panel following the APG aria-activedescendant pattern (DOM focus STAYS on the input). Three modes \u2014 autocomplete (free text), strict (must match a listed option, reverts on blur), multi (in-field removable chips). Debounced filtering, no-filter server-search mode (onSearch) with a loading spinner, imperative setOptions() for async data, controlled-first value+onValueChange (single) / values+onValuesChange (multi) with uncontrolled defaultValue/defaultValues fallbacks. Keyboard: ArrowUp/Down/Home/End move the active option, Enter selects, Escape closes+reverts, Tab closes, Backspace removes the last chip in multi mode. Authors options declaratively with Combobox.Option / Combobox.Group (re-exported from @hbd/select). Panel anchored with @floating-ui/react (fixed strategy). Reuses @hbd/input's .hbd-field chrome and @hbd/select's .hbd-field__select-panel / .hbd-field__option styles.",
-      "dependencies": ["clsx", "tailwind-merge", "@floating-ui/react"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input", "@hbd/select"],
-      "files": [
-        {
-          "path": "registry/new-york/combobox/combobox.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "pagination",
-      "type": "registry:ui",
-      "title": "Pagination",
-      "description": "Page-navigation control: numbered pages with prev/next + ellipsis (full), a 'Page N of M' live label (compact), or arrow-only prev/next (simple). The host element IS the <nav> landmark (role=navigation + aria-label=Pagination), exactly like the Light-DOM WC. Button mode fires hbd:change -> onChange/onPageChange and updates the controlled `page`; link mode renders <a href> from `hrefPrefix` with the current page as a <span aria-current=page>. Optional first/last jump buttons, a 'Showing X-Y of Z' info readout, a 'Page [input] Go' goto cluster (Enter or click submits), and a page-size <select> built from @hbd/select whose change resets the page to 1 and fires hbd:page-size-change -> onPageSizeChange. Boundary prev/next stay focusable with aria-disabled=true. Controlled-first: page + onPageChange + defaultPage uncontrolled fallback.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/select"],
-      "files": [
-        {
-          "path": "registry/new-york/pagination/pagination.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "drawer",
-      "type": "registry:ui",
       "title": "Drawer",
-      "description": "HBD sliding overlay panel: four placements (left/right/top/bottom) with wide (L/R) and tall (T/B) size modifiers, token-backed widths/heights. Portal + focus-trap + scroll-lock + return-focus + Escape + backdrop-click via Radix Dialog, with .hbd-drawer* classes re-applied so the de-shadowed drawer.css renders 1:1. Controlled open + onOpenChange + defaultOpen; onOpen/onClose bridge the WC hbd:open/hbd:close events. no-backdrop sidebar mode and no-close non-dismissible mode.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-dialog"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/button"],
+      "description": "A drawer component for React, built on Vaul. shadcn/ui API in the Here Be Dragons look: a parchment sheet with a drag handle, Cinzel title and ruled header and footer.",
+      "dependencies": [
+        "vaul"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/drawer/drawer.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "modal",
-      "type": "registry:ui",
-      "title": "Modal",
-      "description": "HBD modal: a centred overlay dialog HAND-PORTED from hbd-modal.js (no Radix) so the .is-open / .is-closing transitionend close lifecycle is preserved 1:1 \u2014 close() applies .is-closing, keeps it until the dialog's opacity transitionend, THEN releases scroll-lock + restores focus + fires onClose. Portals a backdrop / container / dialog tree into document.body with EVERY legacy .hbd-modal* BEM class re-applied (role=dialog/alertdialog, aria-modal, aria-labelledby). Reproduces focus-trap across Light DOM + open shadow roots, body-scroll-lock (shared counter), return-focus, an always-available Escape exit (even with noClose, SC 2.1.2), backdrop / container click-to-dismiss (noBackdropClose opt-out), host-level [data-modal-close] delegation, stacked z via --hbd-z-modal/--hbd-z-overlay, and an alertdialog sub-type that focuses its first (cancel) footer button on open. Sizes sm/md(default)/lg/full map --hbd-modal-width-*. Controlled-first overlay: open + onOpenChange + defaultOpen, plus onOpen/onClose bridging the WC's hbd:open/hbd:close. Compound Modal + Modal.Footer (slot=footer) / Modal.Close ([data-modal-close]). Pairs with the de-shadowed modal.css.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/button"],
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button. shadcn/ui API in the Here Be Dragons look: a raised parchment panel with an ink-brown hairline, Roboto items, uppercase tracked group labels and a blood-tinted destructive variant.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/modal/modal.tsx",
+          "path": "registry/new-york/dropdown-menu/dropdown-menu.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "empty",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state. shadcn/ui API in the Here Be Dragons look: faded ink illustration, Cinzel title, serif description. Adds size (sm, lg), variant (error, success) and a horizontal orientation.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/empty/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "field",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs. shadcn/ui API in the Here Be Dragons look: the compact 4px field rhythm, blood-red error text and Cinzel legends.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/label.json",
+        "http://localhost:3001/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/field/field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "file-upload",
+      "title": "File Upload",
+      "description": "A dropzone that takes files by drag-and-drop or from the file picker, with a list of thumbnails, sizes, per-file progress and errors. Here Be Dragons component with a shadcn/ui-style composition API: accept, maxSize and maxFiles validation with a per-file reject callback.",
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/file-upload/file-upload.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "full-banner",
+      "title": "Full Banner",
+      "description": "A full-page takeover with one dominant message: illustration, eyebrow, display heading, description, actions and meta, with an inverted ink scheme. Here Be Dragons component with a shadcn/ui-style composition API; maintenance, launch, error and success screens are composed from its parts.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/full-banner/full-banner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "hover-card",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link. shadcn/ui API in the Here Be Dragons look: the raised parchment panel and pointing arrow of the Popover. Adds a showArrow prop.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/hover-card/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input",
+      "title": "Input",
+      "description": "Displays a form input field or a component that looks like an input field. shadcn/ui API in the Here Be Dragons look: parchment surface, ink border, gold focus. Adds sm/lg sizes and a data-valid success state.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/input/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-group",
+      "title": "Input Group",
+      "description": "Add addons, buttons, and helper content to inputs. shadcn/ui API in the Here Be Dragons look: prefixes, suffixes and the password eye sit exactly where the old field drew them.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json",
+        "http://localhost:3001/r/input.json",
+        "http://localhost:3001/r/textarea.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/input-group/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-otp",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy paste functionality. shadcn/ui API in the Here Be Dragons look: separate ink-bordered cells in JetBrains Mono. Adds root-level aria-invalid / data-valid states.",
+      "dependencies": [
+        "input-otp"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/input-otp/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "item",
+      "title": "Item",
+      "description": "A versatile component for displaying content with media, title, description, and actions. shadcn/ui API in the Here Be Dragons look: dense Roboto rows, hairline dividers, a blood bar on the current item. Adds an lg size.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/item/item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "kbd",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard. shadcn/ui API in the Here Be Dragons look: a small raised parchment keycap in JetBrains Mono with an ink edge.",
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/kbd/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "label",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls. shadcn/ui API in the Here Be Dragons look: compact Roboto field label that dims with its disabled control.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/label/label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "menubar",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands. shadcn/ui API in the Here Be Dragons look: a parchment bar with an ink-brown hairline whose open trigger is underlined in gold, opening the Dropdown Menu's raised parchment panel.",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/menubar/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "native-select",
+      "title": "Native Select",
+      "description": "A styled native HTML select element with consistent design system integration. shadcn/ui API in the Here Be Dragons look: the closed trigger of the old select, chevron included. Adds an lg size, a data-valid state and a muted placeholder for an empty-value option.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/native-select/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "navbar",
-      "type": "registry:ui",
       "title": "Navbar",
-      "description": "Primary top navigation bar (role=banner) with a centred desktop nav and a full-viewport off-canvas mobile menu below --hbd-navbar-mobile-breakpoint (768px). The hamburger toggle carries aria-expanded/aria-controls; the mobile menu is a role=dialog aria-modal panel portalled to document.body and behaves exactly like <hbd-drawer>: ref-counted scroll-lock, focus-trap (Tab/Shift+Tab cycling), return-focus, Escape-to-close, and auto-close when a debounced resize crosses back above the breakpoint (token read off the host). Links auto-mark .is-active + aria-current=page on pathname match. Compound API: Navbar + Navbar.Logo / Navbar.Link / Navbar.Actions, mirrored into both the desktop row and the mobile menu. Variants: sticky / transparent / bordered. Controlled-first open + onOpenChange with defaultOpen fallback, plus onOpen/onClose (the WC's hbd:open / hbd:close).",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/button"],
+      "description": "The top navigation bar: brand on the left, links in the middle, actions on the right, with an off-canvas menu on small screens. A Here Be Dragons component with no shadcn/ui counterpart; composes Navigation Menu for the links and Sheet for the mobile menu.",
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/navigation-menu.json",
+        "http://localhost:3001/r/sheet.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/navbar/navbar.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "toast",
-      "type": "registry:ui",
-      "title": "Toast",
-      "description": "HBD imperative toast/snackbar system ported from the hbd-toast web component. A <ToastProvider> renders the singleton portal region (role=region, aria-label=Notifications, aria-live=polite flipped to assertive for one macrotask on error toasts, aria-relevant=additions) at the viewport edge; a useToast() hook AND a standalone toast() callable (plus toast.info/success/warning/error/show/setPosition) drive a shared module-level store so notifications can be fired without React context. Reproduces the WC 1:1: show({ message, title, variant, duration, action, dismissible }); variants info(default)/success/warning/error with per-variant role (error->alert, else status); auto-dismiss timer (default 5000ms = --hbd-duration-linger) with hover-pause + focus-pause + focus-out-resume and a countdown progress bar whose animation-duration matches and pauses with the timer; prefers-reduced-motion AND Infinity duration disable the timer + drop the progress bar (SC 2.2.1); MAX_STACK=3 active cap with an overflow queue that dequeues on dismiss; enter/leave lifecycle via .is-entering/.is-leaving where the leave animationend fires onDismiss({variant}) (the WC's hbd:dismiss) then removes the toast; setPosition(top-right default | top-center | bottom-right | bottom-center | bottom-left) re-classes the container to swap the directional slide keyframe. The de-shadowed toast.css carries every --hbd-* token and ALL NINE @keyframes verbatim; the inline animation-duration is the documented per-instance value-driven style exception.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils"],
+      "name": "navigation-menu",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites. shadcn/ui API in the Here Be Dragons look: quiet ink links that take a parchment wash, over raised panels with an ink hairline.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/toast/toast.tsx",
+          "path": "registry/new-york/navigation-menu/navigation-menu.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
     },
     {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pagination",
+      "title": "Pagination",
+      "description": "Pagination with page navigation, next and previous links. shadcn/ui API in the Here Be Dragons look: square ink cells with a blood-filled current page. Adds PaginationFirst, PaginationLast and PaginationInfo.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/pagination/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "popover",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button. shadcn/ui API in the Here Be Dragons look: raised parchment panel with a pointing arrow. Adds PopoverClose and PopoverFooter, a showArrow prop, and a ruled PopoverHeader that seats a close button beside the title.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/popover/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "progress",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar. shadcn/ui API in the Here Be Dragons look. Adds variant (success, warning, error), size (sm, lg), indeterminate, striped and segments props.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/progress/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "radio-group",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time. shadcn/ui API in the Here Be Dragons look: ink rings filled crimson with a parchment dot.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/radio-group/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "scroll-area",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling. shadcn/ui API in the Here Be Dragons look: a thin ink-on-parchment scrollbar that darkens under the pointer.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/scroll-area/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "select",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from — triggered by a button. shadcn/ui API in the Here Be Dragons look: an ink-bordered field whose chosen value becomes a manuscript chip, and a parchment list that marks the selected entry with a gold edge. Adds an lg trigger size and an optional clear button (onClear).",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/select/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "separator",
+      "title": "Separator",
+      "description": "Visually or semantically separates content. shadcn/ui API (orientation, decorative) in the Here Be Dragons look: a hairline rule with the 24px manuscript rhythm. Adds subtle/strong/gold/ornamental variants, dashed and double line styles, and labelled rules.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/separator/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sheet",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen. shadcn/ui API in the Here Be Dragons look: parchment panel from any edge, Cinzel title, ruled header and footer. Adds wide, tall and showOverlay props on SheetContent.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/sheet/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sidebar",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar. shadcn/ui API in the Here Be Dragons look: parchment rail, small-caps group labels and a blood ribbon on the current row.",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/button.json",
+        "http://localhost:3001/r/input.json",
+        "http://localhost:3001/r/separator.json",
+        "http://localhost:3001/r/sheet.json",
+        "http://localhost:3001/r/skeleton.json",
+        "http://localhost:3001/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/sidebar/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/new-york/sidebar/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "skeleton",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading. shadcn/ui API in the Here Be Dragons look: a parchment block with a sweeping shimmer.",
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/skeleton/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "slider",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range. shadcn/ui API in the Here Be Dragons look: ink rail, crimson fill, parchment thumb. Adds a size prop (sm, lg) and an aria-invalid error look.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/slider/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sonner",
+      "title": "Sonner",
+      "description": "An opinionated toast component for React. shadcn/ui API in the Here Be Dragons look: status-coloured parchment toasts with a thick left rule, HBD status glyphs, an underlined action and a countdown bar. Defaults to top-right, expanded stack, close button and a 5s duration.",
+      "dependencies": [
+        "lucide-react",
+        "next-themes",
+        "sonner"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/sonner/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "spell-card",
+      "title": "Spell Card",
+      "description": "Displays a D&D spell as a parchment card: school colour band for the eight schools, ornamental gold corners, level badge, meta grid, description, At Higher Levels and footer. Here Be Dragons component with a shadcn/ui-style composition API.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/spell-card/spell-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "spinner",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state. shadcn/ui API in the Here Be Dragons look: a crimson arc over a faint ring. Adds size (sm, lg, xl) and variant (muted, inherit) props.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/spinner/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stat-block",
+      "title": "Stat Block",
+      "description": "Displays a D&D 5e creature stat block: name and subtitle, AC/HP/Speed, ability score table with computed modifiers, property rows and trait/action sections inside a double red rule. Here Be Dragons component with a shadcn/ui-style composition API and a compact size.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/stat-block/stat-block.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stepper",
+      "title": "Stepper",
+      "description": "A number input flanked by decrement and increment buttons, with min, max and step. Here Be Dragons component with a shadcn/ui-style API: a numeric value with onValueChange, sm/default/lg sizes and a thin variant that shrinks to its digits.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/stepper/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stepper-nav",
+      "title": "Stepper Nav",
+      "description": "Shows progress through the steps of a multi-step flow, horizontally or vertically. A Here Be Dragons component with no shadcn/ui counterpart: numbered blood-filled indicators, connectors and per-step status.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/stepper-nav/stepper-nav.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "switch",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked. shadcn/ui API in the Here Be Dragons look: an ink track that turns crimson. Adds a lg size.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/switch/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "table",
+      "title": "Table",
+      "description": "A responsive table component. shadcn/ui API in the Here Be Dragons look: Cinzel small-caps headers, Roboto cells, hairline row rules, blood-tinted selection and sort. Adds size (sm, lg), bordered and striped.",
+      "dependencies": [],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/table/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tabs",
+      "title": "Tabs",
+      "description": "A set of layered sections of content, known as tab panels, that are displayed one at a time. shadcn/ui API in the Here Be Dragons look: parchment folder tabs on an ink baseline with a blood ribbon on the active tab. Adds TabsBadge (count chip) and TabsScroller (overflow with prev/next buttons).",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/tabs/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "textarea",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea. shadcn/ui API (grows with its content) in the Here Be Dragons look: parchment surface, ink border, gold focus. Adds sm/lg sizes and a data-valid success state.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/textarea/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "time-picker",
-      "type": "registry:ui",
       "title": "Time Picker",
-      "description": "Keyboard-accessible time picker with scrollable hour / minute / (AM\u00b7PM) columns, click-to-type header, and a dropdown-style slide panel. Controlled value + onValueChange + defaultValue.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input"],
-      "cssVars": {},
+      "description": "Pick a time from scrolling hour, minute and AM·PM columns in a popover, with a type-to-set header and a Clear / Cancel / Confirm footer. Here Be Dragons component with a shadcn/ui-style composition API: a controlled 24-hour HH:MM value, 12- or 24-hour display and a minute step.",
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/popover.json"
+      ],
       "files": [
         {
           "path": "registry/new-york/time-picker/time-picker.tsx",
-          "type": "registry:ui",
-          "target": "components/hbd/time-picker.tsx"
+          "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": [
+        "hbd"
+      ],
+      "type": "registry:ui"
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "date-picker",
-      "type": "registry:ui",
-      "title": "Date Picker",
-      "description": "HBD date picker: a click-triggered calendar popover on the shared .hbd-field chrome (@hbd/input) plus a Radix-portalled non-modal (aria-modal=\"false\", no backdrop/scroll-lock) panel. The panel holds a month header (prev/next nav + Intl month-year label), a weekday columnheader row, and a 6\u00d77 APG grid (role=\"grid\" / role=\"gridcell\" + aria-selected + aria-current=\"date\" + per-cell aria-label, roving tabindex, full keyboard date nav: Arrow/Home/End/PageUp/PageDown\u00b1Shift-year, Enter/Space select, Escape close), then a Today/Clear/Cancel/Confirm footer. Three variants: \"date\" (single), \"date-time\" (single + an embedded TimePicker, payload YYYY-MM-DDTHH:MM), \"date-range\" (start/end with hover-preview). Committed-vs-pending model: opening snapshots saved\u2192pending; cell clicks / Today / Clear mutate pending only and keep the panel open; Confirm commits (fires onValueChange/onRangeChange/onChange) + returns focus; Cancel and Escape discard + return focus; outside-pointerdown discards without returning focus. Radix Popover supplies portal + focus-trap + Escape/outside dismissal + return-focus; the legacy .hbd-date-picker* BEM classes are re-applied to the Radix parts so the de-shadowed date-picker.css renders 1:1. Native Intl.DateTimeFormat drives month/weekday/cell-label text; plain Date arithmetic drives nav (no date library). Controlled-first: value+defaultValue (single/date-time), valueStart/valueEnd+defaultValueStart/defaultValueEnd (range), open+defaultOpen+onOpenChange, plus onOpen/onClose bridging the WC's hbd:open/hbd:close.",
-      "dependencies": ["clsx", "tailwind-merge", "@radix-ui/react-popover"],
-      "registryDependencies": ["@hbd/hbd-theme", "@hbd/utils", "@hbd/input", "@hbd/time-picker"],
+      "name": "toggle",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off. shadcn/ui API in the Here Be Dragons look: display type and an offset ink shadow, turning crimson when pressed. Adds icon, icon-sm and icon-lg sizes.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
       "files": [
         {
-          "path": "registry/new-york/date-picker/date-picker.tsx",
+          "path": "registry/new-york/toggle/toggle.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off. shadcn/ui API in the Here Be Dragons look: a joined, ink-bordered row of display-type buttons with a crimson pressed state.",
+      "dependencies": [
+        "class-variance-authority",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json",
+        "http://localhost:3001/r/toggle.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/toggle-group/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tooltip",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it. shadcn/ui API in the Here Be Dragons look: a small ink bubble with a pointing arrow.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "http://localhost:3001/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/tooltip/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "type": "registry:ui"
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range. shadcn/ui API in the Here Be Dragons look: ink rail, crimson fill, parchment thumb. Adds a size prop (sm, lg) and an aria-invalid error look.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

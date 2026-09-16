@@ -1,0 +1,285 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+---
+
+import { Slider } from "@/registry/new-york/slider/slider";
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import { SliderControlledDemo } from "@/components/examples/slider-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Slider defaultValue={[50]} max={100} step={1} className="w-[60%]" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Slider } from "@/components/ui/slider";
+
+    export function SliderDemo() {
+      return <Slider defaultValue={[50]} max={100} step={1} className="w-[60%]" />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/slider
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/slider.json
+```
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider";
+```
+
+```tsx
+<Slider defaultValue={[33]} max={100} step={1} />
+```
+
+The rail is 48px tall so the slider stays easy to grab; the visible track is a 4px ink line.
+
+## Examples
+
+### Label and value
+
+Compose a `Field` with a `FieldLabel` and a readout above the slider. Values are arrays, even for a single thumb.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SliderControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Field, FieldLabel } from "@/components/ui/field";
+    import { Slider } from "@/components/ui/slider";
+
+    export function SliderControlledDemo() {
+      const [volume, setVolume] = React.useState([40]);
+
+      return (
+        <Field className="max-w-80 gap-2">
+          <div className="flex items-baseline justify-between">
+            <FieldLabel id="volume-label">Volume</FieldLabel>
+            <span className="min-w-8 text-right font-mono text-[0.8125rem] text-muted-foreground">{volume[0]}</span>
+          </div>
+          <Slider value={volume} onValueChange={setVolume} aria-labelledby="volume-label" />
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Range
+
+Pass two values for a two-thumb range.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field className="max-w-80 gap-2">
+        <div className="flex items-baseline justify-between">
+          <FieldLabel id="price-label">Price range</FieldLabel>
+          <span className="min-w-8 text-right font-mono text-[0.8125rem] text-muted-foreground">
+            200 – 750
+          </span>
+        </div>
+        <Slider defaultValue={[200, 750]} max={1000} step={50} aria-labelledby="price-label" />
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="max-w-80 gap-2">
+      <div className="flex items-baseline justify-between">
+        <FieldLabel id="price-label">Price range</FieldLabel>
+        <span className="min-w-8 text-right font-mono text-[0.8125rem] text-muted-foreground">
+          200 – 750
+        </span>
+      </div>
+      <Slider defaultValue={[200, 750]} max={1000} step={50} aria-labelledby="price-label" />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition — `sm` (16px), `default` (20px) and `lg` (24px) thumbs on the same track.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-80 flex-col">
+        <Slider size="sm" defaultValue={[30]} aria-label="Small" />
+        <Slider defaultValue={[50]} aria-label="Default" />
+        <Slider size="lg" defaultValue={[70]} aria-label="Large" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Slider size="sm" defaultValue={[30]} aria-label="Small" />
+    <Slider defaultValue={[50]} aria-label="Default" />
+    <Slider size="lg" defaultValue={[70]} aria-label="Large" />
+    ```
+  </Tab>
+</Tabs>
+
+### Ticks
+
+Tick marks are a row under the slider. Pad it by half the thumb width (`px-2.5` for the default size)
+so the marks line up with the thumb's centre at each end.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field className="max-w-80 gap-2">
+        <FieldLabel id="difficulty-label">Difficulty</FieldLabel>
+        <Slider defaultValue={[50]} step={25} aria-labelledby="difficulty-label" />
+        <div aria-hidden="true" className="mt-1 flex justify-between px-2.5">
+          {[0, 25, 50, 75, 100].map((tick) => (
+            <div key={tick} className="flex flex-col items-center gap-1">
+              <span className="h-1 w-px bg-border-strong" />
+              <span className="font-sans text-[0.6875rem] whitespace-nowrap text-muted-foreground">
+                {tick}
+              </span>
+            </div>
+          ))}
+        </div>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="max-w-80 gap-2">
+      <FieldLabel id="difficulty-label">Difficulty</FieldLabel>
+      <Slider defaultValue={[50]} step={25} aria-labelledby="difficulty-label" />
+      <div aria-hidden="true" className="mt-1 flex justify-between px-2.5">
+        {[0, 25, 50, 75, 100].map((tick) => (
+          <div key={tick} className="flex flex-col items-center gap-1">
+            <span className="h-1 w-px bg-border-strong" />
+            <span className="font-sans text-[0.6875rem] whitespace-nowrap text-muted-foreground">
+              {tick}
+            </span>
+          </div>
+        ))}
+      </div>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Hint and error
+
+Put helper text in a `FieldDescription`. For errors, set `data-invalid` on the `Field` (the label turns
+red), `aria-invalid` on the slider (the fill and thumb ring turn red) and add a `FieldError`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field className="max-w-80 gap-2">
+        <FieldLabel id="brightness-label">Brightness</FieldLabel>
+        <Slider defaultValue={[60]} aria-labelledby="brightness-label" aria-describedby="brightness-hint" />
+        <FieldDescription id="brightness-hint">Drag to adjust the lantern glow.</FieldDescription>
+      </Field>
+      <Field className="max-w-80 gap-2" data-invalid="true">
+        <FieldLabel id="crew-label">Crew size</FieldLabel>
+        <Slider defaultValue={[12]} aria-invalid aria-labelledby="crew-label" aria-describedby="crew-error" />
+        <FieldError id="crew-error">Not enough hands for this voyage.</FieldError>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
+
+    <Field className="max-w-80 gap-2">
+      <FieldLabel id="brightness-label">Brightness</FieldLabel>
+      <Slider defaultValue={[60]} aria-labelledby="brightness-label" aria-describedby="brightness-hint" />
+      <FieldDescription id="brightness-hint">Drag to adjust the lantern glow.</FieldDescription>
+    </Field>
+    <Field className="max-w-80 gap-2" data-invalid="true">
+      <FieldLabel id="crew-label">Crew size</FieldLabel>
+      <Slider defaultValue={[12]} aria-invalid aria-labelledby="crew-label" aria-describedby="crew-error" />
+      <FieldError id="crew-error">Not enough hands for this voyage.</FieldError>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Slider defaultValue={[40]} disabled aria-label="Disabled" className="max-w-80" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Slider defaultValue={[40]} disabled aria-label="Disabled" className="max-w-80" />
+    ```
+  </Tab>
+</Tabs>
+
+### Vertical
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex h-44 gap-6">
+        <Slider defaultValue={[60]} orientation="vertical" aria-label="Volume" />
+        <Slider defaultValue={[20, 70]} orientation="vertical" aria-label="Range" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="flex h-44 gap-6">
+      <Slider defaultValue={[60]} orientation="vertical" aria-label="Volume" />
+      <Slider defaultValue={[20, 70]} orientation="vertical" aria-label="Range" />
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Thumb diameter: 16, 20 or 24px.",
+    },
+    "aria-invalid": {
+      type: "boolean",
+      description: "Shows the error look: red fill and thumb ring.",
+    },
+  }}
+/>
+
+Every other prop — `value`, `defaultValue`, `onValueChange`, `min`, `max`, `step`, `orientation`,
+`disabled` — goes to the Radix Slider root. See the
+[Radix Slider documentation](https://www.radix-ui.com/primitives/docs/components/slider).

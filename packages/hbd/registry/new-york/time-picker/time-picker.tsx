@@ -1,47 +1,52 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from "@/registry/new-york/popover/popover";
 
-// Ported from ds/components/hbd-time-picker.js + ds/styles/components/time-picker.css.
-//
-// Keyboard-accessible time picker: plain scrollable hour / minute / (AM·PM)
-// columns with a roving tabindex (arrows move focus, Enter/Space select, Home/
-// End jump, Left/Right move between columns, Escape closes), plus a
-// click-to-type hour/minute header for fast numeric entry. Clear/Cancel/Confirm
-// footer.
-//
-// The panel is an INLINE, absolutely-positioned <div> (NOT a portal / Radix
-// Popover) so the legacy max-height + opacity slide — driven by the
-// .hbd-time-picker--open class on the wrapper — interpolates exactly as the WC
-// did. The panel stays mounted across opens so the transition can run; only the
-// wrapper class toggles. We re-apply EVERY legacy .hbd-time-picker* BEM class +
-// .is-selected/.is-active states so the de-shadowed time-picker.css renders 1:1.
-//
-// Value model (1:1 with the WC):
-//   - The committed value is the HH:MM (24h) string, exposed via controlled
-//     `value` + `onValueChange` + uncontrolled `defaultValue`.
-//   - While the panel is open, an in-panel WORKING selection (h24/minute/ampm)
-//     is mutated by clicks/keys/typing WITHOUT touching the committed value.
-//     A snapshot is taken on open; Escape / Cancel / outside-click restore it
-//     and close (discard). Clear wipes the working selection but keeps the
-//     panel open. Confirm commits the working selection (or null) and closes.
-//   - onChange fires (with { value }) only when Confirm changes the committed
-//     value, matching the WC's hbd:change.
+type TimePickerFormat = "12" | "24";
+type Meridiem = "AM" | "PM";
 
-// ── useControllableState (controlled-first with uncontrolled fallback) ──────
-function useControllableState<T>({
-  value,
-  defaultValue,
-  onChange,
-}: {
-  value?: T;
-  defaultValue: T;
-  onChange?: (value: T) => void;
-}): [T, (next: T) => void] {
-  const [uncontrolled, setUncontrolled] = React.useState<T>(defaultValue);
-  const isControlled = value !== undefined;
-  const state = isControlled ? (value as T) : uncontrolled;
+/** The panel's working selection: committed only when Confirm is pressed. */
+type Draft = { hour: number | null; minute: number | null; meridiem: Meridiem };
+
+const pad2 = (value: number) => String(value).padStart(2, "0");
+
+function parseTime(value: string | undefined): { hour: number; minute: number } | null {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(value ?? "");
+  if (!match) return null;
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
+  if (hour > 23 || minute > 59) return null;
+  return { hour, minute };
+}
+
+function formatTime(value: string, format: TimePickerFormat) {
+  const parsed = parseTime(value);
+  if (!parsed) return "";
+  const { hour, minute } = parsed;
+  if (format === "24") return `${pad2(hour)}:${pad2(minute)}`;
+  return `${hour % 12 || 12}:${pad2(minute)} ${hour >= 12 ? "PM" : "AM"}`;
+}
+
+const to24 = (displayHour: number, meridiem: Meridiem) =>
+  meridiem === "AM" ? displayHour % 12 : (displayHour % 12) + 12;
+
+function toDraft(value: string): Draft {
+  const parsed = parseTime(value);
+  if (!parsed) return { hour: null, minute: null, meridiem: "AM" };
+  return { hour: parsed.hour, minute: parsed.minute, meridiem: parsed.hour >= 12 ? "PM" : "AM" };
+}
+
+function useControllableState<T>(
+  prop: T | undefined,
+  defaultValue: T,
+  onChange?: (value: T) => void,
+) {
+  const [uncontrolled, setUncontrolled] = React.useState(defaultValue);
+  const isControlled = prop !== undefined;
+  const state = isControlled ? prop : uncontrolled;
   const setState = React.useCallback(
     (next: T) => {
       if (!isControlled) setUncontrolled(next);
@@ -49,666 +54,581 @@ function useControllableState<T>({
     },
     [isControlled, onChange],
   );
-  return [state, setState];
+  return [state, setState] as const;
 }
 
-export type TimePickerFormat = "12" | "24";
+type TimePickerContextValue = {
+  value: string;
+  commit: (value: string) => void;
+  format: TimePickerFormat;
+  minuteStep: number;
+  disabled: boolean;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  draft: Draft;
+  setDraft: React.Dispatch<React.SetStateAction<Draft>>;
+};
 
-export interface TimePickerChangeDetail {
-  /** HH:MM (24h) string, or null when cleared. */
-  value: string | null;
+const TimePickerContext = React.createContext<TimePickerContextValue | null>(null);
+
+function useTimePicker() {
+  const context = React.useContext(TimePickerContext);
+  if (!context) throw new Error("TimePicker parts must be used within <TimePicker>");
+  return context;
 }
-
-type Ampm = "AM" | "PM";
-
-export interface TimePickerProps {
-  /** Controlled HH:MM (24h) value. */
-  value?: string | null;
-  /** Uncontrolled initial HH:MM (24h) value. */
-  defaultValue?: string | null;
-  /** "24" (default) or "12" hour format. */
-  format?: TimePickerFormat;
-  /** Minute interval for the minute column (default 1). */
-  minuteStep?: number;
-  /** Disables the trigger. */
-  disabled?: boolean;
-  /** Form field name. */
-  name?: string;
-  /** Error message — sets the error state + renders an alert below the field. */
-  error?: string;
-  /** Trigger placeholder when no value is selected. */
-  placeholder?: string;
-  /** Accessible label for the trigger / panel. */
-  "aria-label"?: string;
-  className?: string;
-  /** Fired on Confirm when the committed value changes (the WC's hbd:change). */
-  onValueChange?: (value: string | null) => void;
-  /** Lower-level commit callback carrying the full detail (hbd:change). */
-  onChange?: (detail: TimePickerChangeDetail) => void;
-  /** Fired after the panel opens (hbd:open). */
-  onOpen?: () => void;
-  /** Fired after the panel closes (hbd:close). */
-  onClose?: () => void;
-}
-
-// ── Pure helpers (mirror the WC's getters/converters) ───────────────────────
-function parseValue(v: string | null | undefined): {
-  h24: number | null;
-  minute: number | null;
-  ampm: Ampm;
-} {
-  const m = v && /^(\d{1,2}):(\d{2})$/.exec(v);
-  if (!m) return { h24: null, minute: null, ampm: "AM" };
-  const h = parseInt(m[1], 10);
-  const mn = parseInt(m[2], 10);
-  if (h > 23 || mn > 59) return { h24: null, minute: null, ampm: "AM" };
-  return { h24: h, minute: mn, ampm: h >= 12 ? "PM" : "AM" };
-}
-
-const toDisp12 = (h: number) => h % 12 || 12;
-const toH24 = (disp: number, ap: Ampm) =>
-  ap === "AM" ? (disp === 12 ? 0 : disp) : disp === 12 ? 12 : disp + 12;
-
-const pad2 = (n: number | string) => String(n).padStart(2, "0");
 
 function TimePicker({
   value: valueProp,
-  defaultValue,
+  defaultValue = "",
+  onValueChange,
   format = "24",
   minuteStep = 1,
   disabled = false,
   name,
-  error,
-  placeholder = "Select the hour…",
-  "aria-label": ariaLabel = "Time picker",
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  children,
+  ...props
+}: Omit<React.ComponentProps<typeof Popover>, "value" | "defaultValue"> & {
+  /** Controlled `HH:MM` value on a 24-hour clock, whatever the display format. */
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  format?: TimePickerFormat;
+  minuteStep?: number;
+  disabled?: boolean;
+  name?: string;
+}) {
+  const [value, setValue] = useControllableState(valueProp, defaultValue, onValueChange);
+  const [open, setOpenState] = useControllableState(openProp, defaultOpen, onOpenChange);
+  const [draft, setDraft] = React.useState<Draft>(() => toDraft(value));
+
+  // Opening snapshots the committed value into the draft, so closing any other way than
+  // Confirm — Cancel, Escape, an outside click — leaves the committed value alone.
+  const setOpen = React.useCallback(
+    (next: boolean) => {
+      if (next) setDraft(toDraft(value));
+      setOpenState(next);
+    },
+    [value, setOpenState],
+  );
+
+  const commit = React.useCallback(
+    (next: string) => {
+      if (next !== value) setValue(next);
+      setOpenState(false);
+    },
+    [value, setValue, setOpenState],
+  );
+
+  const context = React.useMemo<TimePickerContextValue>(
+    () => ({
+      value,
+      commit,
+      format,
+      minuteStep,
+      disabled,
+      open,
+      setOpen,
+      draft,
+      setDraft,
+    }),
+    [value, commit, format, minuteStep, disabled, open, setOpen, draft],
+  );
+
+  return (
+    <TimePickerContext.Provider value={context}>
+      <Popover open={open} onOpenChange={setOpen} {...props}>
+        {children}
+      </Popover>
+      {name ? <input type="hidden" name={name} value={value} /> : null}
+    </TimePickerContext.Provider>
+  );
+}
+
+function TimePickerTrigger({ className, children, ...props }: React.ComponentProps<"button">) {
+  const { disabled, open } = useTimePicker();
+
+  return (
+    <PopoverTrigger asChild>
+      <button
+        type="button"
+        data-slot="time-picker-trigger"
+        data-state={open ? "open" : "closed"}
+        disabled={disabled}
+        className={cn(
+          "inline-flex min-h-12 min-w-44 cursor-pointer items-center justify-between gap-2 rounded-md border border-border-strong bg-parchment-300 px-3 py-2 font-display text-[1.0625rem] leading-[1.7] text-foreground transition-[border-color,box-shadow] duration-120 ease-out outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring data-[state=open]:border-input-focus aria-invalid:border-error disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-surface-raised disabled:opacity-50",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        <span
+          data-slot="time-picker-caret"
+          aria-hidden="true"
+          className="size-0 shrink-0 border-x-4 border-t-4 border-x-transparent border-t-muted-foreground"
+        />
+      </button>
+    </PopoverTrigger>
+  );
+}
+
+function TimePickerValue({
   className,
-  onValueChange,
-  onChange,
-  onOpen,
-  onClose,
-}: TimePickerProps) {
+  placeholder = "Select the hour…",
+  ...props
+}: React.ComponentProps<"span"> & { placeholder?: string }) {
+  const { value, format } = useTimePicker();
+  const display = formatTime(value, format);
+
+  return (
+    <span
+      data-slot="time-picker-value"
+      data-placeholder={display ? undefined : ""}
+      className={cn(
+        "flex-1 text-left whitespace-nowrap data-[placeholder]:text-muted-foreground",
+        className,
+      )}
+      {...props}
+    >
+      {display || placeholder}
+    </span>
+  );
+}
+
+const footerButton =
+  "min-h-12 cursor-pointer px-2 py-1 font-display text-[0.8125rem] leading-[1.7] tracking-wide text-muted-foreground uppercase transition-[color] duration-120 ease-out outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
+
+function TimePickerContent({
+  className,
+  align = "start",
+  sideOffset = 4,
+  showArrow = false,
+  onOpenAutoFocus,
+  ...props
+}: React.ComponentProps<typeof PopoverContent>) {
+  const { format, minuteStep, draft, setDraft, value, commit, setOpen } = useTimePicker();
   const is12 = format === "12";
   const step = minuteStep > 0 ? Math.floor(minuteStep) : 1;
 
-  // Committed value (controlled-first).
-  const [committed, setCommitted] = useControllableState<string | null>({
-    value: valueProp === undefined ? undefined : (valueProp ?? null),
-    defaultValue: defaultValue ?? null,
-    onChange: onValueChange,
-  });
-
-  // Working selection while open. Initialised from the committed value on open.
-  const [h24, setH24] = React.useState<number | null>(null);
-  const [minute, setMinute] = React.useState<number | null>(null);
-  const [ampm, setAmpm] = React.useState<Ampm>("AM");
-  const [open, setOpen] = React.useState(false);
-  // Inline header edit: which header field is being typed, or null.
-  const [editing, setEditing] = React.useState<null | "hour" | "minute">(null);
-
-  // Snapshot of the working selection at open-time (for discard).
-  const snapshot = React.useRef<{ h24: number | null; minute: number | null; ampm: Ampm }>({
-    h24: null,
-    minute: null,
-    ampm: "AM",
-  });
-
-  const rootRef = React.useRef<HTMLDivElement>(null);
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
-  const hourScrollRef = React.useRef<HTMLDivElement>(null);
-  const minuteScrollRef = React.useRef<HTMLDivElement>(null);
-  const editInputRef = React.useRef<HTMLInputElement>(null);
-  const uid = React.useId();
-
   const hours = React.useMemo(
     () =>
-      is12 ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] : Array.from({ length: 24 }, (_, i) => i),
+      is12 ? Array.from({ length: 12 }, (_, i) => i + 1) : Array.from({ length: 24 }, (_, i) => i),
     [is12],
   );
   const minutes = React.useMemo(() => {
-    const arr: number[] = [];
-    for (let m = 0; m < 60; m += step) arr.push(m);
-    return arr;
+    const out: number[] = [];
+    for (let minute = 0; minute < 60; minute += step) out.push(minute);
+    return out;
   }, [step]);
 
-  const selDispHr = h24 === null ? null : is12 ? toDisp12(h24) : h24;
-  const curAmpm: Ampm = h24 !== null ? (h24 >= 12 ? "PM" : "AM") : ampm;
+  const displayHour = draft.hour === null ? null : is12 ? draft.hour % 12 || 12 : draft.hour;
+  const meridiem: Meridiem =
+    draft.hour !== null ? (draft.hour >= 12 ? "PM" : "AM") : draft.meridiem;
 
-  // Display label for the trigger derives from the COMMITTED value (not the
-  // working selection) — matches the WC's _displayStr/_syncTriggerLabel which
-  // only update the trigger on commit.
-  const committedParsed = React.useMemo(() => parseValue(committed), [committed]);
-  const displayStr = React.useMemo(() => {
-    const { h24: ch, minute: cm } = committedParsed;
-    if (ch === null || cm === null) return null;
-    const mm = pad2(cm);
-    if (!is12) return `${pad2(ch)}:${mm}`;
-    return `${toDisp12(ch)}:${mm} ${ch >= 12 ? "PM" : "AM"}`;
-  }, [committedParsed, is12]);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const [editing, setEditing] = React.useState<null | "hour" | "minute">(null);
+  const editRef = React.useRef<HTMLInputElement>(null);
 
-  const headerH = h24 !== null && selDispHr !== null ? pad2(selDispHr) : "––";
-  const headerM = minute !== null ? pad2(minute) : "––";
-
-  // Roving tabindex: the selected cell (or the first) is the column tab stop.
-  const hrFocusVal = selDispHr !== null ? selDispHr : hours[0];
-  const mnFocusVal = minute !== null ? minute : minutes[0];
-
-  // ── Scroll the selected (or first) cell into view in each column ──────────
-  const scrollActiveIntoView = React.useCallback(() => {
-    [hourScrollRef.current, minuteScrollRef.current].forEach((col) => {
-      if (!col) return;
-      const active =
-        col.querySelector<HTMLElement>(".is-selected") ||
-        col.querySelector<HTMLElement>('.hbd-time-picker__cell[tabindex="0"]');
-      if (active) active.scrollIntoView({ block: "center" });
-    });
-  }, []);
-
-  // ── Open / close ─────────────────────────────────────────────────────────
-  const openPanel = React.useCallback(() => {
-    if (open) return;
-    const p = parseValue(committed);
-    setH24(p.h24);
-    setMinute(p.minute);
-    setAmpm(p.ampm);
-    snapshot.current = { h24: p.h24, minute: p.minute, ampm: p.ampm };
-    setEditing(null);
-    setOpen(true);
-    onOpen?.();
-  }, [open, committed, onOpen]);
-
-  const closePanel = React.useCallback(
-    (returnFocus: boolean) => {
-      if (!open) return;
-      setOpen(false);
-      setEditing(null);
-      if (returnFocus) triggerRef.current?.focus({ preventScroll: true });
-      onClose?.();
-    },
-    [open, onClose],
-  );
-
-  // Restore the open-time snapshot, then close (Escape / Cancel / outside).
-  const discardAndClose = React.useCallback(
-    (returnFocus: boolean) => {
-      const s = snapshot.current;
-      setH24(s.h24);
-      setMinute(s.minute);
-      setAmpm(s.ampm);
-      closePanel(returnFocus);
-    },
-    [closePanel],
-  );
-
-  // After opening, scroll selection into view + focus the hour tab stop.
   React.useEffect(() => {
-    if (!open) return;
-    scrollActiveIntoView();
-    const firstStop = hourScrollRef.current?.querySelector<HTMLElement>(
-      '.hbd-time-picker__cell[tabindex="0"]',
-    );
-    if (firstStop) firstStop.focus({ preventScroll: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
-
-  // Document-level outside-click (discard) + Escape (discard), only while open.
-  React.useEffect(() => {
-    if (!open) return;
-    const onDocMouseDown = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        // Outside-click discards the working selection. Whether focus returns
-        // to the trigger depends on whether focus was inside the picker.
-        const focusInside = rootRef.current.contains(document.activeElement);
-        discardAndClose(focusInside);
-      }
-    };
-    const onDocKeydown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        discardAndClose(true);
-      }
-    };
-    document.addEventListener("mousedown", onDocMouseDown);
-    document.addEventListener("keydown", onDocKeydown);
-    return () => {
-      document.removeEventListener("mousedown", onDocMouseDown);
-      document.removeEventListener("keydown", onDocKeydown);
-    };
-  }, [open, discardAndClose]);
-
-  // Focus the inline header edit input when one opens.
-  React.useEffect(() => {
-    if (editing && editInputRef.current) {
-      editInputRef.current.focus();
-      editInputRef.current.select();
-    }
+    if (!editing) return;
+    editRef.current?.focus();
+    editRef.current?.select();
   }, [editing]);
 
-  // ── Selection ──────────────────────────────────────────────────────────
-  const selectHour = (v: number) => {
-    setH24(is12 ? toH24(v, ampm) : v);
-    // Re-focus the chosen hour cell (keeps keyboard position).
-    requestAnimationFrame(() => refocusCell("hour", is12 ? v : v));
-  };
-  const selectMinute = (v: number) => {
-    setMinute(v);
-    requestAnimationFrame(() => refocusCell("minute", v));
-  };
-  const selectAmpm = (ap: Ampm) => {
-    setAmpm(ap);
-    if (h24 !== null) setH24(toH24(toDisp12(h24), ap));
-  };
+  const selectHour = (hour: number) =>
+    setDraft((prev) => ({ ...prev, hour: is12 ? to24(hour, meridiem) : hour }));
+  const selectMinute = (minute: number) => setDraft((prev) => ({ ...prev, minute }));
+  const selectMeridiem = (next: Meridiem) =>
+    setDraft((prev) => ({
+      ...prev,
+      meridiem: next,
+      hour: prev.hour === null ? null : to24(prev.hour % 12 || 12, next),
+    }));
 
-  // Move the roving tab stop to the cell for `val` and focus it.
-  const refocusCell = (type: "hour" | "minute", val: number) => {
-    const scroll = type === "hour" ? hourScrollRef.current : minuteScrollRef.current;
-    if (!scroll) return;
-    const el = scroll.querySelector<HTMLElement>(`.hbd-time-picker__cell[data-val="${val}"]`);
-    if (el) el.focus();
-  };
+  const confirm = () =>
+    commit(
+      draft.hour === null || draft.minute === null
+        ? ""
+        : `${pad2(draft.hour)}:${pad2(draft.minute)}`,
+    );
 
-  // ── Roving-tabindex keyboard navigation inside a column ──────────────────
-  const onCellKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, type: "hour" | "minute") => {
-    const cell = e.currentTarget;
-    const col = cell.parentElement!;
-    const cells = Array.from(col.querySelectorAll<HTMLElement>(".hbd-time-picker__cell"));
-    const i = cells.indexOf(cell);
+  const columns = () =>
+    Array.from(
+      contentRef.current?.querySelectorAll<HTMLElement>('[data-slot="time-picker-scroll"]') ?? [],
+    );
 
-    const moveTo = (next: HTMLElement | undefined) => {
+  const onCellKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    onSelect: (value: number) => void,
+  ) => {
+    const cell = event.currentTarget;
+    const column = cell.parentElement;
+    const cells = Array.from(
+      column?.querySelectorAll<HTMLElement>('[data-slot="time-picker-cell"]') ?? [],
+    );
+    const index = cells.indexOf(cell);
+    const move = (next: HTMLElement | undefined) => {
       if (!next) return;
-      // Roving tabindex: the focused cell becomes the column's tab stop.
-      cells.forEach((c) => c.setAttribute("tabindex", "-1"));
-      next.setAttribute("tabindex", "0");
       next.focus();
       next.scrollIntoView({ block: "nearest" });
     };
-    const moveColumn = (dir: number) => {
-      const scrolls = [hourScrollRef.current, minuteScrollRef.current].filter(
-        Boolean,
-      ) as HTMLElement[];
-      const colIdx = scrolls.indexOf(col as HTMLElement);
-      const target = scrolls[colIdx + dir];
+    const moveColumn = (direction: number) => {
+      const all = columns();
+      const target = all[all.indexOf(column as HTMLElement) + direction];
       if (!target) return;
-      const stop =
-        target.querySelector<HTMLElement>('.hbd-time-picker__cell[tabindex="0"]') ||
-        target.querySelector<HTMLElement>(".hbd-time-picker__cell");
-      if (stop) {
-        stop.focus();
-        stop.scrollIntoView({ block: "nearest" });
-      }
+      move(
+        target.querySelector<HTMLElement>('[data-slot="time-picker-cell"][tabindex="0"]') ??
+          target.querySelector<HTMLElement>('[data-slot="time-picker-cell"]') ??
+          undefined,
+      );
     };
 
-    switch (e.key) {
+    switch (event.key) {
       case "ArrowDown":
-        e.preventDefault();
-        moveTo(cells[Math.min(i + 1, cells.length - 1)]);
+        event.preventDefault();
+        move(cells[Math.min(index + 1, cells.length - 1)]);
         break;
       case "ArrowUp":
-        e.preventDefault();
-        moveTo(cells[Math.max(i - 1, 0)]);
+        event.preventDefault();
+        move(cells[Math.max(index - 1, 0)]);
         break;
       case "Home":
-        e.preventDefault();
-        moveTo(cells[0]);
+        event.preventDefault();
+        move(cells[0]);
         break;
       case "End":
-        e.preventDefault();
-        moveTo(cells[cells.length - 1]);
+        event.preventDefault();
+        move(cells[cells.length - 1]);
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         moveColumn(1);
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         moveColumn(-1);
         break;
       case "Enter":
-      case " ": {
-        e.preventDefault();
-        const val = parseInt(cell.getAttribute("data-val") || "", 10);
-        if (type === "hour") selectHour(val);
-        else selectMinute(val);
+      case " ":
+        event.preventDefault();
+        onSelect(Number(cell.dataset.value));
         break;
-      }
       default:
         break;
     }
   };
 
-  // ── Footer actions ───────────────────────────────────────────────────────
-  const confirm = () => {
-    const next = h24 === null || minute === null ? null : `${pad2(h24)}:${pad2(minute)}`;
-    const prev = committed ?? null;
-    const changed = next !== prev;
-    setCommitted(next);
-    if (changed) onChange?.({ value: next });
-    closePanel(true);
-  };
-  // Clear wipes the working selection but keeps the panel open.
-  const clear = () => {
-    setH24(null);
-    setMinute(null);
-    setAmpm("AM");
-  };
-  const cancel = () => discardAndClose(true);
-
-  // ── Inline header typing (click-to-type) ─────────────────────────────────
   const commitHourDraft = (raw: string) => {
-    const n = parseInt((raw || "").trim(), 10);
-    if (Number.isNaN(n)) {
-      setEditing(null);
-      return false;
-    }
+    const typed = Number.parseInt(raw.trim(), 10);
+    setEditing(null);
+    if (Number.isNaN(typed)) return false;
     if (is12) {
-      if (n < 1 || n > 12) {
-        setEditing(null);
-        return false;
-      }
-      setH24(toH24(n, ampm));
-    } else {
-      if (n < 0 || n > 23) {
-        setEditing(null);
-        return false;
-      }
-      setH24(n);
+      if (typed < 1 || typed > 12) return false;
+      setDraft((prev) => ({
+        ...prev,
+        hour: to24(typed, prev.hour !== null ? (prev.hour >= 12 ? "PM" : "AM") : prev.meridiem),
+      }));
+      return true;
     }
-    setEditing(null);
+    if (typed < 0 || typed > 23) return false;
+    setDraft((prev) => ({ ...prev, hour: typed }));
     return true;
   };
+
   const commitMinuteDraft = (raw: string) => {
-    const n = parseInt((raw || "").trim(), 10);
-    if (Number.isNaN(n) || n < 0 || n > 59) {
-      setEditing(null);
-      return false;
-    }
-    setMinute(n);
+    const typed = Number.parseInt(raw.trim(), 10);
     setEditing(null);
+    if (Number.isNaN(typed) || typed < 0 || typed > 59) return false;
+    setDraft((prev) => ({ ...prev, minute: typed }));
     return true;
   };
 
-  // ── Render ───────────────────────────────────────────────────────────────
-  const hasError = error != null && error !== "";
-
-  const renderCell = (val: number, type: "hour" | "minute") => {
-    const sel =
-      type === "hour" ? selDispHr !== null && val === selDispHr : minute !== null && val === minute;
-    const focusable = type === "hour" ? val === hrFocusVal : val === mnFocusVal;
-    return (
+  const renderColumn = (
+    kind: "hour" | "minute",
+    label: string,
+    values: number[],
+    selected: number | null,
+    onSelect: (value: number) => void,
+  ) => (
+    <div data-slot="time-picker-column" className="flex flex-1 flex-col">
       <div
-        key={val}
-        role="option"
-        aria-selected={sel}
-        tabIndex={focusable ? 0 : -1}
-        className={cn("hbd-time-picker__cell", sel && "is-selected")}
-        data-type={type}
-        data-val={val}
-        onClick={() => (type === "hour" ? selectHour(val) : selectMinute(val))}
-        onKeyDown={(e) => onCellKeyDown(e, type)}
+        data-slot="time-picker-column-label"
+        aria-hidden="true"
+        className="border-b border-parchment-400 bg-parchment-300 px-1 pt-2 pb-1 text-center font-display text-[0.6875rem] leading-[1.7] tracking-[0.3em] text-foreground-gold uppercase"
       >
-        {pad2(val)}
+        {label}
       </div>
-    );
-  };
-
-  const triggerAria = `${ariaLabel}${displayStr ? `, current value ${displayStr}` : ""}`;
-
-  return (
-    <div
-      ref={rootRef}
-      className={cn(
-        "hbd-time-picker",
-        open && "hbd-time-picker--open",
-        disabled && "hbd-time-picker--disabled",
-        hasError && "hbd-time-picker--error",
-        className,
-      )}
-    >
-      <button
-        ref={triggerRef}
-        type="button"
-        className="hbd-time-picker__trigger"
-        aria-haspopup="dialog"
-        aria-expanded={open}
-        aria-label={triggerAria}
-        disabled={disabled}
-        onClick={() => {
-          if (!disabled) openPanel();
-        }}
-      >
-        <span
-          className={cn(
-            "hbd-time-picker__trigger-label",
-            !displayStr && "hbd-time-picker__trigger-label--placeholder",
-          )}
-        >
-          {displayStr || placeholder}
-        </span>
-        <span className="hbd-time-picker__caret" aria-hidden="true" />
-      </button>
-
-      {/* Always-mounted panel; the slide is controlled by the wrapper --open
-          class so the max-height/opacity transition can interpolate. */}
       <div
-        className="hbd-time-picker__panel"
-        role="dialog"
-        aria-label={ariaLabel}
-        aria-modal="false"
+        data-slot="time-picker-scroll"
+        role="listbox"
+        aria-label={`Select ${kind}`}
+        className="h-45 overflow-x-hidden overflow-y-auto [scrollbar-color:var(--parchment-400)_var(--parchment-300)] [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:bg-parchment-400 [&::-webkit-scrollbar-track]:bg-parchment-300 [&::-webkit-scrollbar]:w-1"
       >
-        <div className="hbd-time-picker__header">
-          {editing === "hour" ? (
-            <input
-              ref={editInputRef}
-              type="text"
-              inputMode="numeric"
-              maxLength={2}
-              defaultValue={selDispHr !== null ? String(selDispHr) : ""}
-              className="hbd-time-picker__header-input"
-              data-role="hour-input"
-              aria-label={`Type hour, ${is12 ? "1 to 12" : "0 to 23"}`}
-              onChange={(e) => {
-                const v = e.target.value.replace(/\D/g, "").slice(0, 2);
-                if (v !== e.target.value) e.target.value = v;
-                // Auto-advance to minute on a complete value, or a leading
-                // digit that cannot extend to a valid 2-digit hour.
-                if (v.length === 2) {
-                  if (commitHourDraft(v)) setEditing("minute");
-                  return;
-                }
-                if (v.length === 1) {
-                  const d = parseInt(v, 10);
-                  const maxFirst = is12 ? 1 : 2;
-                  if (d > maxFirst) {
-                    if (commitHourDraft(v)) setEditing("minute");
-                  }
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  if (commitHourDraft(e.currentTarget.value)) setEditing("minute");
-                }
-                if (e.key === "Escape") {
-                  e.stopPropagation();
-                  setEditing(null);
-                }
-                if (e.key === "Tab" && !e.shiftKey) {
-                  e.preventDefault();
-                  if (commitHourDraft(e.currentTarget.value)) setEditing("minute");
-                }
-              }}
-              onBlur={(e) => commitHourDraft(e.currentTarget.value)}
-            />
-          ) : (
-            <span
-              className="hbd-time-picker__display-num hbd-time-picker__display-num--editable"
-              role="button"
-              tabIndex={0}
-              aria-label={`Hour ${headerH}, activate to type`}
-              data-edit-hour
-              onClick={() => setEditing("hour")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setEditing("hour");
-                }
-              }}
-            >
-              {headerH}
-            </span>
-          )}
-
-          <span className="hbd-time-picker__display-sep" aria-hidden="true">
-            :
-          </span>
-
-          {editing === "minute" ? (
-            <input
-              ref={editInputRef}
-              type="text"
-              inputMode="numeric"
-              maxLength={2}
-              defaultValue={minute !== null ? pad2(minute) : ""}
-              className="hbd-time-picker__header-input"
-              data-role="minute-input"
-              aria-label="Type minute, 0 to 59"
-              onChange={(e) => {
-                const v = e.target.value.replace(/\D/g, "").slice(0, 2);
-                if (v !== e.target.value) e.target.value = v;
-                if (v.length === 2) {
-                  commitMinuteDraft(v);
-                  return;
-                }
-                if (v.length === 1) {
-                  const d = parseInt(v, 10);
-                  if (d > 5) commitMinuteDraft(v);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  commitMinuteDraft(e.currentTarget.value);
-                }
-                if (e.key === "Escape") {
-                  e.stopPropagation();
-                  setEditing(null);
-                }
-              }}
-              onBlur={(e) => commitMinuteDraft(e.currentTarget.value)}
-            />
-          ) : (
-            <span
-              className="hbd-time-picker__display-num hbd-time-picker__display-num--editable"
-              role="button"
-              tabIndex={0}
-              aria-label={`Minute ${headerM}, activate to type`}
-              data-edit-minute
-              onClick={() => setEditing("minute")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setEditing("minute");
-                }
-              }}
-            >
-              {headerM}
-            </span>
-          )}
-
-          {is12 ? <span className="hbd-time-picker__display-ampm">{curAmpm}</span> : null}
-        </div>
-
-        <div className="hbd-time-picker__columns">
-          <div className="hbd-time-picker__column">
+        {values.map((entry) => {
+          const isSelected = selected !== null && entry === selected;
+          return (
             <div
-              className="hbd-time-picker__column-label"
-              id={`tp-hr-lbl-${uid}`}
-              aria-hidden="true"
+              key={entry}
+              role="option"
+              aria-selected={isSelected}
+              data-slot="time-picker-cell"
+              data-value={entry}
+              data-selected={isSelected ? "true" : undefined}
+              tabIndex={entry === (selected ?? values[0]) ? 0 : -1}
+              className={cn(
+                "flex h-9 cursor-pointer items-center justify-center font-display text-[1.0625rem] leading-[1.7] text-foreground transition-[background-color,color] duration-120 ease-out outline-none select-none hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                isSelected && "bg-primary text-primary-foreground hover:bg-primary",
+              )}
+              onClick={() => onSelect(entry)}
+              onKeyDown={(event) => onCellKeyDown(event, onSelect)}
             >
-              {is12 ? "Hour" : "Hour (24)"}
+              {pad2(entry)}
             </div>
-            <div
-              ref={hourScrollRef}
-              className="hbd-time-picker__scroll"
-              data-scroll="hour"
-              role="listbox"
-              aria-label="Select hour"
-            >
-              {hours.map((hr) => renderCell(hr, "hour"))}
-            </div>
-          </div>
-
-          <div className="hbd-time-picker__divider" />
-
-          <div className="hbd-time-picker__column">
-            <div className="hbd-time-picker__column-label" aria-hidden="true">
-              Min
-            </div>
-            <div
-              ref={minuteScrollRef}
-              className="hbd-time-picker__scroll"
-              data-scroll="minute"
-              role="listbox"
-              aria-label="Select minute"
-            >
-              {minutes.map((mn) => renderCell(mn, "minute"))}
-            </div>
-          </div>
-
-          {is12 ? (
-            <>
-              <div className="hbd-time-picker__divider" />
-              <div className="hbd-time-picker__ampm">
-                <div className="hbd-time-picker__column-label" aria-hidden="true">
-                  AM·PM
-                </div>
-                <div className="hbd-time-picker__ampm-wrap" role="listbox" aria-label="AM or PM">
-                  {(["AM", "PM"] as Ampm[]).map((ap) => (
-                    <button
-                      key={ap}
-                      type="button"
-                      role="option"
-                      aria-selected={curAmpm === ap}
-                      data-ampm={ap}
-                      className={cn("hbd-time-picker__ampm-btn", curAmpm === ap && "is-active")}
-                      onClick={() => selectAmpm(ap)}
-                    >
-                      {ap}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          ) : null}
-        </div>
-
-        <div className="hbd-time-picker__footer">
-          <button type="button" className="hbd-time-picker__clear" onClick={clear}>
-            Clear
-          </button>
-          <div className="hbd-time-picker__footer-group">
-            <button type="button" className="hbd-time-picker__cancel" onClick={cancel}>
-              Cancel
-            </button>
-            <button type="button" className="hbd-time-picker__confirm" onClick={confirm}>
-              Confirm
-            </button>
-          </div>
-        </div>
+          );
+        })}
       </div>
-
-      {/* Hidden input mirrors the WC's form-associated value for native forms. */}
-      {name ? <input type="hidden" name={name} value={committed ?? ""} /> : null}
-
-      {hasError ? (
-        <span className="hbd-time-picker__error-message" role="alert">
-          {error}
-        </span>
-      ) : null}
     </div>
   );
-}
-TimePicker.displayName = "TimePicker";
 
-export { TimePicker };
+  const headerNumber =
+    "cursor-pointer border-b-2 border-transparent font-display text-2xl leading-none text-foreground tabular-nums outline-none hover:border-border-gold hover:text-foreground-gold focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
+
+  return (
+    <PopoverContent
+      ref={contentRef}
+      data-slot="time-picker-content"
+      align={align}
+      sideOffset={sideOffset}
+      showArrow={showArrow}
+      className={cn(
+        // max-h-80 is the panel's height budget: a full panel is a couple of pixels taller, so
+        // centring the selection scrolls the panel itself by that much, as it always has.
+        "flex max-h-80 w-auto max-w-none min-w-55 flex-col gap-0 overflow-hidden rounded-md border-border-strong bg-parchment-300 p-0 font-display shadow-lg",
+        className,
+      )}
+      onOpenAutoFocus={(event) => {
+        onOpenAutoFocus?.(event);
+        if (event.defaultPrevented) return;
+        // Land on the hour column with the current selection centred, as the old panel did,
+        // instead of on the panel's first focusable node.
+        event.preventDefault();
+        for (const column of columns()) {
+          const active =
+            column.querySelector<HTMLElement>('[data-selected="true"]') ??
+            column.querySelector<HTMLElement>('[data-slot="time-picker-cell"][tabindex="0"]');
+          active?.scrollIntoView({ block: "center" });
+        }
+        columns()[0]
+          ?.querySelector<HTMLElement>('[data-slot="time-picker-cell"][tabindex="0"]')
+          ?.focus({ preventScroll: true });
+      }}
+      {...props}
+    >
+      <div
+        data-slot="time-picker-header"
+        className="flex items-baseline gap-1 border-b border-parchment-400 bg-parchment-300 px-4 py-2"
+      >
+        {editing === "hour" ? (
+          <input
+            ref={editRef}
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            defaultValue={displayHour !== null ? String(displayHour) : ""}
+            data-slot="time-picker-header-input"
+            aria-label={`Type hour, ${is12 ? "1 to 12" : "0 to 23"}`}
+            className="w-[2.4ch] border-0 border-b-2 border-border-gold bg-transparent p-0 text-center font-display text-2xl leading-none text-foreground-secondary tabular-nums outline-none"
+            onChange={(event) => {
+              const digits = event.target.value.replace(/\D/g, "").slice(0, 2);
+              if (digits !== event.target.value) event.target.value = digits;
+              // Jump to the minute as soon as no second digit could make a valid hour.
+              if (digits.length === 2) {
+                if (commitHourDraft(digits)) setEditing("minute");
+                return;
+              }
+              if (digits.length === 1 && Number(digits) > (is12 ? 1 : 2)) {
+                if (commitHourDraft(digits)) setEditing("minute");
+              }
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || (event.key === "Tab" && !event.shiftKey)) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (commitHourDraft(event.currentTarget.value)) setEditing("minute");
+              }
+              if (event.key === "Escape") {
+                event.stopPropagation();
+                setEditing(null);
+              }
+            }}
+            onBlur={(event) => commitHourDraft(event.currentTarget.value)}
+          />
+        ) : (
+          <span
+            role="button"
+            tabIndex={0}
+            data-slot="time-picker-header-hour"
+            aria-label={`Hour ${displayHour !== null ? pad2(displayHour) : "unset"}, activate to type`}
+            className={headerNumber}
+            onClick={() => setEditing("hour")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setEditing("hour");
+              }
+            }}
+          >
+            {displayHour !== null ? pad2(displayHour) : "––"}
+          </span>
+        )}
+
+        <span aria-hidden="true" className="font-display text-xl leading-none text-foreground-gold">
+          :
+        </span>
+
+        {editing === "minute" ? (
+          <input
+            ref={editRef}
+            type="text"
+            inputMode="numeric"
+            maxLength={2}
+            defaultValue={draft.minute !== null ? pad2(draft.minute) : ""}
+            data-slot="time-picker-header-input"
+            aria-label="Type minute, 0 to 59"
+            className="w-[2.4ch] border-0 border-b-2 border-border-gold bg-transparent p-0 text-center font-display text-2xl leading-none text-foreground-secondary tabular-nums outline-none"
+            onChange={(event) => {
+              const digits = event.target.value.replace(/\D/g, "").slice(0, 2);
+              if (digits !== event.target.value) event.target.value = digits;
+              if (digits.length === 2) {
+                commitMinuteDraft(digits);
+                return;
+              }
+              if (digits.length === 1 && Number(digits) > 5) commitMinuteDraft(digits);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                event.stopPropagation();
+                commitMinuteDraft(event.currentTarget.value);
+              }
+              if (event.key === "Escape") {
+                event.stopPropagation();
+                setEditing(null);
+              }
+            }}
+            onBlur={(event) => commitMinuteDraft(event.currentTarget.value)}
+          />
+        ) : (
+          <span
+            role="button"
+            tabIndex={0}
+            data-slot="time-picker-header-minute"
+            aria-label={`Minute ${draft.minute !== null ? pad2(draft.minute) : "unset"}, activate to type`}
+            className={headerNumber}
+            onClick={() => setEditing("minute")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setEditing("minute");
+              }
+            }}
+          >
+            {draft.minute !== null ? pad2(draft.minute) : "––"}
+          </span>
+        )}
+
+        {is12 ? (
+          <span
+            data-slot="time-picker-header-meridiem"
+            className="ml-2 self-end font-sans text-[0.6875rem] leading-[1.7] tracking-[0.15em] text-foreground-gold"
+          >
+            {meridiem}
+          </span>
+        ) : null}
+      </div>
+
+      <div data-slot="time-picker-columns" className="flex border-b border-parchment-400">
+        {renderColumn("hour", is12 ? "Hour" : "Hour (24)", hours, displayHour, selectHour)}
+        <div data-slot="time-picker-divider" className="w-px shrink-0 bg-parchment-400" />
+        {renderColumn("minute", "Min", minutes, draft.minute, selectMinute)}
+        {is12 ? (
+          <>
+            <div data-slot="time-picker-divider" className="w-px shrink-0 bg-parchment-400" />
+            <div data-slot="time-picker-meridiem" className="flex w-13 shrink-0 flex-col">
+              <div
+                data-slot="time-picker-column-label"
+                aria-hidden="true"
+                className="border-b border-parchment-400 bg-parchment-300 px-1 pt-2 pb-1 text-center font-display text-[0.6875rem] leading-[1.7] tracking-[0.3em] text-foreground-gold uppercase"
+              >
+                AM·PM
+              </div>
+              <div
+                role="listbox"
+                aria-label="AM or PM"
+                className="flex h-45 flex-col justify-center gap-2 p-2"
+              >
+                {(["AM", "PM"] as const).map((entry) => (
+                  <button
+                    key={entry}
+                    type="button"
+                    role="option"
+                    aria-selected={meridiem === entry}
+                    data-slot="time-picker-meridiem-option"
+                    data-active={meridiem === entry ? "true" : undefined}
+                    className={cn(
+                      "flex h-9 cursor-pointer items-center justify-center border border-parchment-400 bg-surface-subtle font-display text-[0.8125rem] leading-[1.7] tracking-wide text-foreground-secondary transition-[background-color,color] duration-120 ease-out outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      meridiem === entry &&
+                        "border-blood-deep bg-primary text-primary-foreground hover:text-primary-foreground",
+                    )}
+                    onClick={() => selectMeridiem(entry)}
+                  >
+                    {entry}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        ) : null}
+      </div>
+
+      <div
+        data-slot="time-picker-footer"
+        className="flex items-center justify-between gap-2 border-t border-parchment-400 px-3 py-2"
+      >
+        <button
+          type="button"
+          data-slot="time-picker-clear"
+          className={footerButton}
+          onClick={() => setDraft({ hour: null, minute: null, meridiem: "AM" })}
+        >
+          Clear
+        </button>
+        <div className="inline-flex items-center gap-2">
+          <button
+            type="button"
+            data-slot="time-picker-cancel"
+            className={footerButton}
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            data-slot="time-picker-confirm"
+            className="min-h-12 cursor-pointer rounded-sm bg-primary px-4 py-2 font-display text-[0.8125rem] leading-[1.7] font-bold tracking-[0.2em] text-primary-foreground uppercase shadow-[3px_3px_0_var(--blood-deep)] transition-[box-shadow] duration-120 ease-out outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring"
+            onClick={confirm}
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+      <span className="sr-only" aria-live="polite">
+        {formatTime(value, format)}
+      </span>
+    </PopoverContent>
+  );
+}
+
+export { TimePicker, TimePickerTrigger, TimePickerValue, TimePickerContent };

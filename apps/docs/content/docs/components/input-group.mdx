@@ -1,0 +1,333 @@
+---
+title: Input Group
+description: Add addons, buttons, and helper content to inputs.
+---
+
+import { SearchIcon } from "lucide-react";
+import { Field, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/registry/new-york/input-group/input-group";
+import { Kbd } from "@/registry/new-york/kbd/kbd";
+import { InputGroupPasswordDemo } from "@/components/examples/input-group-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputGroup className="max-w-sm">
+        <InputGroupInput placeholder="Search the bestiary…" />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘K</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SearchIcon } from "lucide-react";
+    import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+    import { Kbd } from "@/components/ui/kbd";
+
+    export function InputGroupDemo() {
+      return (
+        <InputGroup className="max-w-sm">
+          <InputGroupInput placeholder="Search the bestiary…" />
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <Kbd>⌘K</Kbd>
+          </InputGroupAddon>
+        </InputGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/input-group
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/input-group.json
+```
+
+## Usage
+
+```tsx
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+```
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+  <InputGroupAddon align="inline-end">
+    <InputGroupButton>Search</InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+The group owns the border, focus ring and error, success, disabled and read-only surfaces: set
+`aria-invalid`, `data-valid`, `disabled` or `readOnly` on the control and the group follows.
+
+## Examples
+
+### Prefix and Suffix
+
+The old input `prefix` and `suffix` props. Inline addons keep the glyph exactly where the old field
+drew it, and still leave an 8px gap when the text is longer.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-4">
+        <InputGroup>
+          <InputGroupInput type="number" placeholder="0.00" aria-label="Price" />
+          <InputGroupAddon>
+            <InputGroupText>$</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput type="number" placeholder="0" aria-label="Weight" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupText>kg</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput placeholder="herebedragons.example" aria-label="Website" />
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <InputGroup>
+      <InputGroupInput type="number" placeholder="0.00" aria-label="Price" />
+      <InputGroupAddon>
+        <InputGroupText>$</InputGroupText>
+      </InputGroupAddon>
+    </InputGroup>
+    <InputGroup>
+      <InputGroupInput type="number" placeholder="0" aria-label="Weight" />
+      <InputGroupAddon align="inline-end">
+        <InputGroupText>kg</InputGroupText>
+      </InputGroupAddon>
+    </InputGroup>
+    <InputGroup>
+      <InputGroupInput placeholder="herebedragons.example" aria-label="Website" />
+      <InputGroupAddon>
+        <InputGroupText>https://</InputGroupText>
+      </InputGroupAddon>
+    </InputGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Password Toggle
+
+The old built-in eye toggle, as an icon button in an inline-end addon.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputGroupPasswordDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { EyeIcon, EyeOffIcon } from "lucide-react";
+    import {
+      InputGroup,
+      InputGroupAddon,
+      InputGroupButton,
+      InputGroupInput,
+    } from "@/components/ui/input-group";
+
+    export function InputGroupPasswordDemo() {
+      const [visible, setVisible] = React.useState(false);
+
+      return (
+        <InputGroup className="max-w-sm">
+          <InputGroupInput
+            type={visible ? "text" : "password"}
+            placeholder="••••••••"
+            aria-label="Password"
+          />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              size="icon-xs"
+              aria-label={visible ? "Hide password" : "Show password"}
+              aria-pressed={visible}
+              onClick={() => setVisible((v) => !v)}
+            >
+              {visible ? <EyeOffIcon /> : <EyeIcon />}
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Button
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputGroup className="max-w-sm">
+        <InputGroupInput placeholder="Name your quest" aria-label="Quest" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton variant="secondary">Embark</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <InputGroup className="max-w-sm">
+      <InputGroupInput placeholder="Name your quest" aria-label="Quest" />
+      <InputGroupAddon align="inline-end">
+        <InputGroupButton variant="secondary">Embark</InputGroupButton>
+      </InputGroupAddon>
+    </InputGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Textarea
+
+Block addons sit above or below a textarea.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputGroup className="max-w-md">
+        <InputGroupTextarea placeholder="Send a raven…" aria-label="Message" />
+        <InputGroupAddon align="block-end">
+          <InputGroupText className="text-[0.8125rem]">0/280</InputGroupText>
+          <InputGroupButton variant="default" size="sm" className="ms-auto">
+            {"Send"}
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <InputGroup className="max-w-md">
+      <InputGroupTextarea placeholder="Send a raven…" aria-label="Message" />
+      <InputGroupAddon align="block-end">
+        <InputGroupText className="text-[0.8125rem]">0/280</InputGroupText>
+        <InputGroupButton variant="default" size="sm" className="ms-auto">
+          Send
+        </InputGroupButton>
+      </InputGroupAddon>
+    </InputGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### With Field and Error
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field data-invalid>
+          <FieldLabel htmlFor="input-group-demo-price">Price</FieldLabel>
+          <InputGroup>
+            <InputGroupInput id="input-group-demo-price" aria-invalid defaultValue="3" />
+            <InputGroupAddon>
+              <InputGroupText>$</InputGroupText>
+            </InputGroupAddon>
+          </InputGroup>
+          <FieldError>No dragon sells that cheap.</FieldError>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid>
+      <FieldLabel htmlFor="price">Price</FieldLabel>
+      <InputGroup>
+        <InputGroupInput id="price" aria-invalid defaultValue="3" />
+        <InputGroupAddon>
+          <InputGroupText>$</InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
+      <FieldError>No dragon sells that cheap.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### InputGroupAddon
+
+<TypeTable
+  type={{
+    align: {
+      type: '"inline-start" | "inline-end" | "block-start" | "block-end"',
+      default: '"inline-start"',
+      description: "Where the addon sits. Clicking it focuses the input.",
+    },
+  }}
+/>
+
+### InputGroupButton
+
+<TypeTable
+  type={{
+    size: {
+      type: '"xs" | "sm" | "icon-xs" | "icon-sm"',
+      default: '"xs"',
+      description:
+        "Compact sizes that fit inside the group. `icon-xs` draws an 18px icon, like the old eye toggle.",
+    },
+    variant: {
+      type: "Button variant",
+      default: '"ghost"',
+      description:
+        "Any [Button](/docs/components/button) variant. The ghost button uses muted ink with no hover fill.",
+    },
+  }}
+/>
+
+`InputGroupInput` and `InputGroupTextarea` take every [Input](/docs/components/input) and
+[Textarea](/docs/components/textarea) prop. `InputGroup` and `InputGroupText` forward to their `div`
+and `span`.

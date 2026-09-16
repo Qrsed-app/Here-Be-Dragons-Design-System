@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button. shadcn/ui API in the Here Be Dragons look: a raised parchment panel with an ink-brown hairline, Roboto items, uppercase tracked group labels and a blood-tinted destructive variant.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

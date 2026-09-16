@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "A styled native HTML select element with consistent design system integration. shadcn/ui API in the Here Be Dragons look: the closed trigger of the old select, chevron included. Adds an lg size, a data-valid state and a muted placeholder for an empty-value option.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

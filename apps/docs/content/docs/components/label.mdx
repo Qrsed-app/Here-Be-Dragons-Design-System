@@ -1,0 +1,121 @@
+---
+title: Label
+description: Renders an accessible label associated with controls.
+---
+
+import { Input } from "@/registry/new-york/input/input";
+import { Label } from "@/registry/new-york/label/label";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-1">
+        <Label htmlFor="label-demo-name">Display name</Label>
+        <Input id="label-demo-name" placeholder="Brave adventurer" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
+
+    export function LabelDemo() {
+      return (
+        <div className="flex w-full max-w-sm flex-col gap-1">
+          <Label htmlFor="name">Display name</Label>
+          <Input id="name" placeholder="Brave adventurer" />
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/label
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/label.json
+```
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label";
+```
+
+```tsx
+<Label htmlFor="email">Your email address</Label>
+```
+
+## Examples
+
+### Required
+
+The old `required` asterisk is a composition: add a blood-red `*` inside the label and hide it
+from screen readers — the control's own `required` attribute is what gets announced.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-1">
+        <Label htmlFor="label-demo-ship">
+          {"Ship name"}
+          <span aria-hidden="true" className="text-foreground-emphasis">
+            {"*"}
+          </span>
+        </Label>
+        <Input id="label-demo-ship" required placeholder="The Wyvern" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Label htmlFor="ship">
+      Ship name
+      <span aria-hidden="true" className="text-foreground-emphasis">
+        *
+      </span>
+    </Label>
+    <Input id="ship" required placeholder="The Wyvern" />
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+The label takes the disabled ink when its control is a preceding `peer` sibling, or when an
+ancestor `group` carries `data-disabled="true"` (as [Field](/docs/components/field) does).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="group flex w-full max-w-sm flex-col gap-1" data-disabled="true">
+        <Label htmlFor="label-demo-sealed">Sealed scroll</Label>
+        <Input id="label-demo-sealed" placeholder="Unavailable" disabled />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="group flex flex-col gap-1" data-disabled="true">
+      <Label htmlFor="sealed">Sealed scroll</Label>
+      <Input id="sealed" placeholder="Unavailable" disabled />
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+`Label` adds no props of its own. Everything is forwarded to the Radix
+[Label](https://www.radix-ui.com/primitives/docs/components/label) root, which renders a `<label>`.
+For form layouts with descriptions and errors, use [Field](/docs/components/field).

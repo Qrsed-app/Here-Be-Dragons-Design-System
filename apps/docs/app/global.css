@@ -1,26 +1,23 @@
-/* 1. The HBD design-system theme.
- *    NOTE: packages/hbd/app/globals.css already begins with `@import 'tailwindcss';`
- *    and `@import 'tw-animate-css';` — so we do NOT import tailwindcss again here.
- *    It also defines @custom-variant dark (.dark / [data-theme="dark"]),
- *    @font-face (url('/fonts/...')), all tokens, the [data-theme=...] blocks,
- *    @theme inline, and every folded component stylesheet. */
-@import '../../../packages/hbd/app/globals.css';
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
-/* 2. Fumadocs presets — AFTER our theme so our tokens load first.
- *    neutral = Fumadocs' neutral color preset for its own docs chrome
- *    (the --color-fd-* surfaces; the previewed components use HBD tokens). */
+@custom-variant dark (&:is(.dark *));
+
+/* The theme and the fonts exactly as `npx shadcn add @hbd/theme @hbd/fonts` write them. */
+@import '../../../packages/hbd/theme/fonts.css';
+@import '../../../packages/hbd/theme/theme.css';
+
+/* Fumadocs presets for the docs chrome (the --color-fd-* surfaces). */
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
-/* 3. Tailwind v4 source scanning (relative to THIS file).
- *    Tailwind does not scan node_modules or sibling workspace packages by default. */
+/* Tailwind does not scan node_modules or sibling workspace packages by default. */
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 @source '../../../packages/hbd/registry/**/*.{ts,tsx}';
 
-/* 4. Optional: shift Fumadocs surfaces under high-contrast so its chrome
- *    follows the HBD high-contrast theme (Fumadocs only ships light + .dark). */
-[data-theme='high-contrast'] {
-  --color-fd-background: var(--hbd-color-surface-default, #fff);
-  --color-fd-foreground: var(--hbd-color-text-primary, #000);
-  --color-fd-border: var(--hbd-color-border-default, #000);
+/* Fumadocs ships light + .dark only; follow the HBD high-contrast theme. */
+.high-contrast {
+  --color-fd-background: var(--background);
+  --color-fd-foreground: var(--foreground);
+  --color-fd-border: var(--border);
 }

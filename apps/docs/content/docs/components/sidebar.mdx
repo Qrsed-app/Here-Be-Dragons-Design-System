@@ -1,0 +1,325 @@
+---
+title: Sidebar
+description: A composable, themeable and customizable sidebar.
+---
+
+import { SidebarDemo } from "@/components/examples/sidebar-demo";
+
+New in the shadcn API, dressed in the Here Be Dragons look: a parchment rail, small-caps group
+labels, and a blood ribbon down the leading edge of the current row.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SidebarDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { BookOpenIcon, MapIcon, SearchIcon, SwordsIcon } from "lucide-react";
+
+    import {
+      Sidebar,
+      SidebarContent,
+      SidebarGroup,
+      SidebarGroupContent,
+      SidebarGroupLabel,
+      SidebarHeader,
+      SidebarInput,
+      SidebarInset,
+      SidebarMenu,
+      SidebarMenuBadge,
+      SidebarMenuButton,
+      SidebarMenuItem,
+      SidebarProvider,
+      SidebarTrigger,
+    } from "@/components/ui/sidebar";
+
+    const voyage = [
+      { title: "Atlas", icon: MapIcon, badge: "12" },
+      { title: "Bestiary", icon: SwordsIcon },
+      { title: "Spellbook", icon: BookOpenIcon, badge: "3" },
+    ];
+
+    export function AppSidebar() {
+      const [active, setActive] = React.useState("Atlas");
+
+      return (
+        <SidebarProvider>
+          <Sidebar>
+            <SidebarHeader>
+              <SidebarInput placeholder="Search the charts" aria-label="Search the charts" />
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupLabel>Voyage</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {voyage.map((item) => (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton
+                          isActive={active === item.title}
+                          onClick={() => setActive(item.title)}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </SidebarMenuButton>
+                        {item.badge ? <SidebarMenuBadge>{item.badge}</SidebarMenuBadge> : null}
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+          </Sidebar>
+
+          <SidebarInset className="p-4">
+            <SidebarTrigger />
+          </SidebarInset>
+        </SidebarProvider>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+The preview above uses `collapsible="none"` so the rail stays inside the page. A real sidebar is
+`fixed`, full height, and collapses — see the layout below.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/sidebar
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/sidebar.json
+```
+
+It brings Button, Input, Separator, Sheet, Skeleton and Tooltip with it, plus the `use-mobile`
+hook — below `768px` the rail becomes a Sheet.
+
+## Usage
+
+A sidebar lives in three files: the provider in your layout, the rail itself, and the page.
+
+```tsx title="app/layout.tsx"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
+}
+```
+
+```tsx title="components/app-sidebar.tsx"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar";
+
+export function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup />
+        <SidebarGroup />
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  );
+}
+```
+
+```tsx title="app/page.tsx"
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+
+export default function Page() {
+  return (
+    <SidebarInset>
+      <SidebarTrigger />
+      <h1>Atlas</h1>
+    </SidebarInset>
+  );
+}
+```
+
+`SidebarProvider` owns the open state, remembers it in a cookie, and binds <kbd>⌘</kbd>+<kbd>B</kbd>
+to toggle it.
+
+## Examples
+
+### Groups, badges and sub-menus
+
+`SidebarGroupLabel` is the small-caps eyebrow over a block of rows. `SidebarMenuBadge` pins a count
+to the right of a row, and `SidebarMenuSub` nests child links under it — all shown in the preview
+at the top of this page.
+
+```tsx
+<SidebarGroup>
+  <SidebarGroupLabel>Voyage</SidebarGroupLabel>
+  <SidebarGroupContent>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton isActive>
+          <MapIcon />
+          <span>Atlas</span>
+        </SidebarMenuButton>
+        <SidebarMenuBadge>12</SidebarMenuBadge>
+        <SidebarMenuSub>
+          <SidebarMenuSubItem>
+            <SidebarMenuSubButton href="/seas/north" isActive>
+              Northern Seas
+            </SidebarMenuSubButton>
+          </SidebarMenuSubItem>
+        </SidebarMenuSub>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarGroupContent>
+</SidebarGroup>
+```
+
+### Collapsing to icons
+
+`collapsible="icon"` keeps a 3rem rail of icons when the sidebar is closed. Give each row a
+`tooltip` so the label survives the collapse.
+
+```tsx
+<Sidebar collapsible="icon">
+  …
+  <SidebarMenuButton tooltip="Atlas">
+    <MapIcon />
+    <span>Atlas</span>
+  </SidebarMenuButton>
+</Sidebar>
+```
+
+### A link instead of a button
+
+```tsx
+<SidebarMenuButton asChild isActive>
+  <Link href="/atlas">
+    <MapIcon />
+    <span>Atlas</span>
+  </Link>
+</SidebarMenuButton>
+```
+
+### Loading rows
+
+```tsx
+<SidebarMenu>
+  {Array.from({ length: 5 }).map((_, i) => (
+    <SidebarMenuItem key={i}>
+      <SidebarMenuSkeleton showIcon />
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>
+```
+
+## API Reference
+
+### SidebarProvider
+
+<TypeTable
+  type={{
+    defaultOpen: {
+      type: "boolean",
+      default: "true",
+      description: "Whether the sidebar starts open when uncontrolled.",
+    },
+    open: {
+      type: "boolean",
+      description: "Controlled open state.",
+    },
+    onOpenChange: {
+      type: "(open: boolean) => void",
+      description: "Called when the open state changes.",
+    },
+  }}
+/>
+
+Sets `--sidebar-width` (16rem) and `--sidebar-width-icon` (3rem); override them with `style` to
+resize the rail.
+
+### Sidebar
+
+<TypeTable
+  type={{
+    side: {
+      type: '"left" | "right"',
+      default: '"left"',
+      description: "Which edge the rail is docked to.",
+    },
+    variant: {
+      type: '"sidebar" | "floating" | "inset"',
+      default: '"sidebar"',
+      description:
+        "`floating` lifts the rail onto a bordered card; `inset` insets the page content beside it.",
+    },
+    collapsible: {
+      type: '"offcanvas" | "icon" | "none"',
+      default: '"offcanvas"',
+      description: "How the rail collapses: slide away, shrink to icons, or never.",
+    },
+  }}
+/>
+
+### SidebarMenuButton
+
+<TypeTable
+  type={{
+    isActive: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Marks the current row: parchment wash, semibold blood type and the ribbon on its leading edge.",
+    },
+    variant: {
+      type: '"default" | "outline"',
+      default: '"default"',
+      description: "`outline` gives the row a hairline ring.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+      description: "Row height: 2rem, 1.75rem or 3rem.",
+    },
+    tooltip: {
+      type: "string | TooltipContentProps",
+      description: "Shown to the right when the sidebar is collapsed to icons.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element — a router link — instead of a `<button>` (Radix Slot).",
+    },
+  }}
+/>
+
+`useSidebar()` returns `{ state, open, setOpen, openMobile, setOpenMobile, isMobile, toggleSidebar }`
+for anything the parts don't cover. The remaining exports — `SidebarHeader`, `SidebarFooter`,
+`SidebarContent`, `SidebarGroup`, `SidebarGroupAction`, `SidebarGroupContent`, `SidebarInput`,
+`SidebarInset`, `SidebarMenu`, `SidebarMenuAction`, `SidebarMenuBadge`, `SidebarMenuSkeleton`,
+`SidebarMenuSub`, `SidebarMenuSubButton`, `SidebarMenuSubItem`, `SidebarRail`, `SidebarSeparator`
+and `SidebarTrigger` — take the props of the element they render.

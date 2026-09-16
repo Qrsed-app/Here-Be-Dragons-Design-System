@@ -1,0 +1,363 @@
+---
+title: Stepper Nav
+description: Shows progress through the steps of a multi-step flow.
+---
+
+import {
+  StepperNav,
+  StepperNavContent,
+  StepperNavDescription,
+  StepperNavIndicator,
+  StepperNavItem,
+  StepperNavList,
+  StepperNavSeparator,
+  StepperNavTitle,
+} from "@/registry/new-york/stepper-nav/stepper-nav";
+import { CheckIcon, TriangleAlertIcon } from "lucide-react";
+import { StepperNavDemo } from "@/components/examples/stepper-nav-demo";
+
+A Here Be Dragons component — shadcn/ui has no counterpart. Each step carries its own `status`,
+and the parts read it, so the indicator, title and connector all colour themselves.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperNavDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { CheckIcon } from "lucide-react";
+
+    import { Button } from "@/components/ui/button";
+    import {
+      StepperNav,
+      StepperNavContent,
+      StepperNavDescription,
+      StepperNavIndicator,
+      StepperNavItem,
+      StepperNavList,
+      StepperNavSeparator,
+      StepperNavTitle,
+    } from "@/components/ui/stepper-nav";
+
+    const steps = [
+      { title: "Character", description: "Name and race" },
+      { title: "Class", description: "Path and powers" },
+      { title: "Abilities", description: "Roll the dice" },
+      { title: "Review", description: "Seal the sheet" },
+    ];
+
+    export function StepperNavDemo() {
+      const [active, setActive] = React.useState(1);
+
+      return (
+        <StepperNav>
+          <StepperNavList>
+            {steps.map((step, i) => {
+              const status = i < active ? "completed" : i === active ? "active" : "upcoming";
+              return (
+                <StepperNavItem key={step.title} status={status}>
+                  {status === "completed" ? (
+                    <StepperNavIndicator asChild>
+                      <button
+                        type="button"
+                        aria-label={`Go back to step ${i + 1}: ${step.title}`}
+                        onClick={() => setActive(i)}
+                      >
+                        <CheckIcon />
+                      </button>
+                    </StepperNavIndicator>
+                  ) : (
+                    <StepperNavIndicator aria-hidden="true">{i + 1}</StepperNavIndicator>
+                  )}
+                  <StepperNavContent>
+                    <StepperNavTitle>
+                      {status === "completed" ? <span className="sr-only">Completed: </span> : null}
+                      {step.title}
+                    </StepperNavTitle>
+                    <StepperNavDescription>{step.description}</StepperNavDescription>
+                  </StepperNavContent>
+                  {i < steps.length - 1 ? <StepperNavSeparator /> : null}
+                </StepperNavItem>
+              );
+            })}
+          </StepperNavList>
+        </StepperNav>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/stepper-nav
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/stepper-nav.json
+```
+
+## Usage
+
+```tsx
+import {
+  StepperNav,
+  StepperNavContent,
+  StepperNavIndicator,
+  StepperNavItem,
+  StepperNavList,
+  StepperNavSeparator,
+  StepperNavTitle,
+} from "@/components/ui/stepper-nav";
+```
+
+```tsx
+<StepperNav>
+  <StepperNavList>
+    <StepperNavItem status="completed">
+      <StepperNavIndicator aria-hidden="true">1</StepperNavIndicator>
+      <StepperNavContent>
+        <StepperNavTitle>Character</StepperNavTitle>
+      </StepperNavContent>
+      <StepperNavSeparator />
+    </StepperNavItem>
+    <StepperNavItem status="active">
+      <StepperNavIndicator aria-hidden="true">2</StepperNavIndicator>
+      <StepperNavContent>
+        <StepperNavTitle>Class</StepperNavTitle>
+      </StepperNavContent>
+    </StepperNavItem>
+  </StepperNavList>
+</StepperNav>
+```
+
+Give every step but the last a `StepperNavSeparator` — it draws the connector to the next
+indicator, and turns blood-red once the step is `completed`.
+
+## Examples
+
+### Statuses
+
+`upcoming` is a pale ring, `active` and `completed` are filled, and `error` takes the error surface.
+Put the step number in an upcoming or active indicator, and a glyph in a completed or failed one.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperNav>
+        <StepperNavList>
+          <StepperNavItem status="completed">
+            <StepperNavIndicator aria-hidden="true"><CheckIcon /></StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle><span className="sr-only">Completed: </span>Character</StepperNavTitle>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="error">
+            <StepperNavIndicator aria-hidden="true"><TriangleAlertIcon /></StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle><span className="sr-only">Error: </span>Class</StepperNavTitle>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="active">
+            <StepperNavIndicator aria-hidden="true">3</StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Abilities</StepperNavTitle>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="upcoming">
+            <StepperNavIndicator aria-hidden="true">4</StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Review</StepperNavTitle>
+            </StepperNavContent>
+          </StepperNavItem>
+        </StepperNavList>
+      </StepperNav>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { CheckIcon, TriangleAlertIcon } from "lucide-react";
+
+    <StepperNavItem status="completed">
+      <StepperNavIndicator aria-hidden="true">
+        <CheckIcon />
+      </StepperNavIndicator>
+      <StepperNavContent>
+        <StepperNavTitle>
+          <span className="sr-only">Completed: </span>
+          Character
+        </StepperNavTitle>
+      </StepperNavContent>
+      <StepperNavSeparator />
+    </StepperNavItem>
+    <StepperNavItem status="error">
+      <StepperNavIndicator aria-hidden="true">
+        <TriangleAlertIcon />
+      </StepperNavIndicator>
+      …
+    </StepperNavItem>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Vertical
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperNav orientation="vertical">
+        <StepperNavList>
+          <StepperNavItem status="completed">
+            <StepperNavIndicator aria-hidden="true">
+              <CheckIcon />
+            </StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>
+                <span className="sr-only">Completed: </span>Character
+              </StepperNavTitle>
+              <StepperNavDescription>Name and race</StepperNavDescription>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="active">
+            <StepperNavIndicator aria-hidden="true">2</StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Class</StepperNavTitle>
+              <StepperNavDescription>Path and powers</StepperNavDescription>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="upcoming">
+            <StepperNavIndicator aria-hidden="true">3</StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Abilities</StepperNavTitle>
+              <StepperNavDescription>Roll the dice</StepperNavDescription>
+            </StepperNavContent>
+          </StepperNavItem>
+        </StepperNavList>
+      </StepperNav>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StepperNav orientation="vertical">
+      <StepperNavList>
+        <StepperNavItem status="completed">
+          <StepperNavIndicator aria-hidden="true">
+            <CheckIcon />
+          </StepperNavIndicator>
+          <StepperNavContent>
+            <StepperNavTitle>Character</StepperNavTitle>
+            <StepperNavDescription>Name and race</StepperNavDescription>
+          </StepperNavContent>
+          <StepperNavSeparator />
+        </StepperNavItem>
+        …
+      </StepperNavList>
+    </StepperNav>
+    ```
+  </Tab>
+</Tabs>
+
+### Jump back to a finished step
+
+Render the indicator `asChild` around a `button` to make a completed step clickable — the
+non-linear mode of the old stepper. Leave `active` and `upcoming` steps as plain indicators.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperNav>
+        <StepperNavList>
+          <StepperNavItem status="completed">
+            <StepperNavIndicator asChild>
+              <button type="button" aria-label="Go back to step 1: Character">
+                <CheckIcon />
+              </button>
+            </StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Character</StepperNavTitle>
+            </StepperNavContent>
+            <StepperNavSeparator />
+          </StepperNavItem>
+          <StepperNavItem status="active">
+            <StepperNavIndicator aria-hidden="true">2</StepperNavIndicator>
+            <StepperNavContent>
+              <StepperNavTitle>Class</StepperNavTitle>
+            </StepperNavContent>
+          </StepperNavItem>
+        </StepperNavList>
+      </StepperNav>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StepperNavIndicator asChild>
+      <button type="button" aria-label="Go back to step 1: Character" onClick={() => setActive(0)}>
+        <CheckIcon />
+      </button>
+    </StepperNavIndicator>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### StepperNav
+
+<TypeTable
+  type={{
+    orientation: {
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "Lays the steps out in a row with connectors between them, or in a column.",
+    },
+  }}
+/>
+
+Renders a `<nav aria-label=\"Progress\">`. `StepperNavList` is the `<ol>`.
+
+### StepperNavItem
+
+<TypeTable
+  type={{
+    status: {
+      type: '"upcoming" | "active" | "completed" | "error"',
+      default: '"upcoming"',
+      description:
+        'Drives the look of every part inside, and sets `aria-current="step"` when active.',
+    },
+  }}
+/>
+
+### StepperNavIndicator
+
+<TypeTable
+  type={{
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element — a `button` for a step the reader can jump back to — instead of a `div` (Radix Slot).",
+    },
+  }}
+/>
+
+`StepperNavContent`, `StepperNavTitle`, `StepperNavDescription` and `StepperNavSeparator` are
+`<div>`s and take every `<div>` prop. Mark a decorative indicator `aria-hidden` and put the status
+word in the title as screen-reader-only text, as the examples do, so progress is announced without
+relying on colour.

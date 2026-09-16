@@ -1,0 +1,377 @@
+---
+title: Input OTP
+description: Accessible one-time password component with copy paste functionality.
+---
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/registry/new-york/input-otp/input-otp";
+import { InputOTPControlledDemo } from "@/components/examples/input-otp-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputOTP maxLength={6} aria-label="One-time code">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      InputOTP,
+      InputOTPGroup,
+      InputOTPSeparator,
+      InputOTPSlot,
+    } from "@/components/ui/input-otp";
+
+    export function InputOTPDemo() {
+      return (
+        <InputOTP maxLength={6} aria-label="One-time code">
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/input-otp
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/input-otp.json
+```
+
+## Usage
+
+```tsx
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+```
+
+```tsx
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+Built on [input-otp](https://input-otp.rodz.dev): paste, autofill and keyboard navigation come from
+a single hidden input. Slots are separate ink-bordered cells, filled cells take the subtle parchment
+surface, and the active cell gets the gold focus ring.
+
+## Examples
+
+### Four Digits
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field className="w-fit">
+        <FieldLabel htmlFor="otp-demo-pin">4-digit PIN</FieldLabel>
+        <InputOTP id="otp-demo-pin" maxLength={4} defaultValue="12">
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+        </InputOTP>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="w-fit">
+      <FieldLabel htmlFor="pin">4-digit PIN</FieldLabel>
+      <InputOTP id="pin" maxLength={4} defaultValue="12">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Pattern
+
+The old `type="alphanumeric"`. `pattern` takes any regular expression source; `input-otp` also
+exports `REGEXP_ONLY_DIGITS`, `REGEXP_ONLY_CHARS` and `REGEXP_ONLY_DIGITS_AND_CHARS`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputOTP maxLength={6} pattern="^[a-zA-Z0-9]+$" defaultValue="HBD" aria-label="Rune code">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <InputOTP maxLength={6} pattern="^[a-zA-Z0-9]+$" defaultValue="HBD" aria-label="Rune code">
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+Put `aria-invalid` on `InputOTP` (Here Be Dragons addition) or on each slot, as upstream does.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field data-invalid className="w-fit">
+        <FieldLabel htmlFor="otp-demo-error">Code</FieldLabel>
+        <InputOTP id="otp-demo-error" maxLength={4} defaultValue="12" aria-invalid>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+        </InputOTP>
+        <FieldError>That code has expired.</FieldError>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid className="w-fit">
+      <FieldLabel htmlFor="code">Code</FieldLabel>
+      <InputOTP id="code" maxLength={4} defaultValue="12" aria-invalid>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+      <FieldError>That code has expired.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Valid
+
+Here Be Dragons addition — the old `success` state. `data-valid` on `InputOTP` tints the digits
+forest-green and borders the filled cells.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputOTP maxLength={4} defaultValue="1234" data-valid aria-label="Code">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <InputOTP maxLength={4} defaultValue="1234" data-valid aria-label="Code">
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+    </InputOTP>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field data-disabled className="w-fit">
+        <FieldLabel htmlFor="otp-demo-disabled">Disabled</FieldLabel>
+        <InputOTP id="otp-demo-disabled" maxLength={4} defaultValue="12" disabled>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+        </InputOTP>
+        <FieldDescription>Codes can be requested again in 30 seconds.</FieldDescription>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-disabled className="w-fit">
+      <FieldLabel htmlFor="disabled">Disabled</FieldLabel>
+      <InputOTP id="disabled" maxLength={4} defaultValue="12" disabled>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+      <FieldDescription>Codes can be requested again in 30 seconds.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Controlled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <InputOTPControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+    import {
+      InputOTP,
+      InputOTPGroup,
+      InputOTPSeparator,
+      InputOTPSlot,
+    } from "@/components/ui/input-otp";
+
+    export function InputOTPControlledDemo() {
+      const [value, setValue] = React.useState("");
+
+      return (
+        <Field className="w-fit">
+          <FieldLabel htmlFor="otp-controlled">Verification code</FieldLabel>
+          <InputOTP id="otp-controlled" maxLength={6} value={value} onChange={setValue}>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+          <FieldDescription>
+            {value === "" ? "Enter the 6-digit code we sent by raven." : `You entered: ${value}`}
+          </FieldDescription>
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### InputOTP
+
+<TypeTable
+  type={{
+    maxLength: {
+      type: "number",
+      description: "Number of characters; render one `InputOTPSlot` per index.",
+    },
+    containerClassName: {
+      type: "string",
+      description: "Classes for the wrapping container (the `className` goes to the hidden input).",
+    },
+    "aria-invalid": {
+      type: "boolean",
+      description: "Here Be Dragons addition: marks every slot invalid at once.",
+    },
+    "data-valid": {
+      type: "boolean",
+      description: "Here Be Dragons addition: success ink on every slot.",
+    },
+  }}
+/>
+
+Every other prop (`value`, `onChange`, `onComplete`, `pattern`, `disabled`, …) goes to
+[`OTPInput`](https://github.com/guilhermerodz/input-otp#api-reference).
+
+### InputOTPSlot
+
+<TypeTable
+  type={{
+    index: {
+      type: "number",
+      description: "Which character this slot shows.",
+    },
+  }}
+/>

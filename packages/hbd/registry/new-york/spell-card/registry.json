@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "spell-card",
+      "type": "registry:ui",
+      "title": "Spell Card",
+      "description": "Displays a D&D spell as a parchment card: school colour band for the eight schools, ornamental gold corners, level badge, meta grid, description, At Higher Levels and footer. Here Be Dragons component with a shadcn/ui-style composition API.",
+      "categories": ["hbd"],
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "spell-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

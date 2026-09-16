@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link. shadcn/ui API in the Here Be Dragons look: the raised parchment panel and pointing arrow of the Popover. Adds a showArrow prop.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

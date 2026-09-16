@@ -1,0 +1,467 @@
+---
+title: Tabs
+description: A set of layered sections of content—known as tab panels—that are displayed one at a time.
+---
+
+import {
+  Tabs,
+  TabsBadge,
+  TabsContent,
+  TabsList,
+  TabsScroller,
+  TabsTrigger,
+} from "@/registry/new-york/tabs/tabs";
+import { AnchorIcon, MapIcon, UsersIcon } from "lucide-react";
+import { TabsControlledDemo } from "@/components/examples/tabs-demo";
+import { Tab as DocsTab, Tabs as DocsTabs } from "fumadocs-ui/components/tabs";
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="map" className="max-w-[34rem]">
+        <TabsList>
+          <TabsTrigger value="map">Map</TabsTrigger>
+          <TabsTrigger value="crew">Crew</TabsTrigger>
+          <TabsTrigger value="log">Captain's log</TabsTrigger>
+        </TabsList>
+        <TabsContent value="map">Chart the uncharted edges where the cartographers warned: here be dragons.</TabsContent>
+        <TabsContent value="crew">Twelve hands aboard, each with a watch to keep through the long night.</TabsContent>
+        <TabsContent value="log">Day 14 — fair winds from the east, the compass holds steady north.</TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+    export function TabsDemo() {
+      return (
+        <Tabs defaultValue="map" className="max-w-[34rem]">
+          <TabsList>
+            <TabsTrigger value="map">Map</TabsTrigger>
+            <TabsTrigger value="crew">Crew</TabsTrigger>
+            <TabsTrigger value="log">Captain's log</TabsTrigger>
+          </TabsList>
+          <TabsContent value="map">
+            Chart the uncharted edges where the cartographers warned: here be dragons.
+          </TabsContent>
+          <TabsContent value="crew">
+            Twelve hands aboard, each with a watch to keep through the long night.
+          </TabsContent>
+          <TabsContent value="log">
+            Day 14 — fair winds from the east, the compass holds steady north.
+          </TabsContent>
+        </Tabs>
+      );
+    }
+    ```
+
+  </DocsTab>
+</DocsTabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/tabs
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/tabs.json
+```
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+```
+
+```tsx
+<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+```
+
+## Examples
+
+### Line
+
+A quieter list: no folder tabs, just a blood mark on the ink baseline under the active trigger.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="map" className="max-w-[34rem]">
+        <TabsList variant="line">
+          <TabsTrigger value="map">Map</TabsTrigger>
+          <TabsTrigger value="crew">Crew</TabsTrigger>
+          <TabsTrigger value="log">Captain's log</TabsTrigger>
+        </TabsList>
+        <TabsContent value="map">
+          Chart the uncharted edges where the cartographers warned: here be dragons.
+        </TabsContent>
+        <TabsContent value="crew">
+          Twelve hands aboard, each with a watch to keep through the long night.
+        </TabsContent>
+        <TabsContent value="log">
+          Day 14 — fair winds from the east, the compass holds steady north.
+        </TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    <Tabs defaultValue="map" className="max-w-[34rem]">
+      <TabsList variant="line">
+        <TabsTrigger value="map">Map</TabsTrigger>
+        <TabsTrigger value="crew">Crew</TabsTrigger>
+        <TabsTrigger value="log">Captain's log</TabsTrigger>
+      </TabsList>
+      <TabsContent value="map">
+        Chart the uncharted edges where the cartographers warned: here be dragons.
+      </TabsContent>
+      <TabsContent value="crew">
+        Twelve hands aboard, each with a watch to keep through the long night.
+      </TabsContent>
+      <TabsContent value="log">
+        Day 14 — fair winds from the east, the compass holds steady north.
+      </TabsContent>
+    </Tabs>
+    ```
+  </DocsTab>
+</DocsTabs>
+
+### Vertical
+
+Set `orientation="vertical"` to stack the triggers in a 160px column to the left of the panels.
+Arrow-key navigation follows the orientation.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs orientation="vertical" defaultValue="north" className="max-w-[34rem]">
+        <TabsList>
+          <TabsTrigger value="north">North</TabsTrigger>
+          <TabsTrigger value="east">East</TabsTrigger>
+          <TabsTrigger value="south">South</TabsTrigger>
+          <TabsTrigger value="west">West</TabsTrigger>
+        </TabsList>
+        <TabsContent value="north">
+          Hold the bearing toward the pole star and the steady cold.
+        </TabsContent>
+        <TabsContent value="east">Toward the rising sun and the spice-laden ports.</TabsContent>
+        <TabsContent value="south">Into warmer seas where the maps run thin.</TabsContent>
+        <TabsContent value="west">Past the sunset edge that no chart has yet drawn.</TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    <Tabs orientation="vertical" defaultValue="north" className="max-w-[34rem]">
+      <TabsList>
+        <TabsTrigger value="north">North</TabsTrigger>
+        <TabsTrigger value="east">East</TabsTrigger>
+        <TabsTrigger value="south">South</TabsTrigger>
+        <TabsTrigger value="west">West</TabsTrigger>
+      </TabsList>
+      <TabsContent value="north">
+        Hold the bearing toward the pole star and the steady cold.
+      </TabsContent>
+      <TabsContent value="east">Toward the rising sun and the spice-laden ports.</TabsContent>
+      <TabsContent value="south">Into warmer seas where the maps run thin.</TabsContent>
+      <TabsContent value="west">Past the sunset edge that no chart has yet drawn.</TabsContent>
+    </Tabs>
+    ```
+  </DocsTab>
+</DocsTabs>
+
+### Disabled
+
+A disabled trigger is dimmed and non-interactive; arrow keys skip it.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="overview" className="max-w-[34rem]">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="soundings" disabled>
+            {"Soundings"}
+          </TabsTrigger>
+          <TabsTrigger value="hazards">Hazards</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview">
+          The lie of the coastline and the safe approaches to harbour.
+        </TabsContent>
+        <TabsContent value="hazards">
+          Reefs, shoals, and the rocks that have claimed three ships.
+        </TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    <Tabs defaultValue="overview" className="max-w-[34rem]">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="soundings" disabled>
+          Soundings
+        </TabsTrigger>
+        <TabsTrigger value="hazards">Hazards</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        The lie of the coastline and the safe approaches to harbour.
+      </TabsContent>
+      <TabsContent value="hazards">
+        Reefs, shoals, and the rocks that have claimed three ships.
+      </TabsContent>
+    </Tabs>
+    ```
+  </DocsTab>
+</DocsTabs>
+
+### Icons
+
+Icons inside a trigger are sized for you.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="map" className="max-w-[34rem]">
+        <TabsList>
+          <TabsTrigger value="map"><MapIcon />Map</TabsTrigger>
+          <TabsTrigger value="crew"><UsersIcon />Crew</TabsTrigger>
+          <TabsTrigger value="harbour"><AnchorIcon />Harbour</TabsTrigger>
+        </TabsList>
+        <TabsContent value="map">Chart the uncharted edges.</TabsContent>
+        <TabsContent value="crew">Twelve hands aboard.</TabsContent>
+        <TabsContent value="harbour">Safe anchorage for the night.</TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    import { AnchorIcon, MapIcon, UsersIcon } from "lucide-react";
+
+    <Tabs defaultValue="map" className="max-w-[34rem]">
+      <TabsList>
+        <TabsTrigger value="map">
+          <MapIcon />
+          Map
+        </TabsTrigger>
+        <TabsTrigger value="crew">
+          <UsersIcon />
+          Crew
+        </TabsTrigger>
+        <TabsTrigger value="harbour">
+          <AnchorIcon />
+          Harbour
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="map">Chart the uncharted edges.</TabsContent>
+      <TabsContent value="crew">Twelve hands aboard.</TabsContent>
+      <TabsContent value="harbour">Safe anchorage for the night.</TabsContent>
+    </Tabs>
+    ```
+
+  </DocsTab>
+</DocsTabs>
+
+### Badge
+
+Here Be Dragons addition — `TabsBadge` is a count chip that turns blood-red on the active tab.
+Give it an `aria-label` so the number is announced with its meaning.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="inbox" className="max-w-[34rem]">
+        <TabsList>
+          <TabsTrigger value="inbox">Inbox<TabsBadge aria-label="8 unread">8</TabsBadge></TabsTrigger>
+          <TabsTrigger value="sent">Sent</TabsTrigger>
+          <TabsTrigger value="drafts">Drafts<TabsBadge aria-label="2 drafts">2</TabsBadge></TabsTrigger>
+        </TabsList>
+        <TabsContent value="inbox">Eight unread dispatches from ports across the archipelago.</TabsContent>
+        <TabsContent value="sent">Every letter you've sent down the trade routes.</TabsContent>
+        <TabsContent value="drafts">Two messages still waiting on a fair wind to send.</TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    import { Tabs, TabsBadge, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+    <Tabs defaultValue="inbox" className="max-w-[34rem]">
+      <TabsList>
+        <TabsTrigger value="inbox">
+          Inbox
+          <TabsBadge aria-label="8 unread">8</TabsBadge>
+        </TabsTrigger>
+        <TabsTrigger value="sent">Sent</TabsTrigger>
+        <TabsTrigger value="drafts">
+          Drafts
+          <TabsBadge aria-label="2 drafts">2</TabsBadge>
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="inbox">Eight unread dispatches from ports across the archipelago.</TabsContent>
+      <TabsContent value="sent">Every letter you've sent down the trade routes.</TabsContent>
+      <TabsContent value="drafts">Two messages still waiting on a fair wind to send.</TabsContent>
+    </Tabs>
+    ```
+
+  </DocsTab>
+</DocsTabs>
+
+### Scrollable
+
+Here Be Dragons addition — wrap the `TabsList` in `TabsScroller` when the triggers can outgrow
+their container. The native scrollbar is hidden; fading prev / next buttons appear only on the side
+that has more tabs, and the active tab is scrolled into view. Works vertically too, given a bounded
+height.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <Tabs defaultValue="map" className="max-w-[22rem]">
+        <TabsScroller>
+          <TabsList>
+            <TabsTrigger value="map">Map</TabsTrigger>
+            <TabsTrigger value="crew">Crew</TabsTrigger>
+            <TabsTrigger value="log">Log</TabsTrigger>
+            <TabsTrigger value="cargo">Cargo</TabsTrigger>
+            <TabsTrigger value="charts">Charts</TabsTrigger>
+            <TabsTrigger value="rigging">Rigging</TabsTrigger>
+            <TabsTrigger value="galley">Galley</TabsTrigger>
+            <TabsTrigger value="armoury">Armoury</TabsTrigger>
+          </TabsList>
+        </TabsScroller>
+        <TabsContent value="map">The first of many.</TabsContent>
+        <TabsContent value="crew">Twelve hands aboard.</TabsContent>
+        <TabsContent value="log">Day 14.</TabsContent>
+        <TabsContent value="cargo">Spice, silk and salt.</TabsContent>
+        <TabsContent value="charts">Soundings of the northern reach.</TabsContent>
+        <TabsContent value="rigging">Mend the mainsail before dawn.</TabsContent>
+        <TabsContent value="galley">Hardtack again.</TabsContent>
+        <TabsContent value="armoury">Twelve cutlasses, one blunderbuss.</TabsContent>
+      </Tabs>
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    import {
+      Tabs,
+      TabsContent,
+      TabsList,
+      TabsScroller,
+      TabsTrigger,
+    } from "@/components/ui/tabs";
+
+    <Tabs defaultValue="map" className="max-w-[22rem]">
+      <TabsScroller>
+        <TabsList>
+          <TabsTrigger value="map">Map</TabsTrigger>
+          <TabsTrigger value="crew">Crew</TabsTrigger>
+          <TabsTrigger value="log">Log</TabsTrigger>
+          <TabsTrigger value="cargo">Cargo</TabsTrigger>
+          <TabsTrigger value="charts">Charts</TabsTrigger>
+          <TabsTrigger value="rigging">Rigging</TabsTrigger>
+          <TabsTrigger value="galley">Galley</TabsTrigger>
+          <TabsTrigger value="armoury">Armoury</TabsTrigger>
+        </TabsList>
+      </TabsScroller>
+      <TabsContent value="map">The first of many.</TabsContent>
+      <TabsContent value="crew">Twelve hands aboard.</TabsContent>
+      <TabsContent value="log">Day 14.</TabsContent>
+      <TabsContent value="cargo">Spice, silk and salt.</TabsContent>
+      <TabsContent value="charts">Soundings of the northern reach.</TabsContent>
+      <TabsContent value="rigging">Mend the mainsail before dawn.</TabsContent>
+      <TabsContent value="galley">Hardtack again.</TabsContent>
+      <TabsContent value="armoury">Twelve cutlasses, one blunderbuss.</TabsContent>
+    </Tabs>
+    ```
+
+  </DocsTab>
+</DocsTabs>
+
+### Controlled
+
+Drive the active tab from React with `value` and `onValueChange`.
+
+<DocsTabs items={["Preview", "Code"]}>
+  <DocsTab value="Preview">
+    <Preview>
+      <TabsControlledDemo />
+    </Preview>
+  </DocsTab>
+  <DocsTab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+    export function TabsControlledDemo() {
+      const [value, setValue] = React.useState("overview");
+
+      return (
+        <div className="flex w-full max-w-[34rem] flex-col gap-3">
+          <Tabs value={value} onValueChange={setValue}>
+            <TabsList aria-label="Voyage">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview">A summary of the voyage so far.</TabsContent>
+            <TabsContent value="activity">The running log of every port and every storm.</TabsContent>
+            <TabsContent value="settings">Adjust the watch rotation and the rationing.</TabsContent>
+          </Tabs>
+          <p className="m-0 font-sans text-sm text-muted-foreground">
+            Active tab: <strong className="text-foreground">{value}</strong>
+          </p>
+        </div>
+      );
+    }
+    ```
+
+  </DocsTab>
+</DocsTabs>
+
+## API Reference
+
+`Tabs`, `TabsTrigger` and `TabsContent` take the props of their Radix counterparts — see
+[Radix Tabs](https://www.radix-ui.com/primitives/docs/components/tabs).
+
+### TabsList
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "line"',
+      default: '"default"',
+      description:
+        "`default` draws parchment folder tabs with a ribbon on the active one; `line` draws bare triggers with a blood mark on the baseline.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `Tabs.List`. Give the list an `aria-label` when nothing else names it.
+
+### TabsBadge
+
+Here Be Dragons addition. A `<span>` count chip for use inside a `TabsTrigger`; it follows the
+trigger's active state. Takes every `<span>` prop.
+
+### TabsScroller
+
+Here Be Dragons addition. A `<div>` that wraps one `TabsList`, makes it scroll along the tabs'
+orientation, and renders the prev / next buttons (`data-slot="tabs-scroll-prev"` /
+`"tabs-scroll-next"`). Takes every `<div>` prop. A vertical scroller needs a bounded height on
+`Tabs`.

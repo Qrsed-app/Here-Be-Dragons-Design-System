@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy paste functionality. shadcn/ui API in the Here Be Dragons look: separate ink-bordered cells in JetBrains Mono. Adds root-level aria-invalid / data-valid states.",
+      "dependencies": ["input-otp"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

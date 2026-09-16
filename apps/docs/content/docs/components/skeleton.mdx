@@ -1,0 +1,203 @@
+---
+title: Skeleton
+description: Use to show a placeholder while content is loading.
+---
+
+import { Skeleton } from "@/registry/new-york/skeleton/skeleton";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-80 items-center gap-3">
+        <Skeleton className="size-10 shrink-0 rounded-full" />
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <Skeleton className="h-5 w-[70%]" />
+          <Skeleton className="h-[0.8125rem] w-1/2" />
+        </div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Skeleton } from "@/components/ui/skeleton";
+
+    export function SkeletonDemo() {
+      return (
+        <div className="flex w-80 items-center gap-3">
+          <Skeleton className="size-10 shrink-0 rounded-full" />
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <Skeleton className="h-5 w-[70%]" />
+            <Skeleton className="h-[0.8125rem] w-1/2" />
+          </div>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/skeleton
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/skeleton.json
+```
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton";
+```
+
+```tsx
+<Skeleton className="h-[1.0625rem] w-[250px]" />
+```
+
+The skeleton is a parchment block with a shimmer sweeping across it. Size and shape come from
+`className`. Put `aria-busy` and a label on the container that will hold the real content, not on
+the skeletons.
+
+## Examples
+
+### Shapes
+
+Text lines match the body (`h-[1.0625rem]`), label (`h-[0.8125rem]`) and heading
+(`h-[clamp(1.0625rem,2.2vw,1.25rem)]`) sizes; avatars are `rounded-full`, media blocks `rounded-md`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Skeleton className="h-[clamp(1.0625rem,2.2vw,1.25rem)] w-40" />
+      <Skeleton className="h-[1.0625rem] w-[200px]" />
+      <Skeleton className="h-[0.8125rem] w-[120px]" />
+      <Skeleton className="size-10 shrink-0 rounded-full" />
+      <Skeleton className="h-20 w-[120px] rounded-md" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Skeleton className="h-[clamp(1.0625rem,2.2vw,1.25rem)] w-40" />
+    <Skeleton className="h-[1.0625rem] w-[200px]" />
+    <Skeleton className="h-[0.8125rem] w-[120px]" />
+    <Skeleton className="size-10 shrink-0 rounded-full" />
+    <Skeleton className="h-20 w-[120px] rounded-md" />
+    ```
+  </Tab>
+</Tabs>
+
+### Without shimmer
+
+The shimmer is on by default and freezes under `prefers-reduced-motion`. Add `after:hidden` for a
+static placeholder, for example when many skeletons would animate at once.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Skeleton className="h-20 w-[120px] rounded-md after:hidden" />
+      <Skeleton className="size-10 shrink-0 rounded-full after:hidden" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Skeleton className="h-20 w-[120px] rounded-md after:hidden" />
+    <Skeleton className="size-10 shrink-0 rounded-full after:hidden" />
+    ```
+  </Tab>
+</Tabs>
+
+### Card
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div aria-busy="true" aria-label="Loading spell" className="flex w-60 flex-col gap-3">
+        <Skeleton className="h-40 w-full rounded-md" />
+        <div className="flex flex-col gap-2 p-3">
+          <Skeleton className="h-[clamp(1.0625rem,2.2vw,1.25rem)] w-4/5" />
+          <Skeleton className="h-[1.0625rem] w-full" />
+          <Skeleton className="h-[1.0625rem] w-[90%]" />
+          <Skeleton className="h-[0.8125rem] w-2/5" />
+        </div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div aria-busy="true" aria-label="Loading spell" className="flex w-60 flex-col gap-3">
+      <Skeleton className="h-40 w-full rounded-md" />
+      <div className="flex flex-col gap-2 p-3">
+        <Skeleton className="h-[clamp(1.0625rem,2.2vw,1.25rem)] w-4/5" />
+        <Skeleton className="h-[1.0625rem] w-full" />
+        <Skeleton className="h-[1.0625rem] w-[90%]" />
+        <Skeleton className="h-[0.8125rem] w-2/5" />
+      </div>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### List item
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-80 items-center gap-3">
+        <Skeleton className="size-8 shrink-0 rounded-full" />
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <Skeleton className="h-[1.0625rem] w-3/5" />
+          <Skeleton className="h-[0.8125rem] w-2/5" />
+        </div>
+        <Skeleton className="h-[0.8125rem] w-12" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="flex w-80 items-center gap-3">
+      <Skeleton className="size-8 shrink-0 rounded-full" />
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <Skeleton className="h-[1.0625rem] w-3/5" />
+        <Skeleton className="h-[0.8125rem] w-2/5" />
+      </div>
+      <Skeleton className="h-[0.8125rem] w-12" />
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### Table row
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-80 items-center gap-3">
+        <Skeleton className="h-9 flex-1 rounded-md" />
+        <Skeleton className="h-9 flex-1 rounded-md" />
+        <Skeleton className="h-9 flex-1 rounded-md" />
+        <Skeleton className="h-9 flex-1 rounded-md" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="flex w-80 items-center gap-3">
+      <Skeleton className="h-9 flex-1 rounded-md" />
+      <Skeleton className="h-9 flex-1 rounded-md" />
+      <Skeleton className="h-9 flex-1 rounded-md" />
+      <Skeleton className="h-9 flex-1 rounded-md" />
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+`Skeleton` has no props of its own: it renders a `<div>` and forwards every prop to it. Pass the
+size and shape as `className`.

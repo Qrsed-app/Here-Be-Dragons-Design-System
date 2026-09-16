@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands. shadcn/ui API in the Here Be Dragons look: a parchment bar with an ink-brown hairline whose open trigger is underlined in gold, opening the Dropdown Menu's raised parchment panel.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

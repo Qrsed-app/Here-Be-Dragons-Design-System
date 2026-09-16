@@ -1,59 +1,74 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
 
-// Ported 1:1 from ds/components/hbd-spinner.js (light DOM — no Shadow DOM).
-// Indeterminate progress arc. The SVG is aria-hidden; the accessible name is
-// carried by a visually-hidden role="status" aria-live="polite" span.
-// SVG geometry (cx=12 cy=12 r=10 on a 24 viewBox) + the 47/16 dash-array are
-// constants paired with spinner.css — do not tokenise.
-
-const SIZES = ["sm", "md", "lg", "xl"] as const;
-const VARIANTS = ["default", "muted", "inherit"] as const;
-
-export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** sm 16px · md 24px (default) · lg 40px · xl 64px */
-  size?: (typeof SIZES)[number];
-  /** default = action colour · muted · inherit = currentColor (use inside buttons) */
-  variant?: (typeof VARIANTS)[number];
-  /** Accessible label announced via role="status". Defaults to "Loading". */
-  label?: string;
-}
-
-const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(
-  ({ size = "md", variant = "default", label = "Loading", className, ...props }, ref) => {
-    return (
-      <span
-        ref={ref}
-        className={cn(
-          "hbd-spinner",
-          size !== "md" && `hbd-spinner--${size}`,
-          variant !== "default" && `hbd-spinner--${variant}`,
-          className,
-        )}
-        {...props}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <circle className="hbd-spinner__track" cx="12" cy="12" r="10" />
-          <circle
-            className="hbd-spinner__fill"
-            cx="12"
-            cy="12"
-            r="10"
-            transform="rotate(-90 12 12)"
-          />
-        </svg>
-        <span className="hbd-sr-only" role="status" aria-live="polite">
-          {label}
-        </span>
-      </span>
-    );
+// The default size deliberately uses h-/w- rather than size-*: Button sizes icons with
+// [&_svg:not([class*='size-'])]:size-4, so a default Spinner inside a Button shrinks to
+// the icon size and takes the button's text colour, like upstream's Loader2Icon does.
+const spinnerVariants = cva(
+  "inline-block shrink-0 animate-hbd-spin align-baseline in-data-[slot=button]:text-current",
+  {
+    variants: {
+      variant: {
+        default: "text-primary",
+        muted: "text-muted-foreground",
+        inherit: "text-current",
+      },
+      size: {
+        sm: "size-4",
+        default: "h-6 w-6",
+        lg: "size-10",
+        xl: "size-16",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   },
 );
-Spinner.displayName = "Spinner";
 
-export { Spinner };
+function Spinner({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}: React.ComponentProps<"svg"> & VariantProps<typeof spinnerVariants>) {
+  return (
+    <svg
+      role="status"
+      aria-label="Loading"
+      viewBox="0 0 24 24"
+      fill="none"
+      data-variant={variant}
+      data-size={size}
+      className={cn(spinnerVariants({ variant, size, className }))}
+      {...props}
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        strokeWidth="2"
+        className={cn(
+          variant === "inherit" ? "stroke-current [stroke-opacity:0.2]" : "stroke-border-subtle",
+          "in-data-[slot=button]:stroke-current in-data-[slot=button]:[stroke-opacity:0.2]",
+        )}
+      />
+      {/* 47 + 16 ≈ 2πr: a 75% arc, started at 12 o'clock by the -90° rotation. */}
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeDasharray="47 16"
+        transform="rotate(-90 12 12)"
+        className="stroke-current"
+      />
+    </svg>
+  );
+}
+
+export { Spinner, spinnerVariants };

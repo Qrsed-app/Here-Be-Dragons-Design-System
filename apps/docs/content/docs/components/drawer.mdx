@@ -1,0 +1,151 @@
+---
+title: Drawer
+description: A drawer component for React.
+---
+
+import { DrawerDemo, DrawerDirectionDemo } from "@/components/examples/drawer-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Drawer,
+      DrawerClose,
+      DrawerContent,
+      DrawerDescription,
+      DrawerFooter,
+      DrawerHeader,
+      DrawerTitle,
+      DrawerTrigger,
+    } from "@/components/ui/drawer";
+
+    export function DrawerDemo() {
+      return (
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button variant="secondary">Open drawer</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="mx-auto w-full max-w-sm">
+              <DrawerHeader>
+                <DrawerTitle>Set the course</DrawerTitle>
+                <DrawerDescription>Choose a heading for the fleet.</DrawerDescription>
+              </DrawerHeader>
+              <div className="p-4">
+                <p>North-north-west past the reef, then hold the lighthouse to starboard until dawn.</p>
+              </div>
+              <DrawerFooter>
+                <Button variant="gold">Set sail</Button>
+                <DrawerClose asChild>
+                  <Button variant="secondary">Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/drawer
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/drawer.json
+```
+
+## Usage
+
+```tsx
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+```
+
+```tsx
+<Drawer>
+  <DrawerTrigger>Open</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose>
+        <Button variant="outline">Cancel</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+The drawer is a touch-first bottom sheet that can be dragged shut. For a panel that slides in from
+an edge on desktop, use [Sheet](/docs/components/sheet).
+
+## Examples
+
+### Direction
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DrawerDirectionDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {(["top", "right", "bottom", "left"] as const).map((direction) => (
+      <Drawer key={direction} direction={direction}>
+        <DrawerTrigger asChild>
+          <Button variant="secondary">{direction}</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{direction} drawer</DrawerTitle>
+            <DrawerDescription>Drag it back towards the {direction} edge to close.</DrawerDescription>
+          </DrawerHeader>
+          <div className="p-4">
+            <p>Drawers follow the pointer and snap shut when released past the threshold.</p>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="secondary">Close</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    ))}
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+The components add no props of their own. `Drawer` takes Vaul's root props (`direction`,
+`snapPoints`, `dismissible`, `open`, `onOpenChange`…) and the other parts forward to the matching
+Vaul parts — see the [Vaul documentation](https://vaul.emilkowal.ski/api). `DrawerContent` renders
+the portal, overlay and, for bottom drawers, the drag handle. `DrawerHeader` and `DrawerFooter`
+render a `<div>`.

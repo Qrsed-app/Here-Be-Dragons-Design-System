@@ -1,0 +1,297 @@
+---
+title: File Upload
+description: A dropzone that takes files by drag-and-drop or from the file picker.
+---
+
+import {
+  FileUploadDemo,
+  FileUploadDisabledDemo,
+  FileUploadFieldDemo,
+  FileUploadInvalidDemo,
+  FileUploadProgressDemo,
+  FileUploadRejectionDemo,
+} from "@/components/examples/file-upload-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from "react";
+
+    import {
+      FileUpload,
+      FileUploadDropzone,
+      FileUploadItem,
+      FileUploadItemDelete,
+      FileUploadItemMetadata,
+      FileUploadItemPreview,
+      FileUploadItemStatus,
+      FileUploadList,
+    } from "@/components/ui/file-upload";
+
+    export function FileUploadDemo() {
+      const [files, setFiles] = React.useState<File[]>([]);
+
+      return (
+        <FileUpload
+          value={files}
+          onValueChange={setFiles}
+          accept="image/*,.pdf"
+          multiple
+          maxSize={5 * 1024 * 1024}
+          maxFiles={4}
+        >
+          <FileUploadDropzone aria-label="Upload artefacts" />
+          <FileUploadList>
+            {files.map((file) => (
+              <FileUploadItem key={file.name} file={file}>
+                <FileUploadItemPreview />
+                <FileUploadItemMetadata />
+                <FileUploadItemStatus />
+                <FileUploadItemDelete />
+              </FileUploadItem>
+            ))}
+          </FileUploadList>
+        </FileUpload>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+A Here Be Dragons component: shadcn/ui has no file upload. The root owns the files and the
+validation; the dropzone, the list and each row are composed around it.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/file-upload
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/file-upload.json
+```
+
+## Usage
+
+```tsx
+import {
+  FileUpload,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadItemProgress,
+  FileUploadItemStatus,
+  FileUploadList,
+} from "@/components/ui/file-upload";
+```
+
+```tsx
+<FileUpload value={files} onValueChange={setFiles} accept="image/*" multiple>
+  <FileUploadDropzone />
+  <FileUploadList>
+    {files.map((file) => (
+      <FileUploadItem key={file.name} file={file}>
+        <FileUploadItemPreview />
+        <FileUploadItemMetadata />
+        <FileUploadItemDelete />
+      </FileUploadItem>
+    ))}
+  </FileUploadList>
+</FileUpload>
+```
+
+`FileUploadDropzone` with no children draws the arrow, the "Drag files here or browse" prompt, and
+a line summarising `accept`, `maxSize` and `maxFiles`. Give it children to draw something else.
+
+## Examples
+
+### Upload progress
+
+Uploading is the consumer's job, so each row takes its own `status` and `progress`. Put
+`FileUploadItemProgress` inside `FileUploadItemMetadata` and the bar sits under the file name, its
+fill turning green when the row completes and red when it fails.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadProgressDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUploadItem file={file} progress={value} status={value >= 100 ? "complete" : "uploading"}>
+      <FileUploadItemPreview />
+      <FileUploadItemMetadata>
+        <FileUploadItemProgress />
+      </FileUploadItemMetadata>
+      <FileUploadItemStatus />
+      <FileUploadItemDelete />
+    </FileUploadItem>
+    ```
+  </Tab>
+</Tabs>
+
+### In a field
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadFieldDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="evidence">Attach evidence</FieldLabel>
+      <FileUpload name="evidence">
+        <FileUploadDropzone id="evidence" />
+        <FileUploadList />
+      </FileUpload>
+      <FieldDescription>Optional. One file at a time.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadInvalidDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid="true">
+      <FieldLabel htmlFor="map">Upload map</FieldLabel>
+      <FileUpload name="map">
+        <FileUploadDropzone id="map" aria-invalid />
+        <FileUploadList />
+      </FileUpload>
+      <FieldError>A file is required before continuing.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload name="locked" disabled>
+      <FileUploadDropzone id="locked" />
+      <FileUploadList />
+    </FileUpload>
+    ```
+  </Tab>
+</Tabs>
+
+### Rejected files
+
+A file that fails `accept`, `maxSize` or `maxFiles` is never added; `onFileReject` reports it with a
+reason so you can say why.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FileUploadRejectionDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FileUpload
+      value={files}
+      onValueChange={setFiles}
+      onFileReject={(file, reason) =>
+        setRejected((current) => [...current, { name: file.name, reason }])
+      }
+      accept="image/*"
+      maxSize={1024 * 1024}
+    >
+      <FileUploadDropzone aria-label="Images only" />
+      <FileUploadList>{/* … */}</FileUploadList>
+    </FileUpload>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### FileUpload
+
+<TypeTable
+  type={{
+    value: { type: "File[]", description: "Controlled list of files." },
+    defaultValue: { type: "File[]", description: "Uncontrolled initial list." },
+    onValueChange: {
+      type: "(files: File[]) => void",
+      description: "Called when files are added or removed.",
+    },
+    onFileReject: {
+      type: "(file: File, reason: string) => void",
+      description: "Called for each file turned away by accept, maxSize or maxFiles.",
+    },
+    accept: {
+      type: "string",
+      description: 'Comma-separated MIME types and extensions, e.g. "image/*,.pdf".',
+    },
+    multiple: {
+      type: "boolean",
+      default: "false",
+      description: "Allow more than one file; otherwise a new file replaces the old one.",
+    },
+    maxSize: { type: "number", description: "Largest accepted file, in bytes." },
+    maxFiles: { type: "number", description: "How many files the list may hold." },
+    disabled: { type: "boolean", default: "false", description: "Blocks the picker and dropping." },
+    name: {
+      type: "string",
+      description: "Name of the underlying file input, for plain form posts.",
+    },
+  }}
+/>
+
+### FileUploadDropzone
+
+The drop target and picker button: a `<div role="button">` taking every div prop. It carries
+`data-drag-over` while a drag is over it, and `aria-invalid` paints the border red.
+
+### FileUploadItem
+
+<TypeTable
+  type={{
+    file: { type: "File", description: "The file this row describes." },
+    status: {
+      type: '"idle" | "uploading" | "complete" | "error"',
+      default: '"idle"',
+      description: "Drives the status icon and the progress fill colour.",
+    },
+    progress: { type: "number", default: "0", description: "Percent complete, 0 to 100." },
+    error: {
+      type: "string",
+      description: "Message shown under the file name when status is `error`.",
+    },
+  }}
+/>
+
+`FileUploadItemPreview` shows an image thumbnail or a document glyph, `FileUploadItemMetadata`
+the name, size and error — plus any children, which is where `FileUploadItemProgress` goes —
+`FileUploadItemStatus` the tick or warning, and `FileUploadItemDelete` the remove button.
+`FileUploadTrigger` opens the picker from anywhere else on the page.

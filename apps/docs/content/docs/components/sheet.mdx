@@ -1,0 +1,278 @@
+---
+title: Sheet
+description: Extends the Dialog component to display content that complements the main content of the screen.
+---
+
+import {
+  SheetDemo,
+  SheetNoCloseDemo,
+  SheetNoOverlayDemo,
+  SheetSideDemo,
+  SheetSizeDemo,
+} from "@/components/examples/sheet-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SheetDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Sheet,
+      SheetClose,
+      SheetContent,
+      SheetDescription,
+      SheetFooter,
+      SheetHeader,
+      SheetTitle,
+      SheetTrigger,
+    } from "@/components/ui/sheet";
+
+    export function SheetDemo() {
+      return (
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="secondary">Open</Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Voyage settings</SheetTitle>
+              <SheetDescription>Change the course here. Save when you are done.</SheetDescription>
+            </SheetHeader>
+            <p>
+              The fleet sails at dawn for the Sea of Fallen Stars, keeping the western lighthouse to
+              starboard until the reef is behind it.
+            </p>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </SheetClose>
+              <Button variant="gold">Save changes</Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/sheet
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/sheet.json
+```
+
+## Usage
+
+```tsx
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+```
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Are you absolutely sure?</SheetTitle>
+      <SheetDescription>
+        This action cannot be undone. This will permanently delete your chart.
+      </SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+Content between `SheetHeader` and `SheetFooter` is the body: it gets the body padding and type, and
+the footer sits at the bottom edge.
+
+## Examples
+
+### Side
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SheetSideDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {(["top", "right", "bottom", "left"] as const).map((side) => (
+      <Sheet key={side}>
+        <SheetTrigger asChild>
+          <Button variant="secondary">{side}</Button>
+        </SheetTrigger>
+        <SheetContent side={side} aria-describedby={undefined}>
+          <SheetHeader>
+            <SheetTitle>{side} sheet</SheetTitle>
+          </SheetHeader>
+          <p>This panel slides in from the {side} edge of the viewport.</p>
+        </SheetContent>
+      </Sheet>
+    ))}
+    ```
+  </Tab>
+</Tabs>
+
+### Wide and tall
+
+Here Be Dragons addition — `wide` widens a left or right sheet from 320px to 480px; `tall` raises a
+top or bottom sheet from 50% to 80% of the viewport. Each is ignored on the other axis.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SheetSizeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="secondary">Wide (right)</Button>
+      </SheetTrigger>
+      <SheetContent side="right" wide aria-describedby={undefined}>
+        <SheetHeader>
+          <SheetTitle>Wide panel</SheetTitle>
+        </SheetHeader>
+        <p>wide widens left and right sheets from 320px to 480px.</p>
+      </SheetContent>
+    </Sheet>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="secondary">Tall (bottom)</Button>
+      </SheetTrigger>
+      <SheetContent side="bottom" tall aria-describedby={undefined}>
+        <SheetHeader>
+          <SheetTitle>Tall panel</SheetTitle>
+        </SheetHeader>
+        <p>tall raises top and bottom sheets from half to 80% of the viewport.</p>
+      </SheetContent>
+    </Sheet>
+    ```
+  </Tab>
+</Tabs>
+
+### Without overlay
+
+Here Be Dragons addition — `showOverlay={false}` drops the scrim, for a sidebar. To keep the page
+behind usable, also set `modal={false}` on `Sheet` and stop outside clicks from closing it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SheetNoOverlayDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Sheet modal={false}>
+      <SheetTrigger asChild>
+        <Button variant="secondary">Open sidebar</Button>
+      </SheetTrigger>
+      <SheetContent
+        side="left"
+        showOverlay={false}
+        aria-describedby={undefined}
+        onInteractOutside={(event) => event.preventDefault()}
+      >
+        <SheetHeader>
+          <SheetTitle>Navigation</SheetTitle>
+        </SheetHeader>
+        <p>No scrim, and the page behind stays usable. Close it with the button or Escape.</p>
+      </SheetContent>
+    </Sheet>
+    ```
+  </Tab>
+</Tabs>
+
+### Close button
+
+`showCloseButton={false}` hides the corner button. Escape still closes the sheet; to make it
+undismissable, also prevent `onEscapeKeyDown` and `onInteractOutside`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SheetNoCloseDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="secondary">Open</Button>
+      </SheetTrigger>
+      <SheetContent showCloseButton={false} aria-describedby={undefined}>
+        <SheetHeader>
+          <SheetTitle>Ship&apos;s manifest</SheetTitle>
+        </SheetHeader>
+        <p>Without the corner button, give the reader another way out.</p>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="secondary">Done</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### SheetContent
+
+<TypeTable
+  type={{
+    side: {
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"right"',
+      description: "The edge the sheet slides in from.",
+    },
+    showCloseButton: {
+      type: "boolean",
+      default: "true",
+      description: "Render the close button in the top-right corner.",
+    },
+    showOverlay: {
+      type: "boolean",
+      default: "true",
+      description: "Render the scrim behind the sheet. Here Be Dragons addition.",
+    },
+    wide: {
+      type: "boolean",
+      default: "false",
+      description: "480px instead of 320px for left and right sheets. Here Be Dragons addition.",
+    },
+    tall: {
+      type: "boolean",
+      default: "false",
+      description: "80vh instead of 50vh for top and bottom sheets. Here Be Dragons addition.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `Dialog.Content`. `SheetContent` renders the portal and overlay for
+you. `Sheet`, `SheetTrigger`, `SheetClose`, `SheetTitle` and `SheetDescription` take the props of
+their [Radix Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) parts;
+`SheetHeader` and `SheetFooter` render a `<div>`.

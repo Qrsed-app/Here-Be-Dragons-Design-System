@@ -1,62 +1,49 @@
 # Here Be Dragons — shadcn Registry
 
-A **custom [shadcn](https://ui.shadcn.com/docs/registry) registry** that ships the entire Here Be Dragons design system as React + Tailwind v4 components — a D&D / fantasy look, fully token-driven.
+A **custom [shadcn](https://ui.shadcn.com/docs/registry) registry** that ships the Here Be
+Dragons design system. Every component keeps the **shadcn/ui API** — same names, exports, props
+and Radix primitives — restyled in a D&D / fantasy look, plus HBD-only components (spell card,
+stat block, full-page banner, …).
 
-- **51 components** + a token **theme** + the `cn` util — installable with `npx shadcn add @hbd/<name>`.
-- Token-driven: every colour / size / radius / motion comes from the design tokens in `tokens/`; component CSS is plain light-DOM CSS folded into the theme.
-- Targets **React / Next.js / Vite** (and anything Tailwind v4 + shadcn).
+- Installable with `npx shadcn add @hbd/<name>` or by URL.
+- Styled with Tailwind utilities; the only CSS shipped is the token theme.
+- Targets **React 19 + Tailwind v4** — Next.js, Vite, Electron, anything the shadcn CLI supports.
 
 ---
 
 ## For consumers
 
-In your shadcn project (Tailwind v4, `components.json` present), register the namespace once:
+Register the namespace once in `components.json`:
 
 ```jsonc
-// components.json
 {
   "registries": {
-    "@hbd": "https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/{name}.json",
+    "@hbd": "https://ds.qrsed.com/r/{name}.json",
   },
 }
 ```
 
-Then add components — dependencies (and the theme) are pulled automatically:
-
 ```bash
-npx shadcn@latest add @hbd/button
-npx shadcn@latest add @hbd/date-picker   # also pulls time-picker, input, theme, utils
+npx shadcn@latest add @hbd/theme            # the palette, fonts, radii — merged into your CSS
+npx shadcn@latest add @hbd/button @hbd/card # components, into components/ui/
 ```
 
-Or add directly by URL without registering:
+Every item is also available by URL (`https://ds.qrsed.com/r/button.json`), and the whole
+catalog at `/r/registry.json`. Full guide: <https://ds.qrsed.com/docs/installation>.
 
-```bash
-npx shadcn@latest add https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/button.json
-```
+### The theme
 
-Use them like any shadcn component:
+`@hbd/theme` **merges** into the CSS file named in your `components.json` — nothing is
+replaced wholesale. It installs the complete shadcn variable set (`--background`, `--primary`,
+`--muted`, `--sidebar-*`, `--chart-*`, …) in the HBD palette, the HBD extras (status colours,
+spell-school colours, the parchment / ink / crimson / gold palette), sharp radii, offset
+shadows, a few animations, and the fonts as npm packages so your bundler serves them offline.
 
-```tsx
-import { Button } from "@/components/ui/button";
-import { Modal } from "@/components/ui/modal";
+Light is the default; `.dark` and `.high-contrast` on `<html>` switch themes, the same way
+shadcn/ui does it.
 
-<Button variant="primary" size="lg">
-  Cast Spell
-</Button>;
-```
-
-### Theme & dark mode
-
-The first `@hbd/*` install pulls **`@hbd/hbd-theme`**, which writes the complete HBD token system into your `app/globals.css` (full palette, semantic layer, spell-school accents, **every component's styles**, and the Tailwind v4 `@theme inline` utilities) and copies the Tiamat Condensed SC font to `public/fonts/`.
-
-Dark / high-contrast themes are attribute-driven and also respond to the `.dark` class:
-
-```text
-<html data-theme="dark">            <!-- or class="dark" -->
-<html data-theme="high-contrast">
-```
-
-> All component styles ship **inside `globals.css`** (one import, loaded by your app root) rather than as per-component files — this is Vite/Next-safe (Next forbids global-CSS imports outside the root layout) and lets one import pull in the whole DS.
+Components depend on the theme, so adding one fills in variables you are missing — but only an
+explicit `add @hbd/theme` overwrites values you already have.
 
 ---
 
@@ -65,73 +52,38 @@ Dark / high-contrast themes are attribute-driven and also respond to the `.dark`
 ### Build
 
 ```bash
-# from the repo root (this package is packages/hbd)
-pnpm --filter @hbd/registry registry:build   # shadcn build: registry.json -> public/r/*.json
+pnpm --filter @hbd/registry registry:build
 ```
 
-`public/r/*.json` are the only artifacts a consumer needs — serve them as static files over HTTP.
+which is: `build-theme.mjs` (tokens → theme item + `theme/theme.css`) → `shadcn build`
+(`registry.json` + fragments → `public/r/*.json`) → `finalize-registry.mjs` (rewrite
+same-registry dependencies to absolute URLs, pack the font tarball).
 
-### Host
-
-Published by the `deploy-docs` workflow to https://qrsed-app.github.io/Here-Be-Dragons-Design-System, so the registry lives at `https://qrsed-app.github.io/Here-Be-Dragons-Design-System/r/{name}.json` — that is the value consumers map `@hbd` to, and it is already `registry.json` → `homepage`.
-
-To host it elsewhere, serve `public/` from any static host (`npx serve public`, `python3 -m http.server`, S3, …), update `homepage`, and set `NEXT_PUBLIC_SITE_URL` at docs-build time so the install snippets follow.
-
-### Regenerate the theme `globals.css`
-
-`app/globals.css` is **generated, not hand-edited**. After changing a token
-(`tokens/tokens.css` / `tokens/themes/*.css`) or any component CSS:
-
-```bash
-pnpm --filter @hbd/registry build:globals    # tokens + themes + @theme + all component CSS -> app/globals.css
-pnpm --filter @hbd/registry registry:build   # then rebuild the registry (= shadcn build)
-```
-
-`scripts/build-globals.mjs` is self-contained (reads `tokens/*`,
-`scripts/theme-inline.css`, and `registry/new-york/styles/components/*.css`).
-The component CSS sources live in `registry/new-york/styles/components/`.
+`NEXT_PUBLIC_SITE_URL` decides the host baked into those URLs (default
+`http://localhost:3001`; the deploy sets `https://ds.qrsed.com`).
 
 ### Layout
 
 ```
 .
-├── registry.json                 # the catalog (53 items)
-├── components.json               # Tailwind v4 + new-york
-├── package.json · tsconfig.json · eslint.config.mjs · .prettierrc.json
-├── app/globals.css               # the shipped theme (generated: tokens + themes + all component CSS)
-├── lib/utils.ts                  # cn()
-├── tokens/                       # token CSS source (tokens.css + themes/) for build:globals
-├── scripts/build-globals.mjs     # regenerates app/globals.css
-├── registry/new-york/
-│   ├── <component>/<component>.tsx
-│   ├── styles/components/*.css    # light-DOM CSS sources (folded into globals on build)
-│   └── fonts/                     # Tiamat Condensed SC (woff2/woff/ttf)
-└── public/r/*.json               # BUILD OUTPUT — what consumers fetch
+├── registry.json                     # catalog: `include` list + shared items
+├── registry/new-york/<name>/
+│   ├── <name>.tsx                    # component (shadcn API, Tailwind utilities)
+│   └── registry.json                 # its registry item (must be in the root `include`)
+├── registry/theme/registry.json      # GENERATED — the @hbd/theme item
+├── theme/theme.css                   # GENERATED — the theme as the CLI writes it
+├── tokens/                           # tokens.css + themes/{light,dark,high-contrast}.css
+├── scripts/build-theme.mjs           # tokens -> theme item + theme.css
+├── scripts/finalize-registry.mjs     # dependency URLs, font tarball, include guard
+├── lib/utils.ts                      # cn() — used by the docs app, not shipped as an item
+└── public/r/*.json                   # BUILD OUTPUT — what consumers fetch
 ```
 
-### Conventions (every component follows)
+### Conventions
 
-- **BEM classes preserved verbatim** (`.hbd-button--primary`, `.is-loading`, …) so the component CSS targets them; Tailwind utilities are additive (layout) only.
-- kebab attributes → camelCase props; `hbd:*` events → `on*` callbacks; slots → children / compound members.
-- Controlled-first stateful/overlay components (`value`/`onValueChange`, `open`/`onOpenChange`, with `defaultX`).
-- Radix used only where it preserves the exact look (switch, radio-group, slider, tabs, tooltip, popover, dialog for drawer/modal); everything else hand-ported. `@floating-ui/react` for combobox.
+Every component follows the rules in [`../../AGENTS.md`](../../AGENTS.md): upstream shadcn API
+first, Tailwind utilities for the look, theme variables for colour, no per-component CSS, no
+`utils` registry dependency, and a fragment listed in the root `include`.
 
----
-
-## Components (51)
-
-**Primitives** · aspect-ratio · avatar · avatar-group · badge · chip · divider · portal · progress · skeleton · skeleton-group · spacer · spinner
-
-**Domain (TTRPG)** · codeblock · empty · full-banner · spell-card · stat-block
-
-**Forms** · button · checkbox · combobox · file-upload · input · otp-input · radio-group · select · slider · stepper · switch · textarea · toggle-group
-
-**Feedback / display** · accordion · alert · callout · card · list · table · tabs · toast · tooltip
-
-**Navigation** · breadcrumbs · navbar · pagination · stepper-nav
-
-**Overlays** · context-menu · drawer · dropdown · modal · popover · split-button
-
-**Pickers** · date-picker · time-picker
-
-Plus `hbd-theme` (token theme) and `utils` (`cn`).
+The component catalog lives on the docs site — `/docs/components` — and in
+`public/r/registry.json` after a build.

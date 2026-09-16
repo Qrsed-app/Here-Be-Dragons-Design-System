@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links. shadcn/ui API in the Here Be Dragons look: Cinzel display crumbs with a › separator and a hairline underline on hover.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

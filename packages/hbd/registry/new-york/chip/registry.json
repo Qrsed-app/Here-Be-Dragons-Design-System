@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "chip",
+      "type": "registry:ui",
+      "title": "Chip",
+      "description": "A compact pill for tags, filters and attributes, with an optional icon, remove button and pressable toggle (Radix Toggle). Here Be Dragons component with a shadcn/ui-style API: default, primary, success, warning and destructive variants, sm/default/lg sizes and an outline style.",
+      "categories": ["hbd"],
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "chip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

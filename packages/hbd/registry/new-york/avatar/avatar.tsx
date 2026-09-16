@@ -1,80 +1,101 @@
 "use client";
 
 import * as React from "react";
+import { Avatar as AvatarPrimitive } from "radix-ui";
+
 import { cn } from "@/lib/utils";
 
-// Ported 1:1 from ds/components/hbd-avatar.js (light DOM — no Shadow DOM).
-// Two content branches, matching the WC exactly:
-//   1. <img>        — when imgSrc is set AND loads successfully
-//   2. generic icon — fallback (image absent or onError fired)
-// The host carries role="img" + aria-label so the inner <img alt=""> doesn't
-// double-announce. The accessible name follows the WC preference order:
-//   img-alt (when the attribute is present, even if empty) → name → "Avatar".
-
-const SIZES = ["xs", "sm", "md", "lg", "xl", "2xl"] as const;
-
-export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** Full name — used only for the accessible label. */
-  name?: string;
-  /** Image URL. When it loads, the <img> branch renders; on error it falls back. */
-  imgSrc?: string;
-  /** Image alt text. When provided (even ""), it wins the accessible-name race. */
-  imgAlt?: string;
-  /** xs · sm · md (default) · lg · xl · 2xl */
-  size?: (typeof SIZES)[number];
+function Avatar({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
+  size?: "default" | "xs" | "sm" | "lg" | "xl" | "2xl";
+}) {
+  return (
+    <AvatarPrimitive.Root
+      data-slot="avatar"
+      data-size={size}
+      className={cn(
+        "group/avatar relative inline-flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-background bg-surface-subtle align-middle text-muted-foreground select-none data-[size=2xl]:size-20 data-[size=lg]:size-12 data-[size=sm]:size-8 data-[size=xl]:size-16 data-[size=xs]:size-6",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ name = "", imgSrc = "", imgAlt, size = "md", className, ...props }, ref) => {
-    const [imgFailed, setImgFailed] = React.useState(false);
+function AvatarImage({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+  return (
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn("aspect-square size-full rounded-full object-cover object-center", className)}
+      {...props}
+    />
+  );
+}
 
-    // A new imgSrc deserves a fresh attempt — reset the failure flag.
-    React.useEffect(() => {
-      setImgFailed(false);
-    }, [imgSrc]);
+function AvatarFallback({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+  return (
+    <AvatarPrimitive.Fallback
+      data-slot="avatar-fallback"
+      className={cn(
+        "flex size-full items-center justify-center rounded-full bg-surface-subtle font-sans text-[0.8125rem] font-semibold text-muted-foreground group-data-[size=2xl]/avatar:text-xl group-data-[size=lg]/avatar:text-[0.9375rem] group-data-[size=sm]/avatar:text-[0.6875rem] group-data-[size=xl]/avatar:text-lg group-data-[size=xs]/avatar:text-[0.5625rem] [&>svg]:size-[55%] [&>svg]:shrink-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    const useImage = Boolean(imgSrc) && !imgFailed;
+function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="avatar-badge"
+      className={cn(
+        "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none",
+        "group-data-[size=xs]/avatar:size-2 group-data-[size=xs]/avatar:[&>svg]:hidden",
+        "group-data-[size=sm]/avatar:size-2.5 group-data-[size=sm]/avatar:[&>svg]:size-2",
+        "group-data-[size=default]/avatar:size-3 group-data-[size=default]/avatar:[&>svg]:size-2",
+        "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:[&>svg]:size-2.5",
+        "group-data-[size=xl]/avatar:size-4 group-data-[size=xl]/avatar:[&>svg]:size-3",
+        "group-data-[size=2xl]/avatar:size-5 group-data-[size=2xl]/avatar:[&>svg]:size-3.5",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    // Accessible name: img-alt (when present, even empty) → name → "Avatar".
-    const trimmedName = name.trim();
-    const accessibleName = (imgAlt != null ? imgAlt : "") || trimmedName || "Avatar";
+function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="avatar-group"
+      className={cn(
+        // Row-reversed like the pre-migration group: the first child sits at the right and each
+        // avatar overlaps the one to its right, so a trailing count renders leftmost.
+        "group/avatar-group inline-flex flex-row-reverse *:not-last:-ml-2",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    return (
-      <span
-        ref={ref}
-        className={cn("hbd-avatar", `hbd-avatar--${size}`, className)}
-        role="img"
-        aria-label={accessibleName}
-        {...props}
-      >
-        {useImage ? (
-          <img
-            className="hbd-avatar__img"
-            src={imgSrc}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            onError={() => setImgFailed(true)}
-          />
-        ) : (
-          <span className="hbd-avatar__icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="9" r="3.5" />
-              <path d="M5 20a7 7 0 0 1 14 0" />
-            </svg>
-          </span>
-        )}
-      </span>
-    );
-  },
-);
-Avatar.displayName = "Avatar";
+function AvatarGroupCount({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="avatar-group-count"
+      className={cn(
+        "relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-background bg-surface-subtle align-middle font-sans text-[0.8125rem] font-semibold tracking-normal text-foreground-secondary select-none group-has-data-[size=2xl]/avatar-group:size-20 group-has-data-[size=lg]/avatar-group:size-12 group-has-data-[size=sm]/avatar-group:size-8 group-has-data-[size=xl]/avatar-group:size-16 group-has-data-[size=xs]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=xs]/avatar-group:[&>svg]:size-3 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=xl]/avatar-group:[&>svg]:size-6 group-has-data-[size=2xl]/avatar-group:[&>svg]:size-8",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export { Avatar };
+export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount };

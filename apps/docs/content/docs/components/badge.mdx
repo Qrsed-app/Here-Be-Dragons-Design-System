@@ -1,0 +1,257 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+---
+
+import { Badge } from "@/registry/new-york/badge/badge";
+import { BadgeCheckIcon, StarIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge>Badge</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="destructive">Destructive</Badge>
+      <Badge variant="outline">Outline</Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Badge } from "@/components/ui/badge";
+
+    export function BadgeDemo() {
+      return (
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge>Badge</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <Badge variant="destructive">Destructive</Badge>
+          <Badge variant="outline">Outline</Badge>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/badge
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/badge.json
+```
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+```
+
+```tsx
+<Badge variant="outline">Badge</Badge>
+```
+
+## Examples
+
+### Variants
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge>Default</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="destructive">Destructive</Badge>
+      <Badge variant="outline">Outline</Badge>
+      <Badge variant="ghost">Ghost</Badge>
+      <Badge variant="link">Link</Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Badge>Default</Badge>
+    <Badge variant="secondary">Secondary</Badge>
+    <Badge variant="destructive">Destructive</Badge>
+    <Badge variant="outline">Outline</Badge>
+    <Badge variant="ghost">Ghost</Badge>
+    <Badge variant="link">Link</Badge>
+    ```
+  </Tab>
+</Tabs>
+
+### Success and Warning
+
+Here Be Dragons addition — status colours for quest states, saving throws and the like.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge variant="success">Completed</Badge>
+      <Badge variant="warning">Cursed</Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Badge variant="success">Completed</Badge>
+    <Badge variant="warning">Cursed</Badge>
+    ```
+  </Tab>
+</Tabs>
+
+### With Icon
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge variant="secondary">
+        <BadgeCheckIcon />
+        Verified
+      </Badge>
+      <Badge variant="outline">
+        <StarIcon />
+        Legendary
+      </Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { BadgeCheckIcon, StarIcon } from "lucide-react";
+
+    <Badge variant="secondary">
+      <BadgeCheckIcon />
+      Verified
+    </Badge>
+    <Badge variant="outline">
+      <StarIcon />
+      Legendary
+    </Badge>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Count
+
+A number in a badge. The badge is at least as wide as it is tall, so single digits stay round.
+Cap large values yourself and put the real count in the accessible name.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge>3</Badge>
+      <Badge>42</Badge>
+      <Badge variant="destructive" aria-label="128">
+        99+
+      </Badge>
+      <Badge variant="destructive" aria-label="Notifications, 1500">
+        999+
+      </Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    function formatCount(count: number, max = 99) {
+      return count > max ? `${max}+` : String(count);
+    }
+
+    <Badge>3</Badge>
+    <Badge>42</Badge>
+    <Badge variant="destructive" aria-label="128">
+      {formatCount(128)}
+    </Badge>
+    <Badge variant="destructive" aria-label="Notifications, 1500">
+      {formatCount(1500, 999)}
+    </Badge>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Dot
+
+An empty badge shrunk to a status dot. It carries no text, so give it `role="status"` and an
+`aria-label` when the colour means something.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge variant="success" role="status" aria-label="Online" className="size-2 min-w-0 p-0" />
+      <Badge variant="warning" role="status" aria-label="Away" className="size-2 min-w-0 p-0" />
+      <Badge
+        variant="destructive"
+        role="status"
+        aria-label="Offline"
+        className="size-2 min-w-0 p-0"
+      />
+      <Badge
+        variant="secondary"
+        role="status"
+        aria-label="Unknown"
+        className="size-2 min-w-0 p-0"
+      />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Badge variant="success" role="status" aria-label="Online" className="size-2 min-w-0 p-0" />
+    <Badge variant="warning" role="status" aria-label="Away" className="size-2 min-w-0 p-0" />
+    <Badge
+      variant="destructive"
+      role="status"
+      aria-label="Offline"
+      className="size-2 min-w-0 p-0"
+    />
+    <Badge variant="secondary" role="status" aria-label="Unknown" className="size-2 min-w-0 p-0" />
+    ```
+  </Tab>
+</Tabs>
+
+### Link
+
+Use `asChild` to render a link with the badge's look.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Badge asChild variant="secondary">
+        <a href="#link">Bestiary</a>
+      </Badge>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <Badge asChild variant="secondary">
+      <Link href="/bestiary">Bestiary</Link>
+    </Badge>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | "success" | "warning"',
+      default: '"default"',
+      description: "Visual style. `success` and `warning` are Here Be Dragons additions.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element instead of a `<span>`, merging props and classes onto it (Radix Slot).",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<span>` element — or to the child when `asChild` is set.
+The exported `badgeVariants` helper returns the same classes for use on other elements.

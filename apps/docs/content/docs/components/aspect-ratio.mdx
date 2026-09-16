@@ -1,0 +1,209 @@
+---
+title: Aspect Ratio
+description: Displays content within a desired ratio.
+---
+
+import { AspectRatio } from "@/registry/new-york/aspect-ratio/aspect-ratio";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <AspectRatio ratio={16 / 9} className="rounded-lg bg-surface-subtle">
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80"
+            alt="Aerial coastline"
+            className="rounded-lg"
+          />
+        </AspectRatio>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { AspectRatio } from "@/components/ui/aspect-ratio";
+
+    export function AspectRatioDemo() {
+      return (
+        <div className="w-full max-w-sm">
+          <AspectRatio ratio={16 / 9} className="rounded-lg bg-surface-subtle">
+            <img
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80"
+              alt="Aerial coastline"
+              className="rounded-lg"
+            />
+          </AspectRatio>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/aspect-ratio
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/aspect-ratio.json
+```
+
+## Usage
+
+```tsx
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+```
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="/coastline.jpg" alt="Aerial coastline" />
+</AspectRatio>
+```
+
+The box spans the full width of its parent, so size the parent. Content is clipped to the box, and the
+direct child fills it and crops with `object-fit: cover` — an `<img>`, `<video>`, `<iframe>` or
+`<canvas>` needs no classes of its own.
+
+## Examples
+
+### Ratios
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-[220px]">
+        <AspectRatio ratio={16 / 9}>
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80"
+            alt="Aerial coastline"
+          />
+        </AspectRatio>
+      </div>
+      <div className="w-[180px]">
+        <AspectRatio ratio={4 / 3}>
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80"
+            alt="Aerial coastline"
+          />
+        </AspectRatio>
+      </div>
+      <div className="w-[160px]">
+        <AspectRatio ratio={1}>
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80"
+            alt="Aerial coastline"
+          />
+        </AspectRatio>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <AspectRatio ratio={16 / 9}>
+      <img src="/coastline.jpg" alt="Aerial coastline" />
+    </AspectRatio>
+
+    <AspectRatio ratio={4 / 3}>
+      <img src="/coastline.jpg" alt="Aerial coastline" />
+    </AspectRatio>
+
+    <AspectRatio ratio={1}>
+      <img src="/coastline.jpg" alt="Aerial coastline" />
+    </AspectRatio>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Portrait and Ultrawide
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-[120px]">
+        <AspectRatio ratio={9 / 16}>
+          <img
+            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80"
+            alt="Mountain at dusk"
+          />
+        </AspectRatio>
+      </div>
+      <div className="w-[320px]">
+        <AspectRatio ratio={21 / 9}>
+          <img
+            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80"
+            alt="Mountain at dusk"
+          />
+        </AspectRatio>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <AspectRatio ratio={9 / 16}>
+      <img src="/mountain.jpg" alt="Mountain at dusk" />
+    </AspectRatio>
+
+    <AspectRatio ratio={21 / 9}>
+      <img src="/mountain.jpg" alt="Mountain at dusk" />
+    </AspectRatio>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Placeholder
+
+Any element fills the box, which suits a styled placeholder. Give it an accessible name.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-[240px]">
+        <AspectRatio ratio={1.85}>
+          <div
+            role="img"
+            aria-label="Cinematic placeholder"
+            className="flex items-center justify-center bg-surface-raised font-sans text-foreground"
+          >
+            1.85 : 1
+          </div>
+        </AspectRatio>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <AspectRatio ratio={1.85}>
+      <div
+        role="img"
+        aria-label="Cinematic placeholder"
+        className="flex items-center justify-center bg-surface-raised font-sans text-foreground"
+      >
+        1.85 : 1
+      </div>
+    </AspectRatio>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    ratio: {
+      type: "number",
+      default: "1",
+      description: "Width divided by height, e.g. `16 / 9`.",
+    },
+  }}
+/>
+
+Every other prop goes to the Radix Aspect Ratio root — see
+[Radix Aspect Ratio](https://www.radix-ui.com/primitives/docs/components/aspect-ratio).

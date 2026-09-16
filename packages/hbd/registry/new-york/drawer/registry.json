@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component for React, built on Vaul. shadcn/ui API in the Here Be Dragons look: a parchment sheet with a drag handle, Cinzel title and ruled header and footer.",
+      "dependencies": ["vaul"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

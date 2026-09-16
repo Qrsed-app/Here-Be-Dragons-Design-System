@@ -1,0 +1,392 @@
+---
+title: Radio Group
+description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+---
+
+import { RadioGroup, RadioGroupItem } from "@/registry/new-york/radio-group/radio-group";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/registry/new-york/field/field";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+        <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">Pick a vessel</FieldLegend>
+        <RadioGroup name="vessel" defaultValue="galleon">
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="sloop" id="vessel-sloop" />
+            <FieldLabel htmlFor="vessel-sloop" className="text-[1.0625rem] font-normal">Sloop</FieldLabel>
+          </Field>
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="galleon" id="vessel-galleon" />
+            <FieldLabel htmlFor="vessel-galleon" className="text-[1.0625rem] font-normal">Galleon</FieldLabel>
+          </Field>
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="frigate" id="vessel-frigate" />
+            <FieldLabel htmlFor="vessel-frigate" className="text-[1.0625rem] font-normal">Frigate</FieldLabel>
+          </Field>
+        </RadioGroup>
+      </FieldSet>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+    import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+    export function RadioGroupDemo() {
+      return (
+        <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+          <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">
+            Pick a vessel
+          </FieldLegend>
+          <RadioGroup name="vessel" defaultValue="galleon">
+            <Field orientation="horizontal" className="items-start gap-2">
+              <RadioGroupItem value="sloop" id="vessel-sloop" />
+              <FieldLabel htmlFor="vessel-sloop" className="text-[1.0625rem] font-normal">
+                Sloop
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal" className="items-start gap-2">
+              <RadioGroupItem value="galleon" id="vessel-galleon" />
+              <FieldLabel htmlFor="vessel-galleon" className="text-[1.0625rem] font-normal">
+                Galleon
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal" className="items-start gap-2">
+              <RadioGroupItem value="frigate" id="vessel-frigate" />
+              <FieldLabel htmlFor="vessel-frigate" className="text-[1.0625rem] font-normal">
+                Frigate
+              </FieldLabel>
+            </Field>
+          </RadioGroup>
+        </FieldSet>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/radio-group
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/radio-group.json
+```
+
+## Usage
+
+```tsx
+import { Field, FieldLabel } from "@/components/ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+```
+
+```tsx
+<RadioGroup defaultValue="option-one">
+  <Field orientation="horizontal" className="items-start gap-2">
+    <RadioGroupItem value="option-one" id="option-one" />
+    <FieldLabel htmlFor="option-one">Option One</FieldLabel>
+  </Field>
+  <Field orientation="horizontal" className="items-start gap-2">
+    <RadioGroupItem value="option-two" id="option-two" />
+    <FieldLabel htmlFor="option-two">Option Two</FieldLabel>
+  </Field>
+</RadioGroup>
+```
+
+The `FieldSet` gap and `FieldLegend` overrides in the examples give the body-size, semibold legend and
+spacing of the Here Be Dragons radio group.
+
+## Examples
+
+### Descriptions
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+        <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">Provisioning plan<span aria-hidden="true"> *</span></FieldLegend>
+        <RadioGroup name="plan" defaultValue="standard" required>
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="lean" id="plan-lean" aria-describedby="plan-lean-description" />
+            <div className="flex flex-col gap-1">
+              <FieldLabel htmlFor="plan-lean" className="text-[1.0625rem] font-normal">Lean</FieldLabel>
+              <FieldDescription id="plan-lean-description" className="mt-1">Rations for a short crossing.</FieldDescription>
+            </div>
+          </Field>
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="standard" id="plan-standard" aria-describedby="plan-standard-description" />
+            <div className="flex flex-col gap-1">
+              <FieldLabel htmlFor="plan-standard" className="text-[1.0625rem] font-normal">Standard</FieldLabel>
+              <FieldDescription id="plan-standard-description" className="mt-1">A full hold for most voyages.</FieldDescription>
+            </div>
+          </Field>
+        </RadioGroup>
+      </FieldSet>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+
+    <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+      <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">
+        Provisioning plan<span aria-hidden="true"> *</span>
+      </FieldLegend>
+      <RadioGroup name="plan" defaultValue="standard" required>
+        <Field orientation="horizontal" className="items-start gap-2">
+          <RadioGroupItem value="lean" id="plan-lean" aria-describedby="plan-lean-description" />
+          <div className="flex flex-col gap-1">
+            <FieldLabel htmlFor="plan-lean" className="text-[1.0625rem] font-normal">
+              Lean
+            </FieldLabel>
+            <FieldDescription id="plan-lean-description" className="mt-1">
+              Rations for a short crossing.
+            </FieldDescription>
+          </div>
+        </Field>
+        <Field orientation="horizontal" className="items-start gap-2">
+          <RadioGroupItem value="standard" id="plan-standard" aria-describedby="plan-standard-description" />
+          <div className="flex flex-col gap-1">
+            <FieldLabel htmlFor="plan-standard" className="text-[1.0625rem] font-normal">
+              Standard
+            </FieldLabel>
+            <FieldDescription id="plan-standard-description" className="mt-1">
+              A full hold for most voyages.
+            </FieldDescription>
+          </div>
+        </Field>
+      </RadioGroup>
+    </FieldSet>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Horizontal
+
+`orientation="horizontal"` lays the options out in a wrapping row and switches the arrow keys. Give each
+`Field` `w-auto` so the options sit side by side.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+        <FieldLegend
+          variant="label"
+          className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold"
+        >
+          Crew size
+        </FieldLegend>
+        <RadioGroup name="crew" orientation="horizontal" defaultValue="medium">
+          <Field orientation="horizontal" className="w-auto items-start gap-2">
+            <RadioGroupItem value="small" id="crew-small" />
+            <FieldLabel htmlFor="crew-small" className="text-[1.0625rem] font-normal">
+              Small
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal" className="w-auto items-start gap-2">
+            <RadioGroupItem value="medium" id="crew-medium" />
+            <FieldLabel htmlFor="crew-medium" className="text-[1.0625rem] font-normal">
+              Medium
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal" className="w-auto items-start gap-2">
+            <RadioGroupItem value="large" id="crew-large" />
+            <FieldLabel htmlFor="crew-large" className="text-[1.0625rem] font-normal">
+              Large
+            </FieldLabel>
+          </Field>
+        </RadioGroup>
+      </FieldSet>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+      <FieldLegend
+        variant="label"
+        className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold"
+      >
+        Crew size
+      </FieldLegend>
+      <RadioGroup name="crew" orientation="horizontal" defaultValue="medium">
+        <Field orientation="horizontal" className="w-auto items-start gap-2">
+          <RadioGroupItem value="small" id="crew-small" />
+          <FieldLabel htmlFor="crew-small" className="text-[1.0625rem] font-normal">
+            Small
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal" className="w-auto items-start gap-2">
+          <RadioGroupItem value="medium" id="crew-medium" />
+          <FieldLabel htmlFor="crew-medium" className="text-[1.0625rem] font-normal">
+            Medium
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal" className="w-auto items-start gap-2">
+          <RadioGroupItem value="large" id="crew-large" />
+          <FieldLabel htmlFor="crew-large" className="text-[1.0625rem] font-normal">
+            Large
+          </FieldLabel>
+        </Field>
+      </RadioGroup>
+    </FieldSet>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled option and hint
+
+Disabled options are skipped by the arrow keys. `data-disabled` on the option's `Field` greys its label.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+        <FieldLegend
+          variant="label"
+          className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold"
+        >
+          Departure port
+        </FieldLegend>
+        <RadioGroup name="port" defaultValue="anchor" aria-describedby="port-hint">
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="anchor" id="port-anchor" />
+            <FieldLabel htmlFor="port-anchor" className="text-[1.0625rem] font-normal">
+              Anchor Bay
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal" className="items-start gap-2">
+            <RadioGroupItem value="rime" id="port-rime" />
+            <FieldLabel htmlFor="port-rime" className="text-[1.0625rem] font-normal">
+              Rimewater Docks
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal" data-disabled="true" className="items-start gap-2">
+            <RadioGroupItem value="sealed" id="port-sealed" disabled />
+            <FieldLabel
+              htmlFor="port-sealed"
+              className="text-[1.0625rem] font-normal group-data-[disabled=true]/field:opacity-50"
+            >
+              Sealed Cove
+            </FieldLabel>
+          </Field>
+        </RadioGroup>
+        <FieldDescription id="port-hint">
+          {"You can change this later from the harbour master."}
+        </FieldDescription>
+      </FieldSet>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+      <FieldLegend
+        variant="label"
+        className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold"
+      >
+        Departure port
+      </FieldLegend>
+      <RadioGroup name="port" defaultValue="anchor" aria-describedby="port-hint">
+        <Field orientation="horizontal" className="items-start gap-2">
+          <RadioGroupItem value="anchor" id="port-anchor" />
+          <FieldLabel htmlFor="port-anchor" className="text-[1.0625rem] font-normal">
+            Anchor Bay
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal" className="items-start gap-2">
+          <RadioGroupItem value="rime" id="port-rime" />
+          <FieldLabel htmlFor="port-rime" className="text-[1.0625rem] font-normal">
+            Rimewater Docks
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal" data-disabled="true" className="items-start gap-2">
+          <RadioGroupItem value="sealed" id="port-sealed" disabled />
+          <FieldLabel
+            htmlFor="port-sealed"
+            className="text-[1.0625rem] font-normal group-data-[disabled=true]/field:opacity-50"
+          >
+            Sealed Cove
+          </FieldLabel>
+        </Field>
+      </RadioGroup>
+      <FieldDescription id="port-hint">
+        You can change this later from the harbour master.
+      </FieldDescription>
+    </FieldSet>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+`aria-invalid` on the group turns every ring red and `data-invalid` on each `Field` turns its label red.
+Add a `FieldError` for the message.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+        <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">Departure port<span aria-hidden="true"> *</span></FieldLegend>
+        <RadioGroup name="port-required" required aria-invalid aria-describedby="port-required-error">
+          <Field orientation="horizontal" data-invalid="true" className="items-start gap-2">
+            <RadioGroupItem value="anchor" id="port-required-anchor" />
+            <FieldLabel htmlFor="port-required-anchor" className="text-[1.0625rem] font-normal">Anchor Bay</FieldLabel>
+          </Field>
+          <Field orientation="horizontal" data-invalid="true" className="items-start gap-2">
+            <RadioGroupItem value="rime" id="port-required-rime" />
+            <FieldLabel htmlFor="port-required-rime" className="text-[1.0625rem] font-normal">Rimewater Docks</FieldLabel>
+          </Field>
+        </RadioGroup>
+        <FieldError id="port-required-error">Choose a port before setting sail.</FieldError>
+      </FieldSet>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldError, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+
+    <FieldSet className="has-[>[data-slot=radio-group]]:gap-2">
+      <FieldLegend variant="label" className="mb-2 data-[variant=label]:text-[1.0625rem] data-[variant=label]:font-semibold">
+        Departure port<span aria-hidden="true"> *</span>
+      </FieldLegend>
+      <RadioGroup name="port-required" required aria-invalid aria-describedby="port-required-error">
+        <Field orientation="horizontal" data-invalid="true" className="items-start gap-2">
+          <RadioGroupItem value="anchor" id="port-required-anchor" />
+          <FieldLabel htmlFor="port-required-anchor" className="text-[1.0625rem] font-normal">
+            Anchor Bay
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal" data-invalid="true" className="items-start gap-2">
+          <RadioGroupItem value="rime" id="port-required-rime" />
+          <FieldLabel htmlFor="port-required-rime" className="text-[1.0625rem] font-normal">
+            Rimewater Docks
+          </FieldLabel>
+        </Field>
+      </RadioGroup>
+      <FieldError id="port-required-error">Choose a port before setting sail.</FieldError>
+    </FieldSet>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+`RadioGroup` and `RadioGroupItem` add no props of their own. `value`, `defaultValue`, `onValueChange`,
+`orientation`, `disabled`, `required` and `name` go to the Radix RadioGroup root; `value` and `disabled`
+to each item. `aria-invalid` on either shows the red rings. See the
+[Radix Radio Group documentation](https://www.radix-ui.com/primitives/docs/components/radio-group).

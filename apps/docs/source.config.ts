@@ -2,6 +2,11 @@ import { defineDocs, defineConfig } from "fumadocs-mdx/config";
 
 export const docs = defineDocs({
   dir: "content/docs",
+  docs: {
+    // Feeds /llms-full.txt.
+    postprocess: { includeProcessedMarkdown: true },
+  },
+  meta: { files: ["meta.json", "components/meta.json"] },
 });
 
 // The install snippets in content/docs are authored against the local dev
@@ -14,8 +19,8 @@ export const docs = defineDocs({
 // Shiki highlighting and the copy button. So rewrite it in the AST, before the
 // code blocks are highlighted.
 //
-// Set NEXT_PUBLIC_SITE_URL to the published base (the deploy workflow takes it
-// from actions/configure-pages). Unset — i.e. every local build — leaves the
+// Set NEXT_PUBLIC_SITE_URL to the published base (the deploy workflow sets
+// https://ds.qrsed.com). Unset — i.e. every local build — leaves the
 // localhost URLs untouched, which is what a local reader wants.
 const DEV_REGISTRY_ORIGIN = "http://localhost:3001";
 

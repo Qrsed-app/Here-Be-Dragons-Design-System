@@ -1,0 +1,229 @@
+---
+title: Button Group
+description: Groups related buttons together, joining their edges into a single control.
+---
+
+import { Button } from "@/registry/new-york/button/button";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+} from "@/registry/new-york/button-group/button-group";
+import { SplitButtonDemo } from "@/components/examples/button-group-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ButtonGroup>
+        <Button variant="secondary">North</Button>
+        <Button variant="secondary">East</Button>
+        <Button variant="secondary">South</Button>
+      </ButtonGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import { ButtonGroup } from "@/components/ui/button-group";
+
+    export function ButtonGroupDemo() {
+      return (
+        <ButtonGroup>
+          <Button variant="secondary">North</Button>
+          <Button variant="secondary">East</Button>
+          <Button variant="secondary">South</Button>
+        </ButtonGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/button-group
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/button-group.json
+```
+
+## Usage
+
+```tsx
+import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@/components/ui/button-group";
+```
+
+```tsx
+<ButtonGroup>
+  <Button variant="secondary">Copy</Button>
+  <Button variant="secondary">Paste</Button>
+</ButtonGroup>
+```
+
+The buttons keep their own offset ink shadows; because they sit flush, the shadows read as one
+shadow under the whole group — the look the old split button drew on its wrapper.
+
+## Examples
+
+### Split button
+
+The pre-migration `split-button` is a composition: a `ButtonGroup` holding the action and a
+`DropdownMenu` trigger. The hairline between the halves is the old divider.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SplitButtonDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import { ChevronDownIcon } from "lucide-react";
+
+    import { Button } from "@/components/ui/button";
+    import { ButtonGroup } from "@/components/ui/button-group";
+    import {
+      DropdownMenu,
+      DropdownMenuContent,
+      DropdownMenuItem,
+      DropdownMenuTrigger,
+    } from "@/components/ui/dropdown-menu";
+
+    export function SplitButtonDemo() {
+      return (
+        <ButtonGroup>
+          <Button onClick={() => castSpell()}>Cast Spell</Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                aria-label="More casting options"
+                className="border-l! border-l-[rgba(255,255,255,0.3)] px-2!"
+              >
+                <ChevronDownIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>Cast at a higher level</DropdownMenuItem>
+              <DropdownMenuItem>Cast as a ritual</DropdownMenuItem>
+              <DropdownMenuItem>Counterspell</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ButtonGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Text
+
+`ButtonGroupText` is a non-interactive slab that joins the group — a label or a readout.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ButtonGroup>
+        <ButtonGroupText>Gold</ButtonGroupText>
+        <Button variant="secondary">1 200</Button>
+      </ButtonGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ButtonGroup>
+      <ButtonGroupText>Gold</ButtonGroupText>
+      <Button variant="secondary">1 200</Button>
+    </ButtonGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Separator
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ButtonGroup>
+        <Button variant="secondary">Copy</Button>
+        <ButtonGroupSeparator />
+        <Button variant="secondary">Paste</Button>
+      </ButtonGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ButtonGroup>
+      <Button variant="secondary">Copy</Button>
+      <ButtonGroupSeparator />
+      <Button variant="secondary">Paste</Button>
+    </ButtonGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Vertical
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ButtonGroup orientation="vertical">
+        <Button variant="secondary">North</Button>
+        <Button variant="secondary">East</Button>
+        <Button variant="secondary">South</Button>
+      </ButtonGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ButtonGroup orientation="vertical">
+      <Button variant="secondary">North</Button>
+      <Button variant="secondary">East</Button>
+      <Button variant="secondary">South</Button>
+    </ButtonGroup>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### ButtonGroup
+
+<TypeTable
+  type={{
+    orientation: {
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description:
+        "Which edges are joined: the children lose their inner radii and borders along that axis.",
+    },
+  }}
+/>
+
+Renders a `<div role="group">` and takes every `<div>` prop.
+
+### ButtonGroupText
+
+<TypeTable
+  type={{
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element instead of a `<div>` — a `<label>`, for instance (Radix Slot).",
+    },
+  }}
+/>
+
+### ButtonGroupSeparator
+
+Takes every [Separator](/docs/components/separator) prop; `orientation` defaults to `"vertical"`.

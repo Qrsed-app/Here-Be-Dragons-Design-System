@@ -1,0 +1,209 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+---
+
+import { Toggle } from "@/registry/new-york/toggle/toggle";
+import { BookmarkIcon, ItalicIcon, StarIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle aria-label="Toggle bookmark"><BookmarkIcon />Bookmark</Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { BookmarkIcon } from "lucide-react";
+
+    import { Toggle } from "@/components/ui/toggle";
+
+    export function ToggleDemo() {
+      return (
+        <Toggle aria-label="Toggle bookmark">
+          <BookmarkIcon />
+          Bookmark
+        </Toggle>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/toggle
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/toggle.json
+```
+
+## Usage
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+```
+
+```tsx
+<Toggle>Toggle</Toggle>
+```
+
+Off, a toggle looks like a secondary `Button`; on, it turns crimson.
+
+## Examples
+
+### Pressed
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle>Bold</Toggle>
+      <Toggle defaultPressed>Bold</Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Toggle>Bold</Toggle>
+    <Toggle defaultPressed>Bold</Toggle>
+    ```
+  </Tab>
+</Tabs>
+
+### Outline
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle variant="outline" aria-label="Toggle italic"><ItalicIcon />Italic</Toggle>
+      <Toggle variant="outline" defaultPressed aria-label="Toggle italic"><ItalicIcon />Italic</Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ItalicIcon } from "lucide-react";
+
+    <Toggle variant="outline" aria-label="Toggle italic">
+      <ItalicIcon />
+      Italic
+    </Toggle>
+    <Toggle variant="outline" defaultPressed aria-label="Toggle italic">
+      <ItalicIcon />
+      Italic
+    </Toggle>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Size
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle size="sm" defaultPressed>
+        {"Small"}
+      </Toggle>
+      <Toggle defaultPressed>Default</Toggle>
+      <Toggle size="lg" defaultPressed>
+        {"Large"}
+      </Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Toggle size="sm" defaultPressed>
+      Small
+    </Toggle>
+    <Toggle defaultPressed>Default</Toggle>
+    <Toggle size="lg" defaultPressed>
+      Large
+    </Toggle>
+    ```
+  </Tab>
+</Tabs>
+
+### Icon
+
+Here Be Dragons addition — square `icon-sm`, `icon` and `icon-lg` sizes, matching `Button`. Icon-only
+toggles need an accessible name.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle size="icon-sm" aria-label="Favourite">
+        <StarIcon />
+      </Toggle>
+      <Toggle size="icon" defaultPressed aria-label="Favourite">
+        <StarIcon />
+      </Toggle>
+      <Toggle size="icon-lg" variant="outline" aria-label="Favourite">
+        <StarIcon />
+      </Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { StarIcon } from "lucide-react";
+
+    <Toggle size="icon-sm" aria-label="Favourite">
+      <StarIcon />
+    </Toggle>
+    <Toggle size="icon" defaultPressed aria-label="Favourite">
+      <StarIcon />
+    </Toggle>
+    <Toggle size="icon-lg" variant="outline" aria-label="Favourite">
+      <StarIcon />
+    </Toggle>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Toggle disabled>Bold</Toggle>
+      <Toggle disabled defaultPressed>
+        {"Bold"}
+      </Toggle>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Toggle disabled>Bold</Toggle>
+    <Toggle disabled defaultPressed>
+      Bold
+    </Toggle>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "outline"',
+      default: '"default"',
+      description: "Visual style. Both turn crimson when pressed.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+      default: '"default"',
+      description:
+        "Padding and type size. The `icon` sizes are a Here Be Dragons addition; they are square and need an `aria-label`.",
+    },
+  }}
+/>
+
+`pressed`, `defaultPressed`, `onPressedChange`, `disabled` and every other prop go to the Radix Toggle
+root. See the [Radix Toggle documentation](https://www.radix-ui.com/primitives/docs/components/toggle).
+The exported `toggleVariants` helper returns the same classes.

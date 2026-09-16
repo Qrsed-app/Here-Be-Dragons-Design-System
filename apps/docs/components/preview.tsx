@@ -1,21 +1,11 @@
 import type { ReactNode } from "react";
 
+// not-prose: the docs' typography styles must not leak into the rendered components.
 export function Preview({ children }: { children: ReactNode }) {
   return (
     <div
-      className="hbd-preview-canvas"
-      style={{
-        // Token-backed; no hard-coded design values. Falls back gracefully.
-        border: "1px solid var(--hbd-color-border-default, var(--color-fd-border))",
-        borderRadius: "var(--hbd-radius-lg, 0.5rem)",
-        background: "var(--hbd-color-surface-default, var(--color-fd-card))",
-        padding: "var(--hbd-space-6, 1.5rem)",
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "var(--hbd-space-4, 1rem)",
-        alignItems: "center",
-        marginBlock: "1rem",
-      }}
+      data-preview
+      className="not-prose my-4 flex flex-wrap items-center gap-4 rounded-lg border border-border bg-background p-6"
     >
       {children}
     </div>

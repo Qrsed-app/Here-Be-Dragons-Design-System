@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen. shadcn/ui API in the Here Be Dragons look: parchment panel from any edge, Cinzel title, ruled header and footer. Adds wide, tall and showOverlay props on SheetContent.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme", "@hbd/button"],
+      "files": [
+        {
+          "path": "sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

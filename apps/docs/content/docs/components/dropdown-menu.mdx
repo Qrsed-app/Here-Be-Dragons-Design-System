@@ -1,0 +1,511 @@
+---
+title: Dropdown Menu
+description: Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+---
+
+import {
+  DropdownMenuBasicDemo,
+  DropdownMenuCheckboxesDemo,
+  DropdownMenuControlledDemo,
+  DropdownMenuDemo,
+  DropdownMenuDestructiveDemo,
+  DropdownMenuGroupsDemo,
+  DropdownMenuIconsDemo,
+  DropdownMenuInsetDemo,
+  DropdownMenuRadioGroupDemo,
+  DropdownMenuSubmenuDemo,
+} from "@/components/examples/dropdown-menu-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      DropdownMenu,
+      DropdownMenuContent,
+      DropdownMenuGroup,
+      DropdownMenuItem,
+      DropdownMenuLabel,
+      DropdownMenuPortal,
+      DropdownMenuSeparator,
+      DropdownMenuShortcut,
+      DropdownMenuSub,
+      DropdownMenuSubContent,
+      DropdownMenuSubTrigger,
+      DropdownMenuTrigger,
+    } from "@/components/ui/dropdown-menu";
+
+    export function DropdownMenuDemo() {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary">Open</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                Profile
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                Billing
+                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                Settings
+                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>Party</DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Invite adventurers</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem>Raven</DropdownMenuItem>
+                    <DropdownMenuItem>Sending stone</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>More...</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuItem>
+                New party
+                <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem disabled>Guild API</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem variant="destructive">
+              Log out
+              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/dropdown-menu
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/dropdown-menu.json
+```
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+```
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Team</DropdownMenuItem>
+    <DropdownMenuItem>Subscription</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Examples
+
+### Basic
+
+`onSelect` on an item runs its action; the menu closes afterwards. `align="start"` lines the panel up
+with the trigger's left edge, as the Here Be Dragons menu always did — the Radix default is `center`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuBasicDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [last, setLast] = React.useState("");
+
+    <div className="flex flex-col items-start gap-3">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="secondary">Actions</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem onSelect={() => setLast("Edit quest")}>Edit quest</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setLast("Duplicate")}>Duplicate</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setLast("Archive")}>Archive</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <span className="font-sans text-sm text-muted-foreground">Last selected: {last || "—"}</span>
+    </div>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Icons and Shortcuts
+
+Put an icon before the label — the item sizes it and mutes it. `DropdownMenuShortcut` pushes a
+keyboard hint to the far edge.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuIconsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { FolderOpenIcon, PlusIcon, SaveIcon } from "lucide-react";
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>File</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>
+          <PlusIcon />
+          New
+          <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <FolderOpenIcon />
+          Open
+          <DropdownMenuShortcut>⌘O</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <SaveIcon />
+          Save
+          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Groups and Labels
+
+`DropdownMenuLabel` is the uppercase, letter-spaced heading of a `DropdownMenuGroup`. Separate
+sections with `DropdownMenuSeparator`; two groups placed directly next to each other are ruled off
+automatically. Disabled items are skipped by keyboard navigation.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuGroupsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="gold">Manage map</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Edit</DropdownMenuLabel>
+          <DropdownMenuItem>Rename</DropdownMenuItem>
+          <DropdownMenuItem>Move to folder</DropdownMenuItem>
+          <DropdownMenuItem disabled>Lock (coming soon)</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Danger</DropdownMenuLabel>
+          <DropdownMenuItem variant="destructive">Delete map</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+  </Tab>
+</Tabs>
+
+### Destructive
+
+`variant="destructive"` writes the label and icon in blood and tints the highlighted row.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuDestructiveDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SaveIcon, TrashIcon } from "lucide-react";
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary">Scroll</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>
+          <SaveIcon />
+          Copy to spellbook
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">
+          <TrashIcon />
+          Burn scroll
+          <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Checkboxes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuCheckboxesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [terrain, setTerrain] = React.useState(true);
+    const [roads, setRoads] = React.useState(false);
+    const [fog, setFog] = React.useState(true);
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary">Map layers</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="start">
+        <DropdownMenuLabel>Layers</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem checked={terrain} onCheckedChange={setTerrain}>
+          Terrain
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={roads} onCheckedChange={setRoads}>
+          Roads
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={fog} onCheckedChange={setFog} disabled>
+          Fog of war
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Radio Group
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuRadioGroupDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [scale, setScale] = React.useState("leagues");
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary">Map scale</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="start">
+        <DropdownMenuLabel>Measure distance in</DropdownMenuLabel>
+        <DropdownMenuRadioGroup value={scale} onValueChange={setScale}>
+          <DropdownMenuRadioItem value="miles">Miles</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="leagues">Leagues</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="days">Days of travel</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Submenu
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuSubmenuDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary">Quest</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>Accept</DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Share with</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem>The party</DropdownMenuItem>
+              <DropdownMenuItem>The guild</DropdownMenuItem>
+              <DropdownMenuItem>The tavern board</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">Abandon</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+  </Tab>
+</Tabs>
+
+### Inset
+
+`inset` indents a label or item to line up with the text of items that carry an icon, checkbox or
+radio.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuInsetDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { PlusIcon } from "lucide-react";
+
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary">Party</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="start">
+        <DropdownMenuLabel inset>Adventurers</DropdownMenuLabel>
+        <DropdownMenuItem inset>Aragorn</DropdownMenuItem>
+        <DropdownMenuItem inset>Gimli</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <PlusIcon />
+          Recruit
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Controlled
+
+Drive the open state yourself with `open` and `onOpenChange`, for example to open the menu from
+another control.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DropdownMenuControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [open, setOpen] = React.useState(false);
+
+    <Button variant="secondary" onClick={() => setOpen(true)}>
+      Open from elsewhere
+    </Button>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button>Menu ({open ? "open" : "closed"})</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### DropdownMenuContent
+
+<TypeTable
+  type={{
+    sideOffset: {
+      type: "number",
+      default: "4",
+      description: "Gap in px between the trigger and the panel.",
+    },
+    align: {
+      type: '"start" | "center" | "end"',
+      default: '"center"',
+      description:
+        "Alignment against the trigger. Use `start` for the classic Here Be Dragons placement.",
+    },
+  }}
+/>
+
+The panel is between 160px and 280px wide unless you set a width, and scrolls past 320px of height.
+
+### DropdownMenuItem
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive"',
+      default: '"default"',
+      description: "`destructive` writes the item in blood and tints its highlight.",
+    },
+    inset: {
+      type: "boolean",
+      default: "false",
+      description: "Indent the item to align with items that have an icon.",
+    },
+  }}
+/>
+
+### DropdownMenuLabel and DropdownMenuSubTrigger
+
+<TypeTable
+  type={{
+    inset: {
+      type: "boolean",
+      default: "false",
+      description: "Indent to align with items that have an icon.",
+    },
+  }}
+/>
+
+Every other prop goes to the matching part of [Radix Dropdown Menu](https://www.radix-ui.com/primitives/docs/components/dropdown-menu)
+(`DropdownMenu` → `Root`, `DropdownMenuItem` → `Item`, and so on). `DropdownMenuShortcut` renders a
+`<span>`.

@@ -1,0 +1,298 @@
+---
+title: Time Picker
+description: Pick a time from scrolling hour and minute columns in a popover.
+---
+
+import {
+  TimePicker12HourDemo,
+  TimePickerControlledDemo,
+  TimePickerDemo,
+  TimePickerDisabledDemo,
+  TimePickerFieldDemo,
+  TimePickerInvalidDemo,
+  TimePickerMinuteStepDemo,
+} from "@/components/examples/time-picker-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      TimePicker,
+      TimePickerContent,
+      TimePickerTrigger,
+      TimePickerValue,
+    } from "@/components/ui/time-picker";
+
+    export function TimePickerDemo() {
+      return (
+        <TimePicker defaultValue="09:30">
+          <TimePickerTrigger aria-label="Departure time">
+            <TimePickerValue />
+          </TimePickerTrigger>
+          <TimePickerContent />
+        </TimePicker>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+A Here Be Dragons component: shadcn/ui has no time picker. It is composed the way Select is — a
+root that owns the value, a trigger, a value, and the panel.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/time-picker
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/time-picker.json
+```
+
+## Usage
+
+```tsx
+import {
+  TimePicker,
+  TimePickerContent,
+  TimePickerTrigger,
+  TimePickerValue,
+} from "@/components/ui/time-picker";
+```
+
+```tsx
+<TimePicker defaultValue="09:30">
+  <TimePickerTrigger aria-label="Departure time">
+    <TimePickerValue />
+  </TimePickerTrigger>
+  <TimePickerContent />
+</TimePicker>
+```
+
+The value is always an `HH:MM` string on a 24-hour clock, whatever the panel displays. Picking an
+hour and a minute only stages them: **Confirm** commits the value and closes the panel, **Cancel**,
+Escape and an outside click discard the staged selection, and **Clear** empties it without closing.
+The two numbers in the panel header can be clicked and typed into.
+
+## Examples
+
+### 12-hour
+
+`format="12"` lists hours 1–12 and adds an AM·PM column. The committed value is still 24-hour, so
+this picker reads `14:00`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePicker12HourDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TimePicker format="12" defaultValue="14:00">
+      <TimePickerTrigger aria-label="Departure time">
+        <TimePickerValue />
+      </TimePickerTrigger>
+      <TimePickerContent />
+    </TimePicker>
+    ```
+  </Tab>
+</Tabs>
+
+### Minute step
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerMinuteStepDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TimePicker minuteStep={15} defaultValue="08:15">
+      <TimePickerTrigger aria-label="Watch change">
+        <TimePickerValue />
+      </TimePickerTrigger>
+      <TimePickerContent />
+    </TimePicker>
+    ```
+  </Tab>
+</Tabs>
+
+### In a field
+
+`name` puts the value in a hidden input, so the picker posts with the rest of the form.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerFieldDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="w-fit">
+      <FieldLabel htmlFor="muster">Muster time</FieldLabel>
+      <TimePicker name="muster" defaultValue="06:00">
+        <TimePickerTrigger id="muster">
+          <TimePickerValue />
+        </TimePickerTrigger>
+        <TimePickerContent />
+      </TimePicker>
+      <FieldDescription>Every hand on deck before the tide turns.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+`aria-invalid` on the trigger switches its border to the error colour.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerInvalidDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="inline-flex flex-col items-start gap-1">
+      <TimePicker>
+        <TimePickerTrigger aria-invalid aria-label="Muster time">
+          <TimePickerValue />
+        </TimePickerTrigger>
+        <TimePickerContent />
+      </TimePicker>
+      <FieldError>Pick a time before weighing anchor.</FieldError>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TimePicker disabled defaultValue="06:00">
+      <TimePickerTrigger aria-label="Locked time">
+        <TimePickerValue />
+      </TimePickerTrigger>
+      <TimePickerContent />
+    </TimePicker>
+    ```
+  </Tab>
+</Tabs>
+
+### Controlled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TimePickerControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState("11:45");
+
+    <TimePicker value={value} onValueChange={setValue}>
+      <TimePickerTrigger aria-label="Eight bells">
+        <TimePickerValue />
+      </TimePickerTrigger>
+      <TimePickerContent />
+    </TimePicker>
+    ```
+
+  </Tab>
+</Tabs>
+
+`onValueChange` fires on Confirm, not on every click inside the panel.
+
+### Date and time
+
+Pair it with a [Calendar](/docs/components/calendar) in one popover for a date-and-time field — see
+[Date Picker](/docs/components/date-picker).
+
+## API Reference
+
+### TimePicker
+
+<TypeTable
+  type={{
+    value: {
+      type: "string",
+      description: "Controlled `HH:MM` value on a 24-hour clock. Empty string means no time.",
+    },
+    defaultValue: {
+      type: "string",
+      default: '""',
+      description: "Uncontrolled initial value.",
+    },
+    onValueChange: {
+      type: "(value: string) => void",
+      description: "Called when Confirm commits a new value.",
+    },
+    format: {
+      type: '"12" | "24"',
+      default: '"24"',
+      description: "Panel and trigger display. The value stays 24-hour either way.",
+    },
+    minuteStep: {
+      type: "number",
+      default: "1",
+      description: "Interval between the minutes listed in the minute column.",
+    },
+    disabled: {
+      type: "boolean",
+      default: "false",
+      description: "Disables the trigger so the panel cannot open.",
+    },
+    name: {
+      type: "string",
+      description: "Renders a hidden input with the value, for plain form posts.",
+    },
+  }}
+/>
+
+`open`, `defaultOpen`, `onOpenChange` and `modal` are forwarded to the underlying
+[Popover](/docs/components/popover) root.
+
+### TimePickerTrigger
+
+Renders the `<button>` that opens the panel, with the caret; takes every button prop. Give it an
+`aria-label` or an `id` tied to a `FieldLabel`, and `aria-invalid` for the error border.
+
+### TimePickerValue
+
+<TypeTable
+  type={{
+    placeholder: {
+      type: "string",
+      default: '"Select the hour…"',
+      description: "Shown when no time is set; it carries `data-placeholder` for styling.",
+    },
+  }}
+/>
+
+### TimePickerContent
+
+The panel: header, hour and minute columns, the AM·PM column in 12-hour format, and the footer. It
+takes [PopoverContent](/docs/components/popover) props, so `align`, `side`, `sideOffset` and
+`className` all work.

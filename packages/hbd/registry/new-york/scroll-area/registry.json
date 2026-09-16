@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling. shadcn/ui API in the Here Be Dragons look: a thin ink-on-parchment scrollbar that darkens under the pointer.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

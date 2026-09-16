@@ -1,0 +1,584 @@
+---
+title: Stat Block
+description: Displays a D&D 5e creature stat block with ability scores, properties, and trait and action sections.
+---
+
+import {
+  StatBlock,
+  StatBlockAbilities,
+  StatBlockDescription,
+  StatBlockHeader,
+  StatBlockProperties,
+  StatBlockProperty,
+  StatBlockPropertyLabel,
+  StatBlockPropertyValue,
+  StatBlockSection,
+  StatBlockSectionTitle,
+  StatBlockSeparator,
+  StatBlockTitle,
+  StatBlockTrait,
+  StatBlockTraitName,
+} from "@/registry/new-york/stat-block/stat-block";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock aria-label="Giant Spider stat block">
+        <StatBlockHeader>
+          <StatBlockTitle>Giant Spider</StatBlockTitle>
+          <StatBlockDescription>Large beast, unaligned</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockProperties>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>14</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>26 (4d10 + 4)</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Speed</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>30 ft., climb 30 ft.</StatBlockPropertyValue>
+          </StatBlockProperty>
+        </StatBlockProperties>
+        <StatBlockAbilities str={14} dex={16} con={12} int={2} wis={11} cha={4} />
+        <StatBlockSeparator />
+        <StatBlockProperties>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Skills</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>Stealth +7</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Senses</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>blindsight 10 ft., darkvision 60 ft., passive Perception 10</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Challenge</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>1</StatBlockPropertyValue>
+          </StatBlockProperty>
+        </StatBlockProperties>
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      StatBlock,
+      StatBlockAbilities,
+      StatBlockDescription,
+      StatBlockHeader,
+      StatBlockProperties,
+      StatBlockProperty,
+      StatBlockPropertyLabel,
+      StatBlockPropertyValue,
+      StatBlockSeparator,
+      StatBlockTitle,
+    } from "@/components/ui/stat-block";
+
+    export function StatBlockDemo() {
+      return (
+        <StatBlock aria-label="Giant Spider stat block">
+          <StatBlockHeader>
+            <StatBlockTitle>Giant Spider</StatBlockTitle>
+            <StatBlockDescription>Large beast, unaligned</StatBlockDescription>
+          </StatBlockHeader>
+          <StatBlockSeparator />
+          <StatBlockProperties>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>14</StatBlockPropertyValue>
+            </StatBlockProperty>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>26 (4d10 + 4)</StatBlockPropertyValue>
+            </StatBlockProperty>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Speed</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>30 ft., climb 30 ft.</StatBlockPropertyValue>
+            </StatBlockProperty>
+          </StatBlockProperties>
+          <StatBlockAbilities str={14} dex={16} con={12} int={2} wis={11} cha={4} />
+          <StatBlockSeparator />
+          <StatBlockProperties>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Skills</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>Stealth +7</StatBlockPropertyValue>
+            </StatBlockProperty>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Senses</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>
+                blindsight 10 ft., darkvision 60 ft., passive Perception 10
+              </StatBlockPropertyValue>
+            </StatBlockProperty>
+            <StatBlockProperty>
+              <StatBlockPropertyLabel>Challenge</StatBlockPropertyLabel>
+              <StatBlockPropertyValue>1</StatBlockPropertyValue>
+            </StatBlockProperty>
+          </StatBlockProperties>
+        </StatBlock>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+Here Be Dragons component — shadcn/ui has no counterpart. It follows the shadcn conventions: one
+named export per part, a `data-slot` on each, and `className` merged last.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/stat-block
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/stat-block.json
+```
+
+## Usage
+
+```tsx
+import {
+  StatBlock,
+  StatBlockAbilities,
+  StatBlockDescription,
+  StatBlockHeader,
+  StatBlockProperties,
+  StatBlockProperty,
+  StatBlockPropertyLabel,
+  StatBlockPropertyValue,
+  StatBlockSection,
+  StatBlockSectionTitle,
+  StatBlockSeparator,
+  StatBlockTitle,
+  StatBlockTrait,
+  StatBlockTraitName,
+} from "@/components/ui/stat-block";
+```
+
+```tsx
+<StatBlock>
+  <StatBlockHeader>
+    <StatBlockTitle>Goblin</StatBlockTitle>
+    <StatBlockDescription>Small humanoid (goblinoid), neutral evil</StatBlockDescription>
+  </StatBlockHeader>
+  <StatBlockSeparator />
+  <StatBlockAbilities str={8} dex={14} con={10} int={10} wis={8} cha={8} />
+</StatBlock>
+```
+
+## Examples
+
+### Traits and Actions
+
+A `StatBlockSection` holds a titled list of `StatBlockTrait` entries. Separate the sections from the
+properties with a `StatBlockSeparator`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock aria-label="Goblin stat block">
+        <StatBlockHeader>
+          <StatBlockTitle>Goblin</StatBlockTitle>
+          <StatBlockDescription>Small humanoid (goblinoid), neutral evil</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockProperties>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>15 (leather armor, shield)</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>7 (2d6)</StatBlockPropertyValue>
+          </StatBlockProperty>
+        </StatBlockProperties>
+        <StatBlockAbilities str={8} dex={14} con={10} int={10} wis={8} cha={8} />
+        <StatBlockSeparator />
+        <StatBlockSection>
+          <StatBlockSectionTitle>Traits</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Nimble Escape.</StatBlockTraitName> The goblin can take the
+            Disengage or Hide action as a bonus action on each of its turns.
+          </StatBlockTrait>
+        </StatBlockSection>
+        <StatBlockSection>
+          <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Scimitar.</StatBlockTraitName> Melee Weapon Attack: +4 to hit, reach
+            5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.
+          </StatBlockTrait>
+          <StatBlockTrait>
+            <StatBlockTraitName>Shortbow.</StatBlockTraitName> Ranged Weapon Attack: +4 to hit,
+            range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.
+          </StatBlockTrait>
+        </StatBlockSection>
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StatBlock aria-label="Goblin stat block">
+      <StatBlockHeader>
+        <StatBlockTitle>Goblin</StatBlockTitle>
+        <StatBlockDescription>Small humanoid (goblinoid), neutral evil</StatBlockDescription>
+      </StatBlockHeader>
+      <StatBlockSeparator />
+      <StatBlockProperties>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>15 (leather armor, shield)</StatBlockPropertyValue>
+        </StatBlockProperty>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>7 (2d6)</StatBlockPropertyValue>
+        </StatBlockProperty>
+      </StatBlockProperties>
+      <StatBlockAbilities str={8} dex={14} con={10} int={10} wis={8} cha={8} />
+      <StatBlockSeparator />
+      <StatBlockSection>
+        <StatBlockSectionTitle>Traits</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Nimble Escape.</StatBlockTraitName> The goblin can take the Disengage
+          or Hide action as a bonus action on each of its turns.
+        </StatBlockTrait>
+      </StatBlockSection>
+      <StatBlockSection>
+        <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Scimitar.</StatBlockTraitName> Melee Weapon Attack: +4 to hit, reach 5
+          ft., one target. Hit: 5 (1d6 + 2) slashing damage.
+        </StatBlockTrait>
+        <StatBlockTrait>
+          <StatBlockTraitName>Shortbow.</StatBlockTraitName> Ranged Weapon Attack: +4 to hit, range
+          80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.
+        </StatBlockTrait>
+      </StatBlockSection>
+    </StatBlock>
+    ```
+  </Tab>
+</Tabs>
+
+### Legendary Actions
+
+Reactions and legendary actions are sections like any other.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock aria-label="Adult Red Dragon stat block">
+        <StatBlockHeader>
+          <StatBlockTitle>Adult Red Dragon</StatBlockTitle>
+          <StatBlockDescription>Huge dragon, chaotic evil</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockAbilities str={27} dex={10} con={25} int={16} wis={13} cha={21} />
+        <StatBlockSeparator />
+        <StatBlockProperties>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Saving Throws</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>Dex +6, Con +13, Wis +7, Cha +11</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Immunities</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>fire</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Challenge</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>17</StatBlockPropertyValue>
+          </StatBlockProperty>
+        </StatBlockProperties>
+        <StatBlockSeparator />
+        <StatBlockSection>
+          <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Fire Breath (Recharge 5–6).</StatBlockTraitName> The dragon exhales
+            fire in a 60-foot cone. Each creature in that area must make a DC 21 Dexterity saving
+            throw, taking 63 (18d6) fire damage on a failed save, or half as much on a success.
+          </StatBlockTrait>
+        </StatBlockSection>
+        <StatBlockSection>
+          <StatBlockSectionTitle>Reactions</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Wing Buffet.</StatBlockTraitName> The dragon beats its wings and
+            rises half its flying speed.
+          </StatBlockTrait>
+        </StatBlockSection>
+        <StatBlockSection>
+          <StatBlockSectionTitle>Legendary Actions</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Tail Attack.</StatBlockTraitName> The dragon makes a tail attack.
+          </StatBlockTrait>
+        </StatBlockSection>
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StatBlock aria-label="Adult Red Dragon stat block">
+      <StatBlockHeader>
+        <StatBlockTitle>Adult Red Dragon</StatBlockTitle>
+        <StatBlockDescription>Huge dragon, chaotic evil</StatBlockDescription>
+      </StatBlockHeader>
+      <StatBlockSeparator />
+      <StatBlockAbilities str={27} dex={10} con={25} int={16} wis={13} cha={21} />
+      <StatBlockSeparator />
+      <StatBlockProperties>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Saving Throws</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>Dex +6, Con +13, Wis +7, Cha +11</StatBlockPropertyValue>
+        </StatBlockProperty>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Immunities</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>fire</StatBlockPropertyValue>
+        </StatBlockProperty>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Challenge</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>17</StatBlockPropertyValue>
+        </StatBlockProperty>
+      </StatBlockProperties>
+      <StatBlockSeparator />
+      <StatBlockSection>
+        <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Fire Breath (Recharge 5–6).</StatBlockTraitName> The dragon exhales
+          fire in a 60-foot cone. Each creature in that area must make a DC 21 Dexterity saving
+          throw, taking 63 (18d6) fire damage on a failed save, or half as much on a success.
+        </StatBlockTrait>
+      </StatBlockSection>
+      <StatBlockSection>
+        <StatBlockSectionTitle>Reactions</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Wing Buffet.</StatBlockTraitName> The dragon beats its wings and rises
+          half its flying speed.
+        </StatBlockTrait>
+      </StatBlockSection>
+      <StatBlockSection>
+        <StatBlockSectionTitle>Legendary Actions</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Tail Attack.</StatBlockTraitName> The dragon makes a tail attack.
+        </StatBlockTrait>
+      </StatBlockSection>
+    </StatBlock>
+    ```
+  </Tab>
+</Tabs>
+
+### Compact
+
+`size="sm"` tightens the padding and steps every type size down for sidebars and encounter
+trackers.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock size="sm" aria-label="Bandit stat block">
+        <StatBlockHeader>
+          <StatBlockTitle>Bandit</StatBlockTitle>
+          <StatBlockDescription>Medium humanoid, any non-lawful alignment</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockProperties>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>12 (leather armor)</StatBlockPropertyValue>
+          </StatBlockProperty>
+          <StatBlockProperty>
+            <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+            <StatBlockPropertyValue>11 (2d8 + 2)</StatBlockPropertyValue>
+          </StatBlockProperty>
+        </StatBlockProperties>
+        <StatBlockAbilities str={11} dex={12} con={12} int={10} wis={10} cha={10} />
+        <StatBlockSeparator />
+        <StatBlockSection>
+          <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Scimitar.</StatBlockTraitName> Melee Weapon Attack: +3 to hit, reach
+            5 ft., one target.
+          </StatBlockTrait>
+        </StatBlockSection>
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StatBlock size="sm" aria-label="Bandit stat block">
+      <StatBlockHeader>
+        <StatBlockTitle>Bandit</StatBlockTitle>
+        <StatBlockDescription>Medium humanoid, any non-lawful alignment</StatBlockDescription>
+      </StatBlockHeader>
+      <StatBlockSeparator />
+      <StatBlockProperties>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Armor Class</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>12 (leather armor)</StatBlockPropertyValue>
+        </StatBlockProperty>
+        <StatBlockProperty>
+          <StatBlockPropertyLabel>Hit Points</StatBlockPropertyLabel>
+          <StatBlockPropertyValue>11 (2d8 + 2)</StatBlockPropertyValue>
+        </StatBlockProperty>
+      </StatBlockProperties>
+      <StatBlockAbilities str={11} dex={12} con={12} int={10} wis={10} cha={10} />
+      <StatBlockSeparator />
+      <StatBlockSection>
+        <StatBlockSectionTitle>Actions</StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Scimitar.</StatBlockTraitName> Melee Weapon Attack: +3 to hit, reach 5
+          ft., one target.
+        </StatBlockTrait>
+      </StatBlockSection>
+    </StatBlock>
+    ```
+  </Tab>
+</Tabs>
+
+### Missing Scores
+
+Leave out an ability and its column shows a dash with no modifier.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock aria-label="Animated Armor stat block">
+        <StatBlockHeader>
+          <StatBlockTitle>Animated Armor</StatBlockTitle>
+          <StatBlockDescription>Medium construct, unaligned</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockAbilities str={14} dex={11} int={1} cha={1} />
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StatBlock aria-label="Animated Armor stat block">
+      <StatBlockHeader>
+        <StatBlockTitle>Animated Armor</StatBlockTitle>
+        <StatBlockDescription>Medium construct, unaligned</StatBlockDescription>
+      </StatBlockHeader>
+      <StatBlockSeparator />
+      <StatBlockAbilities str={14} dex={11} int={1} cha={1} />
+    </StatBlock>
+    ```
+  </Tab>
+</Tabs>
+
+### Heading Level
+
+`StatBlockTitle` renders an `<h2>` and `StatBlockSectionTitle` an `<h3>`. Use `asChild` on either to
+fit your page outline.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StatBlock aria-label="Mimic stat block">
+        <StatBlockHeader>
+          <StatBlockTitle asChild>
+            <h3>Mimic</h3>
+          </StatBlockTitle>
+          <StatBlockDescription>Medium monstrosity (shapechanger), neutral</StatBlockDescription>
+        </StatBlockHeader>
+        <StatBlockSeparator />
+        <StatBlockSection>
+          <StatBlockSectionTitle asChild>
+            <h4>Traits</h4>
+          </StatBlockSectionTitle>
+          <StatBlockTrait>
+            <StatBlockTraitName>Adhesive.</StatBlockTraitName> The mimic adheres to anything that
+            touches it.
+          </StatBlockTrait>
+        </StatBlockSection>
+      </StatBlock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <StatBlock aria-label="Mimic stat block">
+      <StatBlockHeader>
+        <StatBlockTitle asChild>
+          <h3>Mimic</h3>
+        </StatBlockTitle>
+        <StatBlockDescription>Medium monstrosity (shapechanger), neutral</StatBlockDescription>
+      </StatBlockHeader>
+      <StatBlockSeparator />
+      <StatBlockSection>
+        <StatBlockSectionTitle asChild>
+          <h4>Traits</h4>
+        </StatBlockSectionTitle>
+        <StatBlockTrait>
+          <StatBlockTraitName>Adhesive.</StatBlockTraitName> The mimic adheres to anything that
+          touches it.
+        </StatBlockTrait>
+      </StatBlockSection>
+    </StatBlock>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### StatBlock
+
+<TypeTable
+  type={{
+    size: {
+      type: '"default" | "sm"',
+      default: '"default"',
+      description:
+        "`sm` is the compact layout: tighter padding, smaller title, property, trait and section type.",
+    },
+  }}
+/>
+
+Renders an `<article>` (max width `24rem`); other props go to it. Give it an `aria-label` such as
+`"Goblin stat block"`.
+
+### StatBlockAbilities
+
+<TypeTable
+  type={{
+    str: { type: "number | string", description: "Strength score." },
+    dex: { type: "number | string", description: "Dexterity score." },
+    con: { type: "number | string", description: "Constitution score." },
+    int: { type: "number | string", description: "Intelligence score." },
+    wis: { type: "number | string", description: "Wisdom score." },
+    cha: { type: "number | string", description: "Charisma score." },
+  }}
+/>
+
+Renders the six-column `<table>` with a visually hidden “Ability scores” caption and computes each
+modifier (`+2`, `−1`). A missing score shows `—`. Other props go to the `<table>`. The same
+calculation is exported as `getAbilityModifier(score)`.
+
+### StatBlockTitle and StatBlockSectionTitle
+
+<TypeTable
+  type={{
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the child element (another heading level) instead of the `<h2>` / `<h3>` (Radix Slot).",
+    },
+  }}
+/>
+
+### Other parts
+
+Each part forwards its props to the element it renders.
+
+| Part                                                                      | Element                                     |
+| ------------------------------------------------------------------------- | ------------------------------------------- |
+| `StatBlockHeader`                                                         | `<header>`                                  |
+| `StatBlockDescription`                                                    | `<p>`, italic subtitle                      |
+| `StatBlockSeparator`                                                      | `<hr>`, red rule                            |
+| `StatBlockProperties`                                                     | `<dl>`                                      |
+| `StatBlockProperty` / `StatBlockPropertyLabel` / `StatBlockPropertyValue` | `<div>` / `<dt>` / `<dd>`                   |
+| `StatBlockSection`                                                        | `<section>`                                 |
+| `StatBlockTrait` / `StatBlockTraitName`                                   | `<div>` / `<span>`, bold italic run-in name |

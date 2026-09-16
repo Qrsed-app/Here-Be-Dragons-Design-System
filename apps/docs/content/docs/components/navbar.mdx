@@ -1,0 +1,271 @@
+---
+title: Navbar
+description: The top navigation bar — brand, links and actions, with an off-canvas menu on small screens.
+---
+
+import { NavbarDemo } from "@/components/examples/navbar-demo";
+import { Button } from "@/registry/new-york/button/button";
+import { Navbar, NavbarActions, NavbarInner, NavbarLogo } from "@/registry/new-york/navbar/navbar";
+
+A Here Be Dragons component — shadcn/ui has no counterpart. It is a layout shell: the links are a
+[Navigation Menu](/docs/components/navigation-menu) and the small-screen menu is a
+[Sheet](/docs/components/sheet), so the behaviour comes from parts you already have.
+
+Resize the window below the `md` breakpoint to swap the centred links for the menu button.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavbarDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import { MenuIcon } from "lucide-react";
+
+    import { Button } from "@/components/ui/button";
+    import {
+      NavigationMenu,
+      NavigationMenuItem,
+      NavigationMenuList,
+    } from "@/components/ui/navigation-menu";
+    import {
+      Navbar,
+      NavbarActions,
+      NavbarInner,
+      NavbarLink,
+      NavbarLogo,
+      NavbarMobileActions,
+      NavbarMobileLink,
+      NavbarMobileNav,
+      NavbarNav,
+    } from "@/components/ui/navbar";
+    import {
+      Sheet,
+      SheetContent,
+      SheetHeader,
+      SheetTitle,
+      SheetTrigger,
+    } from "@/components/ui/sheet";
+
+    const links = [
+      { label: "Atlas", href: "/atlas" },
+      { label: "Bestiary", href: "/bestiary", active: true },
+      { label: "Spellbook", href: "/spellbook" },
+    ];
+
+    export function SiteHeader() {
+      return (
+        <Navbar sticky bordered>
+          <NavbarInner>
+            <NavbarLogo>
+              <a href="/">Here Be Dragons</a>
+            </NavbarLogo>
+
+            <NavbarNav>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {links.map((link) => (
+                    <NavigationMenuItem key={link.href}>
+                      <NavbarLink href={link.href} active={link.active}>
+                        {link.label}
+                      </NavbarLink>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            </NavbarNav>
+
+            <NavbarActions>
+              <Button variant="secondary" size="sm">
+                Sign in
+              </Button>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon-sm"
+                    className="md:hidden"
+                    aria-label="Open navigation menu"
+                  >
+                    <MenuIcon />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-full p-0 sm:max-w-sm">
+                  <SheetHeader className="h-16 border-b border-border-subtle px-4">
+                    <SheetTitle className="font-display text-[length:clamp(1.0625rem,2.2vw,1.25rem)] font-bold tracking-[0.02em]">
+                      Here Be Dragons
+                    </SheetTitle>
+                  </SheetHeader>
+                  <NavbarMobileNav>
+                    {links.map((link) => (
+                      <NavbarMobileLink
+                        key={link.href}
+                        href={link.href}
+                        aria-current={link.active ? "page" : undefined}
+                      >
+                        {link.label}
+                      </NavbarMobileLink>
+                    ))}
+                  </NavbarMobileNav>
+                  <NavbarMobileActions>
+                    <Button variant="secondary" size="sm">
+                      Sign in
+                    </Button>
+                  </NavbarMobileActions>
+                </SheetContent>
+              </Sheet>
+            </NavbarActions>
+          </NavbarInner>
+        </Navbar>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/navbar
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/navbar.json
+```
+
+Navigation Menu and Sheet come with it.
+
+## Usage
+
+```tsx
+import {
+  Navbar,
+  NavbarActions,
+  NavbarInner,
+  NavbarLink,
+  NavbarLogo,
+  NavbarMobileActions,
+  NavbarMobileLink,
+  NavbarMobileNav,
+  NavbarNav,
+} from "@/components/ui/navbar";
+```
+
+```tsx
+<Navbar sticky>
+  <NavbarInner>
+    <NavbarLogo>
+      <a href="/">Here Be Dragons</a>
+    </NavbarLogo>
+    <NavbarNav>{/* NavigationMenu */}</NavbarNav>
+    <NavbarActions>{/* buttons, and the Sheet trigger */}</NavbarActions>
+  </NavbarInner>
+</Navbar>
+```
+
+`NavbarInner` centres the bar in a `68.75rem` container. `NavbarNav` hides itself below the `md`
+breakpoint, which is where the Sheet takes over — give its trigger `className="md:hidden"` so
+exactly one of the two is visible at any width.
+
+## Examples
+
+### Variants
+
+`sticky` pins the bar to the top of the viewport. `bordered` swaps the drop shadow for a hairline
+rule, and `transparent` drops both so the bar can sit over a hero image.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <div className="rounded-md border border-border-subtle">
+          <Navbar>
+            <NavbarInner>
+              <NavbarLogo>Default</NavbarLogo>
+              <NavbarActions>
+                <Button variant="secondary" size="sm">
+                  {"Sign in"}
+                </Button>
+              </NavbarActions>
+            </NavbarInner>
+          </Navbar>
+        </div>
+        <div className="rounded-md border border-border-subtle">
+          <Navbar bordered>
+            <NavbarInner>
+              <NavbarLogo>Bordered</NavbarLogo>
+              <NavbarActions>
+                <Button variant="secondary" size="sm">
+                  {"Sign in"}
+                </Button>
+              </NavbarActions>
+            </NavbarInner>
+          </Navbar>
+        </div>
+        <div className="rounded-md border border-border-subtle bg-surface-subtle">
+          <Navbar transparent>
+            <NavbarInner>
+              <NavbarLogo>Transparent</NavbarLogo>
+              <NavbarActions>
+                <Button variant="secondary" size="sm">
+                  {"Sign in"}
+                </Button>
+              </NavbarActions>
+            </NavbarInner>
+          </Navbar>
+        </div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Navbar />
+    <Navbar bordered />
+    <Navbar transparent />
+    <Navbar sticky bordered />
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Navbar
+
+<TypeTable
+  type={{
+    sticky: {
+      type: "boolean",
+      default: "false",
+      description: "Pin the bar to the top of the viewport (`position: sticky`).",
+    },
+    transparent: {
+      type: "boolean",
+      default: "false",
+      description: "No background and no shadow.",
+    },
+    bordered: {
+      type: "boolean",
+      default: "false",
+      description: "A hairline bottom border instead of the drop shadow.",
+    },
+  }}
+/>
+
+Renders a `<header role="banner">` 64px tall.
+
+### The other parts
+
+`NavbarInner` (`div`) is the centred container; `NavbarLogo` (`div`) sets the display type and
+styles any `<a>` inside it; `NavbarNav` (`div`) holds the Navigation Menu and hides below `md`;
+`NavbarActions` (`div`) is the right-hand cluster. `NavbarLink` is a
+`NavigationMenuLink` with the bar's link chrome — pass `active` to mark the current page.
+`NavbarMobileNav` (`nav`), `NavbarMobileLink` (`a`, mark it `aria-current="page"`) and
+`NavbarMobileActions` (`div`) dress the inside of the Sheet.

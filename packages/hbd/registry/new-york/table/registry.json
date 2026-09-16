@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component. shadcn/ui API in the Here Be Dragons look: Cinzel small-caps headers, Roboto cells, hairline row rules, blood-tinted selection and sort. Adds size (sm, lg), bordered and striped.",
+      "dependencies": [],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

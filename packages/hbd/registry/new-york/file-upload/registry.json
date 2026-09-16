@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "File Upload",
+      "description": "A dropzone that takes files by drag-and-drop or from the file picker, with a list of thumbnails, sizes, per-file progress and errors. Here Be Dragons component with a shadcn/ui-style composition API: accept, maxSize and maxFiles validation with a per-file reject callback.",
+      "categories": ["hbd"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "file-upload.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off. shadcn/ui API in the Here Be Dragons look: display type and an offset ink shadow, turning crimson when pressed. Adds icon, icon-sm and icon-lg sizes.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

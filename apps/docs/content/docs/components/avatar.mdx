@@ -1,0 +1,429 @@
+---
+title: Avatar
+description: An image element with a fallback for representing the user.
+---
+
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/registry/new-york/avatar/avatar";
+import { PlusIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>GH</AvatarFallback>
+      </Avatar>
+      <AvatarGroup>
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/96?img=47" alt="Grace Hopper" />
+          <AvatarFallback>GH</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount>+2</AvatarGroupCount>
+      </AvatarGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Avatar,
+      AvatarFallback,
+      AvatarGroup,
+      AvatarGroupCount,
+      AvatarImage,
+    } from "@/components/ui/avatar";
+
+    export function AvatarDemo() {
+      return (
+        <div className="flex flex-wrap items-center gap-4">
+          <Avatar>
+            <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+            <AvatarFallback>AL</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>GH</AvatarFallback>
+          </Avatar>
+          <AvatarGroup>
+            <Avatar>
+              <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage src="https://i.pravatar.cc/96?img=47" alt="Grace Hopper" />
+              <AvatarFallback>GH</AvatarFallback>
+            </Avatar>
+            <AvatarGroupCount>+2</AvatarGroupCount>
+          </AvatarGroup>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/avatar
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/avatar.json
+```
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+```
+
+```tsx
+<Avatar>
+  <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+  <AvatarFallback>AL</AvatarFallback>
+</Avatar>
+```
+
+## Examples
+
+### Size
+
+`sm`, `default` and `lg` come from shadcn/ui; `xs`, `xl` and `2xl` are Here Be Dragons additions.
+The Here Be Dragons scale is 24, 32, 40, 48, 64 and 80 pixels, so `default` is 40px.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar size="xs">
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="sm">
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="xl">
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="2xl">
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Avatar size="xs">…</Avatar>
+    <Avatar size="sm">…</Avatar>
+    <Avatar>…</Avatar>
+    <Avatar size="lg">…</Avatar>
+    <Avatar size="xl">…</Avatar>
+    <Avatar size="2xl">…</Avatar>
+    ```
+  </Tab>
+</Tabs>
+
+### Fallback Icon
+
+The Here Be Dragons person glyph, shown while there is no image — none given, still loading, or failed
+to load. An `<svg>` inside `AvatarFallback` is sized to the avatar. Name the person on the fallback,
+since the glyph says nothing.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar>
+        <AvatarFallback aria-label="Katherine Johnson">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="9" r="3.5" />
+            <path d="M5 20a7 7 0 0 1 14 0" />
+          </svg>
+        </AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarFallback aria-label="Dorothy Vaughan">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="9" r="3.5" />
+            <path d="M5 20a7 7 0 0 1 14 0" />
+          </svg>
+        </AvatarFallback>
+      </Avatar>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    function PersonIcon() {
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="9" r="3.5" />
+          <path d="M5 20a7 7 0 0 1 14 0" />
+        </svg>
+      );
+    }
+
+    <Avatar>
+      <AvatarFallback aria-label="Katherine Johnson">
+        <PersonIcon />
+      </AvatarFallback>
+    </Avatar>
+    <Avatar size="lg">
+      <AvatarFallback aria-label="Dorothy Vaughan">
+        <PersonIcon />
+      </AvatarFallback>
+    </Avatar>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Fallback Initials
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar size="sm">
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="xl">
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Avatar size="sm">
+      <AvatarFallback>AL</AvatarFallback>
+    </Avatar>
+    <Avatar>
+      <AvatarFallback>AL</AvatarFallback>
+    </Avatar>
+    <Avatar size="xl">
+      <AvatarFallback>AL</AvatarFallback>
+    </Avatar>
+    ```
+  </Tab>
+</Tabs>
+
+### Badge
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+        <AvatarFallback>AT</AvatarFallback>
+        <AvatarBadge />
+      </Avatar>
+      <Avatar size="xl">
+        <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+        <AvatarFallback>AT</AvatarFallback>
+        <AvatarBadge className="bg-success" />
+      </Avatar>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Avatar>
+      <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+      <AvatarFallback>AT</AvatarFallback>
+      <AvatarBadge />
+    </Avatar>
+    <Avatar size="xl">
+      <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+      <AvatarFallback>AT</AvatarFallback>
+      <AvatarBadge className="bg-success" />
+    </Avatar>
+    ```
+  </Tab>
+</Tabs>
+
+### Avatar Group
+
+Avatars overlap, each covering the one to its right. As in the pre-migration Here Be Dragons group,
+the stack is laid out right to left: the first child sits at the right edge.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AvatarGroup>
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/96?img=47" alt="Grace Hopper" />
+          <AvatarFallback>GH</AvatarFallback>
+        </Avatar>
+      </AvatarGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <AvatarGroup>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=5" alt="Ada Lovelace" />
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=12" alt="Alan Turing" />
+        <AvatarFallback>AT</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/96?img=47" alt="Grace Hopper" />
+        <AvatarFallback>GH</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Avatar Group Count
+
+Show the first few people and put the rest in an `AvatarGroupCount`, last in the group. It takes the
+size of the avatars around it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AvatarGroup role="group" aria-label="6 participants">
+        <Avatar>
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarFallback>GH</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount aria-label="3 more">+3</AvatarGroupCount>
+      </AvatarGroup>
+      <AvatarGroup>
+        <Avatar size="lg">
+          <AvatarFallback>AL</AvatarFallback>
+        </Avatar>
+        <Avatar size="lg">
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount>
+          <PlusIcon />
+        </AvatarGroupCount>
+      </AvatarGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { PlusIcon } from "lucide-react";
+
+    const people = [
+      { name: "Ada Lovelace", initials: "AL" },
+      { name: "Alan Turing", initials: "AT" },
+      { name: "Grace Hopper", initials: "GH" },
+      // …three more
+    ];
+    const max = 3;
+
+    <AvatarGroup role="group" aria-label={`${people.length} participants`}>
+      {people.slice(0, max).map((person) => (
+        <Avatar key={person.name}>
+          <AvatarFallback>{person.initials}</AvatarFallback>
+        </Avatar>
+      ))}
+      {people.length > max && (
+        <AvatarGroupCount aria-label={`${people.length - max} more`}>
+          +{people.length - max}
+        </AvatarGroupCount>
+      )}
+    </AvatarGroup>
+
+    <AvatarGroup>
+      <Avatar size="lg">
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarFallback>AT</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>
+        <PlusIcon />
+      </AvatarGroupCount>
+    </AvatarGroup>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Avatar
+
+<TypeTable
+  type={{
+    size: {
+      type: '"default" | "xs" | "sm" | "lg" | "xl" | "2xl"',
+      default: '"default"',
+      description:
+        "24px (`xs`) to 80px (`2xl`); `default` is 40px. `xs`, `xl` and `2xl` are Here Be Dragons additions.",
+    },
+  }}
+/>
+
+Every other prop goes to the Radix Avatar root. `AvatarImage` and `AvatarFallback` take the Radix
+Image and Fallback props (`src`, `alt`, `onLoadingStatusChange`, `delayMs`) — see
+[Radix Avatar](https://www.radix-ui.com/primitives/docs/components/avatar). `AvatarBadge` renders a
+`<span>`, `AvatarGroup` and `AvatarGroupCount` a `<div>`; they take that element's props.

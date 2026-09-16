@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stat-block",
+      "type": "registry:ui",
+      "title": "Stat Block",
+      "description": "Displays a D&D 5e creature stat block: name and subtitle, AC/HP/Speed, ability score table with computed modifiers, property rows and trait/action sections inside a double red rule. Here Be Dragons component with a shadcn/ui-style composition API and a compact size.",
+      "categories": ["hbd"],
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "stat-block.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

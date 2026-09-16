@@ -1,0 +1,193 @@
+---
+title: Collapsible
+description: An interactive component which expands/collapses a panel.
+---
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/registry/new-york/collapsible/collapsible";
+import { Button } from "@/registry/new-york/button/button";
+import { ChevronsUpDownIcon } from "lucide-react";
+import { CollapsibleControlledDemo } from "@/components/examples/collapsible-demo";
+
+Collapsible ships unstyled, exactly as upstream — it contributes the open/close behaviour and the
+`data-state` hooks, and the Here Be Dragons look comes from what you compose inside it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Collapsible defaultOpen className="flex w-[350px] flex-col gap-2">
+        <div className="flex items-center justify-between gap-4">
+          <h4 className="m-0 font-display text-[0.8125rem] font-bold tracking-[0.2em] uppercase">Three relics recovered</h4>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="icon-sm" aria-label="Toggle the relic list">
+              <ChevronsUpDownIcon />
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <div className="rounded-md border border-border-subtle bg-surface-subtle px-4 py-2 font-mono text-sm text-foreground">Sextant of the Drowned Captain</div>
+        <CollapsibleContent className="flex flex-col gap-2">
+          <div className="rounded-md border border-border-subtle bg-surface-subtle px-4 py-2 font-mono text-sm text-foreground">Astrolabe of Nine Stars</div>
+          <div className="rounded-md border border-border-subtle bg-surface-subtle px-4 py-2 font-mono text-sm text-foreground">Chart of the Kraken Trench</div>
+        </CollapsibleContent>
+      </Collapsible>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Collapsible,
+      CollapsibleContent,
+      CollapsibleTrigger,
+    } from "@/components/ui/collapsible";
+    import { ChevronsUpDownIcon } from "lucide-react";
+
+    const row =
+      "rounded-md border border-border-subtle bg-surface-subtle px-4 py-2 font-mono text-sm text-foreground";
+
+    export function CollapsibleDemo() {
+      return (
+        <Collapsible defaultOpen className="flex w-[350px] flex-col gap-2">
+          <div className="flex items-center justify-between gap-4">
+            <h4 className="m-0 font-display text-[0.8125rem] font-bold tracking-[0.2em] uppercase">
+              Three relics recovered
+            </h4>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="icon-sm" aria-label="Toggle the relic list">
+                <ChevronsUpDownIcon />
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <div className={row}>Sextant of the Drowned Captain</div>
+          <CollapsibleContent className="flex flex-col gap-2">
+            <div className={row}>Astrolabe of Nine Stars</div>
+            <div className={row}>Chart of the Kraken Trench</div>
+          </CollapsibleContent>
+        </Collapsible>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/collapsible
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/collapsible.json
+```
+
+## Usage
+
+```tsx
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+```
+
+```tsx
+<Collapsible>
+  <CollapsibleTrigger>Can you keep a secret?</CollapsibleTrigger>
+  <CollapsibleContent>Yes. Free to use for personal and commercial projects.</CollapsibleContent>
+</Collapsible>
+```
+
+## Examples
+
+### Controlled
+
+Own the open state with `open` and `onOpenChange`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CollapsibleControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    export function CollapsibleControlledDemo() {
+      const [open, setOpen] = React.useState(false);
+
+      return (
+        <Collapsible open={open} onOpenChange={setOpen} className="flex w-[350px] flex-col gap-2">
+          <div className="flex items-center justify-between gap-4">
+            <h4 className="m-0 font-display text-[0.8125rem] font-bold tracking-[0.2em] uppercase">
+              Three relics recovered
+            </h4>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="icon-sm" aria-label="Toggle the relic list">
+                <ChevronsUpDownIcon />
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <div className={row}>Sextant of the Drowned Captain</div>
+          <CollapsibleContent className="flex flex-col gap-2">
+            <div className={row}>Astrolabe of Nine Stars</div>
+            <div className={row}>Chart of the Kraken Trench</div>
+          </CollapsibleContent>
+          <p className="m-0 font-sans text-sm text-muted-foreground">
+            The satchel is <strong className="text-foreground">{open ? "open" : "closed"}</strong>.
+          </p>
+        </Collapsible>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Animated
+
+`CollapsibleContent` exposes `data-state`, so the same enter/exit classes the rest of the registry
+uses work here too.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Collapsible className="flex w-[350px] flex-col gap-2">
+        <CollapsibleTrigger asChild>
+          <Button variant="secondary">Read the prophecy</Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+          <p className="m-0 border border-border-subtle bg-surface-subtle p-4 font-serif text-[1.0625rem] leading-[1.7] text-foreground-secondary">
+            When the ninth star falls into the trench, the dragons wake and the maps burn.
+          </p>
+        </CollapsibleContent>
+      </Collapsible>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Collapsible className="flex w-[350px] flex-col gap-2">
+      <CollapsibleTrigger asChild>
+        <Button variant="secondary">Read the prophecy</Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+        <p className="m-0 border border-border-subtle bg-surface-subtle p-4 font-serif text-[1.0625rem] leading-[1.7] text-foreground-secondary">
+          When the ninth star falls into the trench, the dragons wake and the maps burn.
+        </p>
+      </CollapsibleContent>
+    </Collapsible>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+Every part takes the props of its Radix counterpart — see
+[Radix Collapsible](https://www.radix-ui.com/primitives/docs/components/collapsible): `open`,
+`defaultOpen`, `onOpenChange` and `disabled` on `Collapsible`, `asChild` on `CollapsibleTrigger`,
+and `forceMount` on `CollapsibleContent`.

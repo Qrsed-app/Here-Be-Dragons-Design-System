@@ -1,0 +1,301 @@
+---
+title: Checkbox
+description: A control that allows the user to toggle between checked and not checked.
+---
+
+import { Checkbox } from "@/registry/new-york/checkbox/checkbox";
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import { CheckboxSelectAllDemo } from "@/components/examples/checkbox-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="terms" />
+        <FieldLabel htmlFor="terms" className="text-[1.0625rem] font-normal">I accept the terms of the voyage</FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Checkbox } from "@/components/ui/checkbox";
+    import { Field, FieldLabel } from "@/components/ui/field";
+
+    export function CheckboxDemo() {
+      return (
+        <Field orientation="horizontal" className="items-start gap-2 py-3">
+          <Checkbox id="terms" />
+          <FieldLabel htmlFor="terms" className="text-[1.0625rem] font-normal">
+            I accept the terms of the voyage
+          </FieldLabel>
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/checkbox
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/checkbox.json
+```
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox";
+```
+
+```tsx
+<Checkbox />
+```
+
+In a horizontal `Field`, `items-start gap-2 py-3` keeps the box level with the first line of the label
+and the tap area at least 44px tall; the body-size label matches the other choice controls. The tick and
+dash scale with the surrounding font size.
+
+## Examples
+
+### States
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="unchecked" />
+        <FieldLabel htmlFor="unchecked" className="text-[1.0625rem] font-normal">
+          Unchecked
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="checked" defaultChecked />
+        <FieldLabel htmlFor="checked" className="text-[1.0625rem] font-normal">
+          Checked
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="indeterminate" defaultChecked="indeterminate" />
+        <FieldLabel htmlFor="indeterminate" className="text-[1.0625rem] font-normal">
+          Indeterminate
+        </FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field orientation="horizontal" className="items-start gap-2 py-3">
+      <Checkbox id="unchecked" />
+      <FieldLabel htmlFor="unchecked" className="text-[1.0625rem] font-normal">
+        Unchecked
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start gap-2 py-3">
+      <Checkbox id="checked" defaultChecked />
+      <FieldLabel htmlFor="checked" className="text-[1.0625rem] font-normal">
+        Checked
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start gap-2 py-3">
+      <Checkbox id="indeterminate" defaultChecked="indeterminate" />
+      <FieldLabel htmlFor="indeterminate" className="text-[1.0625rem] font-normal">
+        Indeterminate
+      </FieldLabel>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="disabled" disabled />
+        <FieldLabel
+          htmlFor="disabled"
+          className="text-[1.0625rem] font-normal peer-disabled:opacity-50"
+        >
+          Disabled
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="disabled-checked" disabled defaultChecked />
+        <FieldLabel
+          htmlFor="disabled-checked"
+          className="text-[1.0625rem] font-normal peer-disabled:opacity-50"
+        >
+          Disabled &amp; checked
+        </FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field orientation="horizontal" className="items-start gap-2 py-3">
+      <Checkbox id="disabled" disabled />
+      <FieldLabel
+        htmlFor="disabled"
+        className="text-[1.0625rem] font-normal peer-disabled:opacity-50"
+      >
+        Disabled
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start gap-2 py-3">
+      <Checkbox id="disabled-checked" disabled defaultChecked />
+      <FieldLabel
+        htmlFor="disabled-checked"
+        className="text-[1.0625rem] font-normal peer-disabled:opacity-50"
+      >
+        Disabled &amp; checked
+      </FieldLabel>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Description
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field>
+        <Field orientation="horizontal" className="items-start gap-2 py-3">
+          <Checkbox id="dispatches" aria-describedby="dispatches-description" />
+          <FieldLabel htmlFor="dispatches" className="text-[1.0625rem] font-normal">Subscribe to dispatches</FieldLabel>
+        </Field>
+        <FieldDescription id="dispatches-description">We&apos;ll only email you about active voyages.</FieldDescription>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+
+    <Field>
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="dispatches" aria-describedby="dispatches-description" />
+        <FieldLabel htmlFor="dispatches" className="text-[1.0625rem] font-normal">
+          Subscribe to dispatches
+        </FieldLabel>
+      </Field>
+      <FieldDescription id="dispatches-description">
+        We&apos;ll only email you about active voyages.
+      </FieldDescription>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Invalid
+
+`aria-invalid` gives the box a red border; `data-invalid` on the `Field` turns the label red. Add a
+`FieldError` for the message.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field data-invalid="true">
+        <Field orientation="horizontal" className="items-start gap-2 py-3">
+          <Checkbox id="accept" aria-invalid aria-describedby="accept-error" />
+          <FieldLabel htmlFor="accept" className="text-[1.0625rem] font-normal">I accept the terms of the voyage</FieldLabel>
+        </Field>
+        <FieldError id="accept-error">You must accept the terms to continue.</FieldError>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+
+    <Field data-invalid="true">
+      <Field orientation="horizontal" className="items-start gap-2 py-3">
+        <Checkbox id="accept" aria-invalid aria-describedby="accept-error" />
+        <FieldLabel htmlFor="accept" className="text-[1.0625rem] font-normal">
+          I accept the terms of the voyage
+        </FieldLabel>
+      </Field>
+      <FieldError id="accept-error">You must accept the terms to continue.</FieldError>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Select all
+
+The parent shows `"indeterminate"` while only some children are checked.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CheckboxSelectAllDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Checkbox } from "@/components/ui/checkbox";
+    import { Field, FieldLabel } from "@/components/ui/field";
+
+    const instruments = ["Compass", "Astrolabe", "Sextant"];
+
+    export function CheckboxSelectAllDemo() {
+      const [packed, setPacked] = React.useState<string[]>(["Compass"]);
+      const all = packed.length === instruments.length;
+
+      return (
+        <div className="flex flex-col gap-7">
+          <Field orientation="horizontal" className="items-start gap-2 py-3">
+            <Checkbox
+              id="pack-all"
+              checked={all ? true : packed.length > 0 ? "indeterminate" : false}
+              onCheckedChange={(checked) => setPacked(checked === true ? [...instruments] : [])}
+            />
+            <FieldLabel htmlFor="pack-all" className="text-[1.0625rem] font-normal">
+              Pack all instruments
+            </FieldLabel>
+          </Field>
+          <div className="flex flex-col gap-5 ps-6">
+            {instruments.map((item) => (
+              <Field key={item} orientation="horizontal" className="items-start gap-2 py-3">
+                <Checkbox
+                  id={`pack-${item}`}
+                  checked={packed.includes(item)}
+                  onCheckedChange={(checked) =>
+                    setPacked((prev) => (checked === true ? [...prev, item] : prev.filter((i) => i !== item)))
+                  }
+                />
+                <FieldLabel htmlFor={`pack-${item}`} className="text-[1.0625rem] font-normal">
+                  {item}
+                </FieldLabel>
+              </Field>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+`Checkbox` adds no props of its own. `checked` (`boolean | "indeterminate"`), `defaultChecked`,
+`onCheckedChange`, `disabled`, `required`, `name`, `value` and every other prop go to the Radix
+Checkbox root. `aria-invalid` shows the red border. See the
+[Radix Checkbox documentation](https://www.radix-ui.com/primitives/docs/components/checkbox).

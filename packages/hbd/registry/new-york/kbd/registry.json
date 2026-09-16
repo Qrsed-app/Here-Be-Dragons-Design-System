@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard. shadcn/ui API in the Here Be Dragons look: a small raised parchment keycap in JetBrains Mono with an ink edge.",
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

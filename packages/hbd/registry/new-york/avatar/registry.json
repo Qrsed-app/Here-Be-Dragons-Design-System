@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user. shadcn/ui API (Radix) in the Here Be Dragons look: parchment ring, muted fallback, overlapping group with a count bubble. Adds xs, xl and 2xl sizes.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

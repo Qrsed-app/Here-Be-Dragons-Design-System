@@ -1,0 +1,268 @@
+---
+title: Context Menu
+description: Displays a menu to the user — such as a set of actions or functions — triggered by a right click.
+---
+
+import {
+  ContextMenuDemo,
+  ContextMenuDisabledDemo,
+  ContextMenuGroupsDemo,
+  ContextMenuIconsDemo,
+} from "@/components/examples/context-menu-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from "react";
+    import {
+      ContextMenu,
+      ContextMenuCheckboxItem,
+      ContextMenuContent,
+      ContextMenuItem,
+      ContextMenuLabel,
+      ContextMenuRadioGroup,
+      ContextMenuRadioItem,
+      ContextMenuSeparator,
+      ContextMenuShortcut,
+      ContextMenuSub,
+      ContextMenuSubContent,
+      ContextMenuSubTrigger,
+      ContextMenuTrigger,
+    } from "@/components/ui/context-menu";
+
+    export function ContextMenuDemo() {
+      const [bookmarks, setBookmarks] = React.useState(true);
+      const [urls, setUrls] = React.useState(false);
+      const [person, setPerson] = React.useState("elara");
+
+      return (
+        <ContextMenu>
+          <ContextMenuTrigger className="flex h-36 w-72 items-center justify-center rounded-lg border border-dashed border-border-strong font-sans text-sm text-muted-foreground select-none">
+            Right click here
+          </ContextMenuTrigger>
+          <ContextMenuContent className="w-56">
+            <ContextMenuItem inset>
+              Back
+              <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem inset disabled>
+              Forward
+              <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem inset>
+              Reload
+              <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+            </ContextMenuItem>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+              <ContextMenuSubContent className="w-44">
+                <ContextMenuItem>Save Page...</ContextMenuItem>
+                <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                <ContextMenuSeparator />
+                <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+            <ContextMenuSeparator />
+            <ContextMenuCheckboxItem checked={bookmarks} onCheckedChange={setBookmarks}>
+              Show Bookmarks
+            </ContextMenuCheckboxItem>
+            <ContextMenuCheckboxItem checked={urls} onCheckedChange={setUrls}>
+              Show Full URLs
+            </ContextMenuCheckboxItem>
+            <ContextMenuSeparator />
+            <ContextMenuRadioGroup value={person} onValueChange={setPerson}>
+              <ContextMenuLabel inset>Party</ContextMenuLabel>
+              <ContextMenuRadioItem value="elara">Elara</ContextMenuRadioItem>
+              <ContextMenuRadioItem value="thorin">Thorin</ContextMenuRadioItem>
+            </ContextMenuRadioGroup>
+          </ContextMenuContent>
+        </ContextMenu>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/context-menu
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/context-menu.json
+```
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+```
+
+```tsx
+<ContextMenu>
+  <ContextMenuTrigger>Right click</ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Profile</ContextMenuItem>
+    <ContextMenuItem>Billing</ContextMenuItem>
+    <ContextMenuItem>Team</ContextMenuItem>
+    <ContextMenuItem>Subscription</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+The menu opens at the pointer on right click, or after a long press on touch screens. It shares the
+panel, items, labels and destructive styling of the [Dropdown Menu](/docs/components/dropdown-menu).
+
+## Examples
+
+### Icons and Shortcuts
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuIconsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { CopyIcon, PencilIcon, TrashIcon } from "lucide-react";
+
+    const [last, setLast] = React.useState("");
+
+    <div className="flex flex-col items-start gap-3">
+      <ContextMenu>
+        <ContextMenuTrigger className="flex h-36 w-72 items-center justify-center rounded-lg border border-dashed border-border-strong font-sans text-sm text-muted-foreground select-none">
+          Right-click this chart
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem onSelect={() => setLast("Copy")}>
+            <CopyIcon />
+            Copy
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem onSelect={() => setLast("Rename")}>
+            <PencilIcon />
+            Rename
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem variant="destructive" onSelect={() => setLast("Delete")}>
+            <TrashIcon />
+            Delete
+            <ContextMenuShortcut>⌫</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      <span className="font-sans text-sm text-muted-foreground">Last action: {last || "—"}</span>
+    </div>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Groups
+
+`ContextMenuLabel` heads a `ContextMenuGroup`. Disabled items are skipped by keyboard navigation and
+cannot be activated.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuGroupsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-36 w-72 items-center justify-center rounded-lg border border-dashed border-border-strong font-sans text-sm text-muted-foreground select-none">
+        Right-click the map
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>View</ContextMenuLabel>
+          <ContextMenuItem>
+            Zoom in
+            <ContextMenuShortcut>+</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Zoom out
+            <ContextMenuShortcut>−</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>Fit to screen</ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuLabel>Edit</ContextMenuLabel>
+          <ContextMenuItem>Add marker</ContextMenuItem>
+          <ContextMenuItem disabled>Measure (coming soon)</ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+A disabled trigger lets the browser's own context menu through.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ContextMenuDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ContextMenu>
+      <ContextMenuTrigger
+        disabled
+        className="flex h-36 w-72 items-center justify-center rounded-lg border border-dashed border-border-strong font-sans text-sm text-muted-foreground select-none"
+      >
+        Right-click does nothing here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Unavailable</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### ContextMenuItem
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive"',
+      default: '"default"',
+      description: "`destructive` writes the item in blood and tints its highlight.",
+    },
+    inset: {
+      type: "boolean",
+      default: "false",
+      description: "Indent the item to align with items that have an icon.",
+    },
+  }}
+/>
+
+`ContextMenuLabel` and `ContextMenuSubTrigger` take the same `inset` prop. The panel is between 160px
+and 280px wide unless you set a width. Every other prop goes to the matching part of
+[Radix Context Menu](https://www.radix-ui.com/primitives/docs/components/context-menu);
+`ContextMenuShortcut` renders a `<span>`.

@@ -1,0 +1,301 @@
+---
+title: Code Block
+description: Displays code on a dark surface with an optional filename and language header, line numbers and a copy button.
+---
+
+import {
+  Codeblock,
+  CodeblockCode,
+  CodeblockContent,
+  CodeblockCopyButton,
+  CodeblockFilename,
+  CodeblockHeader,
+  CodeblockLanguage,
+  CodeblockLineNumbers,
+} from "@/registry/new-york/codeblock/codeblock";
+import { CodeblockHighlightDemo } from "@/components/examples/codeblock-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Codeblock role="region" aria-label="dragon.ts" className="w-full max-w-md">
+        <CodeblockHeader>
+          <CodeblockFilename>dragon.ts</CodeblockFilename>
+          <CodeblockLanguage>TypeScript</CodeblockLanguage>
+        </CodeblockHeader>
+        <CodeblockContent>
+          <CodeblockCode>{`export interface Dragon {\n  name: string;\n  hoard: number;\n}`}</CodeblockCode>
+          <CodeblockCopyButton value={`export interface Dragon {\n  name: string;\n  hoard: number;\n}`} />
+        </CodeblockContent>
+      </Codeblock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Codeblock,
+      CodeblockCode,
+      CodeblockContent,
+      CodeblockCopyButton,
+      CodeblockFilename,
+      CodeblockHeader,
+      CodeblockLanguage,
+    } from "@/components/ui/codeblock";
+
+    const code = `export interface Dragon {
+      name: string;
+      hoard: number;
+    }`;
+
+    export function CodeblockDemo() {
+      return (
+        <Codeblock role="region" aria-label="dragon.ts" className="w-full max-w-md">
+          <CodeblockHeader>
+            <CodeblockFilename>dragon.ts</CodeblockFilename>
+            <CodeblockLanguage>TypeScript</CodeblockLanguage>
+          </CodeblockHeader>
+          <CodeblockContent>
+            <CodeblockCode>{code}</CodeblockCode>
+            <CodeblockCopyButton value={code} />
+          </CodeblockContent>
+        </Codeblock>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+Here Be Dragons component — shadcn/ui has no counterpart. It follows the shadcn conventions: one
+named export per part, a `data-slot` on each, and `className` merged last. The copy button is the
+[Button](/docs/components/button) component.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/codeblock
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/codeblock.json
+```
+
+## Usage
+
+```tsx
+import {
+  Codeblock,
+  CodeblockCode,
+  CodeblockContent,
+  CodeblockCopyButton,
+  CodeblockFilename,
+  CodeblockHeader,
+  CodeblockLanguage,
+  CodeblockLineNumbers,
+} from "@/components/ui/codeblock";
+```
+
+```tsx
+<Codeblock>
+  <CodeblockContent>
+    <CodeblockCode>{code}</CodeblockCode>
+    <CodeblockCopyButton value={code} />
+  </CodeblockContent>
+</Codeblock>
+```
+
+## Examples
+
+### Without Header
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Codeblock className="w-full max-w-md">
+        <CodeblockContent>
+          <CodeblockCode>{`const dragon = { name: "Smaug", hoard: 12000 };\nconsole.log(dragon.name);`}</CodeblockCode>
+          <CodeblockCopyButton value={`const dragon = { name: "Smaug", hoard: 12000 };\nconsole.log(dragon.name);`} />
+        </CodeblockContent>
+      </Codeblock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const code = `const dragon = { name: "Smaug", hoard: 12000 };
+    console.log(dragon.name);`;
+
+    <Codeblock className="w-full max-w-md">
+      <CodeblockContent>
+        <CodeblockCode>{code}</CodeblockCode>
+        <CodeblockCopyButton value={code} />
+      </CodeblockContent>
+    </Codeblock>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Line Numbers
+
+`CodeblockLineNumbers` renders a gutter of `count` numbers, hidden from assistive tech.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Codeblock role="region" aria-label="quest.md" className="w-full max-w-md">
+        <CodeblockHeader>
+          <CodeblockFilename>quest.md</CodeblockFilename>
+          <CodeblockLanguage>Markdown</CodeblockLanguage>
+        </CodeblockHeader>
+        <CodeblockContent>
+          <CodeblockLineNumbers count={5} />
+          <CodeblockCode>{`# The Quest\n\n1. Find the map\n2. Cross the mountains\n3. Wake the dragon`}</CodeblockCode>
+          <CodeblockCopyButton value={`# The Quest\n\n1. Find the map\n2. Cross the mountains\n3. Wake the dragon`} />
+        </CodeblockContent>
+      </Codeblock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const code = `# The Quest
+
+    1. Find the map
+    2. Cross the mountains
+    3. Wake the dragon`;
+
+    <Codeblock role="region" aria-label="quest.md" className="w-full max-w-md">
+      <CodeblockHeader>
+        <CodeblockFilename>quest.md</CodeblockFilename>
+        <CodeblockLanguage>Markdown</CodeblockLanguage>
+      </CodeblockHeader>
+      <CodeblockContent>
+        <CodeblockLineNumbers count={code.split("\n").length} />
+        <CodeblockCode>{code}</CodeblockCode>
+        <CodeblockCopyButton value={code} />
+      </CodeblockContent>
+    </Codeblock>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Without Copy
+
+Leave out `CodeblockCopyButton` for illustrative snippets. `CodeblockLanguage` stays right-aligned
+without a filename.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Codeblock role="region" aria-label="Shell command" className="w-full max-w-md">
+        <CodeblockHeader>
+          <CodeblockLanguage>Shell</CodeblockLanguage>
+        </CodeblockHeader>
+        <CodeblockContent>
+          <CodeblockCode>{`$ here-be-dragons summon --name Smaug`}</CodeblockCode>
+        </CodeblockContent>
+      </Codeblock>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Codeblock role="region" aria-label="Shell command" className="w-full max-w-md">
+      <CodeblockHeader>
+        <CodeblockLanguage>Shell</CodeblockLanguage>
+      </CodeblockHeader>
+      <CodeblockContent>
+        <CodeblockCode>{`$ here-be-dragons summon --name Smaug`}</CodeblockCode>
+      </CodeblockContent>
+    </Codeblock>
+    ```
+  </Tab>
+</Tabs>
+
+### Syntax Highlighting
+
+`CodeblockCode` colours descendants with `tok-*` classes from the theme's `syntax-*` colours. Feed it
+the output of any highlighter that emits those classes.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CodeblockHighlightDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Codeblock className="w-full max-w-md">
+      <CodeblockHeader>
+        <CodeblockLanguage>TypeScript</CodeblockLanguage>
+      </CodeblockHeader>
+      <CodeblockContent>
+        <CodeblockCode>
+          <span className="tok-keyword">const</span> hoard <span className="tok-operator">=</span>{" "}
+          <span className="tok-number">12000</span>;{"\n"}
+          <span className="tok-comment">{"// count the gold twice"}</span>
+          {"\n"}
+          <span className="tok-function">console</span>.log(
+          <span className="tok-string">&quot;Smaug&quot;</span>);{"\n"}
+          <span className="tok-selector">.lair</span> {"{"}{" "}
+          <span className="tok-property">color</span>: <span className="tok-value">crimson</span>{" "}
+          {"}"}
+        </CodeblockCode>
+        <CodeblockCopyButton value={source} />
+      </CodeblockContent>
+    </Codeblock>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### CodeblockLineNumbers
+
+<TypeTable
+  type={{
+    count: {
+      type: "number",
+      description: "How many line numbers to render. Match the number of lines in the code.",
+    },
+  }}
+/>
+
+Renders an `aria-hidden` `<div>`; other props go to it.
+
+### CodeblockCopyButton
+
+<TypeTable
+  type={{
+    value: {
+      type: "string",
+      description: "Text written to the clipboard.",
+    },
+  }}
+/>
+
+A [Button](/docs/components/button) pinned to the top-right of `CodeblockContent`. It reads Copy,
+then Copied or Failed for two seconds, with a matching `aria-label` and `data-state`
+(`idle` | `copied` | `failed`). Other props go to the Button; calling `event.preventDefault()` in
+your `onClick` skips the copy.
+
+### CodeblockCode
+
+Renders `<pre><code>`; props and `className` go to the `<code>`. Token classes and their colours:
+
+| Class                          | Colour                   |
+| ------------------------------ | ------------------------ |
+| `tok-keyword`, `tok-selector`  | `syntax-keyword`         |
+| `tok-string`, `tok-value`      | `syntax-string`          |
+| `tok-comment`                  | `syntax-comment`, italic |
+| `tok-number`                   | `syntax-number`          |
+| `tok-function`, `tok-property` | `syntax-function`        |
+| `tok-operator`                 | `syntax-operator`        |
+
+### Other parts
+
+`Codeblock`, `CodeblockHeader` and `CodeblockContent` render `<div>`s; `CodeblockFilename` and
+`CodeblockLanguage` render `<span>`s. Each forwards its props. Give a block with a header
+`role="region"` and an `aria-label` so it is reachable as a landmark.

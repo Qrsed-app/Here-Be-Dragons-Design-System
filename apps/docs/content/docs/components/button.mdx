@@ -1,0 +1,275 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+---
+
+import { Button } from "@/registry/new-york/button/button";
+import { ArrowRightIcon, StarIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button>Cast Spell</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+
+    export function ButtonDemo() {
+      return <Button>Cast Spell</Button>;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/button
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/button.json
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+```
+
+```tsx
+<Button variant="outline">Button</Button>
+```
+
+## Examples
+
+### Secondary
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="secondary">Cast Spell</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="secondary">Cast Spell</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Gold
+
+Here Be Dragons addition — for the one call to action that should outshine the rest.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="gold">Claim Treasure</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="gold">Claim Treasure</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Destructive
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="destructive">Banish</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="destructive">Banish</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Outline
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="outline">Outline</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="outline">Outline</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Ghost
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="ghost">Ghost</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="ghost">Ghost</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Link
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="link">Read the lore</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="link">Read the lore</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button size="sm">Small</Button>
+      <Button>Default</Button>
+      <Button size="lg">Large</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button size="sm">Small</Button>
+    <Button>Default</Button>
+    <Button size="lg">Large</Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Icon
+
+Icon-only buttons need an accessible name.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button variant="secondary" size="icon-sm" aria-label="Favourite">
+        <StarIcon />
+      </Button>
+      <Button variant="secondary" size="icon" aria-label="Favourite">
+        <StarIcon />
+      </Button>
+      <Button variant="secondary" size="icon-lg" aria-label="Favourite">
+        <StarIcon />
+      </Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { StarIcon } from "lucide-react";
+
+    <Button variant="secondary" size="icon-sm" aria-label="Favourite">
+      <StarIcon />
+    </Button>
+    <Button variant="secondary" size="icon" aria-label="Favourite">
+      <StarIcon />
+    </Button>
+    <Button variant="secondary" size="icon-lg" aria-label="Favourite">
+      <StarIcon />
+    </Button>
+    ```
+
+  </Tab>
+</Tabs>
+
+### With Icon
+
+Mark the icon with `data-icon`; the button sizes it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button><StarIcon data-icon="inline-start" />Favourite</Button>
+      <Button variant="secondary">Continue<ArrowRightIcon data-icon="inline-end" /></Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ArrowRightIcon, StarIcon } from "lucide-react";
+
+    <Button>
+      <StarIcon data-icon="inline-start" />
+      Favourite
+    </Button>
+    <Button variant="secondary">
+      Continue
+      <ArrowRightIcon data-icon="inline-end" />
+    </Button>
+    ```
+
+  </Tab>
+</Tabs>
+
+### As Child
+
+Render another element — a router link, an anchor — with the button's look.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button asChild variant="gold">
+        <a href="#as-child">Open the Spellbook</a>
+      </Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <Button asChild variant="gold">
+      <Link href="/spellbook">Open the Spellbook</Link>
+    </Button>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "gold"',
+      default: '"default"',
+      description: "Visual style. `gold` is a Here Be Dragons addition.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+      default: '"default"',
+      description: "Padding and type size. The `icon` sizes are square and need an `aria-label`.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element instead of a `<button>`, merging props and classes onto it (Radix Slot).",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<button>` element — or to the child when `asChild` is set.
+The exported `buttonVariants` helper returns the same classes for use on non-button elements.

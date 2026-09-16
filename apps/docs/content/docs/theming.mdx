@@ -1,0 +1,123 @@
+---
+title: Theming
+description: The CSS variables, colours, fonts and radii installed by the Here Be Dragons theme.
+---
+
+`npx shadcn@latest add @hbd/theme` writes CSS variables into your Tailwind CSS file. Components only
+use these variables, so changing a variable restyles every component that uses it. Colours are
+registered as Tailwind colours, so each variable below is also a utility: `--surface-raised` →
+`bg-surface-raised`, `--foreground-emphasis` → `text-foreground-emphasis`.
+
+## shadcn variables
+
+The standard set, so stock shadcn/ui components and your own `bg-muted` / `text-muted-foreground`
+classes pick up the theme too.
+
+| Variable                                     | Light                                    | Used for                       |
+| -------------------------------------------- | ---------------------------------------- | ------------------------------ |
+| `--background` / `--foreground`              | parchment / ink                          | Page, body text                |
+| `--card` / `--card-foreground`               | parchment / ink                          | Cards                          |
+| `--popover` / `--popover-foreground`         | raised parchment / ink                   | Popovers, menus, select panels |
+| `--primary` / `--primary-foreground`         | blood red / parchment                    | Primary actions                |
+| `--secondary` / `--secondary-foreground`     | raised parchment / ink                   | Secondary actions              |
+| `--muted` / `--muted-foreground`             | pale parchment / faded ink               | Muted surfaces and text        |
+| `--accent` / `--accent-foreground`           | pale parchment / ink                     | Hover and focus backgrounds    |
+| `--destructive` / `--destructive-foreground` | crimson / parchment                      | Destructive actions            |
+| `--border`, `--input`                        | light ink                                | Borders, input borders         |
+| `--ring`                                     | deep gold                                | Focus outlines                 |
+| `--chart-1` … `--chart-5`                    | gold, blood, sapphire, emerald, amethyst | Charts                         |
+| `--sidebar-*`                                |                                          | Sidebar                        |
+| `--radius`                                   | `3px`                                    | Base radius                    |
+
+## Here Be Dragons additions
+
+| Variable                                                                                       | Used for                                                                                                        |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `--surface-subtle`, `--surface-muted`, `--surface-raised`                                      | Layered parchment surfaces                                                                                      |
+| `--surface-overlay`, `--surface-inverse`, `--surface-code`                                     | Dark surfaces                                                                                                   |
+| `--primary-hover`, `--primary-active`, `--destructive-hover`                                   | Action states                                                                                                   |
+| `--foreground-secondary`, `--foreground-disabled`, `--foreground-placeholder`                  | Text tones                                                                                                      |
+| `--foreground-emphasis`, `--foreground-emphasis-strong`                                        | Blood-red emphasis, validation errors                                                                           |
+| `--foreground-link`, `--foreground-link-hover`, `--foreground-heading`, `--foreground-inverse` | Links, headings, text on dark                                                                                   |
+| `--foreground-gold`, `--border-gold`                                                           | Gold labels, ornaments and rules                                                                                |
+| `--border-subtle`, `--border-strong`, `--border-action`, `--border-error`, `--border-ink`      | Border weights                                                                                                  |
+| `--input-focus`                                                                                | Focused input border                                                                                            |
+| `--success`, `--warning`, `--info`, `--error` (+ `-foreground`, `-border`, `-icon`)            | Status surfaces                                                                                                 |
+| `--school-<school>` (+ `-accent`, `-foreground`)                                               | Spell schools: abjuration, conjuration, divination, enchantment, evocation, illusion, necromancy, transmutation |
+| `--syntax-*`                                                                                   | Code highlighting                                                                                               |
+
+### Palette
+
+The primitive palette is available too — `ink-50`…`ink-950`, `parchment-50`…`parchment-950`,
+`crimson-50`…`crimson-950`, `gold-50`…`gold-900`, `forest-50`…`forest-900`,
+`sapphire-50`…`sapphire-900`, plus `gold`, `gold-bright`, `gold-deep`, `blood`, `blood-deep`,
+`sapphire`, `emerald`, `emerald-bright`, `azure`, `amethyst`, `rose`, `umber`, `nightshade`,
+`ink-brown`, `ink-faded`, `shadow-bg`. Prefer the semantic variables above so dark and high-contrast
+modes keep working.
+
+## Typography
+
+| Utility                       | Font                                             |
+| ----------------------------- | ------------------------------------------------ |
+| `font-display`                | Cinzel — buttons, badges, display type           |
+| `font-accent`, `font-heading` | Cinzel — headings, titles                        |
+| `font-serif`                  | IM Fell English — body copy (the `body` default) |
+| `font-sans`                   | Roboto — interface text: labels, inputs, menus   |
+| `font-mono`                   | JetBrains Mono                                   |
+
+`font-display` and `font-accent` resolve to the same typeface today. They stay separate variables
+so you can give display type its own face without touching headings.
+
+Fonts ship as their own registry item, `@hbd/fonts` — four npm packages imported from your CSS
+file, so your bundler serves them and nothing is fetched at runtime. That keeps the design system
+working offline and inside Electron, which a Google Fonts URL would not.
+
+```bash
+npx shadcn@latest add @hbd/fonts
+```
+
+### Using your own fonts
+
+`@hbd/theme` sets only the font-family variables and does **not** depend on `@hbd/fonts`, so it
+never forces a typeface on you. Install the theme alone and the variables fall back through Palatino,
+Georgia and Arial to whatever the system provides. To use your own, point the variables at it — every component
+follows, because they all go through these five utilities:
+
+```css title="app/globals.css"
+@import "@fontsource/eb-garamond";
+
+:root {
+  --font-display: "EB Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+}
+```
+
+## Radius and shadows
+
+`rounded-sm` is 1px, `rounded-md` 2px, `rounded-lg` 3px, `rounded-xl` 4px. `shadow-sm` … `shadow-xl`
+are soft ink shadows that deepen in dark mode; buttons and cards in the brutalist family use offset
+shadows built from the palette, e.g. `shadow-[3px_3px_0_var(--ink-900)]`.
+
+## Animations
+
+`animate-hbd-spin`, `animate-hbd-shimmer`, `animate-hbd-progress-stripe` and
+`animate-hbd-progress-indeterminate`, alongside the `tw-animate-css` utilities shadcn components use.
+
+## Dark and high contrast
+
+`.dark` overrides the colour variables for dark mode and `.high-contrast` for a WCAG AAA theme
+(ink on parchment, meaning carried by borders rather than tinted fills). Put either class on
+`<html>`; see [Installation](/docs/installation#dark-mode-and-high-contrast).
+
+## Changing the theme
+
+Edit the variables in your CSS file:
+
+```css title="app/globals.css"
+:root {
+  --primary: #1e3a5f;
+  --radius: 0px;
+}
+```
+
+To go back to the original values, run `npx shadcn@latest add @hbd/theme` again.

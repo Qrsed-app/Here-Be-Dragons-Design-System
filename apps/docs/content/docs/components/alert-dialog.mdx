@@ -1,0 +1,218 @@
+---
+title: Alert Dialog
+description: A modal dialog that interrupts the user with important content and expects a response.
+---
+
+import {
+  AlertDialogDemo,
+  AlertDialogMediaDemo,
+  AlertDialogSmallDemo,
+} from "@/components/examples/alert-dialog-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AlertDialogDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      AlertDialog,
+      AlertDialogAction,
+      AlertDialogCancel,
+      AlertDialogContent,
+      AlertDialogDescription,
+      AlertDialogFooter,
+      AlertDialogHeader,
+      AlertDialogTitle,
+      AlertDialogTrigger,
+    } from "@/components/ui/alert-dialog";
+    import { Button } from "@/components/ui/button";
+
+    export function AlertDialogDemo() {
+      return (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="secondary">Delete chart</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete this chart?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. The chart and every sounding on it will be lost.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel variant="secondary">Cancel</AlertDialogCancel>
+              <AlertDialogAction>Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/alert-dialog
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/alert-dialog.json
+```
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+```
+
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your chart.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+The title is ruled off from the description, which reads as the dialog's message. Radix focuses
+`AlertDialogCancel` when the dialog opens; Escape cancels, but an outside click does nothing, so
+the reader has to choose.
+
+## Examples
+
+### Small
+
+`size="sm"` narrows the dialog to 400px.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AlertDialogSmallDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="secondary">Abandon voyage</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Abandon the voyage?</AlertDialogTitle>
+          <AlertDialogDescription>The crew will return to port.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Stay the course</AlertDialogCancel>
+          <AlertDialogAction>Abandon</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    ```
+  </Tab>
+</Tabs>
+
+### Media and destructive action
+
+`AlertDialogMedia` holds an icon above the title. `AlertDialogAction` and `AlertDialogCancel` take
+the Button `variant` and `size`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AlertDialogMediaDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Trash2Icon } from "lucide-react";
+
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="secondary">Burn the map</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia>
+            <Trash2Icon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Burn the map?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Nobody will find the treasure again, including you.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel variant="secondary">Keep it</AlertDialogCancel>
+          <AlertDialogAction variant="destructive">Burn</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### AlertDialogContent
+
+<TypeTable
+  type={{
+    size: {
+      type: '"default" | "sm"',
+      default: '"default"',
+      description: "Dialog width: 560px or 400px.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `AlertDialog.Content`; it renders the portal and overlay for you.
+
+### AlertDialogAction and AlertDialogCancel
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "gold"',
+      default: '"default" (Action), "outline" (Cancel)',
+      description: "Button variant.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+      default: '"default"',
+      description: "Button size.",
+    },
+  }}
+/>
+
+The remaining parts take the props of their
+[Radix Alert Dialog](https://www.radix-ui.com/primitives/docs/components/alert-dialog) parts;
+`AlertDialogHeader`, `AlertDialogFooter` and `AlertDialogMedia` render a `<div>`.

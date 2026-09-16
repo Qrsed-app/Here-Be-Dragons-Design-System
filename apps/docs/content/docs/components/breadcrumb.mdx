@@ -1,0 +1,386 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+---
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/registry/new-york/breadcrumb/breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/registry/new-york/dropdown-menu/dropdown-menu";
+import { SlashIcon } from "lucide-react";
+import { BreadcrumbTruncatedDemo } from "@/components/examples/breadcrumb-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Northern Seas</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Breadcrumb,
+      BreadcrumbItem,
+      BreadcrumbLink,
+      BreadcrumbList,
+      BreadcrumbPage,
+      BreadcrumbSeparator,
+    } from "@/components/ui/breadcrumb";
+
+    export function BreadcrumbDemo() {
+      return (
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Northern Seas</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/breadcrumb
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/breadcrumb.json
+```
+
+## Usage
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+```
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## Examples
+
+### Custom separator
+
+`BreadcrumbSeparator` draws a `›` unless you give it a child. An `svg` child is sized for you.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator><SlashIcon /></BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Northern Seas</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator><SlashIcon /></BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { SlashIcon } from "lucide-react";
+
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <SlashIcon />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Northern Seas</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <SlashIcon />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Collapsed with a menu
+
+Long trails collapse behind `BreadcrumbEllipsis`. Put it in a dropdown so the hidden crumbs stay
+reachable.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger aria-label="Show the hidden crumbs" className="cursor-pointer border-none bg-transparent p-0 outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+                <BreadcrumbEllipsis />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem>Northern Seas</DropdownMenuItem>
+                <DropdownMenuItem>Frostbite Strait</DropdownMenuItem>
+                <DropdownMenuItem>Glacier Bay</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      DropdownMenu,
+      DropdownMenuContent,
+      DropdownMenuItem,
+      DropdownMenuTrigger,
+    } from "@/components/ui/dropdown-menu";
+
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              aria-label="Show the hidden crumbs"
+              className="cursor-pointer border-none bg-transparent p-0 outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              <BreadcrumbEllipsis />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>Northern Seas</DropdownMenuItem>
+              <DropdownMenuItem>Frostbite Strait</DropdownMenuItem>
+              <DropdownMenuItem>Glacier Bay</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Expanding the trail
+
+The pre-migration breadcrumbs had a `truncate` prop that hid the middle crumbs until the ellipsis
+was clicked. That is a composition now — own the expanded state and swap the ellipsis for the
+hidden crumbs.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <BreadcrumbTruncatedDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    const middle = [
+      { label: "Northern Seas", href: "#" },
+      { label: "Frostbite Strait", href: "#" },
+      { label: "Glacier Bay", href: "#" },
+    ];
+
+    export function BreadcrumbTruncatedDemo() {
+      const [expanded, setExpanded] = React.useState(false);
+
+      return (
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Atlas</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            {expanded ? (
+              middle.map((crumb) => (
+                <React.Fragment key={crumb.label}>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={crumb.href}>{crumb.label}</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </React.Fragment>
+              ))
+            ) : (
+              <>
+                <BreadcrumbItem>
+                  <button
+                    type="button"
+                    aria-label="Show the full path"
+                    onClick={() => setExpanded(true)}
+                    className="cursor-pointer border-none bg-transparent p-0 outline-none hover:[&>span]:text-foreground focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  >
+                    <BreadcrumbEllipsis />
+                  </button>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )}
+            <BreadcrumbItem>
+              <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### With a router link
+
+`BreadcrumbLink` renders its child with `asChild`, so a framework link keeps the crumb's look.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <a href="#with-a-router-link">Atlas</a>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link href="/atlas">Atlas</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Kraken Trench</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+Every part renders the plain element named after it (`nav`, `ol`, `li`, `a`, `span`) and forwards
+every prop to it.
+
+<TypeTable
+  type={{
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "`BreadcrumbLink` only. Render the single child element instead of an `<a>`, merging props and classes onto it (Radix Slot).",
+    },
+    children: {
+      type: "ReactNode",
+      description:
+        "`BreadcrumbSeparator` only. Replaces the default `›` glyph; an `svg` child is sized to 14px.",
+    },
+  }}
+/>
+
+`Breadcrumb` sets `aria-label="breadcrumb"`, `BreadcrumbPage` marks the last crumb with
+`aria-current="page"`, and `BreadcrumbEllipsis` renders a `…` with an "More" label for screen
+readers. Wrap the ellipsis in your own button or dropdown trigger to make it interactive.

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination with page navigation, next and previous links. shadcn/ui API in the Here Be Dragons look: square ink cells with a blood-filled current page. Adds PaginationFirst, PaginationLast and PaginationInfo.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["@hbd/theme", "@hbd/button"],
+      "files": [
+        {
+          "path": "pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

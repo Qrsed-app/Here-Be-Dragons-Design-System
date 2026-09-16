@@ -1,333 +1,120 @@
-"use client";
-
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
 
-// Ported 1:1 from ds/components/hbd-alert.js + ds/styles/components/alert.css
-// (light DOM — no Shadow DOM to de-shadow). The generic system-level feedback
-// banner: form errors, system notices, API responses. The React markup emits
-// the legacy BEM classes (.hbd-alert / __icon / __body / __title / __content /
-// __dismiss, .hbd-alert--{variant}/--{type}/--dismissible, .is-dismissed)
-// verbatim so the token-backed alert.css reproduces the exact HBD look 1:1.
-// Tailwind utilities are not used for the visual design — the CSS is.
-//
-// Behaviour parity with the WC:
-//   - variant -> role/aria-live map (error: alert/assertive, success+warning:
-//     status/polite, info: note/no aria-live). ARIA lives on the host element,
-//     exactly as the Light-DOM WC put it on the host.
-//   - title -> bold heading line + aria-labelledby wiring.
-//   - dismissible -> × button; clicking (or calling the exposed dismiss())
-//     adds .is-dismissed which animates max-height+opacity to 0, then on
-//     transitionend fires onDismiss({variant,type}) and unmounts the alert.
-//   - persist -> remembers dismissed state in localStorage under
-//     'hbd-alert-dismissed-<id|uid>'; a persisted-dismissed banner never
-//     renders. The persist flag is committed at the end of the exit, matching
-//     the WC's _markPersistedDismissed() on transitionend.
-//
-// Slots: default slot -> children (the message body / author content). Action
-// buttons should carry .hbd-alert__action — use the exported Alert.Action.
-
-export type AlertVariant = "info" | "success" | "warning" | "error";
-export type AlertType = "alert" | "banner" | "inline";
-
-const VARIANTS: readonly AlertVariant[] = ["info", "success", "warning", "error"];
-const TYPES: readonly AlertType[] = ["alert", "banner", "inline"];
-
-// Per-variant role / aria-live mapping (mirrors VARIANT_ARIA in the WC).
-const VARIANT_ARIA: Record<AlertVariant, { role: string; live: "assertive" | "polite" | null }> = {
-  error: { role: "alert", live: "assertive" },
-  warning: { role: "status", live: "polite" },
-  success: { role: "status", live: "polite" },
-  info: { role: "note", live: null },
-};
-
-// Inline-SVG icons — same family as the WC (stroke outlines, currentColor) so
-// they inherit the variant text colour for free. aria-hidden on the wrapper.
-const ICONS: Record<AlertVariant, React.ReactNode> = {
-  info: (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="8" cy="8" r="6.5" />
-      <line x1="8" y1="7" x2="8" y2="11.5" />
-      <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
-    </svg>
-  ),
-  success: (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="8" cy="8" r="6.5" />
-      <polyline points="5,8.5 7.2,10.6 11,6.5" />
-    </svg>
-  ),
-  warning: (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M8 1.5 L14.5 13 H1.5 Z" />
-      <line x1="8" y1="6" x2="8" y2="9.5" />
-      <circle cx="8" cy="11.4" r="0.6" fill="currentColor" stroke="none" />
-    </svg>
-  ),
-  error: (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="8" cy="8" r="6.5" />
-      <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" />
-      <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" />
-    </svg>
-  ),
-};
-
-const DismissIcon = () => (
-  <svg
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <line x1="4" y1="4" x2="12" y2="12" />
-    <line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
-
-const alertVariants = cva("hbd-alert", {
-  variants: {
-    variant: {
-      info: "hbd-alert--info",
-      success: "hbd-alert--success",
-      warning: "hbd-alert--warning",
-      error: "hbd-alert--error",
+const alertVariants = cva(
+  [
+    "group/alert relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 overflow-hidden rounded-md border-l-4 border-transparent px-4 py-3 font-sans text-[1.0625rem] leading-[1.7]",
+    // Icon column: an svg (16px, top-aligned) or an AlertIcon glyph box (24px, centred); an AlertAction adds a trailing column.
+    "has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 has-data-[slot=alert-icon]:grid-cols-[calc(var(--spacing)*6)_1fr] has-data-[slot=alert-icon]:gap-x-3",
+    "has-data-[slot=alert-action]:grid-cols-[0_1fr_auto] has-[>svg]:has-data-[slot=alert-action]:grid-cols-[calc(var(--spacing)*4)_1fr_auto] has-data-[slot=alert-icon]:has-data-[slot=alert-action]:grid-cols-[calc(var(--spacing)*6)_1fr_auto]",
+    "[&>svg]:mt-1 [&>svg]:size-4 [&>svg]:text-current",
+    // Banner and inline: title and description wrap as whole boxes in a row, as the pre-migration body did.
+    // The icon and the action are taken out of that row and sit in padding reserved for them.
+    "data-[layout=banner]:sticky data-[layout=banner]:top-0 data-[layout=banner]:z-50 data-[layout=banner]:flex data-[layout=banner]:flex-wrap data-[layout=banner]:content-start data-[layout=banner]:items-center data-[layout=banner]:gap-2 data-[layout=banner]:rounded-none data-[layout=banner]:border-b data-[layout=banner]:border-l-0 data-[layout=banner]:border-b-current data-[layout=banner]:px-[clamp(1rem,4vw,3rem)] data-[layout=banner]:py-2",
+    "data-[layout=banner]:has-[>svg]:pl-[calc(clamp(1rem,4vw,3rem)+28px)] data-[layout=banner]:has-data-[slot=alert-action]:min-h-[49px] data-[layout=banner]:has-data-[slot=alert-action]:pr-[calc(clamp(1rem,4vw,3rem)+52px)]",
+    "data-[layout=banner]:[&>svg]:absolute data-[layout=banner]:[&>svg]:top-3 data-[layout=banner]:[&>svg]:left-[clamp(1rem,4vw,3rem)] data-[layout=banner]:[&>svg]:mt-0",
+    "data-[layout=inline]:flex data-[layout=inline]:flex-wrap data-[layout=inline]:content-start data-[layout=inline]:items-center data-[layout=inline]:gap-2 data-[layout=inline]:rounded-sm data-[layout=inline]:border-l-2 data-[layout=inline]:px-3 data-[layout=inline]:py-2 data-[layout=inline]:text-[0.8125rem]",
+    "data-[layout=inline]:has-[>svg]:pl-8 data-[layout=inline]:has-data-[slot=alert-action]:min-h-12 data-[layout=inline]:has-data-[slot=alert-action]:pr-15",
+    "data-[layout=inline]:[&>svg]:absolute data-[layout=inline]:[&>svg]:top-1/2 data-[layout=inline]:[&>svg]:left-3 data-[layout=inline]:[&>svg]:mt-0 data-[layout=inline]:[&>svg]:size-3 data-[layout=inline]:[&>svg]:-translate-y-1/2",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "border-l-border-ink bg-surface-subtle text-foreground",
+        destructive: "border-l-error-border bg-error text-error-foreground",
+        info: "border-l-info-border bg-info text-info-foreground",
+        success: "border-l-success-border bg-success text-success-foreground",
+        warning: "border-l-warning-border bg-warning text-warning-foreground",
+        error: "border-l-error-border bg-error text-error-foreground",
+        "sage-advice":
+          "border-2 border-dashed border-border-gold bg-[rgba(184,137,59,0.08)] text-foreground-secondary [&>svg]:text-foreground-gold",
+      },
     },
-    type: {
-      alert: "hbd-alert--alert",
-      banner: "hbd-alert--banner",
-      inline: "hbd-alert--inline",
+    defaultVariants: {
+      variant: "default",
     },
   },
-  defaultVariants: { variant: "info", type: "alert" },
-});
-
-let alertUidCounter = 0;
-
-function persistKey(id: string) {
-  return `hbd-alert-dismissed-${id}`;
-}
-
-function isPersistedDismissed(id: string): boolean {
-  try {
-    return localStorage.getItem(persistKey(id)) === "1";
-  } catch {
-    return false;
-  }
-}
-
-function markPersistedDismissed(id: string) {
-  try {
-    localStorage.setItem(persistKey(id), "1");
-  } catch {
-    // localStorage unavailable (private mode, quota) — silently skip.
-  }
-}
-
-export interface AlertDismissDetail {
-  variant: AlertVariant;
-  type: AlertType;
-}
-
-export interface AlertProps
-  extends
-    Omit<React.HTMLAttributes<HTMLDivElement>, "title">,
-    Partial<VariantProps<typeof alertVariants>> {
-  /** Visual + a11y variant. */
-  variant?: AlertVariant;
-  /** Layout type: alert (default), banner (sticky full-width), inline (compact). */
-  type?: AlertType;
-  /** Optional bold heading line; also wires aria-labelledby. */
-  title?: string;
-  /** Renders the × dismiss button and enables the collapse-on-dismiss exit. */
-  dismissible?: boolean;
-  /** Remember dismissed state in localStorage under the element id/uid. */
-  persist?: boolean;
-  /** Fired after the dismiss exit animation, with the {variant, type} detail. */
-  onDismiss?: (detail: AlertDismissDetail) => void;
-}
-
-interface AlertHandle {
-  /** Programmatic dismiss — equivalent to clicking the × button. */
-  dismiss: () => void;
-}
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  (
-    {
-      className,
-      variant: variantProp,
-      type: typeProp,
-      title,
-      dismissible = false,
-      persist = false,
-      onDismiss,
-      id: idProp,
-      children,
-      ...props
-    },
-    ref,
-  ) => {
-    // Normalise to the WC's allow-lists (unknown -> info / alert).
-    const variant: AlertVariant =
-      variantProp && VARIANTS.includes(variantProp) ? variantProp : "info";
-    const type: AlertType = typeProp && TYPES.includes(typeProp) ? typeProp : "alert";
-
-    const reactUid = React.useId();
-    // Stable per-instance uid (mirrors the WC's `uid-N` persist key fallback).
-    const uid = React.useMemo(() => `uid-${++alertUidCounter}`, []);
-    const persistId = idProp ?? uid;
-    const titleId = `hbd-alert-title-${reactUid}`;
-
-    const aria = VARIANT_ARIA[variant];
-
-    // Persisted-dismissed banners never render (matches the WC's
-    // connectedCallback early-remove). Computed once on mount.
-    const [removed, setRemoved] = React.useState<boolean>(() =>
-      persist ? isPersistedDismissed(persistId) : false,
-    );
-    const [dismissing, setDismissing] = React.useState(false);
-    const dismissingRef = React.useRef(false);
-
-    const hostRef = React.useRef<HTMLDivElement>(null);
-
-    const beginDismiss = React.useCallback(() => {
-      if (dismissingRef.current) return;
-      dismissingRef.current = true;
-      // Force a layout pass so the transition picks up the starting state —
-      // without this a freshly-mounted alert dismissed immediately would jump
-      // straight to the end state (mirrors `void this.offsetHeight`).
-      if (hostRef.current) void hostRef.current.offsetHeight;
-      setDismissing(true);
-    }, []);
-
-    const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-      // Only the host's own max-height/opacity transition finishes the exit;
-      // a child transition must not trigger early removal.
-      if (e.target !== hostRef.current) return;
-      if (e.propertyName !== "max-height" && e.propertyName !== "opacity") return;
-      if (persist) markPersistedDismissed(persistId);
-      onDismiss?.({ variant, type });
-      setRemoved(true);
-    };
-
-    // Expose dismiss() on the imperative handle alongside the DOM node.
-    React.useImperativeHandle(
-      ref,
-      () =>
-        Object.assign(
-          hostRef.current as HTMLDivElement,
-          {
-            dismiss: beginDismiss,
-          } as AlertHandle,
-        ),
-      [beginDismiss],
-    );
-
-    if (removed) return null;
-
-    return (
-      <div
-        ref={hostRef}
-        id={idProp}
-        role={aria.role}
-        aria-live={aria.live ?? undefined}
-        aria-labelledby={title ? titleId : undefined}
-        className={cn(
-          alertVariants({ variant, type }),
-          dismissible && "hbd-alert--dismissible",
-          dismissing && "is-dismissed",
-          className,
-        )}
-        onTransitionEnd={handleTransitionEnd}
-        {...props}
-      >
-        <span className="hbd-alert__icon" aria-hidden="true">
-          {ICONS[variant]}
-        </span>
-        <div className="hbd-alert__body">
-          {title ? (
-            <p className="hbd-alert__title" id={titleId}>
-              {title}
-            </p>
-          ) : null}
-          {children != null ? <div className="hbd-alert__content">{children}</div> : null}
-        </div>
-        {dismissible ? (
-          <button
-            className="hbd-alert__dismiss"
-            type="button"
-            data-hbd-alert-dismiss
-            aria-label={`Dismiss ${variant} message`}
-            onClick={beginDismiss}
-          >
-            <DismissIcon />
-          </button>
-        ) : null}
-      </div>
-    );
-  },
 );
-Alert.displayName = "Alert";
 
-// Action button slot — carries .hbd-alert__action so the underline + focus
-// ring style applies (mirrors the WC's authored .hbd-alert__action buttons).
-export type AlertActionProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const AlertAction = React.forwardRef<HTMLButtonElement, AlertActionProps>(
-  ({ className, type, ...props }, ref) => (
-    <button
-      ref={ref}
-      type={type ?? "button"}
-      className={cn("hbd-alert__action", className)}
+function Alert({
+  className,
+  variant = "default",
+  layout = "default",
+  ...props
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof alertVariants> & {
+    layout?: "default" | "banner" | "inline";
+  }) {
+  return (
+    <div
+      data-slot="alert"
+      data-variant={variant}
+      data-layout={layout}
+      role="alert"
+      className={cn(alertVariants({ variant }), className)}
       {...props}
     />
-  ),
-);
-AlertAction.displayName = "Alert.Action";
+  );
+}
 
-type AlertComponent = typeof Alert & { Action: typeof AlertAction };
-const AlertWithSlots = Alert as AlertComponent;
-AlertWithSlots.Action = AlertAction;
+function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-title"
+      className={cn(
+        "col-start-2 leading-[1.35] font-semibold",
+        "group-data-[variant=sage-advice]/alert:font-display group-data-[variant=sage-advice]/alert:text-[0.6875rem] group-data-[variant=sage-advice]/alert:font-bold group-data-[variant=sage-advice]/alert:tracking-[0.3em] group-data-[variant=sage-advice]/alert:text-foreground-gold group-data-[variant=sage-advice]/alert:uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export { AlertWithSlots as Alert, AlertAction, alertVariants };
+function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-description"
+      className={cn(
+        "col-start-2 leading-[1.7] group-data-[layout=inline]/alert:leading-[1.35] [&_p]:m-0",
+        "group-data-[variant=sage-advice]/alert:font-serif group-data-[variant=sage-advice]/alert:text-[0.9375rem] group-data-[variant=sage-advice]/alert:leading-[1.6] group-data-[variant=sage-advice]/alert:italic",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function AlertIcon({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="alert-icon"
+      aria-hidden="true"
+      className={cn(
+        // An explicit row line, not row-span: a spanning item with an auto start is placed after the description.
+        "col-start-1 row-start-1 inline-flex size-6 shrink-0 items-center justify-center self-center text-current group-has-data-[slot=alert-title]/alert:group-has-data-[slot=alert-description]/alert:row-[1/span_2] group-data-[variant=sage-advice]/alert:text-foreground-gold",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="alert-action"
+      className={cn(
+        "col-start-3 row-start-1 -my-2 ml-3 -mr-2 flex items-start gap-2 self-start group-has-data-[slot=alert-title]/alert:group-has-data-[slot=alert-description]/alert:row-[1/span_2] group-has-data-[slot=alert-icon]/alert:ml-0 group-has-[>svg]/alert:ml-0",
+        "group-data-[layout=banner]/alert:absolute group-data-[layout=banner]/alert:top-0 group-data-[layout=banner]/alert:right-[calc(clamp(1rem,4vw,3rem)-8px)] group-data-[layout=banner]/alert:m-0",
+        "group-data-[layout=inline]/alert:absolute group-data-[layout=inline]/alert:top-0 group-data-[layout=inline]/alert:right-1 group-data-[layout=inline]/alert:m-0",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { Alert, AlertTitle, AlertDescription, AlertIcon, AlertAction, alertVariants };

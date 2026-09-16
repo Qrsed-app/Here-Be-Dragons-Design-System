@@ -1,0 +1,350 @@
+---
+title: Toggle Group
+description: A set of two-state buttons that can be toggled on or off.
+---
+
+import { ToggleGroup, ToggleGroupItem } from "@/registry/new-york/toggle-group/toggle-group";
+import { ToggleGroupRequiredDemo } from "@/components/examples/toggle-group-demo";
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="single" defaultValue="grid" aria-label="Map view">
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+        <ToggleGroupItem value="atlas">Atlas</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
+    export function ToggleGroupDemo() {
+      return (
+        <ToggleGroup type="single" defaultValue="grid" aria-label="Map view">
+          <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+          <ToggleGroupItem value="list">List</ToggleGroupItem>
+          <ToggleGroupItem value="atlas">Atlas</ToggleGroupItem>
+        </ToggleGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/toggle-group
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/toggle-group.json
+```
+
+## Usage
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+```
+
+```tsx
+<ToggleGroup type="single">
+  <ToggleGroupItem value="a">A</ToggleGroupItem>
+  <ToggleGroupItem value="b">B</ToggleGroupItem>
+  <ToggleGroupItem value="c">C</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Examples
+
+### Multiple
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="multiple" defaultValue={["bold"]} aria-label="Text formatting">
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+        <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup type="multiple" defaultValue={["bold"]} aria-label="Text formatting">
+      <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+      <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Always one selected
+
+A `single` group lets the pressed item be clicked off. To keep one choice selected, control the
+value and ignore the empty string.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroupRequiredDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+
+    export function ToggleGroupRequiredDemo() {
+      const [view, setView] = React.useState("grid");
+
+      return (
+        <ToggleGroup
+          type="single"
+          value={view}
+          onValueChange={(next) => {
+            if (next) setView(next);
+          }}
+          aria-label="Map view"
+        >
+          <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+          <ToggleGroupItem value="list">List</ToggleGroupItem>
+          <ToggleGroupItem value="atlas">Atlas</ToggleGroupItem>
+        </ToggleGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Vertical
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="single" orientation="vertical" defaultValue="left" aria-label="Alignment">
+        <ToggleGroupItem value="left">Left</ToggleGroupItem>
+        <ToggleGroupItem value="center">Center</ToggleGroupItem>
+        <ToggleGroupItem value="right">Right</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup type="single" orientation="vertical" defaultValue="left" aria-label="Alignment">
+      <ToggleGroupItem value="left">Left</ToggleGroupItem>
+      <ToggleGroupItem value="center">Center</ToggleGroupItem>
+      <ToggleGroupItem value="right">Right</ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Outline
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup
+        type="multiple"
+        variant="outline"
+        defaultValue={["italic"]}
+        aria-label="Text formatting"
+      >
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+        <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup
+      type="multiple"
+      variant="outline"
+      defaultValue={["italic"]}
+      aria-label="Text formatting"
+    >
+      <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+      <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Icons
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="multiple" size="icon" defaultValue={["bold"]} aria-label="Text formatting">
+        <ToggleGroupItem value="bold" aria-label="Toggle bold">
+          <BoldIcon />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic" aria-label="Toggle italic">
+          <ItalicIcon />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline" aria-label="Toggle underline">
+          <UnderlineIcon />
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
+
+    <ToggleGroup type="multiple" size="icon" defaultValue={["bold"]} aria-label="Text formatting">
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <BoldIcon />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <ItalicIcon />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+        <UnderlineIcon />
+      </ToggleGroupItem>
+    </ToggleGroup>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Size
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="single" size="sm" defaultValue="grid" aria-label="Map view">
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup type="single" size="lg" defaultValue="grid" aria-label="Map view">
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup type="single" size="sm" defaultValue="grid" aria-label="Map view">
+      <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+      <ToggleGroupItem value="list">List</ToggleGroupItem>
+    </ToggleGroup>
+    <ToggleGroup type="single" size="lg" defaultValue="grid" aria-label="Map view">
+      <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+      <ToggleGroupItem value="list">List</ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Spacing
+
+A non-zero `spacing` separates the items into standalone toggles, each with its own border and shadow.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="multiple" spacing={2} defaultValue={["bold"]} aria-label="Text formatting">
+        <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+        <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+        <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup type="multiple" spacing={2} defaultValue={["bold"]} aria-label="Text formatting">
+      <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+      <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ToggleGroup type="single" defaultValue="grid" disabled aria-label="Map view">
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup type="single" defaultValue="grid" aria-label="Map view">
+        <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+        <ToggleGroupItem value="list">List</ToggleGroupItem>
+        <ToggleGroupItem value="atlas" disabled>
+          {"Atlas"}
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ToggleGroup type="single" defaultValue="grid" disabled aria-label="Map view">
+      <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+      <ToggleGroupItem value="list">List</ToggleGroupItem>
+    </ToggleGroup>
+    <ToggleGroup type="single" defaultValue="grid" aria-label="Map view">
+      <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+      <ToggleGroupItem value="list">List</ToggleGroupItem>
+      <ToggleGroupItem value="atlas" disabled>
+        Atlas
+      </ToggleGroupItem>
+    </ToggleGroup>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### ToggleGroup
+
+<TypeTable
+  type={{
+    type: {
+      type: '"single" | "multiple"',
+      description: "Whether one or many items can be pressed. Required.",
+    },
+    variant: {
+      type: '"default" | "outline"',
+      default: '"default"',
+      description: "Style applied to every item.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+      default: '"default"',
+      description: "Size applied to every item. The `icon` sizes are a Here Be Dragons addition.",
+    },
+    spacing: {
+      type: "number",
+      default: "0",
+      description: "Gap between items, in spacing units. `0` joins them into one bordered control.",
+    },
+  }}
+/>
+
+`value`, `defaultValue`, `onValueChange`, `orientation`, `disabled` and every other prop go to the
+Radix ToggleGroup root. See the
+[Radix Toggle Group documentation](https://www.radix-ui.com/primitives/docs/components/toggle-group).
+
+### ToggleGroupItem
+
+Takes `value` (required) plus `variant` and `size`, which the group's values override. Every other prop
+goes to the Radix ToggleGroup item.

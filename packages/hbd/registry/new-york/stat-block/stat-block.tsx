@@ -1,311 +1,262 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+
 import { cn } from "@/lib/utils";
 
-// Ported 1:1 from ds/components/hbd-stat-block.js (light DOM — no Shadow DOM).
-// A D&D 5e creature/NPC stat block: name + subtitle header, basic stats
-// (AC/HP/Speed), a six-ability score table, properties (saves/senses/languages/
-// CR) and trait/action/reaction/legendary sections. Purely presentational — the
-// legacy WC had no behaviour. The .hbd-stat-block__* BEM classes are emitted
-// verbatim so the de-shadowed stat-block.css reproduces the exact look 1:1.
-//
-// Named slots from the WC (saving-throws, skills, immunities, senses, languages,
-// traits, actions, reactions, legendary-actions) become render-prop / ReactNode
-// props. Trait/action bodies are author markup that already contains
-// .hbd-stat-block__trait elements — pass them through as children of each prop.
+// The manuscript double rule: thick top/bottom bars on the border, hairlines 4px
+// inside them drawn by ::before/::after, so the content needs no wrapper element.
+const statBlockVariants = cva(
+  "group/stat-block relative block max-w-[24rem] border-y-[6px] border-primary bg-[linear-gradient(135deg,var(--background),var(--surface-subtle))] font-serif shadow-md before:pointer-events-none before:absolute before:inset-x-0 before:top-1 before:h-px before:bg-primary after:pointer-events-none after:absolute after:inset-x-0 after:bottom-1 after:h-px after:bg-primary",
+  {
+    variants: {
+      size: {
+        default: "px-5 py-[calc(0.25rem+1px+1rem)]",
+        sm: "px-4 py-[calc(0.25rem+1px+0.75rem)]",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  },
+);
+
+function StatBlock({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"article"> & VariantProps<typeof statBlockVariants>) {
+  return (
+    <article
+      data-slot="stat-block"
+      data-size={size}
+      className={cn(statBlockVariants({ size, className }))}
+      {...props}
+    />
+  );
+}
+
+function StatBlockHeader({ className, ...props }: React.ComponentProps<"header">) {
+  return <header data-slot="stat-block-header" className={cn("mb-3", className)} {...props} />;
+}
+
+function StatBlockTitle({
+  className,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"h2"> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot.Root : "h2";
+
+  return (
+    <Comp
+      data-slot="stat-block-title"
+      className={cn(
+        "mb-[2px] font-display text-2xl leading-[1.2] font-bold tracking-[0.02em] text-foreground-emphasis group-data-[size=sm]/stat-block:text-xl",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function StatBlockDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return (
+    <p
+      data-slot="stat-block-description"
+      className={cn("font-serif text-[0.9375rem] text-foreground-secondary italic", className)}
+      {...props}
+    />
+  );
+}
+
+function StatBlockSeparator({ className, ...props }: React.ComponentProps<"hr">) {
+  return (
+    <hr
+      data-slot="stat-block-separator"
+      className={cn("my-[0.625rem] border-t border-primary", className)}
+      {...props}
+    />
+  );
+}
+
+function StatBlockProperties({ className, ...props }: React.ComponentProps<"dl">) {
+  return <dl data-slot="stat-block-properties" className={className} {...props} />;
+}
+
+function StatBlockProperty({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="stat-block-property"
+      className={cn(
+        "flex flex-wrap gap-2 font-sans text-[0.8125rem] leading-[1.7] text-foreground-secondary group-data-[size=sm]/stat-block:text-[0.6875rem]",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function StatBlockPropertyLabel({ className, ...props }: React.ComponentProps<"dt">) {
+  return (
+    <dt
+      data-slot="stat-block-property-label"
+      className={cn(
+        "font-display font-bold tracking-wider text-foreground-emphasis-strong",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function StatBlockPropertyValue({ className, ...props }: React.ComponentProps<"dd">) {
+  return (
+    <dd data-slot="stat-block-property-value" className={cn("font-normal", className)} {...props} />
+  );
+}
 
 const ABILITIES = ["str", "dex", "con", "int", "wis", "cha"] as const;
 
-// Ability modifier from score, formatted "+N" / "−N" (U+2212 for negatives).
-function modifier(score: number | string | undefined): string {
+type Ability = (typeof ABILITIES)[number];
+type AbilityScore = number | string | null | undefined;
+
+// U+2212 minus for negatives, as printed in the Monster Manual.
+function getAbilityModifier(score: AbilityScore): string {
   const n = typeof score === "number" ? score : parseInt(String(score), 10);
   if (Number.isNaN(n)) return "";
   const mod = Math.floor((n - 10) / 2);
-  if (mod < 0) return `−${Math.abs(mod)}`;
-  return `+${mod}`;
+  return mod < 0 ? `−${Math.abs(mod)}` : `+${mod}`;
 }
 
-function buildSubtitle(size?: string, type?: string, alignment?: string): string {
-  const sizeType = [size, type].filter(Boolean).join(" ");
-  return [sizeType, alignment].filter(Boolean).join(", ");
-}
+const abilityBorder = "border-[rgba(122,18,18,0.2)]";
 
-export interface StatBlockProps extends React.HTMLAttributes<HTMLElement> {
-  /** Creature / NPC name (rendered as the <h2> heading). */
-  creatureName?: string;
-  /** Size descriptor, e.g. "Large". Combines with type + alignment into the subtitle. */
-  size?: string;
-  /** Creature type, e.g. "dragon". */
-  type?: string;
-  /** Alignment, e.g. "chaotic evil". */
-  alignment?: string;
-  /** Armor Class. */
-  ac?: string | number;
-  /** Hit Points. */
-  hp?: string | number;
-  /** Speed. */
-  speed?: string | number;
-  /** Challenge rating. */
-  cr?: string | number;
-  /** Ability scores — present scores render the table; absent ones show "—". */
-  str?: string | number;
-  dex?: string | number;
-  con?: string | number;
-  int?: string | number;
-  wis?: string | number;
-  cha?: string | number;
-  /** Render the Legendary Actions section + legendary modifier class. */
-  legendary?: boolean;
-  /** Compact density (reduced padding + type). */
-  compact?: boolean;
-  /** Property rows (label supplied here, value is the node). */
-  savingThrows?: React.ReactNode;
-  skills?: React.ReactNode;
-  immunities?: React.ReactNode;
-  senses?: React.ReactNode;
-  languages?: React.ReactNode;
-  /** Trait/action sections — author markup containing .hbd-stat-block__trait items. */
-  traits?: React.ReactNode;
-  actions?: React.ReactNode;
-  reactions?: React.ReactNode;
-  legendaryActions?: React.ReactNode;
-}
+function StatBlockAbilities({
+  className,
+  str,
+  dex,
+  con,
+  int,
+  wis,
+  cha,
+  ...props
+}: Omit<React.ComponentProps<"table">, "children"> & Partial<Record<Ability, AbilityScore>>) {
+  const scores: Record<Ability, AbilityScore> = { str, dex, con, int, wis, cha };
+  const present = (a: Ability) => scores[a] !== undefined && scores[a] !== null && scores[a] !== "";
 
-const BASIC_FIELDS: { key: "ac" | "hp" | "speed"; label: string }[] = [
-  { key: "ac", label: "Armor Class" },
-  { key: "hp", label: "Hit Points" },
-  { key: "speed", label: "Speed" },
-];
-
-function PropertyRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="hbd-stat-block__property">
-      <dt className="hbd-stat-block__property-label">{label}</dt>
-      <dd className="hbd-stat-block__property-value">{children}</dd>
-    </div>
-  );
-}
-
-function Section({
-  heading,
-  legendary,
-  children,
-}: {
-  heading: string;
-  legendary?: boolean;
-  children: React.ReactNode;
-}) {
-  if (children == null || children === false || children === "") return null;
-  return (
-    <section
-      className={cn("hbd-stat-block__section", legendary && "hbd-stat-block__section--legendary")}
+    <table
+      data-slot="stat-block-abilities"
+      className={cn(
+        "my-[0.625rem] w-full table-fixed border-collapse border bg-[rgba(122,18,18,0.06)] text-center",
+        abilityBorder,
+        className,
+      )}
+      {...props}
     >
-      <h3 className="hbd-stat-block__section-heading">{heading}</h3>
-      {children}
-    </section>
+      <caption className="sr-only">Ability scores</caption>
+      <thead>
+        <tr>
+          {ABILITIES.map((a) => (
+            <th
+              key={a}
+              scope="col"
+              className={cn(
+                "border-b py-[0.3125rem] font-display text-[0.625rem] font-bold tracking-[0.1em] text-foreground-emphasis uppercase",
+                abilityBorder,
+              )}
+            >
+              {a.toUpperCase()}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {ABILITIES.map((a) => (
+            <td
+              key={a}
+              className="pt-[0.3125rem] pb-0.5 font-sans text-[0.9375rem] font-bold text-foreground"
+            >
+              {present(a) ? scores[a] : "—"}
+            </td>
+          ))}
+        </tr>
+        <tr>
+          {ABILITIES.map((a) => (
+            <td
+              key={a}
+              className="pb-[0.3125rem] font-sans text-[0.6875rem] text-foreground-emphasis"
+            >
+              {present(a) ? getAbilityModifier(scores[a]) : ""}
+            </td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
   );
 }
 
-const StatBlock = React.forwardRef<HTMLElement, StatBlockProps>(
-  (
-    {
-      className,
-      creatureName,
-      size,
-      type,
-      alignment,
-      ac,
-      hp,
-      speed,
-      cr,
-      str,
-      dex,
-      con,
-      int,
-      wis,
-      cha,
-      legendary = false,
-      compact = false,
-      savingThrows,
-      skills,
-      immunities,
-      senses,
-      languages,
-      traits,
-      actions,
-      reactions,
-      legendaryActions,
-      ...props
-    },
-    ref,
-  ) => {
-    const subtitle = buildSubtitle(size, type, alignment);
+function StatBlockSection({ className, ...props }: React.ComponentProps<"section">) {
+  return <section data-slot="stat-block-section" className={cn("mt-2", className)} {...props} />;
+}
 
-    const scores: Record<(typeof ABILITIES)[number], string | number | undefined> = {
-      str,
-      dex,
-      con,
-      int,
-      wis,
-      cha,
-    };
-    const basicValues: Record<"ac" | "hp" | "speed", string | number | undefined> = {
-      ac,
-      hp,
-      speed,
-    };
+function StatBlockSectionTitle({
+  className,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"h3"> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot.Root : "h3";
 
-    const basics = BASIC_FIELDS.filter(
-      (f) =>
-        basicValues[f.key] !== undefined &&
-        basicValues[f.key] !== null &&
-        basicValues[f.key] !== "",
-    );
-    const hasAbilities = ABILITIES.some(
-      (a) => scores[a] !== undefined && scores[a] !== null && scores[a] !== "",
-    );
+  return (
+    <Comp
+      data-slot="stat-block-section-title"
+      className={cn(
+        "mt-3 mb-2 border-b border-primary pb-1 font-display text-base leading-[1.1] font-bold tracking-[0.02em] text-foreground-emphasis group-data-[size=sm]/stat-block:text-[0.8125rem]",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    const propRows: React.ReactNode[] = [];
-    if (savingThrows != null && savingThrows !== false && savingThrows !== "")
-      propRows.push(
-        <PropertyRow key="saving-throws" label="Saving Throws">
-          {savingThrows}
-        </PropertyRow>,
-      );
-    if (skills != null && skills !== false && skills !== "")
-      propRows.push(
-        <PropertyRow key="skills" label="Skills">
-          {skills}
-        </PropertyRow>,
-      );
-    if (immunities != null && immunities !== false && immunities !== "")
-      propRows.push(
-        <PropertyRow key="immunities" label="Immunities">
-          {immunities}
-        </PropertyRow>,
-      );
-    if (senses != null && senses !== false && senses !== "")
-      propRows.push(
-        <PropertyRow key="senses" label="Senses">
-          {senses}
-        </PropertyRow>,
-      );
-    if (languages != null && languages !== false && languages !== "")
-      propRows.push(
-        <PropertyRow key="languages" label="Languages">
-          {languages}
-        </PropertyRow>,
-      );
-    if (cr !== undefined && cr !== null && cr !== "")
-      propRows.push(
-        <PropertyRow key="challenge" label="Challenge">
-          {cr}
-        </PropertyRow>,
-      );
+function StatBlockTrait({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="stat-block-trait"
+      className={cn(
+        "mt-1.5 font-sans text-[0.8125rem] leading-[1.55] text-foreground-secondary group-data-[size=sm]/stat-block:text-[0.6875rem]",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    const hasSections =
-      (traits != null && traits !== false && traits !== "") ||
-      (actions != null && actions !== false && actions !== "") ||
-      (reactions != null && reactions !== false && reactions !== "") ||
-      (legendary &&
-        legendaryActions != null &&
-        legendaryActions !== false &&
-        legendaryActions !== "");
+function StatBlockTraitName({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="stat-block-trait-name"
+      className={cn("font-bold text-foreground italic", className)}
+      {...props}
+    />
+  );
+}
 
-    const showTopDivider = basics.length > 0 || hasAbilities || propRows.length > 0;
-
-    return (
-      <article
-        ref={ref as React.Ref<HTMLElement>}
-        role="article"
-        className={cn(
-          "hbd-stat-block",
-          legendary && "hbd-stat-block--legendary",
-          compact && "hbd-stat-block--compact",
-          className,
-        )}
-        aria-label={`${creatureName ?? ""} stat block`}
-        {...props}
-      >
-        <div className="hbd-stat-block__inner">
-          <header className="hbd-stat-block__header">
-            {creatureName ? <h2 className="hbd-stat-block__name">{creatureName}</h2> : null}
-            {subtitle ? <p className="hbd-stat-block__subtitle">{subtitle}</p> : null}
-          </header>
-
-          {showTopDivider ? <hr className="hbd-stat-block__divider" /> : null}
-
-          {basics.length > 0 ? (
-            <dl className="hbd-stat-block__basics">
-              {basics.map((f) => (
-                <div key={f.key} className="hbd-stat-block__property">
-                  <dt className="hbd-stat-block__property-label">{f.label}</dt>
-                  <dd className="hbd-stat-block__property-value">{basicValues[f.key]}</dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
-
-          {hasAbilities ? (
-            <table className="hbd-stat-block__ability-grid">
-              <caption className="hbd-sr-only">Ability scores</caption>
-              <thead>
-                <tr>
-                  {ABILITIES.map((a) => (
-                    <th key={a} scope="col" className="hbd-stat-block__ability-label">
-                      {a.toUpperCase()}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {ABILITIES.map((a) => {
-                    const v = scores[a];
-                    const present = v !== undefined && v !== null && v !== "";
-                    return (
-                      <td key={a} className="hbd-stat-block__ability-score">
-                        {present ? v : "—"}
-                      </td>
-                    );
-                  })}
-                </tr>
-                <tr>
-                  {ABILITIES.map((a) => {
-                    const v = scores[a];
-                    const present = v !== undefined && v !== null && v !== "";
-                    return (
-                      <td key={a} className="hbd-stat-block__ability-modifier">
-                        {present ? modifier(v) : ""}
-                      </td>
-                    );
-                  })}
-                </tr>
-              </tbody>
-            </table>
-          ) : null}
-
-          {propRows.length > 0 ? (
-            <>
-              <hr className="hbd-stat-block__divider" />
-              <dl className="hbd-stat-block__properties">{propRows}</dl>
-            </>
-          ) : null}
-
-          {hasSections ? <hr className="hbd-stat-block__divider" /> : null}
-
-          <Section heading="Traits">{traits}</Section>
-          <Section heading="Actions">{actions}</Section>
-          <Section heading="Reactions">{reactions}</Section>
-          {legendary ? (
-            <Section heading="Legendary Actions" legendary>
-              {legendaryActions}
-            </Section>
-          ) : null}
-        </div>
-      </article>
-    );
-  },
-);
-StatBlock.displayName = "StatBlock";
-
-export { StatBlock };
+export {
+  StatBlock,
+  StatBlockHeader,
+  StatBlockTitle,
+  StatBlockDescription,
+  StatBlockSeparator,
+  StatBlockProperties,
+  StatBlockProperty,
+  StatBlockPropertyLabel,
+  StatBlockPropertyValue,
+  StatBlockAbilities,
+  StatBlockSection,
+  StatBlockSectionTitle,
+  StatBlockTrait,
+  StatBlockTraitName,
+  getAbilityModifier,
+  statBlockVariants,
+};

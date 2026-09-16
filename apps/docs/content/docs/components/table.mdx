@@ -1,0 +1,589 @@
+---
+title: Table
+description: A responsive table component.
+---
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/registry/new-york/table/table";
+import { TableDataDemo } from "@/components/examples/table-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Table>
+        <TableCaption>A list of your recent bounties.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Bounty</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Region</TableHead>
+            <TableHead className="text-right">Reward</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Owlbear</TableCell>
+            <TableCell>Claimed</TableCell>
+            <TableCell>Thornwood</TableCell>
+            <TableCell className="text-right">250 gp</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Beholder</TableCell>
+            <TableCell>Open</TableCell>
+            <TableCell>Underdark</TableCell>
+            <TableCell className="text-right">2,500 gp</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Hag coven</TableCell>
+            <TableCell>Open</TableCell>
+            <TableCell>Mirefen</TableCell>
+            <TableCell className="text-right">900 gp</TableCell>
+          </TableRow>
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell className="text-right">3,650 gp</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Table,
+      TableBody,
+      TableCaption,
+      TableCell,
+      TableFooter,
+      TableHead,
+      TableHeader,
+      TableRow,
+    } from "@/components/ui/table";
+
+    export function TableDemo() {
+      return (
+        <Table>
+          <TableCaption>A list of your recent bounties.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Bounty</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Region</TableHead>
+              <TableHead className="text-right">Reward</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Owlbear</TableCell>
+              <TableCell>Claimed</TableCell>
+              <TableCell>Thornwood</TableCell>
+              <TableCell className="text-right">250 gp</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Beholder</TableCell>
+              <TableCell>Open</TableCell>
+              <TableCell>Underdark</TableCell>
+              <TableCell className="text-right">2,500 gp</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Hag coven</TableCell>
+              <TableCell>Open</TableCell>
+              <TableCell>Mirefen</TableCell>
+              <TableCell className="text-right">900 gp</TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell className="text-right">3,650 gp</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/table
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/table.json
+```
+
+## Usage
+
+```tsx
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+```
+
+```tsx
+<Table>
+  <TableCaption>A list of your recent bounties.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Bounty</TableHead>
+      <TableHead className="text-right">Reward</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>Owlbear</TableCell>
+      <TableCell className="text-right">250 gp</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+```
+
+## Examples
+
+### Bordered and Striped
+
+Here Be Dragons addition — `bordered` rules off the whole table; `striped` shades every other row.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Table bordered striped>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Vessel</TableHead>
+            <TableHead>Captain</TableHead>
+            <TableHead className="text-right">Crew</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>The Kraken</TableCell>
+            <TableCell>Elara Voss</TableCell>
+            <TableCell className="text-right">48</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Dawn Treader</TableCell>
+            <TableCell>Marek Tide</TableCell>
+            <TableCell className="text-right">31</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Salt Wraith</TableCell>
+            <TableCell>Yara Finch</TableCell>
+            <TableCell className="text-right">22</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table bordered striped>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Vessel</TableHead>
+          <TableHead>Captain</TableHead>
+          <TableHead className="text-right">Crew</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>The Kraken</TableCell>
+          <TableCell>Elara Voss</TableCell>
+          <TableCell className="text-right">48</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Dawn Treader</TableCell>
+          <TableCell>Marek Tide</TableCell>
+          <TableCell className="text-right">31</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Salt Wraith</TableCell>
+          <TableCell>Yara Finch</TableCell>
+          <TableCell className="text-right">22</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition — body rows are 36px (`sm`), 48px (`default`) or 64px (`lg`) tall; `sm` also
+shrinks the type.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-6">
+        <Table size="sm" bordered>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Vessel</TableHead>
+              <TableHead className="text-right">Crew</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>The Kraken</TableCell>
+              <TableCell className="text-right">48</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+        <Table size="lg" bordered>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Vessel</TableHead>
+              <TableHead className="text-right">Crew</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>The Kraken</TableCell>
+              <TableCell className="text-right">48</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table size="sm" bordered>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Vessel</TableHead>
+          <TableHead className="text-right">Crew</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>The Kraken</TableCell>
+          <TableCell className="text-right">48</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+
+    <Table size="lg" bordered>…</Table>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Sticky Column
+
+Headers always stick to the top of a scrolling table. To pin the first column while scrolling
+sideways, make its cells sticky too.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Table bordered>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="left-0 z-[12] bg-inherit shadow-sm">Vessel</TableHead>
+              <TableHead>Captain</TableHead>
+              <TableHead>Home port</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="sticky left-0 z-[11] bg-inherit shadow-sm">
+                The Kraken
+              </TableCell>
+              <TableCell>Elara Voss</TableCell>
+              <TableCell>Tortuga</TableCell>
+              <TableCell>At sea</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="sticky left-0 z-[11] bg-inherit shadow-sm">
+                Dawn Treader
+              </TableCell>
+              <TableCell>Marek Tide</TableCell>
+              <TableCell>Nassau</TableCell>
+              <TableCell>In port</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table bordered>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="left-0 z-[12] bg-inherit shadow-sm">Vessel</TableHead>
+          <TableHead>Captain</TableHead>
+          <TableHead>Home port</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell className="sticky left-0 z-[11] bg-inherit shadow-sm">The Kraken</TableCell>
+          <TableCell>Elara Voss</TableCell>
+          <TableCell>Tortuga</TableCell>
+          <TableCell>At sea</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="sticky left-0 z-[11] bg-inherit shadow-sm">Dawn Treader</TableCell>
+          <TableCell>Marek Tide</TableCell>
+          <TableCell>Nassau</TableCell>
+          <TableCell>In port</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+    ```
+  </Tab>
+</Tabs>
+
+### Empty State
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Table bordered>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Vessel</TableHead>
+            <TableHead>Captain</TableHead>
+            <TableHead>Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow className="border-0 hover:bg-transparent">
+            <TableCell colSpan={3} className="bg-background p-12 text-center text-muted-foreground">
+              No vessels logged
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Table bordered>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Vessel</TableHead>
+          <TableHead>Captain</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow className="border-0 hover:bg-transparent">
+          <TableCell colSpan={3} className="bg-background p-12 text-center text-muted-foreground">
+            No vessels logged
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+    ```
+  </Tab>
+</Tabs>
+
+### Data Table
+
+Sorting and row selection are yours to wire up. Give a sortable header `aria-sort` — the active one
+turns blood red and a trailing `<svg>` becomes its sort glyph, flipped for descending — and mark
+selected rows with `data-state="selected"`. A `Checkbox` in a cell gets a full-size touch target.
+For larger data sets, drive the same markup from TanStack Table.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TableDataDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Checkbox } from "@/components/ui/checkbox";
+    import {
+      Table,
+      TableBody,
+      TableCell,
+      TableHead,
+      TableHeader,
+      TableRow,
+    } from "@/components/ui/table";
+
+    type Ship = { id: string; name: string; captain: string; crew: number; status: string };
+
+    const ships: Ship[] = [
+      { id: "1", name: "The Kraken", captain: "Elara Voss", crew: 48, status: "At sea" },
+      { id: "2", name: "Dawn Treader", captain: "Marek Tide", crew: 31, status: "In port" },
+      { id: "3", name: "Salt Wraith", captain: "Yara Finch", crew: 22, status: "At sea" },
+      { id: "4", name: "Gilded Maw", captain: "Osric Vane", crew: 60, status: "Drydock" },
+    ];
+
+    const columns = [
+      { key: "name", label: "Vessel" },
+      { key: "captain", label: "Captain" },
+      { key: "crew", label: "Crew" },
+      { key: "status", label: "Status" },
+    ] as const;
+
+    type SortKey = (typeof columns)[number]["key"];
+
+    function SortIcon({ active }: { active: boolean }) {
+      return active ? (
+        <svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+          <polygon points="6 3 10 9 2 9" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+          <polygon points="6 2 9 5 3 5" />
+          <polygon points="6 10 3 7 9 7" />
+        </svg>
+      );
+    }
+
+    export function TableDataDemo() {
+      const [sort, setSort] = React.useState<{ key: SortKey; dir: "asc" | "desc" }>({ key: "crew", dir: "asc" });
+      const [selected, setSelected] = React.useState<string[]>(["1"]);
+
+      const rows = React.useMemo(
+        () =>
+          [...ships].sort((a, b) => {
+            const av = a[sort.key];
+            const bv = b[sort.key];
+            const order = typeof av === "number" && typeof bv === "number" ? av - bv : String(av).localeCompare(String(bv));
+            return sort.dir === "asc" ? order : -order;
+          }),
+        [sort],
+      );
+
+      const toggleSort = (key: SortKey) =>
+        setSort((current) => ({ key, dir: current.key === key && current.dir === "asc" ? "desc" : "asc" }));
+
+      const allSelected = selected.length === ships.length;
+
+      return (
+        <div className="flex w-full flex-col gap-3">
+          <Table bordered aria-label="Fleet">
+            <TableHeader>
+              <TableRow>
+                <TableHead>
+                  <Checkbox
+                    aria-label="Select all rows"
+                    checked={allSelected ? true : selected.length > 0 ? "indeterminate" : false}
+                    onCheckedChange={(checked) => setSelected(checked === true ? ships.map((s) => s.id) : [])}
+                  />
+                </TableHead>
+                {columns.map((column) => {
+                  const active = sort.key === column.key;
+                  return (
+                    <TableHead
+                      key={column.key}
+                      tabIndex={0}
+                      aria-sort={active ? (sort.dir === "asc" ? "ascending" : "descending") : "none"}
+                      className={column.key === "crew" ? "text-right" : undefined}
+                      onClick={() => toggleSort(column.key)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          toggleSort(column.key);
+                        }
+                      }}
+                    >
+                      {column.label}
+                      <SortIcon active={active} />
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((ship) => {
+                const isSelected = selected.includes(ship.id);
+                return (
+                  <TableRow key={ship.id} data-state={isSelected ? "selected" : undefined}>
+                    <TableCell>
+                      <Checkbox
+                        aria-label={`Select ${ship.name}`}
+                        checked={isSelected}
+                        onCheckedChange={(checked) =>
+                          setSelected((current) =>
+                            checked === true ? [...current, ship.id] : current.filter((id) => id !== ship.id),
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>{ship.name}</TableCell>
+                    <TableCell>{ship.captain}</TableCell>
+                    <TableCell className="text-right">{ship.crew}</TableCell>
+                    <TableCell>{ship.status}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+          <p className="font-sans text-[0.8125rem] text-muted-foreground">
+            {selected.length} of {ships.length} selected
+          </p>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Table
+
+<TypeTable
+  type={{
+    size: {
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+      description:
+        "Body row height (48, 36 or 64px); `sm` also shrinks the type. Here Be Dragons addition.",
+    },
+    bordered: {
+      type: "boolean",
+      default: "false",
+      description: "Hairline border around the scroll container. Here Be Dragons addition.",
+    },
+    striped: {
+      type: "boolean",
+      default: "false",
+      description: "Shades every even body row. Here Be Dragons addition.",
+    },
+  }}
+/>
+
+Every other prop goes to the `<table>`, which sits in a horizontally scrolling container. Each other
+part renders the matching table element and takes its props. On `TableHead`, `aria-sort` styles a
+sortable header; on `TableRow`, `data-state="selected"` tints the row and `aria-disabled` dims it.

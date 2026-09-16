@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "An opinionated toast component for React. shadcn/ui API in the Here Be Dragons look: status-coloured parchment toasts with a thick left rule, HBD status glyphs, an underlined action and a countdown bar. Defaults to top-right, expanded stack, close button and a 5s duration.",
+      "dependencies": ["lucide-react", "next-themes", "sonner"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

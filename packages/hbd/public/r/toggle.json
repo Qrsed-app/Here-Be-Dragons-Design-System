@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "title": "Toggle",
+  "description": "A two-state button that can be either on or off. shadcn/ui API in the Here Be Dragons look: display type and an offset ink shadow, turning crimson when pressed. Adds icon, icon-sm and icon-lg sizes.",
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "http://localhost:3001/r/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/toggle/toggle.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { Toggle as TogglePrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst toggleVariants = cva(\n  \"inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm border-2 font-display text-[0.8125rem] leading-[1.7] font-bold tracking-[0.2em] whitespace-nowrap uppercase transition-[background-color,border-color,box-shadow,color,translate] duration-120 ease-out outline-none focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive data-[state=on]:text-primary-foreground data-[state=on]:hover:brightness-[0.92] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"border-ink-900 bg-surface-raised text-foreground shadow-[3px_3px_0_var(--ink-900)] hover:bg-parchment-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--ink-900)] data-[state=on]:border-blood-deep data-[state=on]:bg-primary data-[state=on]:shadow-[3px_3px_0_var(--blood-deep)] data-[state=on]:hover:bg-primary data-[state=on]:active:shadow-[1px_1px_0_var(--blood-deep)]\",\n        outline:\n          \"border-border-strong bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:hover:bg-primary data-[state=on]:hover:text-primary-foreground\",\n      },\n      size: {\n        default: \"px-6 py-3\",\n        sm: \"px-4 py-2\",\n        lg: \"px-8 py-4 text-[1.0625rem]\",\n        icon: \"aspect-square p-2\",\n        \"icon-sm\": \"aspect-square p-1 [&_svg:not([class*='size-'])]:size-3\",\n        \"icon-lg\": \"aspect-square p-3 [&_svg:not([class*='size-'])]:size-6\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  },\n);\n\nfunction Toggle({\n  className,\n  variant,\n  size,\n  ...props\n}: React.ComponentProps<typeof TogglePrimitive.Root> & VariantProps<typeof toggleVariants>) {\n  return (\n    <TogglePrimitive.Root\n      data-slot=\"toggle\"\n      className={cn(toggleVariants({ variant, size, className }))}\n      {...props}\n    />\n  );\n}\n\nexport { Toggle, toggleVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

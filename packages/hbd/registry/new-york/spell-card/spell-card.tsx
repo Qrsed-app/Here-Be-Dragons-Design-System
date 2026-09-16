@@ -1,178 +1,272 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+
 import { cn } from "@/lib/utils";
 
-// Ported 1:1 from ds/components/hbd-spell-card.js + ds/styles/components/spell-card.css.
-// The legacy <hbd-spell-card> was Light DOM and purely presentational/static (no JS
-// behaviour), so this is a thin presentational React port: same DOM, same legacy BEM
-// classes, same computed level/school text, same conditional zones. The token-backed
-// spell-card.css reproduces the exact HBD look — Tailwind utilities are NOT used here.
-//
-// Slots -> props: default slot (description) -> `children`; named slots
-// higher-levels -> `higherLevels`; footer -> `footer`. Meta fields are plain props.
-
-const SCHOOLS = [
-  "abjuration",
-  "conjuration",
-  "divination",
-  "enchantment",
-  "evocation",
-  "illusion",
-  "necromancy",
-  "transmutation",
-] as const;
-
-type School = (typeof SCHOOLS)[number];
-
-const META_FIELDS = [
-  { key: "castingTime", label: "Casting Time" },
-  { key: "range", label: "Range" },
-  { key: "components", label: "Components" },
-  { key: "duration", label: "Duration" },
-] as const;
-
-export interface SpellCardProps extends Omit<React.HTMLAttributes<HTMLElement>, "children"> {
-  /** Spell name — rendered as the card heading and woven into the aria-label. */
-  name?: string;
-  /** Spell level. "cantrip" or "0" render the "Cantrip" badge; anything else -> "Lvl {level}". */
-  level?: string | number;
-  /** School of magic — sets the colour band + eyebrow. Unknown values are ignored. */
-  school?: School | string;
-  /** Casting Time meta field. */
-  castingTime?: string;
-  /** Range meta field. */
-  range?: string;
-  /** Components meta field. */
-  components?: string;
-  /** Duration meta field. */
-  duration?: string;
-  /** Renders the "Ritual" tag + --ritual modifier. */
-  ritual?: boolean;
-  /** Renders the "Concentration" tag + --concentration modifier. */
-  concentration?: boolean;
-  /** Selected state (gold border + offset shadow). Adds --selected and .is-selected. */
-  selected?: boolean;
-  /** Description / flavour text (default slot). */
-  children?: React.ReactNode;
-  /** "At Higher Levels" content (named slot: higher-levels). */
-  higherLevels?: React.ReactNode;
-  /** Footer content — source / tags (named slot: footer). */
-  footer?: React.ReactNode;
-}
-
-function levelText(level: string | number | undefined): string {
-  if (level === undefined || level === null || level === "") return "";
-  const v = String(level).toLowerCase();
-  if (v === "cantrip" || v === "0") return "Cantrip";
-  return `Lvl ${level}`;
-}
-
-const SpellCard = React.forwardRef<HTMLElement, SpellCardProps>(
-  (
-    {
-      name = "",
-      level,
-      school,
-      castingTime,
-      range,
-      components,
-      duration,
-      ritual = false,
-      concentration = false,
-      selected = false,
-      className,
-      children,
-      higherLevels,
-      footer,
-      ...props
+// The school sets three local custom properties that the bar, level badge and
+// tags read, so a consumer can also theme a card with their own colours.
+const spellCardVariants = cva(
+  "group/spell-card relative overflow-hidden border-2 border-border-ink bg-[linear-gradient(135deg,var(--background),var(--surface-subtle))] px-3.5 pt-[calc(3px+0.75rem)] pb-3 font-sans shadow-[4px_4px_0_var(--parchment-400)] outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring data-[selected=true]:border-gold data-[selected=true]:shadow-[4px_4px_0_var(--gold-deep)]",
+  {
+    variants: {
+      school: {
+        abjuration:
+          "[--spell-card-school:var(--school-abjuration)] [--spell-card-school-accent:var(--school-abjuration-accent)] [--spell-card-school-foreground:var(--school-abjuration-foreground)]",
+        conjuration:
+          "[--spell-card-school:var(--school-conjuration)] [--spell-card-school-accent:var(--school-conjuration-accent)] [--spell-card-school-foreground:var(--school-conjuration-foreground)]",
+        divination:
+          "[--spell-card-school:var(--school-divination)] [--spell-card-school-accent:var(--school-divination-accent)] [--spell-card-school-foreground:var(--school-divination-foreground)]",
+        enchantment:
+          "[--spell-card-school:var(--school-enchantment)] [--spell-card-school-accent:var(--school-enchantment-accent)] [--spell-card-school-foreground:var(--school-enchantment-foreground)]",
+        evocation:
+          "[--spell-card-school:var(--school-evocation)] [--spell-card-school-accent:var(--school-evocation-accent)] [--spell-card-school-foreground:var(--school-evocation-foreground)]",
+        illusion:
+          "[--spell-card-school:var(--school-illusion)] [--spell-card-school-accent:var(--school-illusion-accent)] [--spell-card-school-foreground:var(--school-illusion-foreground)]",
+        necromancy:
+          "[--spell-card-school:var(--school-necromancy)] [--spell-card-school-accent:var(--school-necromancy-accent)] [--spell-card-school-foreground:var(--school-necromancy-foreground)]",
+        transmutation:
+          "[--spell-card-school:var(--school-transmutation)] [--spell-card-school-accent:var(--school-transmutation-accent)] [--spell-card-school-foreground:var(--school-transmutation-foreground)]",
+      },
     },
-    ref,
-  ) => {
-    const schoolRaw = (school || "").toString().toLowerCase();
-    const validSchool = (SCHOOLS as readonly string[]).includes(schoolRaw)
-      ? (schoolRaw as School)
-      : "";
-    const isCantrip =
-      String(level ?? "").toLowerCase() === "cantrip" || String(level ?? "") === "0";
-
-    const schoolLabel = validSchool
-      ? validSchool.charAt(0).toUpperCase() + validSchool.slice(1)
-      : "";
-    const lvlText = levelText(level);
-    const ariaLabel = `${name}${name ? " " : ""}spell card`;
-
-    const metaValues: Record<string, string | undefined> = {
-      castingTime,
-      range,
-      components,
-      duration,
-    };
-    const metaItems = META_FIELDS.filter((f) => metaValues[f.key]);
-
-    const tags: string[] = [];
-    if (ritual) tags.push("Ritual");
-    if (concentration) tags.push("Concentration");
-
-    return (
-      <article
-        ref={ref}
-        role="article"
-        aria-label={ariaLabel}
-        tabIndex={0}
-        className={cn(
-          "hbd-spell-card",
-          validSchool && `hbd-spell-card--${validSchool}`,
-          isCantrip && "hbd-spell-card--cantrip",
-          ritual && "hbd-spell-card--ritual",
-          concentration && "hbd-spell-card--concentration",
-          selected && "hbd-spell-card--selected",
-          selected && "is-selected",
-          className,
-        )}
-        {...props}
-      >
-        <span className="hbd-spell-card__corner hbd-spell-card__corner--tl" aria-hidden="true" />
-        <span className="hbd-spell-card__corner hbd-spell-card__corner--tr" aria-hidden="true" />
-        <span className="hbd-spell-card__corner hbd-spell-card__corner--bl" aria-hidden="true" />
-        <span className="hbd-spell-card__corner hbd-spell-card__corner--br" aria-hidden="true" />
-        <div className="hbd-spell-card__bar" aria-hidden="true" />
-        <div className="hbd-spell-card__body">
-          {lvlText ? <span className="hbd-spell-card__level">{lvlText}</span> : null}
-          {schoolLabel ? <span className="hbd-spell-card__school">{schoolLabel}</span> : null}
-          {name ? <h3 className="hbd-spell-card__name">{name}</h3> : null}
-          {tags.length ? (
-            <div className="hbd-spell-card__tags">
-              {tags.map((t) => (
-                <span key={t} className="hbd-spell-card__tag">
-                  {t}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          {metaItems.length ? <hr className="hbd-spell-card__rule" /> : null}
-          {metaItems.length ? (
-            <dl className="hbd-spell-card__meta">
-              {metaItems.map((f) => (
-                <div key={f.key} className="hbd-spell-card__meta-item">
-                  <dt className="hbd-spell-card__meta-label">{f.label}</dt>
-                  <dd className="hbd-spell-card__meta-value">{metaValues[f.key]}</dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
-          {children ? <hr className="hbd-spell-card__rule" /> : null}
-          {children ? <p className="hbd-spell-card__description">{children}</p> : null}
-          {higherLevels ? (
-            <div className="hbd-spell-card__higher-levels">
-              <span className="hbd-spell-card__higher-levels-label">At Higher Levels.</span>{" "}
-              {higherLevels}
-            </div>
-          ) : null}
-          {footer ? <div className="hbd-spell-card__footer">{footer}</div> : null}
-        </div>
-      </article>
-    );
+    defaultVariants: {
+      school: "evocation",
+    },
   },
 );
-SpellCard.displayName = "SpellCard";
 
-export { SpellCard };
+const cornerClassName = "pointer-events-none absolute size-[18px] border-gold";
+
+function SpellCard({
+  className,
+  school = "evocation",
+  selected = false,
+  children,
+  ...props
+}: React.ComponentProps<"article"> &
+  VariantProps<typeof spellCardVariants> & {
+    selected?: boolean;
+  }) {
+  return (
+    <article
+      data-slot="spell-card"
+      data-school={school}
+      data-selected={selected ? "true" : undefined}
+      className={cn(spellCardVariants({ school, className }))}
+      {...props}
+    >
+      <span
+        data-slot="spell-card-bar"
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[3px] bg-[linear-gradient(to_right,var(--spell-card-school),var(--spell-card-school-accent),var(--spell-card-school))]"
+      />
+      <span
+        aria-hidden="true"
+        className={cn(cornerClassName, "top-[5px] left-[5px] border-t-[1.5px] border-l-[1.5px]")}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(cornerClassName, "top-[5px] right-[5px] border-t-[1.5px] border-r-[1.5px]")}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(cornerClassName, "bottom-[5px] left-[5px] border-b-[1.5px] border-l-[1.5px]")}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(
+          cornerClassName,
+          "right-[5px] bottom-[5px] border-r-[1.5px] border-b-[1.5px]",
+        )}
+      />
+      {children}
+    </article>
+  );
+}
+
+function SpellCardLevel({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="spell-card-level"
+      className={cn(
+        "absolute top-2.5 right-2.5 bg-(--spell-card-school) px-1.5 py-0.5 font-display text-[0.5625rem] tracking-[0.1em] text-(--spell-card-school-foreground) uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardSchool({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="spell-card-school"
+      className={cn(
+        "mb-1 font-display text-[0.5625rem] tracking-[0.25em] text-foreground-gold uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardTitle({
+  className,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"h3"> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot.Root : "h3";
+
+  return (
+    <Comp
+      data-slot="spell-card-title"
+      className={cn(
+        "mb-2 font-display text-[1.0625rem] leading-[1.2] font-bold tracking-[0.02em] text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardTags({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="spell-card-tags"
+      className={cn("mb-2 flex flex-wrap gap-1", className)}
+      {...props}
+    />
+  );
+}
+
+function SpellCardTag({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="spell-card-tag"
+      className={cn(
+        "bg-(--spell-card-school) px-1.5 py-0.5 font-display text-[0.5rem] tracking-[0.1em] text-(--spell-card-school-foreground) uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardSeparator({ className, ...props }: React.ComponentProps<"hr">) {
+  return (
+    <hr
+      data-slot="spell-card-separator"
+      className={cn("my-2 border-t border-dashed border-muted-foreground", className)}
+      {...props}
+    />
+  );
+}
+
+function SpellCardMeta({ className, ...props }: React.ComponentProps<"dl">) {
+  return (
+    <dl
+      data-slot="spell-card-meta"
+      // 1fr, not grid-cols-2 (minmax(0,1fr)): a long value may widen its column.
+      className={cn("mb-2 grid grid-cols-[1fr_1fr] gap-x-2 gap-y-1", className)}
+      {...props}
+    />
+  );
+}
+
+function SpellCardMetaItem({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="spell-card-meta-item" className={className} {...props} />;
+}
+
+function SpellCardMetaLabel({ className, ...props }: React.ComponentProps<"dt">) {
+  return (
+    <dt
+      data-slot="spell-card-meta-label"
+      className={cn(
+        "block font-display text-[0.5rem] tracking-[0.2em] text-foreground-emphasis uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardMetaValue({ className, ...props }: React.ComponentProps<"dd">) {
+  return (
+    <dd
+      data-slot="spell-card-meta-value"
+      className={cn("font-sans text-[0.6875rem] text-foreground-secondary", className)}
+      {...props}
+    />
+  );
+}
+
+function SpellCardDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return (
+    <p
+      data-slot="spell-card-description"
+      className={cn(
+        "font-serif text-[0.6875rem] leading-normal text-foreground-secondary italic",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardHigherLevels({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="spell-card-higher-levels"
+      className={cn(
+        "mt-2 font-serif text-[0.6875rem] leading-normal text-foreground-secondary",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardHigherLevelsLabel({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="spell-card-higher-levels-label"
+      className={cn(
+        "font-display text-[0.5rem] tracking-[0.2em] text-foreground-gold uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SpellCardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="spell-card-footer"
+      className={cn(
+        "mt-2 border-t border-dashed border-muted-foreground pt-2 font-sans text-[0.5rem] tracking-[0.1em] text-muted-foreground uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  SpellCard,
+  SpellCardLevel,
+  SpellCardSchool,
+  SpellCardTitle,
+  SpellCardTags,
+  SpellCardTag,
+  SpellCardSeparator,
+  SpellCardMeta,
+  SpellCardMetaItem,
+  SpellCardMetaLabel,
+  SpellCardMetaValue,
+  SpellCardDescription,
+  SpellCardHigherLevels,
+  SpellCardHigherLevelsLabel,
+  SpellCardFooter,
+  spellCardVariants,
+};

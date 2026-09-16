@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "Navbar",
+      "description": "The top navigation bar: brand on the left, links in the middle, actions on the right, with an off-canvas menu on small screens. A Here Be Dragons component with no shadcn/ui counterpart; composes Navigation Menu for the links and Sheet for the mobile menu.",
+      "categories": ["hbd"],
+      "registryDependencies": ["@hbd/theme", "@hbd/navigation-menu", "@hbd/sheet"],
+      "files": [
+        {
+          "path": "navbar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
