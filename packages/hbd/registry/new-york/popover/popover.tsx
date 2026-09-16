@@ -1,207 +1,128 @@
 "use client";
 
 import * as React from "react";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { Popover as PopoverPrimitive } from "radix-ui";
+
 import { cn } from "@/lib/utils";
-import { Button } from "@/registry/new-york/button/button";
 
-// Ported from ds/components/hbd-popover.js + ds/styles/components/popover.css.
-// The legacy WC was a Light-DOM custom element: a click-triggered floating
-// panel (NOT a modal — aria-modal="false", no backdrop, no scroll lock) that
-// owned its own per-instance panel with a header (title + ✕ close), a body,
-// an optional footer, and a placement arrow. It positioned itself with JS
-// inline top/left, flipped to the opposite side on collision, trapped focus
-// while open, returned focus to the previously-focused element on close, and
-// closed on Escape (always) or an outside pointerdown.
-//
-// Radix Popover reproduces that interaction model exactly — Trigger (asChild),
-// portalled Content, floating-ui positioning with collision flip, focus trap +
-// focus return, Escape + outside-pointer-down dismissal, aria-haspopup/expanded/
-// controls wiring on the trigger — WITHOUT a modal backdrop (Radix Popover is
-// non-modal by default, matching aria-modal="false"). We re-apply the legacy
-// .hbd-popover* BEM classes to the Radix parts so the de-shadowed popover.css
-// renders the HBD look 1:1, and bridge Radix's resolved data-side/data-state
-// onto the placement modifiers + .hbd-popover--visible reveal.
-//
-// Compound API (all exported from this same file):
-//   Popover            -> Radix Root  (controlled open + onOpenChange + defaultOpen)
-//   Popover.Trigger    -> Radix Trigger (asChild)  — the WC's slot="trigger"
-//   Popover.Content    -> Radix Content — the panel; renders title/close/body/
-//                          footer/arrow. `title`, `noClose`, `footer` props map
-//                          the WC's attributes/slots; placement/offset flow from
-//                          the Root context.
-
-// ── Context to carry placement + offset from Root to Content (mirrors the
-//    WC reading `placement`/`offset` attributes off the host). ────────────
-type PopoverPlacement = "top" | "bottom" | "left" | "right";
-
-interface PopoverContextValue {
-  placement: PopoverPlacement;
-  offset: number;
+function Popover({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
 
-const PopoverContext = React.createContext<PopoverContextValue>({
-  placement: "bottom",
-  offset: 8,
-});
-
-export interface PopoverProps extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root> {
-  /** "top" | "bottom" (default) | "left" | "right". */
-  placement?: PopoverPlacement;
-  /** px gap from the trigger (default 8, matching the WC). */
-  offset?: number;
-  /** Fired after the panel opens — the WC's `hbd:open` CustomEvent. */
-  onOpen?: () => void;
-  /** Fired after the panel closes — the WC's `hbd:close` CustomEvent. */
-  onClose?: () => void;
+function PopoverTrigger({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
+  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
-function Popover({
-  placement = "bottom",
-  offset = 8,
-  onOpen,
-  onClose,
-  onOpenChange,
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 8,
+  showArrow = true,
   children,
   ...props
-}: PopoverProps) {
-  const ctx = React.useMemo<PopoverContextValue>(
-    () => ({ placement, offset }),
-    [placement, offset],
-  );
-  // Bridge Radix's single onOpenChange into the WC's two events: hbd:open
-  // -> onOpen, hbd:close -> onClose. Controlled `open` + onOpenChange are
-  // still forwarded for the controlled/uncontrolled (defaultOpen) pattern.
-  const handleOpenChange = React.useCallback(
-    (next: boolean) => {
-      onOpenChange?.(next);
-      if (next) onOpen?.();
-      else onClose?.();
-    },
-    [onOpenChange, onOpen, onClose],
-  );
-  return (
-    <PopoverContext.Provider value={ctx}>
-      <PopoverPrimitive.Root onOpenChange={handleOpenChange} {...props}>
-        {children}
-      </PopoverPrimitive.Root>
-    </PopoverContext.Provider>
-  );
-}
-Popover.displayName = "Popover";
-
-// ── Trigger — asChild so the author's own element/button becomes the trigger
-//    (the WC's slot="trigger"). Radix wires aria-haspopup/expanded/controls. ──
-const PopoverTrigger = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
->(({ asChild = true, ...props }, ref) => (
-  <PopoverPrimitive.Trigger ref={ref} asChild={asChild} {...props} />
-));
-PopoverTrigger.displayName = "Popover.Trigger";
-
-const CloseIcon = () => (
-  <svg
-    viewBox="0 0 16 16"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    aria-hidden="true"
-  >
-    <line x1="4" y1="4" x2="12" y2="12" />
-    <line x1="12" y1="4" x2="4" y2="12" />
-  </svg>
-);
-
-export interface PopoverContentProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>,
-  "side" | "sideOffset" | "title"
-> {
-  /** Optional heading; renders the header row (with the ✕ close) when set. */
-  title?: string;
-  /** Hides the visible ✕ close button (Escape still closes). Maps `no-close`. */
-  noClose?: boolean;
-  /** Footer content — the WC's slot="footer". Renders the footer row when set. */
-  footer?: React.ReactNode;
-}
-
-const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
-  PopoverContentProps
->(({ className, title, noClose = false, footer, children, ...props }, ref) => {
-  const { placement, offset } = React.useContext(PopoverContext);
-  const hasClose = !noClose;
-  const titleId = React.useId();
-
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & {
+  showArrow?: boolean;
+}) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
-        ref={ref}
-        side={placement}
-        sideOffset={offset}
-        // The legacy panel is role="dialog" aria-modal="false" — Radix
-        // Content is a non-modal dialog by default; carry the role + the
-        // explicit non-modal flag so AT keeps the rest of the page in tree.
-        role="dialog"
-        aria-modal="false"
-        aria-labelledby={title ? titleId : undefined}
-        // The enter/visible reveal is driven by Radix's data-state="open"
-        // mapped onto .hbd-popover--visible in popover.css (so the close
-        // fade-out plays via data-state="closed" → base opacity:0), matching
-        // the WC's deferred-class reveal. We do NOT hard-apply --visible.
-        className={cn("hbd-popover", `hbd-popover--${placement}`, className)}
+        data-slot="popover-content"
+        align={align}
+        sideOffset={sideOffset}
+        className={cn(
+          // Header and footer bleed to the edges with negative margins, so loose body content gets
+          // the 12px/16px body padding without a wrapper element.
+          // With nothing focusable inside, Radix focuses the panel itself, which shows the ring.
+          "group/popover-content relative z-50 flex max-w-[320px] min-w-[200px] origin-(--radix-popover-content-transform-origin) flex-col gap-3 rounded-lg border border-border-subtle bg-popover px-4 py-3 font-sans text-[1.0625rem] leading-[1.7] text-popover-foreground shadow-lg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid duration-120 ease-out data-[side=bottom]:slide-in-from-bottom-1 data-[side=left]:slide-in-from-left-1 data-[side=right]:slide-in-from-right-1 data-[side=top]:slide-in-from-top-1 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0",
+          className,
+        )}
         {...props}
       >
-        {title ? (
-          <div className="hbd-popover__header">
-            <h2 id={titleId} className="hbd-popover__title">
-              {title}
-            </h2>
-            {hasClose ? (
-              <PopoverPrimitive.Close asChild>
-                <Button
-                  variant="default"
-                  size="sm"
-                  iconOnly
-                  className="hbd-popover__close"
-                  aria-label="Close popover"
-                >
-                  <CloseIcon />
-                </Button>
-              </PopoverPrimitive.Close>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="hbd-popover__body">{children}</div>
-
-        {footer != null ? <div className="hbd-popover__footer">{footer}</div> : null}
-
-        <div className="hbd-popover__arrow" aria-hidden="true" />
+        {children}
+        {showArrow && <PopoverArrowTriangle />}
       </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   );
-});
-PopoverContent.displayName = "Popover.Content";
+}
 
-// Re-export Radix Close so authors can wire bespoke close buttons in the
-// footer (the WC's footer "Close" button) without re-deriving dismissal.
-const PopoverClose = PopoverPrimitive.Close;
+// A CSS border triangle centred on the panel edge that faces the trigger. It is not Radix's
+// Arrow: that one adds its own height to sideOffset and is drawn as an SVG polygon.
+function PopoverArrowTriangle() {
+  return (
+    <span
+      data-slot="popover-arrow"
+      aria-hidden="true"
+      className="pointer-events-none absolute size-0 border-8 border-transparent group-data-[side=bottom]/popover-content:-top-4 group-data-[side=bottom]/popover-content:left-1/2 group-data-[side=bottom]/popover-content:-translate-x-1/2 group-data-[side=bottom]/popover-content:border-b-popover group-data-[side=left]/popover-content:top-1/2 group-data-[side=left]/popover-content:-right-4 group-data-[side=left]/popover-content:-translate-y-1/2 group-data-[side=left]/popover-content:border-l-popover group-data-[side=right]/popover-content:top-1/2 group-data-[side=right]/popover-content:-left-4 group-data-[side=right]/popover-content:-translate-y-1/2 group-data-[side=right]/popover-content:border-r-popover group-data-[side=top]/popover-content:-bottom-4 group-data-[side=top]/popover-content:left-1/2 group-data-[side=top]/popover-content:-translate-x-1/2 group-data-[side=top]/popover-content:border-t-popover"
+    />
+  );
+}
 
-// Compound members on Popover for the documented Popover + Popover.Trigger/
-// Content/Close ergonomics, while keeping the named exports too.
-type PopoverComponent = typeof Popover & {
-  Trigger: typeof PopoverTrigger;
-  Content: typeof PopoverContent;
-  Close: typeof PopoverClose;
+function PopoverAnchor({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
+  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
+}
+
+function PopoverClose({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Close>) {
+  return <PopoverPrimitive.Close data-slot="popover-close" {...props} />;
+}
+
+function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="popover-header"
+      className={cn(
+        // A PopoverClose inside the header sits beside the title, in an implicit second column.
+        "-mx-4 -mt-3 grid grid-cols-[minmax(0,1fr)] items-center gap-x-2 gap-y-1 border-b border-border-subtle px-4 pt-3 pb-2 *:col-start-1 [&>[data-slot=popover-close]]:col-start-2 [&>[data-slot=popover-close]]:row-start-1",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function PopoverTitle({ className, ...props }: React.ComponentProps<"h2">) {
+  return (
+    <div
+      data-slot="popover-title"
+      className={cn(
+        "font-sans text-[0.8125rem] leading-[1.35] font-semibold tracking-[0.02em] text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function PopoverDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return (
+    <p
+      data-slot="popover-description"
+      className={cn("text-sm leading-normal text-muted-foreground", className)}
+      {...props}
+    />
+  );
+}
+
+function PopoverFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="popover-footer"
+      className={cn(
+        "-mx-4 -mb-3 flex flex-wrap justify-end gap-2 border-t border-border-subtle px-4 pt-2 pb-3",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverDescription,
+  PopoverClose,
+  PopoverFooter,
 };
-
-const PopoverCompound = Popover as PopoverComponent;
-PopoverCompound.Trigger = PopoverTrigger;
-PopoverCompound.Content = PopoverContent;
-PopoverCompound.Close = PopoverClose;
-
-export { PopoverCompound as Popover, PopoverTrigger, PopoverContent, PopoverClose };

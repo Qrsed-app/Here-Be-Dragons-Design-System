@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites. shadcn/ui API in the Here Be Dragons look: quiet ink links that take a parchment wash, over raised panels with an ink hairline.",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

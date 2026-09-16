@@ -9,6 +9,8 @@
   --hbd-color-surface-subtle:  var(--hbd-color-ink-800);
   --hbd-color-surface-raised:  var(--hbd-color-ink-700);
   --hbd-color-surface-overlay: var(--hbd-color-ink-950);
+  /* Unused by the components; kept dark because apps lean on shadcn's bg-muted. */
+  --hbd-color-surface-muted:  var(--hbd-color-ink-800);
 
   /* text */
   --hbd-color-text-primary:   var(--hbd-color-parchment-50);
@@ -16,6 +18,16 @@
   --hbd-color-text-muted:     var(--hbd-color-parchment-300);
   --hbd-color-text-inverse:   var(--hbd-color-ink-900);
   --hbd-color-text-disabled:  var(--hbd-color-ink-400);
+  --hbd-color-text-heading:   var(--hbd-color-parchment-50);
+  --hbd-color-text-link:       var(--hbd-color-sapphire-300);
+  --hbd-color-text-link-hover: var(--hbd-color-sapphire-200);
+  /* blood reads 1.67:1 on ink-900. These clear 4.5:1 on every surface emphasis
+     lands on — ink-900 (inputs, table heads) and ink-800 (chips, navbar). */
+  --hbd-color-text-emphasis:        var(--hbd-color-crimson-400);
+  --hbd-color-text-emphasis-strong: var(--hbd-color-crimson-300);
+  /* gold-deep is 2.88:1 on ink-900 and 2.02:1 on ink-700 — unreadable as a label. */
+  --hbd-color-text-gold:   var(--hbd-color-gold-bright);
+  --hbd-color-border-gold: var(--hbd-color-gold-bright);
 
   /* borders */
   --hbd-color-border-default: var(--hbd-color-ink-600);
@@ -27,6 +39,8 @@
   --hbd-color-surface-action:       var(--hbd-color-crimson-600);
   --hbd-color-surface-action-hover: var(--hbd-color-crimson-700);
   --hbd-color-text-on-action:       var(--hbd-color-parchment-50);
+  --hbd-color-surface-destructive:       var(--hbd-color-crimson-700);
+  --hbd-color-surface-destructive-hover: var(--hbd-color-crimson-800);
 
   /* status */
   --hbd-color-status-success-surface: var(--hbd-color-emerald);
@@ -38,8 +52,17 @@
   --hbd-color-status-info-surface:    var(--hbd-color-sapphire);
   --hbd-color-status-info-text:       var(--hbd-color-parchment-50);
 
-  /* focus */
-  --hbd-color-focus-ring: var(--hbd-color-gold-bright);
+  /* focus — shadcn's `ring` maps to focus-ring-outline, so overriding only
+     focus-ring left the ring at gold-deep (2.88:1). */
+  --hbd-color-focus-ring:         var(--hbd-color-gold-bright);
+  --hbd-color-focus-ring-outline: var(--hbd-color-gold-bright);
+
+  /* elevation — offset shadows deepen on dark surfaces */
+  --hbd-shadow-sm: 0 1px 2px rgba(26, 20, 16, 0.40);
+  --hbd-shadow-md: 0 2px 6px rgba(26, 20, 16, 0.50), 0 1px 2px rgba(26, 20, 16, 0.35);
+  --hbd-shadow-lg: 0 4px 12px rgba(26, 20, 16, 0.55), 0 2px 4px rgba(26, 20, 16, 0.40);
+  --hbd-shadow-xl: 0 8px 24px rgba(26, 20, 16, 0.60), 0 4px 8px rgba(26, 20, 16, 0.45);
+  --hbd-shadow-inner: inset 0 1px 3px rgba(26, 20, 16, 0.60);
 }
 
 /* Honour system preference when no data-theme is set */
@@ -57,6 +80,10 @@
     --hbd-color-text-muted:     var(--hbd-color-parchment-300);
     --hbd-color-text-inverse:   var(--hbd-color-ink-900);
     --hbd-color-text-disabled:  var(--hbd-color-ink-400);
+    --hbd-color-text-emphasis:        var(--hbd-color-crimson-400);
+    --hbd-color-text-emphasis-strong: var(--hbd-color-crimson-300);
+    --hbd-color-text-gold:   var(--hbd-color-gold-bright);
+    --hbd-color-border-gold: var(--hbd-color-gold-bright);
 
     /* borders */
     --hbd-color-border-default: var(--hbd-color-ink-600);
@@ -80,6 +107,7 @@
     --hbd-color-status-info-text:       var(--hbd-color-parchment-50);
 
     /* focus */
-    --hbd-color-focus-ring: var(--hbd-color-gold-bright);
+    --hbd-color-focus-ring:         var(--hbd-color-gold-bright);
+    --hbd-color-focus-ring-outline: var(--hbd-color-gold-bright);
   }
 }

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Add addons, buttons, and helper content to inputs. shadcn/ui API in the Here Be Dragons look: prefixes, suffixes and the password eye sit exactly where the old field drew them.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme", "@hbd/button", "@hbd/input", "@hbd/textarea"],
+      "files": [
+        {
+          "path": "input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

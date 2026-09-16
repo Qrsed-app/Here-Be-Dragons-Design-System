@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert. shadcn/ui API in the Here Be Dragons look: parchment panel, Cinzel title, ruled header and footer, offset-shadow close button. Adds a size prop (sm, lg, full) on DialogContent.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme", "@hbd/button"],
+      "files": [
+        {
+          "path": "dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

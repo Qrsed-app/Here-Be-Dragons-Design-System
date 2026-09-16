@@ -6,6 +6,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["registry", "lib", "app", "components"],
+  "include": ["registry", "lib", "components"],
   "exclude": ["node_modules", "public"]
 }

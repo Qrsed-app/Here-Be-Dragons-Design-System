@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls. shadcn/ui API in the Here Be Dragons look: compact Roboto field label that dims with its disabled control.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

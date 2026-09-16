@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fonts",
+  "title": "Here Be Dragons Fonts",
+  "description": "The Here Be Dragons typefaces — Cinzel, IM Fell English, Roboto and JetBrains Mono — as npm packages imported from your CSS, so your bundler serves them and nothing is fetched at runtime (offline and Electron safe). Optional: skip it, or override --font-display / --font-sans, to use your own.",
+  "dependencies": [
+    "@fontsource/cinzel",
+    "@fontsource/im-fell-english",
+    "@fontsource/jetbrains-mono",
+    "@fontsource/roboto"
+  ],
+  "css": {
+    "@import \"@fontsource/cinzel/400.css\"": {},
+    "@import \"@fontsource/cinzel/600.css\"": {},
+    "@import \"@fontsource/cinzel/700.css\"": {},
+    "@import \"@fontsource/cinzel/900.css\"": {},
+    "@import \"@fontsource/im-fell-english/400.css\"": {},
+    "@import \"@fontsource/im-fell-english/400-italic.css\"": {},
+    "@import \"@fontsource/jetbrains-mono/400.css\"": {},
+    "@import \"@fontsource/jetbrains-mono/500.css\"": {},
+    "@import \"@fontsource/roboto/300.css\"": {},
+    "@import \"@fontsource/roboto/400.css\"": {},
+    "@import \"@fontsource/roboto/400-italic.css\"": {},
+    "@import \"@fontsource/roboto/500.css\"": {},
+    "@import \"@fontsource/roboto/600.css\"": {},
+    "@import \"@fontsource/roboto/700.css\"": {}
+  },
+  "type": "registry:theme"
+}

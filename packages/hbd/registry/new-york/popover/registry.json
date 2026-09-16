@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button. shadcn/ui API in the Here Be Dragons look: raised parchment panel with a pointing arrow. Adds PopoverClose and PopoverFooter, a showArrow prop, and a ruled PopoverHeader that seats a close button beside the title.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

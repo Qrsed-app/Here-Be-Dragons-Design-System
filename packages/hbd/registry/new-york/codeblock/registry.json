@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "codeblock",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Displays code on a dark surface with an optional filename/language header, line-number gutter, copy-to-clipboard button and syntax token colours from the theme. Here Be Dragons component with a shadcn/ui-style composition API.",
+      "categories": ["hbd"],
+      "dependencies": [],
+      "registryDependencies": ["@hbd/theme", "@hbd/button"],
+      "files": [
+        {
+          "path": "codeblock.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

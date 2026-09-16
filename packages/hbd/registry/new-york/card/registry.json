@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer. shadcn/ui API in the Here Be Dragons look: parchment surface, Cinzel title, serif body, hairline footer rule. Adds size (sm, lg, flush), variant (bordered, elevated), interactive and asChild.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

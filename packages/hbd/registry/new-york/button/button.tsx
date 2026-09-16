@@ -1,98 +1,63 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+
 import { cn } from "@/lib/utils";
-import { Spinner } from "@/registry/new-york/spinner/spinner";
 
-// Ported from ds/components/hbd-button.js + ds/styles/components/button.css.
-// Variants map to the legacy .hbd-button--{variant}/--{size} classes so the
-// de-shadowed button.css reproduces the exact HBD look 1:1. Tailwind utilities
-// are NOT used for the visual design here — the token-backed component CSS is.
-const buttonVariants = cva("hbd-button", {
-  variants: {
-    variant: {
-      default: "hbd-button--default",
-      primary: "hbd-button--primary",
-      gold: "hbd-button--gold",
+const buttonVariants = cva(
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm border-2 font-display text-[0.8125rem] leading-[1.7] font-bold tracking-[0.2em] whitespace-nowrap uppercase no-underline transition-[background-color,border-color,box-shadow,color,translate] duration-120 ease-out outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-blood-deep bg-primary text-parchment-100 shadow-[3px_3px_0_var(--blood-deep)] hover:bg-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--blood-deep)]",
+        destructive:
+          "border-crimson-900 bg-destructive text-destructive-foreground shadow-[3px_3px_0_var(--crimson-900)] hover:bg-destructive-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--crimson-900)]",
+        outline:
+          "border-border-strong text-foreground hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "border-ink-900 bg-surface-raised text-foreground shadow-[3px_3px_0_var(--ink-900)] hover:bg-parchment-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--ink-900)]",
+        ghost: "border-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+        link: "border-transparent text-foreground-link underline-offset-4 hover:text-foreground-link-hover hover:underline",
+        gold: "border-gold-deep bg-gold text-ink-900 shadow-[3px_3px_0_var(--gold-deep)] hover:bg-gold-bright active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_var(--gold-deep)]",
+      },
+      size: {
+        default: "px-6 py-3",
+        sm: "px-4 py-2",
+        lg: "px-8 py-4 text-[1.0625rem]",
+        icon: "aspect-square p-2",
+        "icon-sm": "aspect-square p-1 [&_svg:not([class*='size-'])]:size-3",
+        "icon-lg": "aspect-square p-3 [&_svg:not([class*='size-'])]:size-6",
+      },
     },
-    size: {
-      sm: "hbd-button--sm",
-      md: "hbd-button--md",
-      lg: "hbd-button--lg",
+    defaultVariants: {
+      variant: "default",
+      size: "default",
     },
-    iconOnly: { true: "hbd-button--icon-only", false: "" },
-  },
-  defaultVariants: { variant: "primary", size: "md", iconOnly: false },
-});
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-  /** Render as the child element (Radix Slot) instead of a <button>. */
-  asChild?: boolean;
-  /** Show the loading spinner overlay; also disables the button. */
-  loading?: boolean;
-  /** Toggle "on" state (renders the pressed look + aria-pressed). */
-  pressed?: boolean;
-  /** Icon-only buttons MUST also receive an aria-label. */
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant,
-      size,
-      iconOnly,
-      asChild = false,
-      loading = false,
-      pressed,
-      disabled,
-      leftIcon,
-      rightIcon,
-      children,
-      type,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : "button";
-
-    const content = asChild ? (
-      children
-    ) : (
-      <>
-        {loading && (
-          <Spinner className="hbd-button__spinner" size="sm" variant="inherit" label="Loading" />
-        )}
-        {!iconOnly && leftIcon ? <span className="hbd-button__icon">{leftIcon}</span> : null}
-        {children}
-        {!iconOnly && rightIcon ? <span className="hbd-button__icon">{rightIcon}</span> : null}
-      </>
-    );
-
-    return (
-      <Comp
-        ref={ref}
-        type={asChild ? undefined : (type ?? "button")}
-        className={cn(
-          buttonVariants({ variant, size, iconOnly }),
-          pressed && "hbd-button--pressed",
-          loading && "is-loading",
-          disabled && "is-disabled",
-          className,
-        )}
-        disabled={asChild ? undefined : disabled || loading}
-        aria-busy={loading || undefined}
-        aria-pressed={pressed}
-        {...props}
-      >
-        {content}
-      </Comp>
-    );
   },
 );
-Button.displayName = "Button";
+
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  }) {
+  const Comp = asChild ? Slot.Root : "button";
+
+  return (
+    <Comp
+      data-slot="button"
+      data-variant={variant}
+      data-size={size}
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  );
+}
 
 export { Button, buttonVariants };

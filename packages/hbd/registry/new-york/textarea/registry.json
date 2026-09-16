@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea. shadcn/ui API (grows with its content) in the Here Be Dragons look: parchment surface, ink border, gold focus. Adds sm/lg sizes and a data-valid success state.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

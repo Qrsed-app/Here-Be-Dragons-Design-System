@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and not checked. shadcn/ui API in the Here Be Dragons look: a parchment box with an offset shadow and a hand-drawn tick, crimson when checked or indeterminate.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

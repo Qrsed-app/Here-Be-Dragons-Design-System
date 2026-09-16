@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "title": "Label",
+  "description": "Renders an accessible label associated with controls. shadcn/ui API in the Here Be Dragons look: compact Roboto field label that dims with its disabled control.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "http://localhost:3001/r/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/label/label.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Label as LabelPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {\n  return (\n    <LabelPrimitive.Root\n      data-slot=\"label\"\n      className={cn(\n        \"flex cursor-pointer items-center gap-1 font-sans text-[0.8125rem] leading-[1.7] font-medium text-foreground select-none group-data-[disabled=true]:cursor-not-allowed group-data-[disabled=true]:text-foreground-disabled peer-disabled:cursor-not-allowed peer-disabled:text-foreground-disabled\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Label };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

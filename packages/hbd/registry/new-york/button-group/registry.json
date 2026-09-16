@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Groups related buttons together, joining their edges into one control. shadcn/ui API in the Here Be Dragons look: the halves share one offset ink shadow, as the old split button did.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme", "@hbd/separator"],
+      "files": [
+        {
+          "path": "button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

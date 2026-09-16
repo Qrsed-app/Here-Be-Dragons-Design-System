@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar. shadcn/ui API in the Here Be Dragons look: parchment rail, small-caps group labels and a blood ribbon on the current row.",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": [
+        "@hbd/theme",
+        "@hbd/button",
+        "@hbd/input",
+        "@hbd/separator",
+        "@hbd/sheet",
+        "@hbd/skeleton",
+        "@hbd/tooltip"
+      ],
+      "files": [
+        {
+          "path": "sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ]
+    }
+  ]
+}

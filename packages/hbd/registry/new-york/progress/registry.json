@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar. shadcn/ui API in the Here Be Dragons look. Adds variant (success, warning, error), size (sm, lg), indeterminate, striped and segments props.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

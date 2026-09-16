@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A versatile component for displaying content with media, title, description, and actions. shadcn/ui API in the Here Be Dragons look: dense Roboto rows, hairline dividers, a blood bar on the current item. Adds an lg size.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme", "@hbd/separator"],
+      "files": [
+        {
+          "path": "item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

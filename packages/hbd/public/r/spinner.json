@@ -1,22 +1,20 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spinner",
-  "type": "registry:ui",
   "title": "Spinner",
-  "description": "Indeterminate loading arc. Light-DOM SVG with a role=status announcement.",
+  "description": "An indicator that can be used to show a loading state. shadcn/ui API in the Here Be Dragons look: a crimson arc over a faint ring. Adds size (sm, lg, xl) and variant (muted, inherit) props.",
   "dependencies": [
-    "clsx",
-    "tailwind-merge"
+    "class-variance-authority"
   ],
   "registryDependencies": [
-    "@hbd/hbd-theme",
-    "@hbd/utils"
+    "http://localhost:3001/r/theme.json"
   ],
   "files": [
     {
       "path": "registry/new-york/spinner/spinner.tsx",
-      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n// Ported 1:1 from ds/components/hbd-spinner.js (light DOM — no Shadow DOM).\n// Indeterminate progress arc. The SVG is aria-hidden; the accessible name is\n// carried by a visually-hidden role=\"status\" aria-live=\"polite\" span.\n// SVG geometry (cx=12 cy=12 r=10 on a 24 viewBox) + the 47/16 dash-array are\n// constants paired with spinner.css — do not tokenise.\n\nconst SIZES = [\"sm\", \"md\", \"lg\", \"xl\"] as const;\nconst VARIANTS = [\"default\", \"muted\", \"inherit\"] as const;\n\nexport interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {\n  /** sm 16px · md 24px (default) · lg 40px · xl 64px */\n  size?: (typeof SIZES)[number];\n  /** default = action colour · muted · inherit = currentColor (use inside buttons) */\n  variant?: (typeof VARIANTS)[number];\n  /** Accessible label announced via role=\"status\". Defaults to \"Loading\". */\n  label?: string;\n}\n\nconst Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(\n  ({ size = \"md\", variant = \"default\", label = \"Loading\", className, ...props }, ref) => {\n    return (\n      <span\n        ref={ref}\n        className={cn(\n          \"hbd-spinner\",\n          size !== \"md\" && `hbd-spinner--${size}`,\n          variant !== \"default\" && `hbd-spinner--${variant}`,\n          className,\n        )}\n        {...props}\n      >\n        <svg\n          viewBox=\"0 0 24 24\"\n          xmlns=\"http://www.w3.org/2000/svg\"\n          aria-hidden=\"true\"\n          focusable=\"false\"\n        >\n          <circle className=\"hbd-spinner__track\" cx=\"12\" cy=\"12\" r=\"10\" />\n          <circle\n            className=\"hbd-spinner__fill\"\n            cx=\"12\"\n            cy=\"12\"\n            r=\"10\"\n            transform=\"rotate(-90 12 12)\"\n          />\n        </svg>\n        <span className=\"hbd-sr-only\" role=\"status\" aria-live=\"polite\">\n          {label}\n        </span>\n      </span>\n    );\n  },\n);\nSpinner.displayName = \"Spinner\";\n\nexport { Spinner };\n",
+      "content": "import * as React from \"react\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\n\nimport { cn } from \"@/lib/utils\";\n\n// The default size deliberately uses h-/w- rather than size-*: Button sizes icons with\n// [&_svg:not([class*='size-'])]:size-4, so a default Spinner inside a Button shrinks to\n// the icon size and takes the button's text colour, like upstream's Loader2Icon does.\nconst spinnerVariants = cva(\n  \"inline-block shrink-0 animate-hbd-spin align-baseline in-data-[slot=button]:text-current\",\n  {\n    variants: {\n      variant: {\n        default: \"text-primary\",\n        muted: \"text-muted-foreground\",\n        inherit: \"text-current\",\n      },\n      size: {\n        sm: \"size-4\",\n        default: \"h-6 w-6\",\n        lg: \"size-10\",\n        xl: \"size-16\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  },\n);\n\nfunction Spinner({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  ...props\n}: React.ComponentProps<\"svg\"> & VariantProps<typeof spinnerVariants>) {\n  return (\n    <svg\n      role=\"status\"\n      aria-label=\"Loading\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      data-variant={variant}\n      data-size={size}\n      className={cn(spinnerVariants({ variant, size, className }))}\n      {...props}\n    >\n      <circle\n        cx=\"12\"\n        cy=\"12\"\n        r=\"10\"\n        strokeWidth=\"2\"\n        className={cn(\n          variant === \"inherit\" ? \"stroke-current [stroke-opacity:0.2]\" : \"stroke-border-subtle\",\n          \"in-data-[slot=button]:stroke-current in-data-[slot=button]:[stroke-opacity:0.2]\",\n        )}\n      />\n      {/* 47 + 16 ≈ 2πr: a 75% arc, started at 12 o'clock by the -90° rotation. */}\n      <circle\n        cx=\"12\"\n        cy=\"12\"\n        r=\"10\"\n        strokeWidth=\"2\"\n        strokeLinecap=\"round\"\n        strokeDasharray=\"47 16\"\n        transform=\"rotate(-90 12 12)\"\n        className=\"stroke-current\"\n      />\n    </svg>\n  );\n}\n\nexport { Spinner, spinnerVariants };\n",
       "type": "registry:ui"
     }
-  ]
+  ],
+  "type": "registry:ui"
 }

@@ -8,3 +8,6 @@ out/
 .DS_Store
 .env*
 .eslintcache
+.wrangler/
+# build-theme.mjs --dump writes the resolved tokens here for debugging
+packages/hbd/theme/.resolved.json

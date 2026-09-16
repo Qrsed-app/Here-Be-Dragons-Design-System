@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content. shadcn/ui API (orientation, decorative) in the Here Be Dragons look: a hairline rule with the 24px manuscript rhythm. Adds subtle/strong/gold/ornamental variants, dashed and double line styles, and labelled rules.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@
   --hbd-color-surface-subtle:  var(--hbd-color-parchment-50);
   --hbd-color-surface-raised:  var(--hbd-color-parchment-50);
   --hbd-color-surface-overlay: var(--hbd-color-ink-900);
+  --hbd-color-surface-muted:   var(--hbd-color-parchment-50);
 
   /* text */
   --hbd-color-text-primary:   var(--hbd-color-ink-900);
@@ -24,10 +25,16 @@
   --hbd-color-border-strong:  var(--hbd-color-ink-900);
   --hbd-color-border-focus:   var(--hbd-color-ink-900);
 
+  /* gold-deep is 5.99:1 here — fine for AA, short of this theme's AAA target. */
+  --hbd-color-text-gold:   var(--hbd-color-gold-800);
+  --hbd-color-border-gold: var(--hbd-color-gold-800);
+
   /* action */
   --hbd-color-surface-action:       var(--hbd-color-ink-900);
   --hbd-color-surface-action-hover: var(--hbd-color-ink-950);
   --hbd-color-text-on-action:       var(--hbd-color-parchment-50);
+  --hbd-color-surface-destructive:       var(--hbd-color-crimson-900);
+  --hbd-color-surface-destructive-hover: var(--hbd-color-crimson-950);
 
   /* status — parchment-50 surface + ink-900 text (≈17:1); meaning via border/icon */
   --hbd-color-status-success-surface: var(--hbd-color-parchment-50);

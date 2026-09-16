@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "Time Picker",
+      "description": "Pick a time from scrolling hour, minute and AM·PM columns in a popover, with a type-to-set header and a Clear / Cancel / Confirm footer. Here Be Dragons component with a shadcn/ui-style composition API: a controlled 24-hour HH:MM value, 12- or 24-hour display and a minute step.",
+      "categories": ["hbd"],
+      "registryDependencies": ["@hbd/theme", "@hbd/popover"],
+      "files": [
+        {
+          "path": "time-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

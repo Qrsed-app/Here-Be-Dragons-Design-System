@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked. shadcn/ui API in the Here Be Dragons look: an ink track that turns crimson. Adds a lg size.",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

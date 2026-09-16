@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "title": "Collapsible",
+  "description": "An interactive component which expands/collapses a panel. shadcn/ui API; unstyled like upstream, so it takes on the Here Be Dragons look of whatever you compose inside it.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "http://localhost:3001/r/theme.json"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/collapsible/collapsible.tsx",
+      "content": "\"use client\";\n\nimport { Collapsible as CollapsiblePrimitive } from \"radix-ui\";\n\nfunction Collapsible({ ...props }: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {\n  return <CollapsiblePrimitive.Root data-slot=\"collapsible\" {...props} />;\n}\n\nfunction CollapsibleTrigger({\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {\n  return <CollapsiblePrimitive.CollapsibleTrigger data-slot=\"collapsible-trigger\" {...props} />;\n}\n\nfunction CollapsibleContent({\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {\n  return <CollapsiblePrimitive.CollapsibleContent data-slot=\"collapsible-content\" {...props} />;\n}\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

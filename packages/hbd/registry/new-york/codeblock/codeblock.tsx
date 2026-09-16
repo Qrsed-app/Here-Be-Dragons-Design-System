@@ -1,138 +1,179 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
+import { Button } from "@/registry/new-york/button/button";
 
-// Ported 1:1 from ds/components/hbd-codeblock.js + ds/styles/components/codeblock.css.
-// Display-only dark code surface with optional filename/language header,
-// optional line-number gutter, and a copy-to-clipboard button.
-//
-// The legacy WC computed line numbers + copy text from its slotted text content.
-// In React the code is provided either as the `code` string prop or as string
-// `children`; both feed the gutter line count and the clipboard copy.
-
-/** Extract the plain-text code from `code` prop or string children. */
-function resolveCodeText(code: string | undefined, children: React.ReactNode): string {
-  if (typeof code === "string") return code;
-  if (typeof children === "string") return children;
-  if (Array.isArray(children)) {
-    return children.map((c) => (typeof c === "string" ? c : "")).join("");
-  }
-  return "";
+function Codeblock({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="codeblock"
+      className={cn(
+        "overflow-hidden rounded-md border border-border-subtle bg-surface-code",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-export interface CodeblockProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
-  /** Language label shown on the right of the header (also enables the header). */
-  language?: string;
-  /** Filename label shown on the left of the header (also enables the header). */
-  filename?: string;
-  /** Render the line-number gutter (mirrors the WC `show-lines` attribute). */
-  showLines?: boolean;
-  /** Hide the copy-to-clipboard button (mirrors the WC `no-copy` attribute). */
-  noCopy?: boolean;
-  /**
-   * The code to render. Falls back to string `children`. Pre-highlighted markup
-   * (with .tok-* spans) may be passed via `children` as React nodes instead.
-   */
-  code?: string;
-  /** Code content. Plain string, or pre-highlighted React nodes (.tok-* spans). */
-  children?: React.ReactNode;
+function CodeblockHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="codeblock-header"
+      className={cn(
+        "flex items-center justify-between gap-4 border-b border-border-subtle bg-ink-950 px-4 py-2",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-const Codeblock = React.forwardRef<HTMLDivElement, CodeblockProps>(
-  (
-    { className, language, filename, showLines = false, noCopy = false, code, children, ...props },
-    ref,
-  ) => {
-    const [copyState, setCopyState] = React.useState<"idle" | "copied" | "failed">("idle");
-    const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+// Parchment, not muted-foreground: muted ink fails contrast on the dark surface.
+function CodeblockFilename({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="codeblock-filename"
+      className={cn("font-mono text-[0.8125rem] text-parchment-300", className)}
+      {...props}
+    />
+  );
+}
 
-    React.useEffect(() => {
-      return () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-      };
-    }, []);
+function CodeblockLanguage({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="codeblock-language"
+      // ml-auto keeps the label right-aligned when there is no filename.
+      className={cn(
+        "ml-auto font-sans text-[0.6875rem] tracking-[0.3em] text-parchment-300 uppercase",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    const hasHeader = !!(filename || language);
+function CodeblockContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="codeblock-content"
+      className={cn("relative flex overflow-x-auto p-4", className)}
+      {...props}
+    />
+  );
+}
 
-    const codeText = resolveCodeText(code, children);
+function CodeblockLineNumbers({
+  className,
+  count,
+  ...props
+}: Omit<React.ComponentProps<"div">, "children"> & { count: number }) {
+  return (
+    <div
+      data-slot="codeblock-line-numbers"
+      aria-hidden="true"
+      className={cn(
+        "mr-4 flex min-w-8 shrink-0 flex-col border-r border-border-subtle pr-4 text-right font-mono text-sm leading-[1.65] text-parchment-400 select-none",
+        className,
+      )}
+      {...props}
+    >
+      {Array.from({ length: count }, (_, i) => (
+        <span key={i}>{i + 1}</span>
+      ))}
+    </div>
+  );
+}
 
-    // Line numbers: count lines in the code text (trailing newline trimmed),
-    // matching the WC's `text.replace(/\n$/, '').split('\n').length`.
-    const lineCount = showLines ? codeText.replace(/\n$/, "").split("\n").length : 0;
-
-    const handleCopy = React.useCallback(() => {
-      const reset = () => setCopyState("idle");
-      navigator.clipboard
-        .writeText(codeText)
-        .then(() => {
-          setCopyState("copied");
-          if (timerRef.current) clearTimeout(timerRef.current);
-          timerRef.current = setTimeout(reset, 2000);
-        })
-        .catch(() => {
-          setCopyState("failed");
-          if (timerRef.current) clearTimeout(timerRef.current);
-          timerRef.current = setTimeout(reset, 2000);
-        });
-    }, [codeText]);
-
-    const copyLabel =
-      copyState === "copied" ? "Copied" : copyState === "failed" ? "Failed" : "Copy";
-    const copyAriaLabel =
-      copyState === "copied"
-        ? "Copied to clipboard"
-        : copyState === "failed"
-          ? "Copy failed"
-          : "Copy code";
-
-    // role=region only when the block is a labelled landmark (has a header).
-    const regionProps = hasHeader ? { role: "region", "aria-label": "Code block" } : {};
-
-    return (
-      <div
-        ref={ref}
+// Size and leading belong on <pre>: its own line box sets the line height, so
+// sizing only <code> let the page's line-height win and the gutter drifted.
+function CodeblockCode({ className, ...props }: React.ComponentProps<"code">) {
+  return (
+    <pre
+      data-slot="codeblock-pre"
+      className="m-0 overflow-visible bg-transparent p-0 font-mono text-sm leading-[1.65]"
+    >
+      <code
+        data-slot="codeblock-code"
         className={cn(
-          "hbd-codeblock",
-          hasHeader && "hbd-codeblock--with-header",
-          showLines && "hbd-codeblock--with-lines",
+          "whitespace-pre text-syntax-default [tab-size:2]",
+          "[&_.tok-keyword]:text-syntax-keyword [&_.tok-selector]:text-syntax-keyword",
+          "[&_.tok-string]:text-syntax-string [&_.tok-value]:text-syntax-string",
+          "[&_.tok-comment]:text-syntax-comment [&_.tok-comment]:italic",
+          "[&_.tok-number]:text-syntax-number",
+          "[&_.tok-function]:text-syntax-function [&_.tok-property]:text-syntax-function",
+          "[&_.tok-operator]:text-syntax-operator",
           className,
         )}
-        {...regionProps}
         {...props}
-      >
-        {hasHeader && (
-          <div className="hbd-codeblock__header">
-            <span className="hbd-codeblock__filename">{filename || ""}</span>
-            <span className="hbd-codeblock__language">{language || ""}</span>
-          </div>
-        )}
-        <div className="hbd-codeblock__body">
-          {showLines && (
-            <div className="hbd-codeblock__line-numbers" aria-hidden="true">
-              {Array.from({ length: lineCount }, (_, i) => (
-                <span key={i}>{i + 1}</span>
-              ))}
-            </div>
-          )}
-          <pre className="hbd-codeblock__pre">
-            <code className="hbd-codeblock__code">{children ?? code}</code>
-          </pre>
-          {!noCopy && (
-            <button
-              type="button"
-              className={cn("hbd-codeblock__copy", copyState === "copied" && "is-copied")}
-              aria-label={copyAriaLabel}
-              onClick={handleCopy}
-            >
-              {copyLabel}
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  },
-);
-Codeblock.displayName = "Codeblock";
+      />
+    </pre>
+  );
+}
 
-export { Codeblock };
+type CopyState = "idle" | "copied" | "failed";
+
+const copyLabels: Record<CopyState, { text: string; aria: string }> = {
+  idle: { text: "Copy", aria: "Copy code" },
+  copied: { text: "Copied", aria: "Copied to clipboard" },
+  failed: { text: "Failed", aria: "Copy failed" },
+};
+
+function CodeblockCopyButton({
+  className,
+  value,
+  onClick,
+  ...props
+}: Omit<React.ComponentProps<typeof Button>, "children"> & { value: string }) {
+  const [state, setState] = React.useState<CopyState>("idle");
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  React.useEffect(() => () => clearTimeout(timer.current), []);
+
+  const settle = (next: CopyState) => {
+    setState(next);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setState("idle"), 2000);
+  };
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="sm"
+      data-slot="codeblock-copy-button"
+      data-state={state}
+      aria-label={copyLabels[state].aria}
+      // min-h/min-w-12: 48px touch target (WCAG 2.5.8).
+      className={cn(
+        "absolute top-2 right-2 min-h-12 min-w-12 border-0 px-2 py-1 font-sans text-[0.6875rem] font-normal tracking-[0.3em] text-parchment-300 hover:bg-transparent hover:text-parchment-50 data-[state=copied]:text-parchment-50",
+        className,
+      )}
+      onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented) return;
+        navigator.clipboard.writeText(value).then(
+          () => settle("copied"),
+          () => settle("failed"),
+        );
+      }}
+      {...props}
+    >
+      {copyLabels[state].text}
+    </Button>
+  );
+}
+
+export {
+  Codeblock,
+  CodeblockHeader,
+  CodeblockFilename,
+  CodeblockLanguage,
+  CodeblockContent,
+  CodeblockLineNumbers,
+  CodeblockCode,
+  CodeblockCopyButton,
+};

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A set of layered sections of content, known as tab panels, that are displayed one at a time. shadcn/ui API in the Here Be Dragons look: parchment folder tabs on an ink baseline with a blood ribbon on the active tab. Adds TabsBadge (count chip) and TabsScroller (overflow with prev/next buttons).",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state. shadcn/ui API in the Here Be Dragons look: a crimson arc over a faint ring. Adds size (sm, lg, xl) and variant (muted, inherit) props.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

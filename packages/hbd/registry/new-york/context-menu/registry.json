@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a right click. shadcn/ui API in the Here Be Dragons look, sharing the Dropdown Menu's raised parchment panel, Roboto items and blood-tinted destructive variant.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

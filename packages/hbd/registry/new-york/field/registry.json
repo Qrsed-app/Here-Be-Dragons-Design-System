@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs. shadcn/ui API in the Here Be Dragons look: the compact 4px field rhythm, blood-red error text and Cinzel legends.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@hbd/theme", "@hbd/label", "@hbd/separator"],
+      "files": [
+        {
+          "path": "field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A date field component that allows users to enter and edit date. shadcn/ui API (react-day-picker) in the Here Be Dragons look: raised parchment, Cinzel month caption, round blood-red selected days and half-filled range edges.",
+      "dependencies": ["react-day-picker"],
+      "registryDependencies": ["@hbd/theme", "@hbd/button"],
+      "files": [
+        {
+          "path": "calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading. shadcn/ui API in the Here Be Dragons look: a parchment block with a sweeping shimmer.",
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

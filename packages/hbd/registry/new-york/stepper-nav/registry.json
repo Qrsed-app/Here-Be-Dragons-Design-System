@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stepper-nav",
+      "type": "registry:ui",
+      "title": "Stepper Nav",
+      "description": "Shows progress through the steps of a multi-step flow, horizontally or vertically. A Here Be Dragons component with no shadcn/ui counterpart: numbered blood-filled indicators, connectors and per-step status.",
+      "categories": ["hbd"],
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "stepper-nav.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge. shadcn/ui API (variant, asChild) in the Here Be Dragons look: compact Roboto pill in blood, parchment and ink. Adds success and warning variants.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

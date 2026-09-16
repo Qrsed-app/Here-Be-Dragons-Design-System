@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "full-banner",
+      "type": "registry:ui",
+      "title": "Full Banner",
+      "description": "A full-page takeover with one dominant message: illustration, eyebrow, display heading, description, actions and meta, with an inverted ink scheme. Here Be Dragons component with a shadcn/ui-style composition API; maintenance, launch, error and success screens are composed from its parts.",
+      "categories": ["hbd"],
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["@hbd/theme"],
+      "files": [
+        {
+          "path": "full-banner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

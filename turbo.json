@@ -4,11 +4,13 @@
   "tasks": {
     "registry:build": {
       "dependsOn": ["^registry:build"],
-      "outputs": ["public/r/**", "public/fonts/**"]
+      "env": ["NEXT_PUBLIC_SITE_URL", "CI"],
+      "outputs": ["public/r/**", "theme/**", "registry/theme/**"]
     },
     "build": {
       "dependsOn": ["registry:build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "env": ["NEXT_PUBLIC_SITE_URL", "NEXT_PUBLIC_BASE_PATH"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "out/**"]
     },
     "dev": {
       "dependsOn": ["registry:build"],

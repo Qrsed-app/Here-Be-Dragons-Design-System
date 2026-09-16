@@ -1,658 +1,159 @@
-"use client";
-
 import * as React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { Select } from "@/registry/new-york/select/select";
+import { buttonVariants, type Button } from "@/registry/new-york/button/button";
 
-// Ported from ds/components/hbd-pagination.js + ds/styles/components/pagination.css.
-//
-// Numbered page-navigation control. The host element IS the <nav> landmark
-// (role="navigation" + aria-label), exactly as the Light-DOM WC. Three
-// variants:
-//   full     — numbered pages with prev/next + ellipsis (default)
-//   compact  — prev/next + "Page N of M" live label
-//   simple   — arrow-only prev/next
-//
-// Two render modes:
-//   button   — items are <button>s; clicks fire onChange/onPageChange and
-//              update the controlled `page` (default)
-//   link     — items are <a href> when `hrefPrefix` is set; the current
-//              page renders as <span aria-current="page">
-//
-// Disabled prev/next at boundaries are kept FOCUSABLE with aria-disabled
-// so keyboard users discover the boundary; clicks are no-ops.
-//
-// Controlled-first: page + onPageChange + defaultPage via an inline
-// useControllableState helper (mirrors the WC's `page` attribute). The
-// page-size dropdown REUSES the ported @hbd/select; its change resets the
-// page to 1 and fires onPageSizeChange, matching the WC exactly.
-
-// ── useControllableState (inline, controlled-first w/ uncontrolled fallback)
-function useControllableState<T>({
-  value,
-  defaultValue,
-  onChange,
-}: {
-  value?: T;
-  defaultValue: T;
-  onChange?: (value: T) => void;
-}): [T, (next: T) => void, (next: T) => void] {
-  const [uncontrolled, setUncontrolled] = React.useState<T>(defaultValue);
-  const isControlled = value !== undefined;
-  const state = isControlled ? (value as T) : uncontrolled;
-
-  const setState = React.useCallback(
-    (next: T) => {
-      if (!isControlled) setUncontrolled(next);
-      onChange?.(next);
-    },
-    [isControlled, onChange],
+function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  return (
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      data-slot="pagination"
+      className={cn("mx-auto flex w-full items-center justify-center font-sans", className)}
+      {...props}
+    />
   );
+}
 
-  // Silent uncontrolled reset: updates internal state WITHOUT firing onChange.
-  // Mirrors the WC's page-size handler, which sets the `page` attribute back
-  // to 1 directly and only dispatches hbd:page-size-change — never hbd:change.
-  // When controlled, the parent owns `page` and resets it via onPageSizeChange.
-  const setSilent = React.useCallback(
-    (next: T) => {
-      if (!isControlled) setUncontrolled(next);
-    },
-    [isControlled],
+function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
+  return (
+    <ul
+      data-slot="pagination-content"
+      className={cn("m-0 flex list-none flex-row items-center gap-1 p-0", className)}
+      {...props}
+    />
   );
-
-  return [state, setState, setSilent];
 }
 
-export type PaginationVariant = "full" | "compact" | "simple";
-
-// detail payload carried by the legacy hbd:change event.
-export interface PaginationChangeDetail {
-  page: number;
-  total: number;
+function PaginationItem({ className, ...props }: React.ComponentProps<"li">) {
+  return (
+    <li
+      data-slot="pagination-item"
+      className={cn("flex items-center justify-center", className)}
+      {...props}
+    />
+  );
 }
 
-// detail payload carried by the legacy hbd:page-size-change event.
-export interface PaginationPageSizeChangeDetail {
-  pageSize: number;
-  page: number;
-  total: number;
+type PaginationLinkProps = {
+  isActive?: boolean;
+} & Pick<React.ComponentProps<typeof Button>, "size"> &
+  React.ComponentProps<"a">;
+
+function PaginationLink({ className, isActive, size = "icon", ...props }: PaginationLinkProps) {
+  return (
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(
+        buttonVariants({ variant: isActive ? "outline" : "ghost", size }),
+        "h-9 gap-1 rounded-md border border-transparent bg-transparent p-0 font-sans text-[0.8125rem] leading-[1.7] font-medium tracking-normal whitespace-nowrap text-foreground-secondary normal-case transition-[background-color,color,border-color] duration-120 ease-out select-none hover:bg-surface-subtle hover:text-foreground focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        typeof size === "string" && size.startsWith("icon") ? "w-9" : "min-w-9 px-2",
+        // The boundary arrows stay focusable with aria-disabled, as the HBD pagination always has.
+        "aria-disabled:pointer-events-none aria-disabled:bg-transparent aria-disabled:text-foreground-disabled aria-disabled:opacity-100",
+        "data-[active=true]:pointer-events-none data-[active=true]:cursor-default data-[active=true]:border-blood-deep data-[active=true]:bg-primary data-[active=true]:font-semibold data-[active=true]:text-primary-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-export interface PaginationProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
-  "onChange" | "role"
-> {
-  /** Controlled current page (1-based). */
-  page?: number;
-  /** Uncontrolled initial page (1-based). */
-  defaultPage?: number;
-  /** Total number of pages. */
-  total?: number;
-  /** Sibling pages shown either side of the current page. */
-  siblings?: number;
-  /** Visual/behaviour variant. */
-  variant?: PaginationVariant;
-  /** When set, items render as <a href> with this prefix + the page number. */
-  hrefPrefix?: string;
-  /** Show first/last jump buttons. */
-  showFirstLast?: boolean;
-  /** Show the "Page [input] Go" goto cluster (full variant only). */
-  showGoto?: boolean;
-  /** Total records, for the "Showing X–Y of Z" info readout. */
-  totalRecords?: number;
-  /** Current page size; required alongside pageSizeOptions to render the select. */
-  pageSize?: number;
-  /** Page-size choices; required alongside pageSize to render the select. */
-  pageSizeOptions?: number[];
-  /** Fired on page change with the {page, total} detail (hbd:change). */
-  onChange?: (detail: PaginationChangeDetail) => void;
-  /** Convenience callback receiving just the new page number. */
-  onPageChange?: (page: number) => void;
-  /** Fired when the page-size select changes (hbd:page-size-change). */
-  onPageSizeChange?: (detail: PaginationPageSizeChangeDetail) => void;
+// strokeWidth 2.4 on the 24px grid is the 1.6px stroke of the HBD chevron at 16px.
+function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink aria-label="Go to previous page" className={cn(className)} {...props}>
+      <ChevronLeftIcon strokeWidth={2.4} />
+      <span className="sr-only">Previous</span>
+    </PaginationLink>
+  );
 }
 
-const PrevArrow = () => (
-  <span className="hbd-pagination__icon" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M8 2L4 6l4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink aria-label="Go to next page" className={cn(className)} {...props}>
+      <ChevronRightIcon strokeWidth={2.4} />
+      <span className="sr-only">Next</span>
+    </PaginationLink>
+  );
+}
+
+// The doubled chevrons are the HBD glyph, drawn on the 12px grid the rest of the row uses.
+function DoubleChevron({ back }: { back?: boolean }) {
+  return (
+    <svg
+      className="size-3"
+      viewBox="0 0 12 12"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={back ? "M10 2L6 6l4 4M5 2L1 6l4 4" : "M2 2l4 4-4 4M7 2l4 4-4 4"} />
     </svg>
-  </span>
-);
-
-const NextArrow = () => (
-  <span className="hbd-pagination__icon" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M4 2l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </span>
-);
-
-const FirstArrow = () => (
-  <span className="hbd-pagination__icon" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M10 2L6 6l4 4M5 2L1 6l4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </span>
-);
-
-const LastArrow = () => (
-  <span className="hbd-pagination__icon" aria-hidden="true">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M2 2l4 4-4 4M7 2l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </span>
-);
-
-// ── Page-range algorithm (mirrors _getPageRange) ────────────────────────
-// Always show: 1, total, current, ±siblings around current. Fill gaps with
-// '…' when gap > 1. Ellipsis entries are encoded as the literal "…".
-function getPageRange(page: number, total: number, siblings: number): Array<number | "…"> {
-  const cur = Math.max(1, Math.min(page, total));
-  if (total <= 1) return [1];
-
-  const range: Array<number | "…"> = [];
-  const left = Math.max(2, cur - siblings);
-  const right = Math.min(total - 1, cur + siblings);
-
-  range.push(1);
-  if (left > 2) range.push("…");
-  for (let i = left; i <= right; i++) range.push(i);
-  if (right < total - 1) range.push("…");
-  if (total > 1) range.push(total);
-  return range;
+  );
 }
 
-let uidCounter = 0;
+function PaginationFirst({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink aria-label="Go to first page" className={cn(className)} {...props}>
+      <DoubleChevron back />
+      <span className="sr-only">First</span>
+    </PaginationLink>
+  );
+}
 
-const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
-  (
-    {
-      className,
-      page: pageProp,
-      defaultPage,
-      total: totalProp,
-      siblings: siblingsProp,
-      variant: variantProp = "full",
-      hrefPrefix,
-      showFirstLast = false,
-      showGoto = false,
-      totalRecords,
-      pageSize,
-      pageSizeOptions,
-      "aria-label": ariaLabel,
-      onChange,
-      onPageChange,
-      onPageSizeChange,
-      ...props
-    },
-    ref,
-  ) => {
-    const uid = React.useMemo(() => `hbd-pagination-${++uidCounter}`, []);
+function PaginationLast({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink aria-label="Go to last page" className={cn(className)} {...props}>
+      <DoubleChevron />
+      <span className="sr-only">Last</span>
+    </PaginationLink>
+  );
+}
 
-    // Normalise inputs the way the WC getters do.
-    const total =
-      Number.isFinite(totalProp) && (totalProp as number) > 0 ? Math.floor(totalProp as number) : 1;
-    const siblings =
-      Number.isFinite(siblingsProp) && (siblingsProp as number) >= 0
-        ? Math.floor(siblingsProp as number)
-        : 1;
-    const variant: PaginationVariant = ["full", "compact", "simple"].includes(variantProp)
-      ? variantProp
-      : "full";
-    const isLink = hrefPrefix != null;
+function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      aria-hidden
+      data-slot="pagination-ellipsis"
+      className={cn(
+        "flex size-9 cursor-default items-center justify-center font-sans text-[0.8125rem] leading-[1.7] text-muted-foreground select-none",
+        className,
+      )}
+      {...props}
+    >
+      …<span className="sr-only">More pages</span>
+    </span>
+  );
+}
 
-    const normalisePage = (p: number) => (Number.isFinite(p) && p > 0 ? Math.floor(p) : 1);
+function PaginationInfo({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="pagination-info"
+      className={cn(
+        "font-sans text-[0.8125rem] leading-[1.7] whitespace-nowrap text-foreground-secondary",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
-    const [page, setPage, setPageSilent] = useControllableState<number>({
-      value: pageProp != null ? normalisePage(pageProp) : undefined,
-      defaultValue: defaultPage != null ? normalisePage(defaultPage) : 1,
-      onChange: onPageChange,
-    });
-
-    const resolvedTotalRecords =
-      Number.isFinite(totalRecords) && (totalRecords as number) >= 0
-        ? Math.floor(totalRecords as number)
-        : null;
-    const resolvedPageSize =
-      Number.isFinite(pageSize) && (pageSize as number) > 0 ? Math.floor(pageSize as number) : null;
-    const resolvedPageSizeOptions = React.useMemo(() => {
-      if (!Array.isArray(pageSizeOptions)) return null;
-      const cleaned = pageSizeOptions
-        .map((v) => Math.floor(Number(v)))
-        .filter((v) => Number.isFinite(v) && v > 0);
-      return cleaned.length ? cleaned : null;
-    }, [pageSizeOptions]);
-
-    const hostRef = React.useRef<HTMLElement>(null);
-    React.useImperativeHandle(ref, () => hostRef.current as HTMLElement);
-
-    // Direction class for the slide-in animation + the per-cell pop. Mirrors
-    // the WC's _pendingDirection / .is-paging-* / .is-just-activated logic.
-    const [pagingDir, setPagingDir] = React.useState<"forward" | "backward" | null>(null);
-    const [poppedPage, setPoppedPage] = React.useState<number | null>(null);
-    const pendingFocusRef = React.useRef<number | null>(null);
-
-    const goToButton = React.useCallback(
-      (target: number) => {
-        const host = hostRef.current;
-        if (!host) return;
-        const active = host.querySelector<HTMLElement>(
-          `button.hbd-pagination__link[data-page="${target}"]`,
-        );
-        if (active) {
-          active.focus({ preventScroll: false });
-          return;
-        }
-        if (target <= 1) {
-          host
-            .querySelector<HTMLElement>("button.hbd-pagination__prev")
-            ?.focus({ preventScroll: false });
-          return;
-        }
-        if (target >= total) {
-          host
-            .querySelector<HTMLElement>("button.hbd-pagination__next")
-            ?.focus({ preventScroll: false });
-        }
-      },
-      [total],
-    );
-
-    // After a navigation re-render: restore focus to the new current page
-    // button (or prev/next at the boundary), matching _focusPageButton.
-    React.useEffect(() => {
-      if (pendingFocusRef.current == null) return;
-      const target = pendingFocusRef.current;
-      pendingFocusRef.current = null;
-      const raf = requestAnimationFrame(() => goToButton(target));
-      return () => cancelAnimationFrame(raf);
-    }, [page, goToButton]);
-
-    const navigate = React.useCallback(
-      (rawNext: number) => {
-        const next = Math.max(1, Math.min(rawNext, total));
-        if (next === page) return;
-        pendingFocusRef.current = next;
-        setPagingDir(next > page ? "forward" : "backward");
-        setPoppedPage(next);
-        setPage(next);
-        onChange?.({ page: next, total });
-      },
-      [page, total, setPage, onChange],
-    );
-
-    const range = getPageRange(page, total, siblings);
-
-    // Widest possible page-cells row → fixed --_pages-width so prev/next
-    // never shift. maxCells = min(total, 2*siblings + 5). (Mirrors
-    // _pagesWidthStyle.)
-    const maxCells = Math.max(1, Math.min(total, 2 * siblings + 5));
-    const pagesWidth = `calc(${maxCells} * var(--hbd-pagination-item-size) + ${Math.max(
-      0,
-      maxCells - 1,
-    )} * var(--hbd-space-1))`;
-
-    const hasExtras =
-      variant === "full" &&
-      (showGoto ||
-        resolvedTotalRecords != null ||
-        (resolvedPageSize != null && resolvedPageSizeOptions != null));
-
-    // ── Item renderers ──────────────────────────────────────────────────
-    const renderRangeItem = (entry: number | "…", index: number) => {
-      if (entry === "…") {
-        return (
-          <li className="hbd-pagination__item" key={`ellipsis-${index}`}>
-            <span className="hbd-pagination__ellipsis" aria-hidden="true">
-              …
-            </span>
-          </li>
-        );
-      }
-      const isActive = entry === page;
-      const linkCls = cn("hbd-pagination__link", isActive && "is-active");
-
-      if (isLink) {
-        if (isActive) {
-          return (
-            <li className="hbd-pagination__item" key={`page-${entry}`}>
-              <span
-                className={cn(linkCls, poppedPage === entry && "is-just-activated")}
-                aria-current="page"
-                aria-label={`Page ${entry}, current page`}
-                onAnimationEnd={() => poppedPage === entry && setPoppedPage(null)}
-              >
-                {entry}
-              </span>
-            </li>
-          );
-        }
-        return (
-          <li className="hbd-pagination__item" key={`page-${entry}`}>
-            <a
-              className={linkCls}
-              href={`${hrefPrefix}${entry}`}
-              aria-label={`Go to page ${entry}`}
-            >
-              {entry}
-            </a>
-          </li>
-        );
-      }
-
-      return (
-        <li className="hbd-pagination__item" key={`page-${entry}`}>
-          <button
-            type="button"
-            className={cn(linkCls, isActive && poppedPage === entry && "is-just-activated")}
-            data-page={entry}
-            aria-label={isActive ? `Page ${entry}, current page` : `Go to page ${entry}`}
-            aria-current={isActive ? "page" : undefined}
-            onClick={() => navigate(entry)}
-            onAnimationEnd={() => isActive && poppedPage === entry && setPoppedPage(null)}
-          >
-            {entry}
-          </button>
-        </li>
-      );
-    };
-
-    type NavKind = "prev" | "next" | "first" | "last";
-    const renderNav = (kind: NavKind) => {
-      const isPrevLike = kind === "prev" || kind === "first";
-      const disabledAtBoundary = isPrevLike ? page <= 1 : page >= total;
-      const baseClass = isPrevLike ? "hbd-pagination__prev" : "hbd-pagination__next";
-      const extraClass =
-        kind === "first" ? "hbd-pagination__first" : kind === "last" ? "hbd-pagination__last" : "";
-      const cls = cn(baseClass, extraClass, disabledAtBoundary && "is-disabled");
-
-      const arrow =
-        kind === "prev" ? (
-          <PrevArrow />
-        ) : kind === "next" ? (
-          <NextArrow />
-        ) : kind === "first" ? (
-          <FirstArrow />
-        ) : (
-          <LastArrow />
-        );
-      const ariaLabel =
-        kind === "prev"
-          ? "Previous page"
-          : kind === "next"
-            ? "Next page"
-            : kind === "first"
-              ? "First page"
-              : "Last page";
-
-      const targetPage =
-        kind === "first" ? 1 : kind === "last" ? total : kind === "prev" ? page - 1 : page + 1;
-
-      if (isLink) {
-        if (disabledAtBoundary) {
-          return (
-            <li className="hbd-pagination__item">
-              <span className={cls} aria-label={ariaLabel} aria-disabled="true">
-                {arrow}
-              </span>
-            </li>
-          );
-        }
-        return (
-          <li className="hbd-pagination__item">
-            <a className={cls} href={`${hrefPrefix}${targetPage}`} aria-label={ariaLabel}>
-              {arrow}
-            </a>
-          </li>
-        );
-      }
-
-      return (
-        <li className="hbd-pagination__item">
-          <button
-            type="button"
-            className={cls}
-            data-nav={kind}
-            aria-label={ariaLabel}
-            aria-disabled={disabledAtBoundary ? "true" : "false"}
-            onClick={() => {
-              if (disabledAtBoundary) return;
-              navigate(targetPage);
-            }}
-          >
-            {arrow}
-          </button>
-        </li>
-      );
-    };
-
-    // ── Goto cluster ────────────────────────────────────────────────────
-    const gotoInputRef = React.useRef<HTMLInputElement>(null);
-    const submitGoto = () => {
-      const input = gotoInputRef.current;
-      if (!input) return;
-      const n = parseInt(input.value, 10);
-      if (!Number.isFinite(n)) return;
-      const next = Math.max(1, Math.min(n, total));
-      input.value = "";
-      if (next !== page) navigate(next);
-    };
-
-    const renderGoto = () => {
-      if (!showGoto) return null;
-      return (
-        <span className="hbd-pagination__goto">
-          <label className="hbd-pagination__goto-label" htmlFor={`goto-${uid}`}>
-            Page
-          </label>
-          <input
-            ref={gotoInputRef}
-            type="number"
-            id={`goto-${uid}`}
-            className="hbd-pagination__goto-input"
-            min={1}
-            max={total}
-            inputMode="numeric"
-            aria-label="Go to page number"
-            onKeyDown={(e) => {
-              if (e.key !== "Enter") return;
-              e.preventDefault();
-              submitGoto();
-            }}
-          />
-          <button
-            type="button"
-            className="hbd-pagination__prev hbd-pagination__goto-go"
-            data-nav="go"
-            aria-label="Go to page"
-            onClick={(e) => {
-              e.preventDefault();
-              submitGoto();
-            }}
-          >
-            Go
-          </button>
-        </span>
-      );
-    };
-
-    // ── Info + page-size cluster ────────────────────────────────────────
-    const renderInfo = () => {
-      const tr = resolvedTotalRecords;
-      if (tr == null) return null;
-      const ps = resolvedPageSize;
-      if (ps == null || ps <= 0) {
-        return (
-          <span className="hbd-pagination__info" aria-live="polite">
-            {tr} records
-          </span>
-        );
-      }
-      const from = tr === 0 ? 0 : (page - 1) * ps + 1;
-      const to = Math.min(tr, page * ps);
-      return (
-        <span className="hbd-pagination__info" aria-live="polite">
-          Showing {from}–{to} of {tr}
-        </span>
-      );
-    };
-
-    const handlePageSizeChange = (raw: string) => {
-      const newSize = parseInt(raw, 10);
-      if (!Number.isFinite(newSize) || newSize <= 0) return;
-      if (newSize === resolvedPageSize) return;
-      // Reset to page 1 so the user isn't stranded outside the new range.
-      // Use the SILENT setter: the WC resets the page attribute internally
-      // and dispatches ONLY hbd:page-size-change — it never fires hbd:change
-      // (onPageChange) for this reset. (When controlled, the parent resets
-      // `page` in response to onPageSizeChange.)
-      if (page !== 1) {
-        pendingFocusRef.current = null;
-        setPageSilent(1);
-      }
-      onPageSizeChange?.({ pageSize: newSize, page: 1, total });
-    };
-
-    const renderPageSize = () => {
-      if (resolvedPageSize == null || resolvedPageSizeOptions == null) return null;
-      return (
-        <span className="hbd-pagination__page-size">
-          <span className="hbd-pagination__page-size-label">Show</span>
-          <Select
-            size="sm"
-            flat
-            value={String(resolvedPageSize)}
-            aria-label="Items per page"
-            onValueChange={handlePageSizeChange}
-          >
-            {resolvedPageSizeOptions.map((n) => (
-              <Select.Option key={n} value={String(n)}>
-                {n}
-              </Select.Option>
-            ))}
-          </Select>
-          <span>per page</span>
-        </span>
-      );
-    };
-
-    const renderInfoPageSize = () => {
-      const info = renderInfo();
-      const ps = renderPageSize();
-      if (!info && !ps) return null;
-      return (
-        <div className="hbd-pagination__info-group">
-          {info}
-          {info && ps ? (
-            <span className="hbd-pagination__sep" aria-hidden="true">
-              ·
-            </span>
-          ) : null}
-          {ps}
-        </div>
-      );
-    };
-
-    // ── Variant bodies ──────────────────────────────────────────────────
-    const navList = (
-      <ol className="hbd-pagination__list">
-        {showFirstLast ? renderNav("first") : null}
-        {renderNav("prev")}
-        <li
-          className="hbd-pagination__item hbd-pagination__pages-wrap"
-          style={{ ["--_pages-width" as string]: pagesWidth }}
-        >
-          <ol className="hbd-pagination__pages">
-            {range.map((entry, i) => renderRangeItem(entry, i))}
-          </ol>
-        </li>
-        {renderNav("next")}
-        {showFirstLast ? renderNav("last") : null}
-      </ol>
-    );
-
-    let body: React.ReactNode;
-    if (variant === "compact") {
-      body = (
-        <>
-          <ol className="hbd-pagination__list">{renderNav("prev")}</ol>
-          <span className="hbd-pagination__label" aria-live="polite" aria-atomic="true">
-            Page {page} of {total}
-          </span>
-          <ol className="hbd-pagination__list">{renderNav("next")}</ol>
-        </>
-      );
-    } else if (variant === "simple") {
-      body = (
-        <ol className="hbd-pagination__list">
-          {renderNav("prev")}
-          {renderNav("next")}
-        </ol>
-      );
-    } else if (hasExtras) {
-      body = (
-        <div className="hbd-pagination__toolbar">
-          <div className="hbd-pagination__toolbar-start">{renderInfoPageSize()}</div>
-          <div className="hbd-pagination__toolbar-center">{navList}</div>
-          <div className="hbd-pagination__toolbar-end">{renderGoto()}</div>
-        </div>
-      );
-    } else {
-      body = navList;
-    }
-
-    return (
-      <nav
-        ref={hostRef}
-        className={cn(
-          "hbd-pagination",
-          variant !== "full" && `hbd-pagination--${variant}`,
-          hasExtras && "hbd-pagination--has-toolbar",
-          pagingDir === "forward" && "is-paging-forward",
-          pagingDir === "backward" && "is-paging-backward",
-          className,
-        )}
-        role="navigation"
-        aria-label={ariaLabel ?? "Pagination"}
-        onAnimationEnd={(e) => {
-          // Clear the host paging class once the carousel slide finishes
-          // (mirrors the WC's animationend cleanup on .hbd-pagination__pages).
-          if ((e.target as HTMLElement).classList.contains("hbd-pagination__pages")) {
-            setPagingDir(null);
-          }
-        }}
-        {...props}
-      >
-        {body}
-      </nav>
-    );
-  },
-);
-Pagination.displayName = "Pagination";
-
-export { Pagination };
+export {
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+  PaginationInfo,
+};
