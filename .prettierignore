@@ -3,6 +3,9 @@
 **/.source
 **/public
 **/tokens
+# vendored agent skills and local tool settings — not this repo's code
+.agents
+.claude
 # CSS is shipped byte-faithful to the original DS — never reformat it
 **/*.css
 pnpm-lock.yaml
