@@ -1,4 +1,4 @@
-name: Deploy docs to GitHub Pages
+name: Deploy docs to Cloudflare
 
 on:
   push:
@@ -7,22 +7,24 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy-docs
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://ds.qrsed.com
+    env:
+      # The registry build bakes it into every dependency URL (so `npx shadcn add`
+      # resolves @hbd dependencies without config); the docs build into each page's
+      # install snippet.
+      NEXT_PUBLIC_SITE_URL: https://ds.qrsed.com
     steps:
       - uses: actions/checkout@v4
-
-      # Before the build: its base_url is baked into the docs' install snippets.
-      - uses: actions/configure-pages@v5
-        id: pages
 
       - uses: pnpm/action-setup@v4
 
@@ -37,29 +39,14 @@ jobs:
       - run: pnpm --filter @hbd/registry registry:build
       - run: pnpm --filter @hbd/docs registry:build
       - name: Build docs (static export)
-        env:
-          # Repo-name base path so assets/links resolve under /<repo>/.
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          # Published origin + path, so `npx shadcn add <url>` on every component
-          # page points at this deployment instead of localhost.
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
         run: pnpm --filter @hbd/docs build
 
-      # GitHub Pages (Jekyll) ignores folders starting with "_" (e.g. _next)
-      # unless this file is present.
-      - name: Disable Jekyll
-        run: touch apps/docs/out/.nojekyll
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: apps/docs/out
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      # Run from the app directory so wrangler picks up apps/docs/wrangler.jsonc.
+      # Pinned through dlx rather than a devDependency, so the deploy does not
+      # depend on wrangler being in the lockfile.
+      - name: Deploy to Cloudflare
+        working-directory: apps/docs
+        run: pnpm dlx wrangler@4.131.2 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

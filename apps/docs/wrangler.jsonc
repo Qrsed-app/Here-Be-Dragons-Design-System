@@ -1,0 +1,14 @@
+{
+  "name": "hbd-docs",
+  "compatibility_date": "2026-09-01",
+  // Declared here rather than in the dashboard, so `wrangler deploy` creates the
+  // DNS record and certificate. The deploying token needs Workers Routes: Edit
+  // on the qrsed.com zone.
+  "routes": [{ "pattern": "ds.qrsed.com", "custom_domain": true }],
+  "assets": {
+    // Next's static export. Pages are emitted as docs/button.html; the default
+    // html_handling (auto-trailing-slash) serves them at /docs/button.
+    "directory": "./out",
+    "not_found_handling": "404-page",
+  },
+}
