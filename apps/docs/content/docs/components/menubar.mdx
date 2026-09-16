@@ -1,0 +1,268 @@
+---
+title: Menubar
+description: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+---
+
+import { MenubarDemo, MenubarIconsDemo } from "@/components/examples/menubar-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <MenubarDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from "react";
+    import {
+      Menubar,
+      MenubarCheckboxItem,
+      MenubarContent,
+      MenubarItem,
+      MenubarMenu,
+      MenubarRadioGroup,
+      MenubarRadioItem,
+      MenubarSeparator,
+      MenubarShortcut,
+      MenubarSub,
+      MenubarSubContent,
+      MenubarSubTrigger,
+      MenubarTrigger,
+    } from "@/components/ui/menubar";
+
+    export function MenubarDemo() {
+      const [bookmarks, setBookmarks] = React.useState(false);
+      const [urls, setUrls] = React.useState(true);
+      const [profile, setProfile] = React.useState("elara");
+
+      return (
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem>
+                New Window <MenubarShortcut>⌘N</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem disabled>New Incognito Window</MenubarItem>
+              <MenubarSeparator />
+              <MenubarSub>
+                <MenubarSubTrigger>Share</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>Email link</MenubarItem>
+                  <MenubarItem>Messages</MenubarItem>
+                  <MenubarItem>Notes</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSeparator />
+              <MenubarItem>
+                Print... <MenubarShortcut>⌘P</MenubarShortcut>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Edit</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem>
+                Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+              </MenubarItem>
+              <MenubarSeparator />
+              <MenubarSub>
+                <MenubarSubTrigger>Find</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>Search the web</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Find...</MenubarItem>
+                  <MenubarItem>Find Next</MenubarItem>
+                  <MenubarItem>Find Previous</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSeparator />
+              <MenubarItem>Cut</MenubarItem>
+              <MenubarItem>Copy</MenubarItem>
+              <MenubarItem>Paste</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarCheckboxItem checked={bookmarks} onCheckedChange={setBookmarks}>
+                Always Show Bookmarks Bar
+              </MenubarCheckboxItem>
+              <MenubarCheckboxItem checked={urls} onCheckedChange={setUrls}>
+                Always Show Full URLs
+              </MenubarCheckboxItem>
+              <MenubarSeparator />
+              <MenubarItem inset>
+                Reload <MenubarShortcut>⌘R</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem disabled inset>
+                Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
+              </MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem inset>Toggle Fullscreen</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Profiles</MenubarTrigger>
+            <MenubarContent>
+              <MenubarRadioGroup value={profile} onValueChange={setProfile}>
+                <MenubarRadioItem value="elara">Elara</MenubarRadioItem>
+                <MenubarRadioItem value="thorin">Thorin</MenubarRadioItem>
+                <MenubarRadioItem value="wren">Wren</MenubarRadioItem>
+              </MenubarRadioGroup>
+              <MenubarSeparator />
+              <MenubarItem inset>Edit...</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem inset>Add Profile...</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/menubar
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/menubar.json
+```
+
+## Usage
+
+```tsx
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+```
+
+```tsx
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>
+        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>New Window</MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Share</MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Print</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+```
+
+The open trigger is underlined in gold. Its menus use the panel, items, labels and destructive
+styling of the [Dropdown Menu](/docs/components/dropdown-menu).
+
+## Examples
+
+### Icons, Labels and Destructive Items
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <MenubarIconsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { FilePlusIcon, SaveIcon, TrashIcon } from "lucide-react";
+
+    <Menubar>
+      <MenubarMenu>
+        <MenubarTrigger>Scroll</MenubarTrigger>
+        <MenubarContent>
+          <MenubarGroup>
+            <MenubarLabel>Spellbook</MenubarLabel>
+            <MenubarItem>
+              <FilePlusIcon />
+              New scroll
+              <MenubarShortcut>⌘N</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem>
+              <SaveIcon />
+              Save
+              <MenubarShortcut>⌘S</MenubarShortcut>
+            </MenubarItem>
+          </MenubarGroup>
+          <MenubarSeparator />
+          <MenubarItem variant="destructive">
+            <TrashIcon />
+            Burn scroll
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### MenubarContent
+
+<TypeTable
+  type={{
+    align: {
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+      description: "Alignment against the trigger.",
+    },
+    alignOffset: {
+      type: "number",
+      default: "-4",
+      description: "Shifts the panel back to the bar's edge.",
+    },
+    sideOffset: {
+      type: "number",
+      default: "8",
+      description: "Gap in px between the bar and the panel.",
+    },
+  }}
+/>
+
+### MenubarItem
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive"',
+      default: '"default"',
+      description: "`destructive` writes the item in blood and tints its highlight.",
+    },
+    inset: {
+      type: "boolean",
+      default: "false",
+      description: "Indent the item to align with items that have an icon.",
+    },
+  }}
+/>
+
+`MenubarLabel` and `MenubarSubTrigger` take the same `inset` prop. Every other prop goes to the
+matching part of [Radix Menubar](https://www.radix-ui.com/primitives/docs/components/menubar);
+`MenubarShortcut` renders a `<span>`.

@@ -1,0 +1,122 @@
+---
+title: Installation
+description: Add the Here Be Dragons registry to a shadcn/ui project and install the theme and components.
+---
+
+Here Be Dragons is a [shadcn registry](https://ui.shadcn.com/docs/registry). Components are copied
+into your project by the shadcn CLI, exactly like shadcn/ui's own — same names, same props, same
+Radix primitives — so existing code keeps working when you switch a component over.
+
+## Requirements
+
+- A project set up for shadcn/ui: a `components.json` and a Tailwind CSS file. Run
+  `npx shadcn@latest init` first if you do not have one.
+- **Tailwind CSS v4** and **React 19**.
+- shadcn CLI **3.0 or newer** (for the `@hbd` namespace). `npx shadcn@latest` always is.
+
+Any framework the shadcn CLI supports works: Next.js, Vite (including Electron), React Router,
+TanStack Start, Astro.
+
+## 1. Register the namespace
+
+Add the registry to `components.json` once:
+
+```json title="components.json"
+{
+  "registries": {
+    "@hbd": "http://localhost:3001/r/{name}.json"
+  }
+}
+```
+
+In a monorepo, add it to the `components.json` of the workspace that holds your components (for
+example `packages/ui`) and run the commands below with `-c packages/ui`.
+
+## 2. Add the theme
+
+```bash
+npx shadcn@latest add @hbd/theme @hbd/fonts
+```
+
+`@hbd/fonts` is separate and optional on purpose: the theme only sets the font-family variables, so
+you can leave the fonts out and point `--font-display` / `--font-sans` at your own typefaces. See
+[Using your own fonts](/docs/theming#using-your-own-fonts).
+
+The theme is **merged** into the CSS file named in `components.json` (`tailwind.css`). Nothing is
+replaced wholesale — your own rules, keyframes and variables that the theme does not define stay
+exactly where they are. It adds:
+
+- the full shadcn variable set (`--background`, `--primary`, `--muted`, `--sidebar-*`, `--chart-*`…)
+  in the Here Be Dragons palette, for light, `.dark` and `.high-contrast`,
+- the Here Be Dragons extras: status colours, spell-school colours and the parchment / ink / crimson /
+  gold palette as Tailwind colours (`bg-parchment-200`, `text-gold-deep`),
+- the font-family variables — the typefaces themselves come from `@hbd/fonts` as npm packages
+  imported from CSS, so they are bundled with your app and work offline (Electron included),
+- sharp radii, offset shadows and a few animations,
+- base styles: parchment background, ink text, IM Fell English body copy.
+
+See [Theming](/docs/theming) for every variable.
+
+## 3. Add components
+
+```bash
+npx shadcn@latest add @hbd/button @hbd/card @hbd/input
+```
+
+Import them from your components alias like any shadcn component:
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function Example() {
+  return <Button variant="outline">Cast Spell</Button>;
+}
+```
+
+Every component depends on the theme, so adding one also brings in any theme variables your CSS is
+missing — but it never overwrites variables you already have. Only an explicit
+`npx shadcn@latest add @hbd/theme` replaces them.
+
+## Without the namespace
+
+Every item is also installable by URL, with no `components.json` changes:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/theme.json http://localhost:3001/r/fonts.json http://localhost:3001/r/button.json
+```
+
+## Dark mode and high contrast
+
+The theme follows shadcn's convention: a `dark` class on `<html>` switches to dark mode. With
+Next.js, use [next-themes](https://github.com/pacocoursey/next-themes):
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider } from "next-themes";
+
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  {children}
+</ThemeProvider>;
+```
+
+In a Vite or Electron app, toggle the class yourself:
+
+```ts
+document.documentElement.classList.toggle("dark", prefersDark);
+```
+
+High contrast works the same way with a `high-contrast` class — with next-themes, add it to
+`themes={["light", "dark", "high-contrast"]}`.
+
+## Customising a component
+
+Components are yours to edit, and `className` overrides work the same way as in shadcn/ui: classes
+are merged with tailwind-merge, so `<Button className="w-full">` or `<Card className="max-w-md">`
+does what you expect. To change colours everywhere, change the theme variables instead.
+
+## Updating
+
+```bash
+npx shadcn@latest add @hbd/button --diff
+```
+
+shows what changed upstream before you overwrite a component you have modified.

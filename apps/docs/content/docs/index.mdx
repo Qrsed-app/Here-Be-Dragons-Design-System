@@ -1,23 +1,39 @@
 ---
 title: Here Be Dragons
-description: A D&D / fantasy design system — 51 token-driven React + Tailwind v4 components, installable via the shadcn CLI.
+description: A D&D / fantasy design system for shadcn/ui — the components you know, in parchment, ink and blood.
 ---
 
-## Welcome
+**Here Be Dragons** is a fantasy design system distributed as a
+[shadcn registry](https://ui.shadcn.com/docs/registry). You use it exactly like shadcn/ui: the CLI
+copies the components into your project, with the same names, props and Radix primitives — they just
+look like they were drawn in a dungeon master's notebook.
 
-**Here Be Dragons** is a D&D / fantasy design system distributed as a
-[shadcn](https://ui.shadcn.com/docs/registry) custom registry. **51 components**,
-React 19 + Tailwind v4, every colour / size / radius / motion backed by design
-tokens — a 1:1 React port of the original framework-agnostic Web Component system.
+- **Drop-in.** `Button`, `Card`, `Dialog`, `DropdownMenu`, `Select`, `Sidebar`… keep their shadcn/ui
+  API, so switching an existing app over is an install, not a rewrite.
+- **Themed by CSS variables.** One `@hbd/theme` item merges the palette, radii and font-family
+  variables into your stylesheet — light, dark and high contrast.
+- **Offline-safe, and yours to change.** Fonts are a separate `@hbd/fonts` item of npm packages
+  bundled with your app — take ours, or point the variables at your own.
+- **Extras for tabletop apps.** Spell cards, stat blocks, a gold button, spell-school colours.
 
-- **Browse** components in the sidebar — grouped into Primitives, Forms,
-  Feedback &amp; display, Navigation, Overlays, Pickers, and Domain (TTRPG).
-- **Theme:** switch between **Light**, **Dark**, and **High contrast** with the
-  switcher in the top-right.
-- **Install** any component straight from this live registry:
+## Get started
 
-```bash
-npx shadcn@latest add http://localhost:3001/r/button.json
+```json title="components.json"
+{
+  "registries": {
+    "@hbd": "http://localhost:3001/r/{name}.json"
+  }
+}
 ```
 
-Each component page shows live previews and its own install command.
+```bash
+npx shadcn@latest add @hbd/theme @hbd/fonts @hbd/button
+```
+
+Read [Installation](/docs/installation) for the details, [Theming](/docs/theming) for the
+variables, then pick a component from the sidebar.
+
+## For AI assistants
+
+[`/llms.txt`](/llms.txt) indexes every page and [`/llms-full.txt`](/llms-full.txt) contains the
+full documentation as Markdown.

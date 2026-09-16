@@ -1,0 +1,418 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+---
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/registry/new-york/accordion/accordion";
+import { AccordionControlledDemo } from "@/components/examples/accordion-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion type="single" collapsible defaultValue="origins" className="max-w-[34rem]">
+        <AccordionItem value="origins">
+          <AccordionTrigger>What does "Here Be Dragons" mean?</AccordionTrigger>
+          <AccordionContent>Medieval cartographers inked the phrase on the uncharted edges of their maps to mark dangerous or unexplored territory.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="usage">
+          <AccordionTrigger>When should I reach for an accordion?</AccordionTrigger>
+          <AccordionContent>Use it to condense long, secondary content into scannable sections so a reader can expand only the parts they need.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="a11y">
+          <AccordionTrigger>Is it keyboard accessible?</AccordionTrigger>
+          <AccordionContent>Yes. It follows the WAI-ARIA accordion pattern: every trigger is a button, and the arrow, Home and End keys move between them.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Accordion,
+      AccordionContent,
+      AccordionItem,
+      AccordionTrigger,
+    } from "@/components/ui/accordion";
+
+    export function AccordionDemo() {
+      return (
+        <Accordion type="single" collapsible defaultValue="origins" className="max-w-[34rem]">
+          <AccordionItem value="origins">
+            <AccordionTrigger>What does "Here Be Dragons" mean?</AccordionTrigger>
+            <AccordionContent>
+              Medieval cartographers inked the phrase on the uncharted edges of their maps to mark
+              dangerous or unexplored territory.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="usage">
+            <AccordionTrigger>When should I reach for an accordion?</AccordionTrigger>
+            <AccordionContent>
+              Use it to condense long, secondary content into scannable sections so a reader can
+              expand only the parts they need.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="a11y">
+            <AccordionTrigger>Is it keyboard accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It follows the WAI-ARIA accordion pattern: every trigger is a button, and the
+              arrow, Home and End keys move between them.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/accordion
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/accordion.json
+```
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+```
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Examples
+
+### Multiple
+
+With `type="multiple"` items open and close independently; `defaultValue` takes an array.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion type="multiple" defaultValue={["compass", "sextant"]} className="max-w-[34rem]">
+        <AccordionItem value="compass">
+          <AccordionTrigger>Compass</AccordionTrigger>
+          <AccordionContent>
+            Points the way north so a navigator can hold a steady bearing.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="sextant">
+          <AccordionTrigger>Sextant</AccordionTrigger>
+          <AccordionContent>
+            Measures the angle between a star and the horizon to fix latitude.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="astrolabe">
+          <AccordionTrigger>Astrolabe</AccordionTrigger>
+          <AccordionContent>
+            An older instrument for locating and predicting the positions of stars.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion type="multiple" defaultValue={["compass", "sextant"]} className="max-w-[34rem]">
+      <AccordionItem value="compass">
+        <AccordionTrigger>Compass</AccordionTrigger>
+        <AccordionContent>
+          Points the way north so a navigator can hold a steady bearing.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="sextant">
+        <AccordionTrigger>Sextant</AccordionTrigger>
+        <AccordionContent>
+          Measures the angle between a star and the horizon to fix latitude.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="astrolabe">
+        <AccordionTrigger>Astrolabe</AccordionTrigger>
+        <AccordionContent>
+          An older instrument for locating and predicting the positions of stars.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+### Bordered
+
+Box the whole group with a hairline border. `overflow-hidden` keeps the open row's tint inside the
+rounded corners.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue="bordered"
+        className="max-w-[34rem] overflow-hidden rounded-md border border-border-subtle"
+      >
+        <AccordionItem value="bordered">
+          <AccordionTrigger>Bordered</AccordionTrigger>
+          <AccordionContent>
+            A boxed container with a border around the whole group.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="second">
+          <AccordionTrigger>Second item</AccordionTrigger>
+          <AccordionContent>Sibling content tucked inside the bordered shell.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion
+      type="single"
+      collapsible
+      defaultValue="bordered"
+      className="max-w-[34rem] overflow-hidden rounded-md border border-border-subtle"
+    >
+      <AccordionItem value="bordered">
+        <AccordionTrigger>Bordered</AccordionTrigger>
+        <AccordionContent>A boxed container with a border around the whole group.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="second">
+        <AccordionTrigger>Second item</AccordionTrigger>
+        <AccordionContent>Sibling content tucked inside the bordered shell.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+### Divided
+
+Hairline rules between items.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion type="single" collapsible defaultValue="divided" className="max-w-[34rem]">
+        <AccordionItem value="divided" className="border-b border-border-subtle last:border-b-0">
+          <AccordionTrigger>Divided</AccordionTrigger>
+          <AccordionContent>Hairline rules separate each item from the next.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="second" className="border-b border-border-subtle last:border-b-0">
+          <AccordionTrigger>Second item</AccordionTrigger>
+          <AccordionContent>
+            The divider sits between rows rather than around the group.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion type="single" collapsible defaultValue="divided" className="max-w-[34rem]">
+      <AccordionItem value="divided" className="border-b border-border-subtle last:border-b-0">
+        <AccordionTrigger>Divided</AccordionTrigger>
+        <AccordionContent>Hairline rules separate each item from the next.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="second" className="border-b border-border-subtle last:border-b-0">
+        <AccordionTrigger>Second item</AccordionTrigger>
+        <AccordionContent>
+          The divider sits between rows rather than around the group.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+### Flush
+
+Drop the content padding to line the body up with the edge of an existing surface.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion type="single" collapsible defaultValue="flush" className="max-w-[34rem]">
+        <AccordionItem value="flush">
+          <AccordionTrigger>Flush</AccordionTrigger>
+          <AccordionContent className="p-0">
+            Chrome stripped back to blend straight into the page.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="second">
+          <AccordionTrigger>Second item</AccordionTrigger>
+          <AccordionContent className="p-0">
+            No padding around the body, ideal inside an existing card.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion type="single" collapsible defaultValue="flush" className="max-w-[34rem]">
+      <AccordionItem value="flush">
+        <AccordionTrigger>Flush</AccordionTrigger>
+        <AccordionContent className="p-0">
+          Chrome stripped back to blend straight into the page.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="second">
+        <AccordionTrigger>Second item</AccordionTrigger>
+        <AccordionContent className="p-0">
+          No padding around the body, ideal inside an existing card.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+A disabled item renders a dimmed trigger that cannot be opened; arrow keys skip it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Accordion type="single" collapsible defaultValue="available" className="max-w-[34rem]">
+        <AccordionItem value="available">
+          <AccordionTrigger>Available chapter</AccordionTrigger>
+          <AccordionContent>This section is open and fully interactive.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="locked" disabled>
+          <AccordionTrigger>Locked chapter</AccordionTrigger>
+          <AccordionContent>You should not be able to reach or open this one.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="next">
+          <AccordionTrigger>Next chapter</AccordionTrigger>
+          <AccordionContent>Arrow keys jump straight past the locked item above.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Accordion type="single" collapsible defaultValue="available" className="max-w-[34rem]">
+      <AccordionItem value="available">
+        <AccordionTrigger>Available chapter</AccordionTrigger>
+        <AccordionContent>This section is open and fully interactive.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="locked" disabled>
+        <AccordionTrigger>Locked chapter</AccordionTrigger>
+        <AccordionContent>You should not be able to reach or open this one.</AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="next">
+        <AccordionTrigger>Next chapter</AccordionTrigger>
+        <AccordionContent>Arrow keys jump straight past the locked item above.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+    ```
+  </Tab>
+</Tabs>
+
+### Controlled
+
+Own the open item with `value` and `onValueChange`. With `type="single" collapsible`, closing the
+open item reports an empty string.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AccordionControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import {
+      Accordion,
+      AccordionContent,
+      AccordionItem,
+      AccordionTrigger,
+    } from "@/components/ui/accordion";
+
+    const passages = [
+      { value: "north", title: "Northern passage" },
+      { value: "south", title: "Southern passage" },
+      { value: "east", title: "Eastern passage" },
+    ];
+
+    export function AccordionControlledDemo() {
+      const [open, setOpen] = React.useState("north");
+
+      return (
+        <div className="flex w-full max-w-[34rem] flex-col gap-3">
+          <Accordion type="single" collapsible value={open} onValueChange={setOpen}>
+            {passages.map((p) => (
+              <AccordionItem key={p.value} value={p.value}>
+                <AccordionTrigger>{p.title}</AccordionTrigger>
+                <AccordionContent>
+                  Charting the {p.title.toLowerCase()} toward the unknown edge of the map.
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <p className="m-0 font-sans text-sm text-muted-foreground">
+            Open section: <strong className="text-foreground">{open || "none"}</strong>
+          </p>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+Every part takes the props of its Radix counterpart — see
+[Radix Accordion](https://www.radix-ui.com/primitives/docs/components/accordion). The ones you
+reach for most, on `Accordion`:
+
+<TypeTable
+  type={{
+    type: {
+      type: '"single" | "multiple"',
+      description: "Whether one or many items can be open at once. Required.",
+    },
+    collapsible: {
+      type: "boolean",
+      default: "false",
+      description: 'With `type="single"`, lets the open item be closed again.',
+    },
+    defaultValue: {
+      type: "string | string[]",
+      description: "The item(s) open on first render — an array when `type` is `multiple`.",
+    },
+  }}
+/>
+
+`AccordionContent` forwards `className` to its padded inner `<div>`, so `className="p-0"` removes the
+body padding.

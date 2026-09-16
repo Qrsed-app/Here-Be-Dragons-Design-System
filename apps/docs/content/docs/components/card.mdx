@@ -1,0 +1,439 @@
+---
+title: Card
+description: Displays a card with header, content, and footer.
+---
+
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/registry/new-york/card/card";
+import { Badge } from "@/registry/new-york/badge/badge";
+import { Button } from "@/registry/new-york/button/button";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Voyage Log</CardTitle>
+          <CardDescription>Day 14 — open water</CardDescription>
+          <CardAction>
+            <Button variant="link" size="sm">{"Edit"}</Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>Calm seas and a steady wind from the south-east.</CardContent>
+        <CardFooter>
+          <Button>Read</Button>
+          <Button variant="secondary">Archive</Button>
+        </CardFooter>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Card,
+      CardAction,
+      CardContent,
+      CardDescription,
+      CardFooter,
+      CardHeader,
+      CardTitle,
+    } from "@/components/ui/card";
+
+    export function CardDemo() {
+      return (
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>Voyage Log</CardTitle>
+            <CardDescription>Day 14 — open water</CardDescription>
+            <CardAction>
+              <Button variant="link" size="sm">
+                Edit
+              </Button>
+            </CardAction>
+          </CardHeader>
+          <CardContent>Calm seas and a steady wind from the south-east.</CardContent>
+          <CardFooter>
+            <Button>Read</Button>
+            <Button variant="secondary">Archive</Button>
+          </CardFooter>
+        </Card>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/card
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/card.json
+```
+
+## Usage
+
+```tsx
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+```
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+    <CardAction>Card Action</CardAction>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>
+```
+
+## Examples
+
+### Size
+
+Here Be Dragons addition — `sm`, `lg` and `flush` change the padding of every part at once.
+`flush` removes padding and the footer rule for fully custom layouts.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card size="sm" className="w-44">
+        <CardHeader>
+          <CardTitle>Small</CardTitle>
+        </CardHeader>
+        <CardContent>Compact padding.</CardContent>
+      </Card>
+      <Card className="w-44">
+        <CardHeader>
+          <CardTitle>Default</CardTitle>
+        </CardHeader>
+        <CardContent>The default size.</CardContent>
+      </Card>
+      <Card size="lg" className="w-44">
+        <CardHeader>
+          <CardTitle>Large</CardTitle>
+        </CardHeader>
+        <CardContent>Roomier padding.</CardContent>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Card size="sm">
+      <CardHeader>
+        <CardTitle>Small</CardTitle>
+      </CardHeader>
+      <CardContent>Compact padding.</CardContent>
+    </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle>Default</CardTitle>
+      </CardHeader>
+      <CardContent>The default size.</CardContent>
+    </Card>
+    <Card size="lg">
+      <CardHeader>
+        <CardTitle>Large</CardTitle>
+      </CardHeader>
+      <CardContent>Roomier padding.</CardContent>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
+### Variant
+
+Here Be Dragons addition — `elevated` swaps the resting shadow for a heavier one; `bordered` draws a
+border instead of a shadow, for cards on a busy backdrop.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card variant="elevated" className="w-44">
+        <CardHeader>
+          <CardTitle>Elevated</CardTitle>
+        </CardHeader>
+        <CardContent>Heavier drop shadow.</CardContent>
+      </Card>
+      <Card variant="bordered" className="w-44">
+        <CardHeader>
+          <CardTitle>Bordered</CardTitle>
+        </CardHeader>
+        <CardContent>Outlined instead of shadowed.</CardContent>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Card variant="elevated">
+      <CardHeader>
+        <CardTitle>Elevated</CardTitle>
+      </CardHeader>
+      <CardContent>Heavier drop shadow.</CardContent>
+    </Card>
+    <Card variant="bordered">
+      <CardHeader>
+        <CardTitle>Bordered</CardTitle>
+      </CardHeader>
+      <CardContent>Outlined instead of shadowed.</CardContent>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
+### Interactive
+
+Here Be Dragons addition — `interactive` lifts the card on hover and draws the focus ring outside it.
+Render a link with `asChild`; for a card that runs code instead, keep the `<div>` and add
+`role="button"`, `tabIndex={0}` and your click and Enter / Space handlers.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card interactive asChild className="w-80">
+        <a href="#interactive">
+          <CardHeader>
+            <CardTitle>Eastern Sea Route</CardTitle>
+            <CardDescription>Opens the chart</CardDescription>
+          </CardHeader>
+          <CardContent>Three days under full sail.</CardContent>
+        </a>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <Card interactive asChild>
+      <Link href="/routes/eastern-sea">
+        <CardHeader>
+          <CardTitle>Eastern Sea Route</CardTitle>
+          <CardDescription>Opens the chart</CardDescription>
+        </CardHeader>
+        <CardContent>Three days under full sail.</CardContent>
+      </Link>
+    </Card>
+    ```
+
+  </Tab>
+</Tabs>
+
+### With Image
+
+An `<img>` as the first child sits flush against the top edge.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card className="w-72">
+        <img
+          src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400"
+          alt="A camera on a white table"
+          className="h-[200px] w-full bg-surface-subtle object-cover"
+        />
+        <CardHeader>
+          <CardTitle>Media</CardTitle>
+          <CardDescription>With a cover image</CardDescription>
+        </CardHeader>
+        <CardContent>Media cards lead with a cover image.</CardContent>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Card>
+      <img
+        src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400"
+        alt="A camera on a white table"
+        className="h-[200px] w-full bg-surface-subtle object-cover"
+      />
+      <CardHeader>
+        <CardTitle>Media</CardTitle>
+        <CardDescription>With a cover image</CardDescription>
+      </CardHeader>
+      <CardContent>Media cards lead with a cover image.</CardContent>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
+### Horizontal
+
+Lay the card out as a row, with the image in a side column and the parts in a column of their own.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card className="w-full max-w-md flex-row gap-0 py-0">
+        <img
+          src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300"
+          alt="A camera on a white table"
+          className="w-[200px] shrink-0 self-stretch bg-surface-subtle object-cover"
+        />
+        <div className="flex min-w-0 flex-1 flex-col gap-4 py-4">
+          <CardHeader>
+            <CardTitle>Horizontal</CardTitle>
+            <CardDescription>Media beside content</CardDescription>
+          </CardHeader>
+          <CardContent>The image sits in a side column next to the text.</CardContent>
+        </div>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Card className="flex-row gap-0 py-0">
+      <img
+        src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300"
+        alt="A camera on a white table"
+        className="w-[200px] shrink-0 self-stretch bg-surface-subtle object-cover"
+      />
+      <div className="flex min-w-0 flex-1 flex-col gap-4 py-4">
+        <CardHeader>
+          <CardTitle>Horizontal</CardTitle>
+          <CardDescription>Media beside content</CardDescription>
+        </CardHeader>
+        <CardContent>The image sits in a side column next to the text.</CardContent>
+      </div>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
+### Badge Overlay
+
+The card is positioned, so an absolutely placed child pins to its corner without affecting the layout.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card className="w-80">
+        <Badge variant="warning" className="pointer-events-none absolute top-3 right-3 z-10">
+          New
+        </Badge>
+        <CardHeader>
+          <CardTitle>Dragon Hoard</CardTitle>
+          <CardDescription>Treasure trove</CardDescription>
+        </CardHeader>
+        <CardContent>Gold, gems and a very angry wyrm.</CardContent>
+        <CardFooter>
+          <Button variant="gold">Claim</Button>
+        </CardFooter>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Badge } from "@/components/ui/badge";
+
+    <Card>
+      <Badge variant="warning" className="pointer-events-none absolute top-3 right-3 z-10">
+        New
+      </Badge>
+      <CardHeader>
+        <CardTitle>Dragon Hoard</CardTitle>
+        <CardDescription>Treasure trove</CardDescription>
+      </CardHeader>
+      <CardContent>Gold, gems and a very angry wyrm.</CardContent>
+      <CardFooter>
+        <Button variant="gold">Claim</Button>
+      </CardFooter>
+    </Card>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Header Border
+
+Add `border-b` to the header to rule it off from the content.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Card className="w-80">
+        <CardHeader className="border-b">
+          <CardTitle>Quest Log</CardTitle>
+          <CardDescription>Updated at dawn</CardDescription>
+        </CardHeader>
+        <CardContent>Recover the Sunstone from the drowned crypt.</CardContent>
+      </Card>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Card>
+      <CardHeader className="border-b">
+        <CardTitle>Quest Log</CardTitle>
+        <CardDescription>Updated at dawn</CardDescription>
+      </CardHeader>
+      <CardContent>Recover the Sunstone from the drowned crypt.</CardContent>
+    </Card>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Card
+
+<TypeTable
+  type={{
+    size: {
+      type: '"default" | "sm" | "lg" | "flush"',
+      default: '"default"',
+      description: "Padding of the card and every part. Here Be Dragons addition.",
+    },
+    variant: {
+      type: '"default" | "bordered" | "elevated"',
+      default: '"default"',
+      description:
+        "Surface: hairline border with a light shadow, a heavier border without shadow, or a deeper shadow. Here Be Dragons addition.",
+    },
+    interactive: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Hover lift, pointer cursor and an outside focus ring. Here Be Dragons addition.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element (e.g. a link) instead of a `<div>` (Radix Slot). Here Be Dragons addition.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<div>` — or to the child when `asChild` is set.
+`CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent` and `CardFooter` render a
+`<div>` and take its props. The exported `cardVariants` helper returns the root classes.

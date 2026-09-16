@@ -1,0 +1,120 @@
+---
+title: Scroll Area
+description: Augments native scroll functionality for custom, cross-browser styling.
+---
+
+import { ScrollAreaDemo, ScrollAreaHorizontalDemo } from "@/components/examples/scroll-area-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ScrollAreaDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ScrollArea } from "@/components/ui/scroll-area";
+
+    const ports = Array.from({ length: 30 }, (_, i) => `Port of call ${i + 1}`);
+
+    export function ScrollAreaDemo() {
+      return (
+        <ScrollArea className="h-72 w-48 rounded-md border border-border-subtle">
+          <div className="p-4">
+            <h4 className="mb-4 font-accent text-sm leading-none font-bold">Ports</h4>
+            {ports.map((port) => (
+              <div key={port} className="border-b border-border-subtle py-2 text-sm">
+                {port}
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/scroll-area
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/scroll-area.json
+```
+
+## Usage
+
+```tsx
+import { ScrollArea } from "@/components/ui/scroll-area";
+```
+
+```tsx
+<ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+  The Cartographer charted the Sea of Fallen Stars over forty winters, sounding every reef and
+  naming every isle that rose above the tide.
+</ScrollArea>
+```
+
+The scrollbar appears while the pointer is over the area and darkens under the pointer.
+
+## Examples
+
+### Horizontal
+
+Add a `ScrollBar` with `orientation="horizontal"`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ScrollAreaHorizontalDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+    const charts = ["Sea of Fallen Stars", "Moonshae Isles", "Sword Coast", "Trackless Sea", "Nelanther", "Shining Sea"];
+
+    export function ScrollAreaHorizontalDemo() {
+      return (
+        <ScrollArea className="w-96 rounded-md border border-border-subtle whitespace-nowrap">
+          <div className="flex w-max gap-4 p-4">
+            {charts.map((chart) => (
+              <figure key={chart} className="shrink-0">
+                <div className="h-32 w-40 rounded-md border-2 border-ink-900 bg-surface-raised" />
+                <figcaption className="pt-2 text-xs text-muted-foreground">{chart}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### ScrollBar
+
+<TypeTable
+  type={{
+    orientation: {
+      type: '"vertical" | "horizontal"',
+      default: '"vertical"',
+      description: "Which axis the bar scrolls. ScrollArea renders a vertical one for you.",
+    },
+  }}
+/>
+
+`ScrollArea` takes the props of Radix `ScrollArea.Root` (`type`, `scrollHideDelay`, `dir`…) — see
+[Radix Scroll Area](https://www.radix-ui.com/primitives/docs/components/scroll-area).

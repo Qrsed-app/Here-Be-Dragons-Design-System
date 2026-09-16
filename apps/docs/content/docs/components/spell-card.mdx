@@ -1,0 +1,534 @@
+---
+title: Spell Card
+description: Displays a D&D spell as a parchment card with a school colour band, level badge, meta grid and description.
+---
+
+import {
+  SpellCard,
+  SpellCardDescription,
+  SpellCardFooter,
+  SpellCardHigherLevels,
+  SpellCardHigherLevelsLabel,
+  SpellCardLevel,
+  SpellCardMeta,
+  SpellCardMetaItem,
+  SpellCardMetaLabel,
+  SpellCardMetaValue,
+  SpellCardSchool,
+  SpellCardSeparator,
+  SpellCardTag,
+  SpellCardTags,
+  SpellCardTitle,
+} from "@/registry/new-york/spell-card/spell-card";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard school="evocation" aria-label="Fireball spell card" className="w-full max-w-xs">
+        <SpellCardLevel>Lvl 3</SpellCardLevel>
+        <SpellCardSchool>Evocation</SpellCardSchool>
+        <SpellCardTitle>Fireball</SpellCardTitle>
+        <SpellCardSeparator />
+        <SpellCardMeta>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Casting Time</SpellCardMetaLabel>
+            <SpellCardMetaValue>1 action</SpellCardMetaValue>
+          </SpellCardMetaItem>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Range</SpellCardMetaLabel>
+            <SpellCardMetaValue>150 feet</SpellCardMetaValue>
+          </SpellCardMetaItem>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Components</SpellCardMetaLabel>
+            <SpellCardMetaValue>V, S, M</SpellCardMetaValue>
+          </SpellCardMetaItem>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Duration</SpellCardMetaLabel>
+            <SpellCardMetaValue>Instantaneous</SpellCardMetaValue>
+          </SpellCardMetaItem>
+        </SpellCardMeta>
+        <SpellCardSeparator />
+        <SpellCardDescription>A bright streak flashes to a point you choose, then blossoms into an explosion of flame.</SpellCardDescription>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      SpellCard,
+      SpellCardDescription,
+      SpellCardLevel,
+      SpellCardMeta,
+      SpellCardMetaItem,
+      SpellCardMetaLabel,
+      SpellCardMetaValue,
+      SpellCardSchool,
+      SpellCardSeparator,
+      SpellCardTitle,
+    } from "@/components/ui/spell-card";
+
+    export function SpellCardDemo() {
+      return (
+        <SpellCard school="evocation" aria-label="Fireball spell card" className="w-full max-w-xs">
+          <SpellCardLevel>Lvl 3</SpellCardLevel>
+          <SpellCardSchool>Evocation</SpellCardSchool>
+          <SpellCardTitle>Fireball</SpellCardTitle>
+          <SpellCardSeparator />
+          <SpellCardMeta>
+            <SpellCardMetaItem>
+              <SpellCardMetaLabel>Casting Time</SpellCardMetaLabel>
+              <SpellCardMetaValue>1 action</SpellCardMetaValue>
+            </SpellCardMetaItem>
+            <SpellCardMetaItem>
+              <SpellCardMetaLabel>Range</SpellCardMetaLabel>
+              <SpellCardMetaValue>150 feet</SpellCardMetaValue>
+            </SpellCardMetaItem>
+            <SpellCardMetaItem>
+              <SpellCardMetaLabel>Components</SpellCardMetaLabel>
+              <SpellCardMetaValue>V, S, M</SpellCardMetaValue>
+            </SpellCardMetaItem>
+            <SpellCardMetaItem>
+              <SpellCardMetaLabel>Duration</SpellCardMetaLabel>
+              <SpellCardMetaValue>Instantaneous</SpellCardMetaValue>
+            </SpellCardMetaItem>
+          </SpellCardMeta>
+          <SpellCardSeparator />
+          <SpellCardDescription>
+            A bright streak flashes to a point you choose, then blossoms into an explosion of flame.
+          </SpellCardDescription>
+        </SpellCard>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+Here Be Dragons component — shadcn/ui has no counterpart. It follows the shadcn conventions: one
+named export per part, a `data-slot` on each, and `className` merged last.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/spell-card
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/spell-card.json
+```
+
+## Usage
+
+```tsx
+import {
+  SpellCard,
+  SpellCardDescription,
+  SpellCardFooter,
+  SpellCardHigherLevels,
+  SpellCardHigherLevelsLabel,
+  SpellCardLevel,
+  SpellCardMeta,
+  SpellCardMetaItem,
+  SpellCardMetaLabel,
+  SpellCardMetaValue,
+  SpellCardSchool,
+  SpellCardSeparator,
+  SpellCardTag,
+  SpellCardTags,
+  SpellCardTitle,
+} from "@/components/ui/spell-card";
+```
+
+```tsx
+<SpellCard school="abjuration">
+  <SpellCardLevel>Lvl 1</SpellCardLevel>
+  <SpellCardSchool>Abjuration</SpellCardSchool>
+  <SpellCardTitle>Shield</SpellCardTitle>
+  <SpellCardSeparator />
+  <SpellCardDescription>An invisible barrier of magical force appears.</SpellCardDescription>
+</SpellCard>
+```
+
+## Examples
+
+### Schools
+
+`school` picks the colour band, level badge and tag colours. The eyebrow text is yours to write.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard school="abjuration" className="w-48">
+        <SpellCardLevel>Lvl 3</SpellCardLevel>
+        <SpellCardSchool>Abjuration</SpellCardSchool>
+        <SpellCardTitle>Counterspell</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="conjuration" className="w-48">
+        <SpellCardLevel>Lvl 9</SpellCardLevel>
+        <SpellCardSchool>Conjuration</SpellCardSchool>
+        <SpellCardTitle>Wish</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="divination" className="w-48">
+        <SpellCardLevel>Lvl 1</SpellCardLevel>
+        <SpellCardSchool>Divination</SpellCardSchool>
+        <SpellCardTitle>Detect Magic</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="enchantment" className="w-48">
+        <SpellCardLevel>Lvl 1</SpellCardLevel>
+        <SpellCardSchool>Enchantment</SpellCardSchool>
+        <SpellCardTitle>Charm Person</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="evocation" className="w-48">
+        <SpellCardLevel>Lvl 3</SpellCardLevel>
+        <SpellCardSchool>Evocation</SpellCardSchool>
+        <SpellCardTitle>Fireball</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="illusion" className="w-48">
+        <SpellCardLevel>Lvl 2</SpellCardLevel>
+        <SpellCardSchool>Illusion</SpellCardSchool>
+        <SpellCardTitle>Mirror Image</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="necromancy" className="w-48">
+        <SpellCardLevel>Lvl 3</SpellCardLevel>
+        <SpellCardSchool>Necromancy</SpellCardSchool>
+        <SpellCardTitle>Animate Dead</SpellCardTitle>
+      </SpellCard>
+      <SpellCard school="transmutation" className="w-48">
+        <SpellCardLevel>Lvl 4</SpellCardLevel>
+        <SpellCardSchool>Transmutation</SpellCardSchool>
+        <SpellCardTitle>Polymorph</SpellCardTitle>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard school="abjuration" className="w-48">
+      <SpellCardLevel>Lvl 3</SpellCardLevel>
+      <SpellCardSchool>Abjuration</SpellCardSchool>
+      <SpellCardTitle>Counterspell</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="conjuration" className="w-48">
+      <SpellCardLevel>Lvl 9</SpellCardLevel>
+      <SpellCardSchool>Conjuration</SpellCardSchool>
+      <SpellCardTitle>Wish</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="divination" className="w-48">
+      <SpellCardLevel>Lvl 1</SpellCardLevel>
+      <SpellCardSchool>Divination</SpellCardSchool>
+      <SpellCardTitle>Detect Magic</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="enchantment" className="w-48">
+      <SpellCardLevel>Lvl 1</SpellCardLevel>
+      <SpellCardSchool>Enchantment</SpellCardSchool>
+      <SpellCardTitle>Charm Person</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="evocation" className="w-48">
+      <SpellCardLevel>Lvl 3</SpellCardLevel>
+      <SpellCardSchool>Evocation</SpellCardSchool>
+      <SpellCardTitle>Fireball</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="illusion" className="w-48">
+      <SpellCardLevel>Lvl 2</SpellCardLevel>
+      <SpellCardSchool>Illusion</SpellCardSchool>
+      <SpellCardTitle>Mirror Image</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="necromancy" className="w-48">
+      <SpellCardLevel>Lvl 3</SpellCardLevel>
+      <SpellCardSchool>Necromancy</SpellCardSchool>
+      <SpellCardTitle>Animate Dead</SpellCardTitle>
+    </SpellCard>
+    <SpellCard school="transmutation" className="w-48">
+      <SpellCardLevel>Lvl 4</SpellCardLevel>
+      <SpellCardSchool>Transmutation</SpellCardSchool>
+      <SpellCardTitle>Polymorph</SpellCardTitle>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+### Cantrip
+
+The level badge holds any text — a cantrip simply says so.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard school="evocation" aria-label="Fire Bolt spell card" className="w-full max-w-xs">
+        <SpellCardLevel>Cantrip</SpellCardLevel>
+        <SpellCardSchool>Evocation</SpellCardSchool>
+        <SpellCardTitle>Fire Bolt</SpellCardTitle>
+        <SpellCardSeparator />
+        <SpellCardMeta>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Casting Time</SpellCardMetaLabel>
+            <SpellCardMetaValue>1 action</SpellCardMetaValue>
+          </SpellCardMetaItem>
+          <SpellCardMetaItem>
+            <SpellCardMetaLabel>Range</SpellCardMetaLabel>
+            <SpellCardMetaValue>120 feet</SpellCardMetaValue>
+          </SpellCardMetaItem>
+        </SpellCardMeta>
+        <SpellCardSeparator />
+        <SpellCardDescription>
+          {"You hurl a mote of fire at a creature or object within range."}
+        </SpellCardDescription>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard school="evocation" aria-label="Fire Bolt spell card" className="w-full max-w-xs">
+      <SpellCardLevel>Cantrip</SpellCardLevel>
+      <SpellCardSchool>Evocation</SpellCardSchool>
+      <SpellCardTitle>Fire Bolt</SpellCardTitle>
+      <SpellCardSeparator />
+      <SpellCardMeta>
+        <SpellCardMetaItem>
+          <SpellCardMetaLabel>Casting Time</SpellCardMetaLabel>
+          <SpellCardMetaValue>1 action</SpellCardMetaValue>
+        </SpellCardMetaItem>
+        <SpellCardMetaItem>
+          <SpellCardMetaLabel>Range</SpellCardMetaLabel>
+          <SpellCardMetaValue>120 feet</SpellCardMetaValue>
+        </SpellCardMetaItem>
+      </SpellCardMeta>
+      <SpellCardSeparator />
+      <SpellCardDescription>
+        You hurl a mote of fire at a creature or object within range.
+      </SpellCardDescription>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+### Ritual and Concentration
+
+Tags sit under the title and take the school's colours.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard
+        school="divination"
+        aria-label="Detect Magic spell card"
+        className="w-full max-w-xs"
+      >
+        <SpellCardLevel>Lvl 1</SpellCardLevel>
+        <SpellCardSchool>Divination</SpellCardSchool>
+        <SpellCardTitle>Detect Magic</SpellCardTitle>
+        <SpellCardTags>
+          <SpellCardTag>Ritual</SpellCardTag>
+          <SpellCardTag>Concentration</SpellCardTag>
+        </SpellCardTags>
+        <SpellCardSeparator />
+        <SpellCardDescription>
+          {"You sense the presence of magic within 30 feet of you."}
+        </SpellCardDescription>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard school="divination" aria-label="Detect Magic spell card" className="w-full max-w-xs">
+      <SpellCardLevel>Lvl 1</SpellCardLevel>
+      <SpellCardSchool>Divination</SpellCardSchool>
+      <SpellCardTitle>Detect Magic</SpellCardTitle>
+      <SpellCardTags>
+        <SpellCardTag>Ritual</SpellCardTag>
+        <SpellCardTag>Concentration</SpellCardTag>
+      </SpellCardTags>
+      <SpellCardSeparator />
+      <SpellCardDescription>
+        You sense the presence of magic within 30 feet of you.
+      </SpellCardDescription>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+### Selected
+
+`selected` swaps in the gold border and offset shadow. It only changes the look — expose the
+state on whatever control selects the card.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard
+        school="enchantment"
+        selected
+        aria-label="Hold Person spell card"
+        className="w-full max-w-xs"
+      >
+        <SpellCardLevel>Lvl 2</SpellCardLevel>
+        <SpellCardSchool>Enchantment</SpellCardSchool>
+        <SpellCardTitle>Hold Person</SpellCardTitle>
+        <SpellCardTags>
+          <SpellCardTag>Concentration</SpellCardTag>
+        </SpellCardTags>
+        <SpellCardSeparator />
+        <SpellCardDescription>
+          {
+            "Choose a humanoid that you can see within range; the target must succeed on a Wisdom saving throw or be paralyzed."
+          }
+        </SpellCardDescription>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard
+      school="enchantment"
+      selected
+      aria-label="Hold Person spell card"
+      className="w-full max-w-xs"
+    >
+      <SpellCardLevel>Lvl 2</SpellCardLevel>
+      <SpellCardSchool>Enchantment</SpellCardSchool>
+      <SpellCardTitle>Hold Person</SpellCardTitle>
+      <SpellCardTags>
+        <SpellCardTag>Concentration</SpellCardTag>
+      </SpellCardTags>
+      <SpellCardSeparator />
+      <SpellCardDescription>
+        Choose a humanoid that you can see within range; the target must succeed on a Wisdom saving
+        throw or be paralyzed.
+      </SpellCardDescription>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+### At Higher Levels and Footer
+
+`SpellCardHigherLevels` runs its label into the text; `SpellCardFooter` adds a dashed rule for the
+source line.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard
+        school="evocation"
+        aria-label="Magic Missile spell card"
+        className="w-full max-w-xs"
+      >
+        <SpellCardLevel>Lvl 1</SpellCardLevel>
+        <SpellCardSchool>Evocation</SpellCardSchool>
+        <SpellCardTitle>Magic Missile</SpellCardTitle>
+        <SpellCardSeparator />
+        <SpellCardDescription>
+          {"You create three glowing darts of magical force, each dealing 1d4 + 1 force damage."}
+        </SpellCardDescription>
+        <SpellCardHigherLevels>
+          <SpellCardHigherLevelsLabel>At Higher Levels.</SpellCardHigherLevelsLabel> The spell
+          creates one more dart for each slot level above 1st.
+        </SpellCardHigherLevels>
+        <SpellCardFooter>Player's Handbook · p. 257</SpellCardFooter>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard school="evocation" aria-label="Magic Missile spell card" className="w-full max-w-xs">
+      <SpellCardLevel>Lvl 1</SpellCardLevel>
+      <SpellCardSchool>Evocation</SpellCardSchool>
+      <SpellCardTitle>Magic Missile</SpellCardTitle>
+      <SpellCardSeparator />
+      <SpellCardDescription>
+        You create three glowing darts of magical force, each dealing 1d4 + 1 force damage.
+      </SpellCardDescription>
+      <SpellCardHigherLevels>
+        <SpellCardHigherLevelsLabel>At Higher Levels.</SpellCardHigherLevelsLabel> The spell creates
+        one more dart for each slot level above 1st.
+      </SpellCardHigherLevels>
+      <SpellCardFooter>Player's Handbook · p. 257</SpellCardFooter>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+### Heading Level
+
+`SpellCardTitle` renders an `<h3>`. Use `asChild` to match your page outline.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SpellCard school="necromancy" aria-label="Chill Touch spell card" className="w-48">
+        <SpellCardLevel>Cantrip</SpellCardLevel>
+        <SpellCardSchool>Necromancy</SpellCardSchool>
+        <SpellCardTitle asChild>
+          <h2>Chill Touch</h2>
+        </SpellCardTitle>
+      </SpellCard>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <SpellCard school="necromancy" aria-label="Chill Touch spell card" className="w-48">
+      <SpellCardLevel>Cantrip</SpellCardLevel>
+      <SpellCardSchool>Necromancy</SpellCardSchool>
+      <SpellCardTitle asChild>
+        <h2>Chill Touch</h2>
+      </SpellCardTitle>
+    </SpellCard>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### SpellCard
+
+<TypeTable
+  type={{
+    school: {
+      type: '"abjuration" | "conjuration" | "divination" | "enchantment" | "evocation" | "illusion" | "necromancy" | "transmutation"',
+      default: '"evocation"',
+      description: "Colours of the band, level badge and tags.",
+    },
+    selected: {
+      type: "boolean",
+      default: "false",
+      description: "Gold border and offset shadow. Sets `data-selected`.",
+    },
+  }}
+/>
+
+Renders an `<article>` with the decorative band and corners; other props go to it. Give it an
+`aria-label` such as `"Fireball spell card"`, and `tabIndex={0}` when cards are browsed with the
+keyboard — the focus ring is built in. The school colours are the custom properties
+`--spell-card-school`, `--spell-card-school-accent` and `--spell-card-school-foreground`; set them
+in `className` for a colour outside the eight schools.
+
+### SpellCardTitle
+
+<TypeTable
+  type={{
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the child element (another heading level) instead of the `<h3>` (Radix Slot).",
+    },
+  }}
+/>
+
+### Other parts
+
+Each part forwards its props to the element it renders.
+
+| Part                                                   | Element                                  |
+| ------------------------------------------------------ | ---------------------------------------- |
+| `SpellCardLevel`                                       | `<span>`, pinned to the top-right corner |
+| `SpellCardSchool`                                      | `<div>`                                  |
+| `SpellCardTags` / `SpellCardTag`                       | `<div>` / `<span>`                       |
+| `SpellCardSeparator`                                   | `<hr>`, dashed                           |
+| `SpellCardMeta` / `SpellCardMetaItem`                  | `<dl>` two-column grid / `<div>`         |
+| `SpellCardMetaLabel` / `SpellCardMetaValue`            | `<dt>` / `<dd>`                          |
+| `SpellCardDescription`                                 | `<p>`                                    |
+| `SpellCardHigherLevels` / `SpellCardHigherLevelsLabel` | `<div>` / `<span>`                       |
+| `SpellCardFooter`                                      | `<div>`                                  |

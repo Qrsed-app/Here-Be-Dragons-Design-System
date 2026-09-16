@@ -1,0 +1,274 @@
+---
+title: Native Select
+description: A styled native HTML select element with consistent design system integration.
+---
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/registry/new-york/native-select/native-select";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NativeSelect defaultValue="" aria-label="Port of call">
+        <NativeSelectOption value="" disabled hidden>
+          {"Choose a port…"}
+        </NativeSelectOption>
+        <NativeSelectOption value="lisbon">Lisbon</NativeSelectOption>
+        <NativeSelectOption value="cadiz">Cádiz</NativeSelectOption>
+        <NativeSelectOption value="tangier">Tangier</NativeSelectOption>
+        <NativeSelectOption value="valletta">Valletta</NativeSelectOption>
+      </NativeSelect>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+
+    export function NativeSelectDemo() {
+      return (
+        <NativeSelect defaultValue="" aria-label="Port of call">
+          <NativeSelectOption value="" disabled hidden>
+            Choose a port…
+          </NativeSelectOption>
+          <NativeSelectOption value="lisbon">Lisbon</NativeSelectOption>
+          <NativeSelectOption value="cadiz">Cádiz</NativeSelectOption>
+          <NativeSelectOption value="tangier">Tangier</NativeSelectOption>
+          <NativeSelectOption value="valletta">Valletta</NativeSelectOption>
+        </NativeSelect>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/native-select
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/native-select.json
+```
+
+## Usage
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select";
+```
+
+```tsx
+<NativeSelect>
+  <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+</NativeSelect>
+```
+
+The closed control matches the old custom select's trigger, chevron included. The open list is the
+browser's own.
+
+## Examples
+
+### Placeholder
+
+Here Be Dragons addition — while an option with `value=""` is selected the text takes the muted
+placeholder ink, even in the error and disabled states.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="native-select-demo-cargo">Cargo hold</FieldLabel>
+          <NativeSelect id="native-select-demo-cargo" defaultValue="">
+            <NativeSelectOption value="" disabled hidden>
+              {"Select cargo…"}
+            </NativeSelectOption>
+            <NativeSelectOption value="spices">Spices</NativeSelectOption>
+            <NativeSelectOption value="silk">Silk</NativeSelectOption>
+          </NativeSelect>
+          <FieldDescription>Heavier cargo slows the ship.</FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="cargo">Cargo hold</FieldLabel>
+      <NativeSelect id="cargo" defaultValue="">
+        <NativeSelectOption value="" disabled hidden>
+          Select cargo…
+        </NativeSelectOption>
+        <NativeSelectOption value="spices">Spices</NativeSelectOption>
+        <NativeSelectOption value="silk">Silk</NativeSelectOption>
+      </NativeSelect>
+      <FieldDescription>Heavier cargo slows the ship.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Groups
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NativeSelect defaultValue="caravel" aria-label="Vessel class">
+        <NativeSelectOptGroup label="Sail">
+          <NativeSelectOption value="caravel">Caravel</NativeSelectOption>
+          <NativeSelectOption value="carrack">Carrack</NativeSelectOption>
+          <NativeSelectOption value="galleon">Galleon</NativeSelectOption>
+        </NativeSelectOptGroup>
+        <NativeSelectOptGroup label="Oar">
+          <NativeSelectOption value="galley">Galley</NativeSelectOption>
+          <NativeSelectOption value="longship" disabled>
+            {"Longship (unavailable)"}
+          </NativeSelectOption>
+        </NativeSelectOptGroup>
+      </NativeSelect>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <NativeSelect defaultValue="caravel" aria-label="Vessel class">
+      <NativeSelectOptGroup label="Sail">
+        <NativeSelectOption value="caravel">Caravel</NativeSelectOption>
+        <NativeSelectOption value="carrack">Carrack</NativeSelectOption>
+        <NativeSelectOption value="galleon">Galleon</NativeSelectOption>
+      </NativeSelectOptGroup>
+      <NativeSelectOptGroup label="Oar">
+        <NativeSelectOption value="galley">Galley</NativeSelectOption>
+        <NativeSelectOption value="longship" disabled>
+          Longship (unavailable)
+        </NativeSelectOption>
+      </NativeSelectOptGroup>
+    </NativeSelect>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+`lg` is a Here Be Dragons addition.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NativeSelect size="sm" defaultValue="trade" aria-label="Wind, small">
+        <NativeSelectOption value="trade">Trade wind</NativeSelectOption>
+        <NativeSelectOption value="gale">Gale</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect defaultValue="trade" aria-label="Wind">
+        <NativeSelectOption value="trade">Trade wind</NativeSelectOption>
+        <NativeSelectOption value="gale">Gale</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="lg" defaultValue="trade" aria-label="Wind, large">
+        <NativeSelectOption value="trade">Trade wind</NativeSelectOption>
+        <NativeSelectOption value="gale">Gale</NativeSelectOption>
+      </NativeSelect>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <NativeSelect size="sm">…</NativeSelect>
+    <NativeSelect>…</NativeSelect>
+    <NativeSelect size="lg">…</NativeSelect>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field data-invalid>
+          <FieldLabel htmlFor="native-select-demo-dest">Destination</FieldLabel>
+          <NativeSelect id="native-select-demo-dest" defaultValue="" aria-invalid>
+            <NativeSelectOption value="" disabled hidden>
+              {"Select…"}
+            </NativeSelectOption>
+            <NativeSelectOption value="indies">The Indies</NativeSelectOption>
+            <NativeSelectOption value="cathay">Cathay</NativeSelectOption>
+          </NativeSelect>
+          <FieldError>Choose a destination before setting sail.</FieldError>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid>
+      <FieldLabel htmlFor="destination">Destination</FieldLabel>
+      <NativeSelect id="destination" defaultValue="" aria-invalid>
+        <NativeSelectOption value="" disabled hidden>
+          Select…
+        </NativeSelectOption>
+        <NativeSelectOption value="indies">The Indies</NativeSelectOption>
+        <NativeSelectOption value="cathay">Cathay</NativeSelectOption>
+      </NativeSelect>
+      <FieldError>Choose a destination before setting sail.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NativeSelect defaultValue="indies" disabled aria-label="Locked route">
+        <NativeSelectOption value="indies">The Indies</NativeSelectOption>
+        <NativeSelectOption value="cathay">Cathay</NativeSelectOption>
+      </NativeSelect>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <NativeSelect defaultValue="indies" disabled aria-label="Locked route">
+      <NativeSelectOption value="indies">The Indies</NativeSelectOption>
+      <NativeSelectOption value="cathay">Cathay</NativeSelectOption>
+    </NativeSelect>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Height, padding and type size. `lg` is a Here Be Dragons addition.",
+    },
+    "aria-invalid": {
+      type: "boolean",
+      description: "Error border and blood-red text.",
+    },
+    "data-valid": {
+      type: "boolean",
+      description: "Here Be Dragons addition. Success border and forest-green text.",
+    },
+  }}
+/>
+
+Every other prop goes to the `<select>`; `className` styles the select, not its wrapper. Inside a
+vertical [Field](/docs/components/field) the wrapper stretches to the field's width, otherwise it
+fits its longest option. `NativeSelectOption` and `NativeSelectOptGroup` forward to `<option>` and
+`<optgroup>`.

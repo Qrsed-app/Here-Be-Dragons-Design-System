@@ -1,0 +1,236 @@
+---
+title: Sonner
+description: An opinionated toast component for React.
+---
+
+import {
+  SonnerDemo,
+  SonnerDescriptionDemo,
+  SonnerPageToaster,
+  SonnerPositionDemo,
+  SonnerTypesDemo,
+} from "@/components/examples/sonner-demo";
+
+<SonnerPageToaster />
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SonnerDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import { toast } from "sonner";
+    import { Button } from "@/components/ui/button";
+
+    export function SonnerDemo() {
+      return (
+        <Button
+          variant="secondary"
+          onClick={() =>
+            toast("Voyage logged", {
+              description: "Sunday, 14 September at dawn",
+              action: { label: "Undo", onClick: () => {} },
+            })
+          }
+        >
+          Show toast
+        </Button>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/sonner
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/sonner.json
+```
+
+Then add the `Toaster` once, in your root layout:
+
+```tsx title="app/layout.tsx"
+import { Toaster } from "@/components/ui/sonner";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <main>{children}</main>
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+## Usage
+
+```tsx
+import { toast } from "sonner";
+```
+
+```tsx
+toast("Event has been created.");
+```
+
+## Examples
+
+### Types
+
+A plain `toast()` looks like `toast.info()`. Each type has its own colour and glyph.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SonnerTypesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button variant="secondary" onClick={() => toast("Your map has been updated.")}>
+      Default
+    </Button>
+    <Button variant="secondary" onClick={() => toast.success("Treasure successfully buried.")}>
+      Success
+    </Button>
+    <Button variant="secondary" onClick={() => toast.info("The tide turns within the hour.")}>
+      Info
+    </Button>
+    <Button variant="secondary" onClick={() => toast.warning("Low on supplies — restock soon.")}>
+      Warning
+    </Button>
+    <Button variant="secondary" onClick={() => toast.error("The kraken breached the hull!")}>
+      Error
+    </Button>
+    <Button
+      variant="secondary"
+      onClick={() =>
+        toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
+          loading: "Charting a course…",
+          success: "Course charted.",
+          error: "The compass spun.",
+        })
+      }
+    >
+      Promise
+    </Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Description and action
+
+With a `description`, the message becomes a bold title. The `action` renders as an underlined link
+that dismisses the toast after running. `duration: Infinity` keeps the toast until it is closed.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SonnerDescriptionDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Button
+      variant="secondary"
+      onClick={() =>
+        toast.success("Saved", {
+          description: "Voyage logged to the captain’s ledger.",
+          duration: Infinity,
+          action: { label: "Undo", onClick: () => toast.info("Reverted the last entry.") },
+        })
+      }
+    >
+      Save voyage
+    </Button>
+    ```
+  </Tab>
+</Tabs>
+
+### Position
+
+Toasts go top-right by default. Pass `position` to one toast, or to `Toaster` for all of them.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <SonnerPositionDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {(["top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right"] as const).map(
+      (position) => (
+        <Button
+          key={position}
+          variant="secondary"
+          onClick={() => toast(`Docked at ${position}.`, { position })}
+        >
+          {position}
+        </Button>
+      ),
+    )}
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Toaster
+
+`Toaster` wraps Sonner's `Toaster` and styles every toast through `toastOptions.classNames`, so
+`toast()` calls from `"sonner"` get the Here Be Dragons look. It changes these defaults:
+
+<TypeTable
+  type={{
+    position: {
+      type: '"top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"',
+      default: '"top-right"',
+      description: "Where toasts appear.",
+    },
+    expand: {
+      type: "boolean",
+      default: "true",
+      description: "Show the whole stack instead of collapsing it behind the newest toast.",
+    },
+    closeButton: {
+      type: "boolean",
+      default: "true",
+      description:
+        "Render the close button on every toast. Pass closeButton: false to a single toast to hide it.",
+    },
+    duration: {
+      type: "number",
+      default: "5000",
+      description: "Milliseconds before a toast closes. The countdown bar runs for this duration.",
+    },
+    gap: {
+      type: "number",
+      default: "8",
+      description: "Space in px between stacked toasts.",
+    },
+    offset: {
+      type: "number | string",
+      default: "16",
+      description: "Distance from the viewport edge.",
+    },
+  }}
+/>
+
+Every other prop goes to Sonner's [`Toaster`](https://sonner.emilkowal.ski/toaster). Classes you pass
+in `toastOptions.classNames` are merged with the Here Be Dragons ones. The countdown bar follows the
+`Toaster` duration: a toast with its own `duration` still shows the default-length bar, and it is
+hidden when the reader prefers reduced motion.

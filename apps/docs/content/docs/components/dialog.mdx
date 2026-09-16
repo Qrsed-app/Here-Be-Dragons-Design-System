@@ -1,0 +1,275 @@
+---
+title: Dialog
+description: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+---
+
+import {
+  DialogCloseButtonDemo,
+  DialogDemo,
+  DialogScrollableDemo,
+  DialogSizesDemo,
+  DialogTitleOnlyDemo,
+} from "@/components/examples/dialog-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DialogDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Dialog,
+      DialogClose,
+      DialogContent,
+      DialogDescription,
+      DialogFooter,
+      DialogHeader,
+      DialogTitle,
+      DialogTrigger,
+    } from "@/components/ui/dialog";
+
+    export function DialogDemo() {
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Edit voyage</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Voyage settings</DialogTitle>
+              <DialogDescription>Change the course here. Save when you are done.</DialogDescription>
+            </DialogHeader>
+            <p>
+              The fleet sails at dawn for the Sea of Fallen Stars, keeping the western lighthouse to
+              starboard until the reef is behind it.
+            </p>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Cancel</Button>
+              </DialogClose>
+              <Button variant="gold">Save changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/dialog
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/dialog.json
+```
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+```
+
+```tsx
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>
+        This action cannot be undone. This will permanently delete your chart.
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+Content placed after `DialogHeader` is the dialog body: it gets the body padding and type, and the
+header and footer rule it off above and below.
+
+## Examples
+
+### Title and body
+
+A title with plain body content. Without a `DialogDescription`, pass `aria-describedby={undefined}`
+so Radix does not warn.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DialogTitleOnlyDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open manifest</Button>
+      </DialogTrigger>
+      <DialogContent aria-describedby={undefined}>
+        <DialogHeader>
+          <DialogTitle>Ship&apos;s manifest</DialogTitle>
+        </DialogHeader>
+        <p>
+          A centred overlay dialog with a backdrop scrim. Use it for focused tasks that interrupt
+          the main flow — confirmations, short forms, or detail views.
+        </p>
+      </DialogContent>
+    </Dialog>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition — `size` on `DialogContent` sets the width: `sm` (400px), `default`
+(560px), `lg` (720px) or `full` (the whole viewport).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DialogSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {(["sm", "default", "lg", "full"] as const).map((size) => (
+      <Dialog key={size}>
+        <DialogTrigger asChild>
+          <Button variant="secondary">{size}</Button>
+        </DialogTrigger>
+        <DialogContent size={size} aria-describedby={undefined}>
+          <DialogHeader>
+            <DialogTitle>{size} dialog</DialogTitle>
+          </DialogHeader>
+          <p>This dialog uses the {size} width.</p>
+        </DialogContent>
+      </Dialog>
+    ))}
+    ```
+  </Tab>
+</Tabs>
+
+### Close button
+
+Hide the corner close button with `showCloseButton={false}`, and render a close action in the
+footer with `DialogFooter showCloseButton`. Escape still closes the dialog.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DialogCloseButtonDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="secondary">Share chart</Button>
+      </DialogTrigger>
+      <DialogContent showCloseButton={false}>
+        <DialogHeader>
+          <DialogTitle>Share chart</DialogTitle>
+          <DialogDescription>Anyone with the link can view this chart.</DialogDescription>
+        </DialogHeader>
+        <p>https://charts.example/sea-of-fallen-stars</p>
+        <DialogFooter showCloseButton />
+      </DialogContent>
+    </Dialog>
+    ```
+  </Tab>
+</Tabs>
+
+### Scrollable content
+
+The dialog never grows past 90% of the viewport height; longer content scrolls inside it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <DialogScrollableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="secondary">Read the log</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Captain&apos;s log</DialogTitle>
+          <DialogDescription>Forty days at sea.</DialogDescription>
+        </DialogHeader>
+        {Array.from({ length: 40 }, (_, i) => (
+          <p key={i}>
+            Day {i + 1}. Fair winds from the west; the crew mended sail and the cartographer added
+            three soundings to the chart.
+          </p>
+        ))}
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="secondary">Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### DialogContent
+
+<TypeTable
+  type={{
+    showCloseButton: {
+      type: "boolean",
+      default: "true",
+      description: "Render the close button in the top-right corner of the header.",
+    },
+    size: {
+      type: '"sm" | "default" | "lg" | "full"',
+      default: '"default"',
+      description:
+        "Dialog width: 400px, 560px, 720px or the whole viewport. Here Be Dragons addition.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `Dialog.Content`. `DialogContent` renders the portal and overlay
+for you.
+
+### DialogFooter
+
+<TypeTable
+  type={{
+    showCloseButton: {
+      type: "boolean",
+      default: "false",
+      description: "Append an outline Close button that closes the dialog.",
+    },
+  }}
+/>
+
+`Dialog`, `DialogTrigger`, `DialogClose`, `DialogTitle`, `DialogDescription`, `DialogPortal` and
+`DialogOverlay` take the props of their [Radix Dialog](https://www.radix-ui.com/primitives/docs/components/dialog)
+parts. `DialogHeader` and `DialogFooter` render a `<div>`.

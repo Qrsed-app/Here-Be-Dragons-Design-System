@@ -1,0 +1,298 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+---
+
+import { Progress } from "@/registry/new-york/progress/progress";
+import { Field, FieldLabel } from "@/registry/new-york/field/field";
+import { ProgressDemo } from "@/components/examples/progress-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ProgressDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Progress } from "@/components/ui/progress";
+
+    export function ProgressDemo() {
+      const [progress, setProgress] = React.useState(13);
+
+      React.useEffect(() => {
+        const timer = setTimeout(() => setProgress(66), 500);
+        return () => clearTimeout(timer);
+      }, []);
+
+      return <Progress value={progress} className="w-[60%]" />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/progress
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/progress.json
+```
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+```
+
+```tsx
+<Progress value={33} />
+```
+
+## Examples
+
+### Label and value
+
+Compose a `Field` with a `FieldLabel` and a readout above the bar, and point the bar at the label with
+`aria-labelledby`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field>
+        <div className="flex items-baseline justify-between gap-3">
+          <FieldLabel id="upload-label">Uploading map</FieldLabel>
+          <span className="font-mono text-[0.8125rem] text-muted-foreground tabular-nums">60%</span>
+        </div>
+        <Progress value={60} aria-labelledby="upload-label" />
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldLabel } from "@/components/ui/field";
+    import { Progress } from "@/components/ui/progress";
+
+    <Field>
+      <div className="flex items-baseline justify-between gap-3">
+        <FieldLabel id="upload-label">Uploading map</FieldLabel>
+        <span className="font-mono text-[0.8125rem] text-muted-foreground tabular-nums">60%</span>
+      </div>
+      <Progress value={60} aria-labelledby="upload-label" />
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Max
+
+`value` is measured against `max` (default `100`).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field>
+        <div className="flex items-baseline justify-between gap-3">
+          <FieldLabel id="chapter-label">Chapter 3 of 5</FieldLabel>
+          <span className="font-mono text-[0.8125rem] text-muted-foreground tabular-nums">60%</span>
+        </div>
+        <Progress value={3} max={5} aria-labelledby="chapter-label" />
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <div className="flex items-baseline justify-between gap-3">
+        <FieldLabel id="chapter-label">Chapter 3 of 5</FieldLabel>
+        <span className="font-mono text-[0.8125rem] text-muted-foreground tabular-nums">60%</span>
+      </div>
+      <Progress value={3} max={5} aria-labelledby="chapter-label" />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Variant
+
+Here Be Dragons addition — `success`, `warning` and `error` tint the fill.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Progress value={70} aria-label="Default" />
+        <Progress value={70} variant="success" aria-label="Success" />
+        <Progress value={70} variant="warning" aria-label="Warning" />
+        <Progress value={70} variant="error" aria-label="Error" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={70} aria-label="Default" />
+    <Progress value={70} variant="success" aria-label="Success" />
+    <Progress value={70} variant="warning" aria-label="Warning" />
+    <Progress value={70} variant="error" aria-label="Error" />
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition — `sm` (4px), `default` (8px) and `lg` (12px) tracks.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Progress value={50} size="sm" aria-label="Small" />
+        <Progress value={50} aria-label="Default" />
+        <Progress value={50} size="lg" aria-label="Large" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={50} size="sm" aria-label="Small" />
+    <Progress value={50} aria-label="Default" />
+    <Progress value={50} size="lg" aria-label="Large" />
+    ```
+  </Tab>
+</Tabs>
+
+### Striped
+
+Here Be Dragons addition — an animated diagonal stripe over the fill.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Progress value={45} striped aria-label="Forging" />
+        <Progress value={80} striped variant="success" size="lg" aria-label="Almost done" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Progress value={45} striped aria-label="Forging" />
+    <Progress value={80} striped variant="success" size="lg" aria-label="Almost done" />
+    ```
+  </Tab>
+</Tabs>
+
+### Indeterminate
+
+Here Be Dragons addition — for work of unknown length. A chip slides along the track; `value` is
+ignored.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field>
+        <FieldLabel id="summon-label">Summoning…</FieldLabel>
+        <Progress indeterminate aria-labelledby="summon-label" />
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel id="summon-label">Summoning…</FieldLabel>
+      <Progress indeterminate aria-labelledby="summon-label" />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Segmented
+
+Here Be Dragons addition — `segments` splits the bar into cells; `value / max` decides how many are
+filled.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Field>
+          <FieldLabel id="quests-label">3 of 5 quests</FieldLabel>
+          <Progress segments={5} value={3} max={5} aria-labelledby="quests-label" />
+        </Field>
+        <Field>
+          <FieldLabel id="inventory-label">Inventory</FieldLabel>
+          <Progress segments={8} value={62} variant="success" aria-labelledby="inventory-label" />
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel id="quests-label">3 of 5 quests</FieldLabel>
+      <Progress segments={5} value={3} max={5} aria-labelledby="quests-label" />
+    </Field>
+    <Field>
+      <FieldLabel id="inventory-label">Inventory</FieldLabel>
+      <Progress segments={8} value={62} variant="success" aria-labelledby="inventory-label" />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    value: {
+      type: "number | null",
+      description: "Progress, from `0` to `max`.",
+    },
+    max: {
+      type: "number",
+      default: "100",
+      description: "The value that counts as complete.",
+    },
+    variant: {
+      type: '"default" | "success" | "warning" | "error"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Fill colour.",
+    },
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Track height: 4, 8 or 12px.",
+    },
+    striped: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Here Be Dragons addition. Animated diagonal stripes on the fill. Ignored when `indeterminate`.",
+    },
+    indeterminate: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Here Be Dragons addition. Slides a chip along the track and reports an indeterminate state.",
+    },
+    segments: {
+      type: "number",
+      description:
+        "Here Be Dragons addition. Renders this many cells instead of a continuous fill.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the Radix Progress root. See the
+[Radix Progress documentation](https://www.radix-ui.com/primitives/docs/components/progress).

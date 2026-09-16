@@ -1,0 +1,511 @@
+---
+title: Field
+description: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+---
+
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from "@/registry/new-york/field/field";
+import { Input } from "@/registry/new-york/input/input";
+import { NativeSelect, NativeSelectOption } from "@/registry/new-york/native-select/native-select";
+import { Textarea } from "@/registry/new-york/textarea/textarea";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <FieldSet>
+          <FieldLegend>Ship&apos;s manifest</FieldLegend>
+          <FieldDescription>Every vessel must be registered before it leaves port.</FieldDescription>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="field-demo-ship">Ship name</FieldLabel>
+              <Input id="field-demo-ship" placeholder="The Wyvern" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="field-demo-class">Vessel class</FieldLabel>
+              <NativeSelect id="field-demo-class" defaultValue="">
+                <NativeSelectOption value="" disabled hidden>
+                  {"Pick a class…"}
+                </NativeSelectOption>
+                <NativeSelectOption value="caravel">Caravel</NativeSelectOption>
+                <NativeSelectOption value="galleon">Galleon</NativeSelectOption>
+              </NativeSelect>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="field-demo-notes">Notes</FieldLabel>
+              <Textarea id="field-demo-notes" placeholder="Cargo, crew, curses…" />
+              <FieldDescription>Anything the harbourmaster should know.</FieldDescription>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Field,
+      FieldDescription,
+      FieldGroup,
+      FieldLabel,
+      FieldLegend,
+      FieldSet,
+    } from "@/components/ui/field";
+    import { Input } from "@/components/ui/input";
+    import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+    import { Textarea } from "@/components/ui/textarea";
+
+    export function FieldDemo() {
+      return (
+        <FieldSet>
+          <FieldLegend>Ship&apos;s manifest</FieldLegend>
+          <FieldDescription>Every vessel must be registered before it leaves port.</FieldDescription>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="ship">Ship name</FieldLabel>
+              <Input id="ship" placeholder="The Wyvern" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="class">Vessel class</FieldLabel>
+              <NativeSelect id="class" defaultValue="">
+                <NativeSelectOption value="" disabled hidden>
+                  Pick a class…
+                </NativeSelectOption>
+                <NativeSelectOption value="caravel">Caravel</NativeSelectOption>
+                <NativeSelectOption value="galleon">Galleon</NativeSelectOption>
+              </NativeSelect>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="notes">Notes</FieldLabel>
+              <Textarea id="notes" placeholder="Cargo, crew, curses…" />
+              <FieldDescription>Anything the harbourmaster should know.</FieldDescription>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/field
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/field.json
+```
+
+## Usage
+
+```tsx
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from "@/components/ui/field";
+```
+
+```tsx
+<FieldSet>
+  <FieldLegend>Profile</FieldLegend>
+  <FieldDescription>This appears on invoices and emails.</FieldDescription>
+  <FieldGroup>
+    <Field>
+      <FieldLabel htmlFor="name">Full name</FieldLabel>
+      <Input id="name" autoComplete="off" placeholder="Evil Rabbit" />
+      <FieldDescription>This appears on invoices and emails.</FieldDescription>
+    </Field>
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" autoComplete="off" aria-invalid />
+      <FieldError>Choose another username.</FieldError>
+    </Field>
+  </FieldGroup>
+</FieldSet>
+```
+
+A vertical `Field` keeps the Here Be Dragons 4px rhythm between label, control and messages
+(8px when it holds an [Input OTP](/docs/components/input-otp)).
+
+## Examples
+
+### Description
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="field-demo-user">Username</FieldLabel>
+          <Input id="field-demo-user" placeholder="username" />
+          <FieldDescription>Use 3–20 characters.</FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" placeholder="username" />
+      <FieldDescription>Use 3–20 characters.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Required
+
+The old `required` asterisk: a blood-red `*` inside the label, hidden from screen readers.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="field-demo-captain">
+            {"Captain"}
+            <span aria-hidden="true" className="text-foreground-emphasis">
+              {"*"}
+            </span>
+          </FieldLabel>
+          <Input id="field-demo-captain" required placeholder="Name your captain" />
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="captain">
+        Captain
+        <span aria-hidden="true" className="text-foreground-emphasis">
+          *
+        </span>
+      </FieldLabel>
+      <Input id="captain" required placeholder="Name your captain" />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Validation and Errors
+
+`data-invalid` on `Field` turns the label blood-red; `aria-invalid` on the control draws the error
+border. `FieldError` takes children, or an `errors` array (for example from react-hook-form) and
+lists every unique message.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <Field data-invalid>
+          <FieldLabel htmlFor="field-demo-email">Email</FieldLabel>
+          <Input id="field-demo-email" type="email" aria-invalid defaultValue="dragon@example" />
+          <FieldError>That email is already taken.</FieldError>
+        </Field>
+        <Field data-invalid>
+          <FieldLabel htmlFor="field-demo-rune">Rune</FieldLabel>
+          <Input id="field-demo-rune" aria-invalid />
+          <FieldError
+            errors={[
+              { message: "A rune is required." },
+              { message: "Runes are carved, not typed." },
+            ]}
+          />
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input id="email" type="email" aria-invalid defaultValue="dragon@example" />
+      <FieldError>That email is already taken.</FieldError>
+    </Field>
+    <Field data-invalid>
+      <FieldLabel htmlFor="rune">Rune</FieldLabel>
+      <Input id="rune" aria-invalid />
+      <FieldError
+        errors={[{ message: "A rune is required." }, { message: "Runes are carved, not typed." }]}
+      />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Success
+
+Here Be Dragons addition — the old `success` message. Mark the control with `data-valid` and give
+the description the forest-green ink and a `status` role.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="field-demo-ok">Email</FieldLabel>
+          <Input id="field-demo-ok" type="email" data-valid defaultValue="dragon@example.com" />
+          <FieldDescription role="status" className="text-forest-700">
+            {"Looks good!"}
+          </FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input id="email" type="email" data-valid defaultValue="dragon@example.com" />
+      <FieldDescription role="status" className="text-forest-700">
+        Looks good!
+      </FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Character Count
+
+The old counter under an input: a right-aligned description, blood-red and bold at the limit. For a
+live counter beside a textarea, see [Textarea](/docs/components/textarea#character-count).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <Field>
+          <FieldLabel htmlFor="field-demo-bio">Bio</FieldLabel>
+          <Input id="field-demo-bio" maxLength={80} defaultValue="Here be dragons." />
+          <FieldDescription>Keep it short.</FieldDescription>
+          <FieldDescription aria-live="polite" className="text-right">
+            {"16/80"}
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="field-demo-limit">Rune</FieldLabel>
+          <Input id="field-demo-limit" maxLength={10} defaultValue="Dragonfire" />
+          <FieldDescription
+            aria-live="polite"
+            className="text-right font-bold text-foreground-emphasis"
+          >
+            {"10/10"}
+          </FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="bio">Bio</FieldLabel>
+      <Input id="bio" maxLength={80} defaultValue="Here be dragons." />
+      <FieldDescription>Keep it short.</FieldDescription>
+      <FieldDescription aria-live="polite" className="text-right">
+        16/80
+      </FieldDescription>
+    </Field>
+    <Field>
+      <FieldLabel htmlFor="rune">Rune</FieldLabel>
+      <Input id="rune" maxLength={10} defaultValue="Dragonfire" />
+      <FieldDescription
+        aria-live="polite"
+        className="text-right font-bold text-foreground-emphasis"
+      >
+        10/10
+      </FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+`data-disabled` on `Field` gives the label the disabled ink.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field data-disabled>
+          <FieldLabel htmlFor="field-demo-sealed">Sealed route</FieldLabel>
+          <Input id="field-demo-sealed" placeholder="Unavailable" disabled />
+          <FieldDescription>Only the admiralty may chart this course.</FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-disabled>
+      <FieldLabel htmlFor="sealed">Sealed route</FieldLabel>
+      <Input id="sealed" placeholder="Unavailable" disabled />
+      <FieldDescription>Only the admiralty may chart this course.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Field Separator
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="field-demo-port">Port</FieldLabel>
+            <Input id="field-demo-port" placeholder="Lisbon" />
+          </Field>
+          <FieldSeparator>Or</FieldSeparator>
+          <Field>
+            <FieldLabel htmlFor="field-demo-coords">Coordinates</FieldLabel>
+            <Input id="field-demo-coords" placeholder="38.7° N, 9.1° W" />
+          </Field>
+        </FieldGroup>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="port">Port</FieldLabel>
+        <Input id="port" placeholder="Lisbon" />
+      </Field>
+      <FieldSeparator>Or</FieldSeparator>
+      <Field>
+        <FieldLabel htmlFor="coords">Coordinates</FieldLabel>
+        <Input id="coords" placeholder="38.7° N, 9.1° W" />
+      </Field>
+    </FieldGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Horizontal
+
+`orientation="horizontal"` lines the control up with its label; `FieldContent` stacks a label and
+description beside it. `responsive` switches from vertical to horizontal once the surrounding
+`FieldGroup` is wide enough.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <FieldGroup>
+          <Field orientation="horizontal">
+            <FieldContent>
+              <FieldTitle>Night watch</FieldTitle>
+              <FieldDescription>Who keeps the lantern lit after dusk.</FieldDescription>
+            </FieldContent>
+            <NativeSelect defaultValue="bosun" aria-label="Night watch">
+              <NativeSelectOption value="bosun">Bosun</NativeSelectOption>
+              <NativeSelectOption value="cook">Cook</NativeSelectOption>
+            </NativeSelect>
+          </Field>
+          <Field orientation="responsive">
+            <FieldLabel htmlFor="field-demo-flag">Flag</FieldLabel>
+            <Input id="field-demo-flag" placeholder="Black, with a gold wyrm" />
+          </Field>
+        </FieldGroup>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <FieldGroup>
+      <Field orientation="horizontal">
+        <FieldContent>
+          <FieldTitle>Night watch</FieldTitle>
+          <FieldDescription>Who keeps the lantern lit after dusk.</FieldDescription>
+        </FieldContent>
+        <NativeSelect defaultValue="bosun" aria-label="Night watch">
+          <NativeSelectOption value="bosun">Bosun</NativeSelectOption>
+          <NativeSelectOption value="cook">Cook</NativeSelectOption>
+        </NativeSelect>
+      </Field>
+      <Field orientation="responsive">
+        <FieldLabel htmlFor="flag">Flag</FieldLabel>
+        <Input id="flag" placeholder="Black, with a gold wyrm" />
+      </Field>
+    </FieldGroup>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Field
+
+<TypeTable
+  type={{
+    orientation: {
+      type: '"vertical" | "horizontal" | "responsive"',
+      default: '"vertical"',
+      description: "Layout of label, control and messages.",
+    },
+    "data-invalid": {
+      type: "boolean",
+      description: "Blood-red label and inherited text.",
+    },
+    "data-disabled": {
+      type: "boolean",
+      description: "Disabled ink on the label and title.",
+    },
+  }}
+/>
+
+### FieldLegend
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"legend" | "label"',
+      default: '"legend"',
+      description: "`legend` is a Cinzel heading; `label` matches `FieldLabel`.",
+    },
+  }}
+/>
+
+### FieldError
+
+<TypeTable
+  type={{
+    errors: {
+      type: "Array<{ message?: string } | undefined>",
+      description:
+        "Rendered when there are no children. Duplicate messages are removed; several become a list.",
+    },
+  }}
+/>
+
+`FieldLabel` forwards to [Label](/docs/components/label). `FieldSet`, `FieldGroup`, `FieldContent`,
+`FieldTitle`, `FieldDescription` and `FieldSeparator` forward every prop to their `fieldset`, `div`
+or `p` element.

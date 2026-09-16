@@ -1,0 +1,277 @@
+---
+title: Textarea
+description: Displays a form textarea or a component that looks like a textarea.
+---
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import { Textarea } from "@/registry/new-york/textarea/textarea";
+import { TextareaCountDemo } from "@/components/examples/textarea-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Textarea placeholder="Today we sailed past the edge of the map…" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Textarea } from "@/components/ui/textarea";
+
+    export function TextareaDemo() {
+      return <Textarea placeholder="Today we sailed past the edge of the map…" />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/textarea
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/textarea.json
+```
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea";
+```
+
+```tsx
+<Textarea />
+```
+
+Like upstream, the textarea grows with its content (`field-sizing: content`) from a 96px minimum
+up to 400px, then scrolls. Browsers without `field-sizing` fall back to `rows`.
+
+## Examples
+
+### Fixed Rows
+
+For a fixed height, opt out of content sizing and set `rows` — the old default was four.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Textarea rows={4} className="field-sizing-fixed" placeholder="Captain's log…" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea rows={4} className="field-sizing-fixed" placeholder="Captain's log…" />
+    ```
+  </Tab>
+</Tabs>
+
+### Field
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Field>
+          <FieldLabel htmlFor="textarea-demo-encounter">Encounter</FieldLabel>
+          <Textarea id="textarea-demo-encounter" placeholder="A great wyrm circled the mast…" />
+          <FieldDescription>Describe the encounter in a sentence or two.</FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="encounter">Encounter</FieldLabel>
+      <Textarea id="encounter" placeholder="A great wyrm circled the mast…" />
+      <FieldDescription>Describe the encounter in a sentence or two.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Character Count
+
+The old `maxLength` counter is a composition: a footer row with the description on the left and the
+count on the right, turning gold at 80% and blood-red at the limit.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TextareaCountDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { cn } from "@/lib/utils";
+    import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+    import { Textarea } from "@/components/ui/textarea";
+
+    const MAX = 120;
+
+    export function TextareaCountDemo() {
+      const [value, setValue] = React.useState("Here be dragons.");
+
+      return (
+        <Field className="max-w-md">
+          <FieldLabel htmlFor="bio">Bio</FieldLabel>
+          <Textarea
+            id="bio"
+            maxLength={MAX}
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+          />
+          <div className="flex items-start justify-between gap-2">
+            <FieldDescription>Keep it brief.</FieldDescription>
+            <FieldDescription
+              aria-live="polite"
+              className={cn(
+                "ms-auto text-right",
+                value.length >= MAX * 0.8 && "text-gold-deep",
+                value.length >= MAX && "font-medium text-foreground-emphasis",
+              )}
+            >
+              {value.length}/{MAX}
+            </FieldDescription>
+          </div>
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-md flex-col gap-4">
+        <Textarea size="sm" rows={2} className="field-sizing-fixed" placeholder="Small" />
+        <Textarea rows={2} className="field-sizing-fixed" placeholder="Default" />
+        <Textarea size="lg" rows={2} className="field-sizing-fixed" placeholder="Large" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea size="sm" rows={2} className="field-sizing-fixed" placeholder="Small" />
+    <Textarea rows={2} className="field-sizing-fixed" placeholder="Default" />
+    <Textarea size="lg" rows={2} className="field-sizing-fixed" placeholder="Large" />
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Field data-invalid>
+          <FieldLabel htmlFor="textarea-demo-notes">Notes</FieldLabel>
+          <Textarea id="textarea-demo-notes" aria-invalid />
+          <FieldError>This entry cannot be left blank.</FieldError>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid>
+      <FieldLabel htmlFor="notes">Notes</FieldLabel>
+      <Textarea id="notes" aria-invalid />
+      <FieldError>This entry cannot be left blank.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Valid
+
+Here Be Dragons addition.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Field>
+          <FieldLabel htmlFor="textarea-demo-log">Log entry</FieldLabel>
+          <Textarea
+            id="textarea-demo-log"
+            data-valid
+            defaultValue="Calm seas, fair winds, no dragons sighted."
+          />
+          <FieldDescription role="status" className="text-forest-700">
+            {"Logged to the ship's archive."}
+          </FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="log">Log entry</FieldLabel>
+      <Textarea id="log" data-valid defaultValue="Calm seas, fair winds, no dragons sighted." />
+      <FieldDescription role="status" className="text-forest-700">
+        Logged to the ship&apos;s archive.
+      </FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-md">
+        <Textarea placeholder="Unavailable" disabled />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Textarea placeholder="Unavailable" disabled />
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Minimum height, padding and type size.",
+    },
+    "aria-invalid": {
+      type: "boolean",
+      description: "Error border and blood-red text.",
+    },
+    "data-valid": {
+      type: "boolean",
+      description: "Here Be Dragons addition. Success border and forest-green text.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<textarea>` element.

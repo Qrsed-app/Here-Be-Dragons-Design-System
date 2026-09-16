@@ -1,0 +1,191 @@
+---
+title: Spinner
+description: An indicator that can be used to show a loading state.
+---
+
+import { Spinner } from "@/registry/new-york/spinner/spinner";
+import { Button } from "@/registry/new-york/button/button";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Spinner } from "@/components/ui/spinner";
+
+    export function SpinnerDemo() {
+      return <Spinner />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/spinner
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/spinner.json
+```
+
+## Usage
+
+```tsx
+import { Spinner } from "@/components/ui/spinner";
+```
+
+```tsx
+<Spinner />
+```
+
+## Examples
+
+### Size
+
+Here Be Dragons addition — four fixed sizes: `sm` (16px), `default` (24px), `lg` (40px) and `xl` (64px).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner size="sm" />
+      <Spinner />
+      <Spinner size="lg" />
+      <Spinner size="xl" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner size="sm" />
+    <Spinner />
+    <Spinner size="lg" />
+    <Spinner size="xl" />
+    ```
+  </Tab>
+</Tabs>
+
+A `size-*` class works too, for any other size.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner className="size-8" />
+      <Spinner className="size-12" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner className="size-8" />
+    <Spinner className="size-12" />
+    ```
+  </Tab>
+</Tabs>
+
+### Variant
+
+Here Be Dragons addition — `default` draws the arc in the action crimson, `muted` dims it, and
+`inherit` follows the current text colour for coloured surfaces.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner />
+      <Spinner variant="muted" />
+      <div className="flex items-center gap-2 rounded-md bg-surface-inverse px-4 py-2 text-foreground-inverse">
+        <Spinner variant="inherit" />
+        <span className="font-sans text-sm">Summoning…</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner />
+    <Spinner variant="muted" />
+    <div className="flex items-center gap-2 rounded-md bg-surface-inverse px-4 py-2 text-foreground-inverse">
+      <Spinner variant="inherit" />
+      <span className="font-sans text-sm">Summoning…</span>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### Button
+
+Inside a `Button` the spinner takes the button's icon size and text colour, so no props are needed.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Button disabled><Spinner />Saving…</Button>
+      <Button variant="secondary" disabled><Spinner />Loading</Button>
+      <Button variant="gold" size="sm" disabled><Spinner />Forging</Button>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import { Spinner } from "@/components/ui/spinner";
+
+    <Button disabled>
+      <Spinner />
+      Saving…
+    </Button>
+    <Button variant="secondary" disabled>
+      <Spinner />
+      Loading
+    </Button>
+    <Button variant="gold" size="sm" disabled>
+      <Spinner />
+      Forging
+    </Button>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Accessible label
+
+The spinner is a `role="status"` element named "Loading". Override the name with `aria-label`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Spinner aria-label="Fetching results" />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Spinner aria-label="Fetching results" />
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg" | "xl"',
+      default: '"default"',
+      description:
+        "Here Be Dragons addition. 16, 24, 40 or 64px. Inside a `Button` the default size follows the button's icon size.",
+    },
+    variant: {
+      type: '"default" | "muted" | "inherit"',
+      default: '"default"',
+      description:
+        "Here Be Dragons addition. Arc colour: action crimson, muted ink, or the current text colour. Inside a `Button` it always follows the button's text colour.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<svg>` element. The exported `spinnerVariants` helper returns
+the same classes.

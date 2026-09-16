@@ -1,0 +1,306 @@
+---
+title: Navigation Menu
+description: A collection of links for navigating websites.
+---
+
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/registry/new-york/navigation-menu/navigation-menu";
+
+New in the shadcn API — the pre-migration design system had no navigation menu. The links wear the
+old navbar's chrome (quiet ink type that takes a parchment wash), and the panels the old menu
+surface: a raised parchment card with an ink hairline.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Voyages</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="m-0 grid w-[420px] list-none gap-1 p-0 md:grid-cols-2">
+                <li>
+                  <NavigationMenuLink href="#">
+                    <div className="font-medium">Northern Seas</div>
+                    <p className="m-0 text-[0.8125rem] leading-snug text-muted-foreground">Ice floes and the long night.</p>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#">
+                    <div className="font-medium">Kraken Trench</div>
+                    <p className="m-0 text-[0.8125rem] leading-snug text-muted-foreground">Soundings no line has reached.</p>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#">
+                    <div className="font-medium">Spice Ports</div>
+                    <p className="m-0 text-[0.8125rem] leading-snug text-muted-foreground">Where the trade winds land.</p>
+                  </NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#">
+                    <div className="font-medium">Sunset Edge</div>
+                    <p className="m-0 text-[0.8125rem] leading-snug text-muted-foreground">Past the last chart.</p>
+                  </NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="px-3 py-2">Bestiary</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="px-3 py-2">Spellbook</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      NavigationMenu,
+      NavigationMenuContent,
+      NavigationMenuItem,
+      NavigationMenuLink,
+      NavigationMenuList,
+      NavigationMenuTrigger,
+    } from "@/components/ui/navigation-menu";
+
+    export function NavigationMenuDemo() {
+      return (
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Voyages</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="m-0 grid w-[420px] list-none gap-1 p-0 md:grid-cols-2">
+                  <li>
+                    <NavigationMenuLink href="/seas/north">
+                      <div className="font-medium">Northern Seas</div>
+                      <p className="m-0 text-[0.8125rem] leading-snug text-muted-foreground">
+                        Ice floes and the long night.
+                      </p>
+                    </NavigationMenuLink>
+                  </li>
+                  {/* … */}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink href="/bestiary" className="px-3 py-2">
+                Bestiary
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/navigation-menu
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/navigation-menu.json
+```
+
+## Usage
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+```
+
+```tsx
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink>Link</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+A plain link needs the trigger's padding to sit level with its neighbours — `className="px-3 py-2"`,
+as above.
+
+## Examples
+
+### Links only
+
+Mark the current page with `active`: it takes the blood type and parchment wash the old navbar gave
+its current link.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="px-3 py-2">
+              Atlas
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" active className="px-3 py-2">
+              Bestiary
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="px-3 py-2">
+              Spellbook
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/atlas" className="px-3 py-2">
+            Atlas
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/bestiary" active className="px-3 py-2">
+            Bestiary
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+    ```
+  </Tab>
+</Tabs>
+
+### Without the viewport
+
+`viewport={false}` drops the shared viewport and anchors each panel under its own trigger — better
+for short link lists.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavigationMenu viewport={false}>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Voyages</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="m-0 grid w-[260px] list-none gap-1 p-0">
+                <li>
+                  <NavigationMenuLink href="#">Northern Seas</NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#">Kraken Trench</NavigationMenuLink>
+                </li>
+                <li>
+                  <NavigationMenuLink href="#">Spice Ports</NavigationMenuLink>
+                </li>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="#" className="px-3 py-2">
+              Crew
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <NavigationMenu viewport={false}>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Voyages</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="m-0 grid w-[260px] list-none gap-1 p-0">
+              <li>
+                <NavigationMenuLink href="/seas/north">Northern Seas</NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+    ```
+  </Tab>
+</Tabs>
+
+### With a router link
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild className="px-3 py-2">
+              <a href="#with-a-router-link">Atlas</a>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <NavigationMenuLink asChild className="px-3 py-2">
+      <Link href="/atlas">Atlas</Link>
+    </NavigationMenuLink>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### NavigationMenu
+
+<TypeTable
+  type={{
+    viewport: {
+      type: "boolean",
+      default: "true",
+      description:
+        "Render the shared viewport panel that every NavigationMenuContent animates into. `false` anchors each panel under its own trigger.",
+    },
+  }}
+/>
+
+Every other prop — `value`, `defaultValue`, `onValueChange`, `delayDuration`, `orientation` — goes
+to Radix. `NavigationMenuLink` takes `active` and `asChild`. See
+[Radix Navigation Menu](https://www.radix-ui.com/primitives/docs/components/navigation-menu).
+
+The exported `navigationMenuTriggerStyle()` returns the trigger's classes, for a link that has to
+match a trigger exactly.

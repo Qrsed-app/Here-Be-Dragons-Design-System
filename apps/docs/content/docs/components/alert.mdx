@@ -1,0 +1,583 @@
+---
+title: Alert
+description: Displays a callout for user attention.
+---
+
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+} from "@/registry/new-york/alert/alert";
+import { Button } from "@/registry/new-york/button/button";
+import { AlertDismissibleDemo } from "@/components/examples/alert-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Alert variant="warning">
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M8 1.5 L14.5 13 H1.5 Z" />
+          <line x1="8" y1="6" x2="8" y2="9.5" />
+          <circle cx="8" cy="11.4" r="0.6" fill="currentColor" stroke="none" />
+        </svg>
+        <AlertTitle>Unsaved changes</AlertTitle>
+        <AlertDescription>Leaving now will discard your annotations to the chart.</AlertDescription>
+      </Alert>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+    export function AlertDemo() {
+      return (
+        <Alert variant="warning">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M8 1.5 L14.5 13 H1.5 Z" />
+            <line x1="8" y1="6" x2="8" y2="9.5" />
+            <circle cx="8" cy="11.4" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <AlertTitle>Unsaved changes</AlertTitle>
+          <AlertDescription>Leaving now will discard your annotations to the chart.</AlertDescription>
+        </Alert>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/alert
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/alert.json
+```
+
+## Usage
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+```
+
+```tsx
+<Alert variant="info">
+  <InfoIcon />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>You can add components to your app using the cli.</AlertDescription>
+</Alert>
+```
+
+An `<svg>` as the first child becomes the 16px icon beside the text.
+
+## Examples
+
+### Variants
+
+`default` and `destructive` come from shadcn/ui; `info`, `success`, `warning` and `error` are Here Be
+Dragons additions. `destructive` and `error` look the same.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Alert>
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <line x1="8" y1="7" x2="8" y2="11.5" />
+            <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <AlertDescription>The tavern keeper has a rumour for you.</AlertDescription>
+        </Alert>
+        <Alert variant="info">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <line x1="8" y1="7" x2="8" y2="11.5" />
+            <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <AlertDescription>A new map fragment is available in the archive.</AlertDescription>
+        </Alert>
+        <Alert variant="success">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <polyline points="5,8.5 7.2,10.6 11,6.5" />
+          </svg>
+          <AlertDescription>Your voyage was logged to the ledger.</AlertDescription>
+        </Alert>
+        <Alert variant="warning">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M8 1.5 L14.5 13 H1.5 Z" />
+            <line x1="8" y1="6" x2="8" y2="9.5" />
+            <circle cx="8" cy="11.4" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <AlertDescription>Storms reported along the eastern trade route.</AlertDescription>
+        </Alert>
+        <Alert variant="destructive">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" />
+            <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" />
+          </svg>
+          <AlertDescription>The harbour master could not be reached.</AlertDescription>
+        </Alert>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const icon = {
+      viewBox: "0 0 16 16",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "1.6",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      "aria-hidden": true,
+    } as const;
+
+    <Alert>
+      <svg {...icon}>
+        <circle cx="8" cy="8" r="6.5" />
+        <line x1="8" y1="7" x2="8" y2="11.5" />
+        <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+      <AlertDescription>The tavern keeper has a rumour for you.</AlertDescription>
+    </Alert>
+    <Alert variant="info">
+      <svg {...icon}>
+        <circle cx="8" cy="8" r="6.5" />
+        <line x1="8" y1="7" x2="8" y2="11.5" />
+        <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+      <AlertDescription>A new map fragment is available in the archive.</AlertDescription>
+    </Alert>
+    <Alert variant="success">
+      <svg {...icon}>
+        <circle cx="8" cy="8" r="6.5" />
+        <polyline points="5,8.5 7.2,10.6 11,6.5" />
+      </svg>
+      <AlertDescription>Your voyage was logged to the ledger.</AlertDescription>
+    </Alert>
+    <Alert variant="warning">
+      <svg {...icon}>
+        <path d="M8 1.5 L14.5 13 H1.5 Z" />
+        <line x1="8" y1="6" x2="8" y2="9.5" />
+        <circle cx="8" cy="11.4" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+      <AlertDescription>Storms reported along the eastern trade route.</AlertDescription>
+    </Alert>
+    <Alert variant="destructive">
+      <svg {...icon}>
+        <circle cx="8" cy="8" r="6.5" />
+        <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" />
+        <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" />
+      </svg>
+      <AlertDescription>The harbour master could not be reached.</AlertDescription>
+    </Alert>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Callout
+
+Here Be Dragons addition — `AlertIcon` holds a text glyph in a 24px box, centred against the whole
+alert. This is the pre-migration callout look.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Alert variant="info">
+          <AlertIcon>ℹ</AlertIcon>
+          <AlertDescription>A new map fragment has been added to your atlas.</AlertDescription>
+        </Alert>
+        <Alert variant="error">
+          <AlertIcon>✕</AlertIcon>
+          <AlertTitle>Hull breach detected</AlertTitle>
+          <AlertDescription>Water is rising in the lower decks. Man the pumps immediately.</AlertDescription>
+        </Alert>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Alert, AlertDescription, AlertIcon, AlertTitle } from "@/components/ui/alert";
+
+    <Alert variant="info">
+      <AlertIcon>ℹ</AlertIcon>
+      <AlertDescription>A new map fragment has been added to your atlas.</AlertDescription>
+    </Alert>
+    <Alert variant="error">
+      <AlertIcon>✕</AlertIcon>
+      <AlertTitle>Hull breach detected</AlertTitle>
+      <AlertDescription>Water is rising in the lower decks. Man the pumps immediately.</AlertDescription>
+    </Alert>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Sage Advice
+
+Here Be Dragons addition — in-world guidance, tips and lore on pale gold with a dashed rule. Keep it
+for flavour, never for system status.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Alert variant="sage-advice">
+        <AlertIcon>🧭</AlertIcon>
+        <AlertTitle>Sage advice</AlertTitle>
+        <AlertDescription>A wise navigator keeps a spare compass below deck.</AlertDescription>
+      </Alert>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Alert variant="sage-advice">
+      <AlertIcon>🧭</AlertIcon>
+      <AlertTitle>Sage advice</AlertTitle>
+      <AlertDescription>A wise navigator keeps a spare compass below deck.</AlertDescription>
+    </Alert>
+    ```
+  </Tab>
+</Tabs>
+
+### Banner and Inline
+
+Here Be Dragons addition — `layout="banner"` is a full-width bar that sticks to the top of its
+scroll container; `layout="inline"` is a compact note beside a form field.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Alert variant="info" layout="banner">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <line x1="8" y1="7" x2="8" y2="11.5" />
+            <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <AlertTitle>Scheduled maintenance</AlertTitle>
+          <AlertDescription>
+            The cartography service is offline from 02:00 to 04:00 UTC.
+          </AlertDescription>
+        </Alert>
+        <Alert variant="success" layout="inline">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <polyline points="5,8.5 7.2,10.6 11,6.5" />
+          </svg>
+          <AlertDescription>Position confirmed.</AlertDescription>
+        </Alert>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Alert variant="info" layout="banner">
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="8" cy="8" r="6.5" />
+        <line x1="8" y1="7" x2="8" y2="11.5" />
+        <circle cx="8" cy="4.5" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+      <AlertTitle>Scheduled maintenance</AlertTitle>
+      <AlertDescription>
+        The cartography service is offline from 02:00 to 04:00 UTC.
+      </AlertDescription>
+    </Alert>
+    <Alert variant="success" layout="inline">
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="8" cy="8" r="6.5" />
+        <polyline points="5,8.5 7.2,10.6 11,6.5" />
+      </svg>
+      <AlertDescription>Position confirmed.</AlertDescription>
+    </Alert>
+    ```
+  </Tab>
+</Tabs>
+
+### Dismissible
+
+Put the close button in an `AlertAction`, which sits at the end of the first line. The Here Be
+Dragons dismiss is a 48px target in the alert's own colour.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <AlertDismissibleDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/ui/alert";
+    import { Button } from "@/components/ui/button";
+
+    export function AlertDismissibleDemo() {
+      const [open, setOpen] = React.useState(true);
+
+      if (!open) {
+        return (
+          <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
+            Restore notice
+          </Button>
+        );
+      }
+
+      return (
+        <Alert variant="success" className="w-full">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <polyline points="5,8.5 7.2,10.6 11,6.5" />
+          </svg>
+          <AlertTitle>Voyage logged</AlertTitle>
+          <AlertDescription>Your chart has been saved to the ship&apos;s ledger.</AlertDescription>
+          <AlertAction>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Dismiss"
+              onClick={() => setOpen(false)}
+              className="size-12 border-0 text-current opacity-80 hover:bg-transparent hover:text-current hover:opacity-100 focus-visible:outline-current"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <line x1="4" y1="4" x2="12" y2="12" />
+                <line x1="12" y1="4" x2="4" y2="12" />
+              </svg>
+            </Button>
+          </AlertAction>
+        </Alert>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### With Action
+
+An `AlertAction` can hold any button. For an inline text action inside the description, style a plain
+button as an underlined link in the alert's colour.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col gap-4">
+        <Alert variant="warning">
+          <AlertTitle>Long rest available</AlertTitle>
+          <AlertDescription>Your party can recover spell slots at the inn.</AlertDescription>
+          <AlertAction>
+            <Button variant="secondary" size="sm">{"Rest"}</Button>
+          </AlertAction>
+        </Alert>
+        <Alert variant="error">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="8" cy="8" r="6.5" />
+            <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" />
+            <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" />
+          </svg>
+          <AlertTitle>Failed to reach the harbour master</AlertTitle>
+          <AlertDescription>
+            The request timed out after 30 seconds.{" "}
+            <button
+              type="button"
+              className="mt-2 cursor-pointer self-start font-semibold underline hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+            >
+              {"Retry"}
+            </button>
+          </AlertDescription>
+        </Alert>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Alert variant="warning">
+      <AlertTitle>Long rest available</AlertTitle>
+      <AlertDescription>Your party can recover spell slots at the inn.</AlertDescription>
+      <AlertAction>
+        <Button variant="secondary" size="sm">
+          Rest
+        </Button>
+      </AlertAction>
+    </Alert>
+
+    <Alert variant="error">
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="8" cy="8" r="6.5" />
+        <line x1="5.5" y1="5.5" x2="10.5" y2="10.5" />
+        <line x1="10.5" y1="5.5" x2="5.5" y2="10.5" />
+      </svg>
+      <AlertTitle>Failed to reach the harbour master</AlertTitle>
+      <AlertDescription>
+        The request timed out after 30 seconds.{" "}
+        <button
+          type="button"
+          onClick={retry}
+          className="mt-2 cursor-pointer self-start font-semibold underline hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+        >
+          Retry
+        </button>
+      </AlertDescription>
+    </Alert>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Alert
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "destructive" | "info" | "success" | "warning" | "error" | "sage-advice"',
+      default: '"default"',
+      description:
+        "Colour scheme. Everything except `default` and `destructive` is a Here Be Dragons addition.",
+    },
+    layout: {
+      type: '"default" | "banner" | "inline"',
+      default: '"default"',
+      description:
+        "`banner` is a sticky full-width bar, `inline` a compact note. Here Be Dragons addition.",
+    },
+  }}
+/>
+
+`Alert` renders a `<div role="alert">`; override `role` (e.g. `role="status"`) for messages that
+should not interrupt. `AlertTitle`, `AlertDescription` and `AlertAction` render a `<div>`, `AlertIcon`
+an `aria-hidden` `<span>` (both Here Be Dragons additions); each takes its element's props.

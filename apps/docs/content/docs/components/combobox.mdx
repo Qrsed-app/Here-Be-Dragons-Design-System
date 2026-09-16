@@ -1,0 +1,454 @@
+---
+title: Combobox
+description: Autocomplete input and command palette with a list of suggestions.
+---
+
+import {
+  ComboboxAsyncDemo,
+  ComboboxDemo,
+  ComboboxFieldDemo,
+  ComboboxMultipleDemo,
+} from "@/components/examples/combobox-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ComboboxDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+    import { CheckIcon, XIcon } from "lucide-react";
+    import { cn } from "@/lib/utils";
+    import {
+      Command,
+      CommandEmpty,
+      CommandGroup,
+      CommandInput,
+      CommandItem,
+      CommandList,
+    } from "@/components/ui/command";
+    import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+    const fieldClass =
+      "flex min-h-11 w-64 flex-wrap items-center gap-1 rounded-md border border-border-strong bg-background px-3 py-1 font-sans text-[1.0625rem] text-foreground has-focus-visible:border-input-focus has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ring has-focus-visible:outline-solid has-aria-invalid:border-error-border has-disabled:cursor-not-allowed has-disabled:bg-surface-subtle has-disabled:opacity-50";
+    const triggerClass =
+      "min-h-[calc(1.7em+0.5rem)] min-w-30 flex-1 truncate py-1 text-left outline-none aria-invalid:text-foreground-emphasis disabled:cursor-not-allowed";
+    const clearClass =
+      "inline-flex shrink-0 cursor-pointer items-center justify-center rounded-sm p-1 text-muted-foreground outline-none hover:text-foreground-emphasis";
+    const panelClass = "w-(--radix-popover-trigger-width) max-w-none min-w-0 gap-0 rounded-md p-0";
+
+    const ports = [
+      { value: "lisbon", label: "Lisbon" },
+      { value: "cadiz", label: "Cádiz" },
+      { value: "tangier", label: "Tangier" },
+      { value: "valletta", label: "Valletta" },
+      { value: "constantinople", label: "Constantinople" },
+    ];
+
+    export function ComboboxDemo() {
+      const [open, setOpen] = React.useState(false);
+      const [value, setValue] = React.useState("");
+      const selected = ports.find((p) => p.value === value);
+
+      return (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverAnchor asChild>
+            <div className={fieldClass}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  role="combobox"
+                  aria-expanded={open}
+                  className={cn(triggerClass, !selected && "text-muted-foreground")}
+                >
+                  {selected?.label ?? "Search a port…"}
+                </button>
+              </PopoverTrigger>
+              {selected && (
+                <button type="button" aria-label="Clear selection" className={clearClass} onClick={() => setValue("")}>
+                  <XIcon className="size-3.5" />
+                </button>
+              )}
+            </div>
+          </PopoverAnchor>
+          <PopoverContent align="start" sideOffset={4} showArrow={false} className={panelClass}>
+            <Command>
+              <CommandInput placeholder="Search a port…" />
+              <CommandList>
+                <CommandEmpty>No results</CommandEmpty>
+                <CommandGroup>
+                  {ports.map((port) => (
+                    <CommandItem
+                      key={port.value}
+                      value={port.label}
+                      data-checked={value === port.value}
+                      onSelect={() => {
+                        setValue(value === port.value ? "" : port.value);
+                        setOpen(false);
+                      }}
+                    >
+                      {port.label}
+                      <CheckIcon className={cn("ml-auto size-3 text-gold-deep", value !== port.value && "opacity-0")} />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+The combobox is not a component of its own: it is built by composing [Popover](/docs/components/popover)
+and [Command](/docs/components/command), as in shadcn/ui. Copy the pattern and adapt it.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/popover @hbd/command
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add them by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/popover.json http://localhost:3001/r/command.json
+```
+
+The multiple-selection example also uses [Badge](/docs/components/badge), the async example
+[Spinner](/docs/components/spinner).
+
+## Usage
+
+The pattern has three parts:
+
+- **The field** — a `PopoverAnchor` drawn as a Here Be Dragons input (ink border, parchment
+  surface). It holds the `PopoverTrigger` button, which shows the value or a placeholder, and a clear
+  button once something is chosen. Anchoring to the field rather than the trigger makes the panel as
+  wide as the whole field.
+- **The panel** — `PopoverContent` with `showArrow={false}`, `sideOffset={4}` and no padding,
+  sized to the field with `w-(--radix-popover-trigger-width)`.
+- **The list** — a `Command` with a search input. Mark the item that holds the current value with
+  `data-checked` for the gold edge, and add a check icon.
+
+## Examples
+
+### Multiple
+
+Chosen values become removable chips inside the field; the panel stays open while you pick. The chips
+are `Badge`s given the Here Be Dragons chip look. The constants are the ones from the example at the
+top of this page.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ComboboxMultipleDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Badge } from "@/components/ui/badge";
+
+    const provisions = [
+      { value: "hardtack", label: "Hardtack" },
+      { value: "rum", label: "Rum" },
+      { value: "limes", label: "Limes" },
+      { value: "salt-pork", label: "Salt pork" },
+      { value: "gunpowder", label: "Gunpowder" },
+    ];
+
+    export function ComboboxMultipleDemo() {
+      const [open, setOpen] = React.useState(false);
+      const [values, setValues] = React.useState<string[]>(["rum"]);
+      const toggle = (v: string) =>
+        setValues((current) => (current.includes(v) ? current.filter((x) => x !== v) : [...current, v]));
+
+      return (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverAnchor asChild>
+            <div className={cn(fieldClass, "w-72")}>
+              {values.map((v) => {
+                const label = provisions.find((p) => p.value === v)?.label ?? v;
+                return (
+                  <Badge
+                    key={v}
+                    variant="outline"
+                    className="h-6 max-w-[200px] gap-1 border-border-ink bg-surface-raised px-2 text-[0.8125rem] leading-[1.7] font-normal"
+                  >
+                    <span className="truncate">{label}</span>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${label}`}
+                      className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full leading-none text-muted-foreground outline-none hover:text-foreground-emphasis"
+                      onClick={() => toggle(v)}
+                    >
+                      <XIcon className="size-2.5" />
+                    </button>
+                  </Badge>
+                );
+              })}
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  role="combobox"
+                  aria-expanded={open}
+                  className={cn(triggerClass, "text-muted-foreground")}
+                >
+                  {values.length === 0 ? "Add provisions…" : null}
+                </button>
+              </PopoverTrigger>
+              {values.length > 0 && (
+                <button type="button" aria-label="Clear selection" className={clearClass} onClick={() => setValues([])}>
+                  <XIcon className="size-3.5" />
+                </button>
+              )}
+            </div>
+          </PopoverAnchor>
+          <PopoverContent align="start" sideOffset={4} showArrow={false} className={panelClass}>
+            <Command>
+              <CommandInput placeholder="Search provisions…" />
+              <CommandList>
+                <CommandEmpty>No results</CommandEmpty>
+                <CommandGroup>
+                  {provisions.map((item) => (
+                    <CommandItem
+                      key={item.value}
+                      value={item.label}
+                      data-checked={values.includes(item.value)}
+                      onSelect={() => toggle(item.value)}
+                    >
+                      {item.label}
+                      <CheckIcon
+                        className={cn("ml-auto size-3 text-gold-deep", !values.includes(item.value) && "opacity-0")}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Async Search
+
+Turn off cmdk's own filtering with `shouldFilter={false}`, control the search text, and show a
+loading row while results arrive.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ComboboxAsyncDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Spinner } from "@/components/ui/spinner";
+
+    // Stand-in for a request to your API.
+    function searchHarbours(query: string) {
+      return new Promise<string[]>((resolve) =>
+        setTimeout(
+          () => resolve(harbours.filter((h) => h.toLowerCase().includes(query.toLowerCase()))),
+          600,
+        ),
+      );
+    }
+
+    export function ComboboxAsyncDemo() {
+      const [open, setOpen] = React.useState(false);
+      const [value, setValue] = React.useState("");
+      const [query, setQuery] = React.useState("");
+      const [results, setResults] = React.useState<string[]>([]);
+      const [loading, setLoading] = React.useState(false);
+
+      React.useEffect(() => {
+        if (!open) return;
+        let cancelled = false;
+        setLoading(true);
+        const t = setTimeout(async () => {
+          const found = await searchHarbours(query);
+          if (!cancelled) {
+            setResults(found);
+            setLoading(false);
+          }
+        }, 250);
+        return () => {
+          cancelled = true;
+          clearTimeout(t);
+        };
+      }, [query, open]);
+
+      return (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverAnchor asChild>
+            <div className={fieldClass}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  role="combobox"
+                  aria-expanded={open}
+                  className={cn(triggerClass, !value && "text-muted-foreground")}
+                >
+                  {value || "Search the harbour master…"}
+                </button>
+              </PopoverTrigger>
+              {value && (
+                <button type="button" aria-label="Clear selection" className={clearClass} onClick={() => setValue("")}>
+                  <XIcon className="size-3.5" />
+                </button>
+              )}
+            </div>
+          </PopoverAnchor>
+          <PopoverContent align="start" sideOffset={4} showArrow={false} className={panelClass}>
+            <Command shouldFilter={false}>
+              <CommandInput placeholder="Type a harbour…" value={query} onValueChange={setQuery} />
+              <CommandList>
+                {loading ? (
+                  <div className="flex items-center gap-2 px-4 py-3 font-sans text-[0.8125rem] text-muted-foreground">
+                    <Spinner size="sm" />
+                    Searching…
+                  </div>
+                ) : (
+                  <>
+                    <CommandEmpty>No results</CommandEmpty>
+                    <CommandGroup>
+                      {results.map((h) => (
+                        <CommandItem
+                          key={h}
+                          value={h}
+                          data-checked={value === h}
+                          onSelect={() => {
+                            setValue(h);
+                            setOpen(false);
+                          }}
+                        >
+                          {h}
+                          <CheckIcon className={cn("ml-auto size-3 text-gold-deep", value !== h && "opacity-0")} />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </>
+                )}
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Label, Description and Error
+
+Compose with [Field](/docs/components/field) and point the label at the trigger. `aria-invalid` on the
+trigger turns the field border red.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ComboboxFieldDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
+
+    const vessels = [
+      { value: "caravel", label: "Caravel" },
+      { value: "carrack", label: "Carrack" },
+      { value: "galley", label: "Galley" },
+    ];
+
+    function VesselCombobox({ id, invalid }: { id: string; invalid?: boolean }) {
+      const [open, setOpen] = React.useState(false);
+      const [value, setValue] = React.useState("");
+      const selected = vessels.find((v) => v.value === value);
+      return (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverAnchor asChild>
+            <div className={cn(fieldClass, "w-full")}>
+              <PopoverTrigger asChild>
+                <button
+                  id={id}
+                  type="button"
+                  role="combobox"
+                  aria-expanded={open}
+                  aria-invalid={invalid || undefined}
+                  className={cn(triggerClass, !selected && "text-muted-foreground")}
+                >
+                  {selected?.label ?? "Pick a class…"}
+                </button>
+              </PopoverTrigger>
+            </div>
+          </PopoverAnchor>
+          <PopoverContent align="start" sideOffset={4} showArrow={false} className={panelClass}>
+            <Command>
+              <CommandInput placeholder="Search classes…" />
+              <CommandList>
+                <CommandEmpty>No results</CommandEmpty>
+                <CommandGroup>
+                  {vessels.map((v) => (
+                    <CommandItem
+                      key={v.value}
+                      value={v.label}
+                      data-checked={value === v.value}
+                      onSelect={() => {
+                        setValue(v.value);
+                        setOpen(false);
+                      }}
+                    >
+                      {v.label}
+                      <CheckIcon className={cn("ml-auto size-3 text-gold-deep", value !== v.value && "opacity-0")} />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+
+    export function ComboboxFieldDemo() {
+      return (
+        <div className="flex w-64 flex-col gap-6">
+          <Field>
+            <FieldLabel htmlFor="vessel">Vessel class</FieldLabel>
+            <VesselCombobox id="vessel" />
+            <FieldDescription>Must match a listed class.</FieldDescription>
+          </Field>
+          <Field data-invalid>
+            <FieldLabel htmlFor="flagship">Flagship class</FieldLabel>
+            <VesselCombobox id="flagship" invalid />
+            <FieldError>Choose a class before setting sail.</FieldError>
+          </Field>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+The combobox has no props of its own. The parts it is built from are documented on their pages:
+[Popover](/docs/components/popover) (`PopoverAnchor`, `PopoverTrigger`, `PopoverContent` with
+`showArrow`), [Command](/docs/components/command) (`CommandInput`, `CommandItem` with
+`data-checked`, `shouldFilter`) and [Badge](/docs/components/badge).

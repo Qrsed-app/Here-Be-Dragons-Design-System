@@ -1,0 +1,225 @@
+import * as React from "react";
+
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/registry/new-york/empty/empty";
+
+const svg = {
+  viewBox: "0 0 64 64",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  "aria-hidden": true,
+} as const;
+
+const templates: {
+  title: string;
+  description: string;
+  variant: "default" | "error" | "success";
+  icon: React.ReactNode;
+}[] = [
+  {
+    title: "Nothing here yet",
+    description: "Add your first item to get started.",
+    variant: "default",
+    icon: (
+      <svg {...svg}>
+        <path d="M16 14h32a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H16" />
+        <path d="M16 14a6 6 0 0 0-6 6v24a6 6 0 0 0 6 6 6 6 0 0 0 6-6V20a6 6 0 0 0-6-6z" />
+        <path d="M48 14a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6" />
+        <line x1="26" y1="24" x2="46" y2="24" />
+        <line x1="26" y1="32" x2="46" y2="32" />
+        <line x1="26" y1="40" x2="40" y2="40" />
+      </svg>
+    ),
+  },
+  {
+    title: "No results found",
+    description: "Try adjusting your search or filters.",
+    variant: "default",
+    icon: (
+      <svg {...svg}>
+        <circle cx="28" cy="28" r="16" />
+        <line x1="40" y1="40" x2="54" y2="54" />
+        <line x1="22" y1="22" x2="34" y2="34" />
+        <line x1="34" y1="22" x2="22" y2="34" />
+      </svg>
+    ),
+  },
+  {
+    title: "You appear to be offline",
+    description: "Check your connection and try again.",
+    variant: "default",
+    icon: (
+      <svg {...svg}>
+        <circle cx="32" cy="30" r="16" />
+        <path d="M22 50h20" />
+        <path d="M20 54h24" />
+        <line x1="14" y1="14" x2="50" y2="50" />
+      </svg>
+    ),
+  },
+  {
+    title: "Something went wrong",
+    description: "An error occurred while loading this content. Please try again.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <path d="M32 10 L56 52 H8 Z" />
+        <line x1="32" y1="26" x2="32" y2="38" />
+        <circle cx="32" cy="44" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    title: "Page not found",
+    description: "The page you're looking for doesn't exist or has been moved.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <circle cx="32" cy="32" r="20" />
+        <circle cx="32" cy="32" r="2.5" fill="currentColor" stroke="none" />
+        <path d="M32 32 L26 18" />
+        <path d="M38 46 L42 50" />
+        <path d="M32 32 L36 42" />
+        <line x1="32" y1="10" x2="32" y2="14" />
+        <line x1="32" y1="50" x2="32" y2="54" />
+        <line x1="10" y1="32" x2="14" y2="32" />
+        <line x1="50" y1="32" x2="54" y2="32" />
+      </svg>
+    ),
+  },
+  {
+    title: "Server error",
+    description: "Something went wrong on our end. We've been notified and are working on a fix.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <circle cx="32" cy="32" r="10" />
+        <circle cx="32" cy="32" r="4" />
+        <path d="M32 14 L32 22" />
+        <path d="M32 42 L32 50" />
+        <path d="M14 32 L22 32" />
+        <path d="M42 32 L50 32" />
+        <path d="M19 19 L25 25" />
+        <path d="M39 39 L45 45" />
+        <path d="M19 45 L25 39" />
+        <path d="M22 24 L30 32 L26 36 L34 44" />
+      </svg>
+    ),
+  },
+  {
+    title: "Access forbidden",
+    description: "You don't have permission to view this content.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <path d="M32 10 L52 18 V34 C52 44 42 52 32 56 C22 52 12 44 12 34 V18 Z" />
+        <rect x="24" y="30" width="16" height="14" rx="1.5" />
+        <path d="M27 30 V25 a5 5 0 0 1 10 0 V30" />
+        <line x1="32" y1="35" x2="32" y2="40" />
+      </svg>
+    ),
+  },
+  {
+    title: "Connection failed",
+    description: "Check your network connection and try again.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <rect x="10" y="24" width="18" height="16" rx="8" />
+        <rect x="36" y="24" width="18" height="16" rx="8" />
+        <line x1="28" y1="20" x2="36" y2="44" />
+        <line x1="36" y1="20" x2="28" y2="44" />
+      </svg>
+    ),
+  },
+  {
+    title: "Submission failed",
+    description: "Please check the form for errors and try again.",
+    variant: "error",
+    icon: (
+      <svg {...svg}>
+        <path d="M16 14h32a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H16" />
+        <path d="M16 14a6 6 0 0 0-6 6v24a6 6 0 0 0 6 6 6 6 0 0 0 6-6V20a6 6 0 0 0-6-6z" />
+        <line x1="26" y1="24" x2="46" y2="24" />
+        <line x1="26" y1="32" x2="46" y2="32" />
+        <line x1="27" y1="38" x2="43" y2="48" />
+        <line x1="43" y1="38" x2="27" y2="48" />
+      </svg>
+    ),
+  },
+  {
+    title: "Submitted successfully",
+    description: "Your request has been received and is being processed.",
+    variant: "success",
+    icon: (
+      <svg {...svg}>
+        <circle cx="32" cy="32" r="22" />
+        <polyline points="20,32 28,40 44,24" />
+      </svg>
+    ),
+  },
+  {
+    title: "Changes saved",
+    description: "Your changes have been saved successfully.",
+    variant: "success",
+    icon: (
+      <svg {...svg}>
+        <circle cx="32" cy="32" r="20" strokeOpacity="0.7" />
+        <polyline points="22,32 30,39 42,26" />
+      </svg>
+    ),
+  },
+  {
+    title: "All done!",
+    description: "You've completed all the required steps.",
+    variant: "success",
+    icon: (
+      <svg {...svg}>
+        <path d="M22 18h20v10 a10 10 0 0 1 -20 0z" />
+        <path d="M42 22 a4 4 0 0 1 0 8" />
+        <path d="M22 22 a4 4 0 0 0 0 8" />
+        <path d="M32 40 V46" />
+        <path d="M24 50h16" />
+        <path d="M32 6 L34 10 L38 10.5 L35 13 L36 17 L32 15 L28 17 L29 13 L26 10.5 L30 10 Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Welcome, adventurer",
+    description: "Your account is ready. Begin your journey.",
+    variant: "success",
+    icon: (
+      <svg {...svg}>
+        <path d="M16 54 V24 a16 16 0 0 1 32 0 V54" />
+        <path d="M22 54 V26 a10 10 0 0 1 20 0 V54" />
+        <path d="M32 4 V10" />
+        <path d="M20 8 L23 13" />
+        <path d="M44 8 L41 13" />
+      </svg>
+    ),
+  },
+];
+
+export function EmptyTemplatesDemo() {
+  return (
+    <div className="grid w-full gap-4 sm:grid-cols-2">
+      {templates.map((t) => (
+        <Empty key={t.title} size="sm" variant={t.variant} className="border">
+          <EmptyHeader>
+            <EmptyMedia>{t.icon}</EmptyMedia>
+            <EmptyTitle>{t.title}</EmptyTitle>
+            <EmptyDescription>{t.description}</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      ))}
+    </div>
+  );
+}

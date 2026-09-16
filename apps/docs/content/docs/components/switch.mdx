@@ -1,0 +1,282 @@
+---
+title: Switch
+description: A control that allows the user to toggle between checked and not checked.
+---
+
+import { Switch } from "@/registry/new-york/switch/switch";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/registry/new-york/field/field";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="night-charts" />
+        <FieldLabel htmlFor="night-charts" className="text-[1.0625rem] font-normal">Night charts</FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldLabel } from "@/components/ui/field";
+    import { Switch } from "@/components/ui/switch";
+
+    export function SwitchDemo() {
+      return (
+        <Field orientation="horizontal" className="items-start py-3">
+          <Switch id="night-charts" />
+          <FieldLabel htmlFor="night-charts" className="text-[1.0625rem] font-normal">
+            Night charts
+          </FieldLabel>
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/switch
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/switch.json
+```
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+```
+
+```tsx
+<Switch />
+```
+
+In a horizontal `Field`, `items-start py-3` keeps the switch level with the first line of the label and
+the tap area at least 44px tall; the body-size label matches the other choice controls.
+
+## Examples
+
+### Size
+
+`lg` is a Here Be Dragons addition.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="switch-sm" size="sm" defaultChecked />
+        <FieldLabel htmlFor="switch-sm" className="text-[1.0625rem] font-normal">
+          Small
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="switch-default" defaultChecked />
+        <FieldLabel htmlFor="switch-default" className="text-[1.0625rem] font-normal">
+          Default
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="switch-lg" size="lg" defaultChecked />
+        <FieldLabel htmlFor="switch-lg" className="text-[1.0625rem] font-normal">
+          Large
+        </FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field orientation="horizontal" className="items-start py-3">
+      <Switch id="switch-sm" size="sm" defaultChecked />
+      <FieldLabel htmlFor="switch-sm" className="text-[1.0625rem] font-normal">
+        Small
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start py-3">
+      <Switch id="switch-default" defaultChecked />
+      <FieldLabel htmlFor="switch-default" className="text-[1.0625rem] font-normal">
+        Default
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start py-3">
+      <Switch id="switch-lg" size="lg" defaultChecked />
+      <FieldLabel htmlFor="switch-lg" className="text-[1.0625rem] font-normal">
+        Large
+      </FieldLabel>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Label position
+
+Put the label first to place it on the left. `w-fit` keeps the switch beside the label instead of at
+the far edge.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="w-fit items-start py-3">
+        <FieldLabel htmlFor="label-left" className="text-[1.0625rem] font-normal">
+          Label left
+        </FieldLabel>
+        <Switch id="label-left" defaultChecked />
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field orientation="horizontal" className="w-fit items-start py-3">
+      <FieldLabel htmlFor="label-left" className="text-[1.0625rem] font-normal">
+        Label left
+      </FieldLabel>
+      <Switch id="label-left" defaultChecked />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="switch-disabled" disabled />
+        <FieldLabel
+          htmlFor="switch-disabled"
+          className="text-[1.0625rem] font-normal peer-disabled:text-foreground peer-disabled:opacity-50"
+        >
+          Disabled
+        </FieldLabel>
+      </Field>
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="switch-disabled-on" disabled defaultChecked />
+        <FieldLabel
+          htmlFor="switch-disabled-on"
+          className="text-[1.0625rem] font-normal peer-disabled:text-foreground peer-disabled:opacity-50"
+        >
+          Disabled &amp; on
+        </FieldLabel>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field orientation="horizontal" className="items-start py-3">
+      <Switch id="switch-disabled" disabled />
+      <FieldLabel
+        htmlFor="switch-disabled"
+        className="text-[1.0625rem] font-normal peer-disabled:text-foreground peer-disabled:opacity-50"
+      >
+        Disabled
+      </FieldLabel>
+    </Field>
+    <Field orientation="horizontal" className="items-start py-3">
+      <Switch id="switch-disabled-on" disabled defaultChecked />
+      <FieldLabel
+        htmlFor="switch-disabled-on"
+        className="text-[1.0625rem] font-normal peer-disabled:text-foreground peer-disabled:opacity-50"
+      >
+        Disabled &amp; on
+      </FieldLabel>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Description
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field orientation="horizontal" className="py-3">
+        <Switch id="notify" aria-describedby="notify-description" />
+        <FieldContent>
+          <FieldLabel htmlFor="notify" className="text-[1.0625rem] font-normal">Notify me</FieldLabel>
+          <FieldDescription id="notify-description" className="mt-1">We&apos;ll only ping you about active voyages.</FieldDescription>
+        </FieldContent>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldContent, FieldDescription, FieldLabel } from "@/components/ui/field";
+
+    <Field orientation="horizontal" className="py-3">
+      <Switch id="notify" aria-describedby="notify-description" />
+      <FieldContent>
+        <FieldLabel htmlFor="notify" className="text-[1.0625rem] font-normal">
+          Notify me
+        </FieldLabel>
+        <FieldDescription id="notify-description" className="mt-1">
+          We&apos;ll only ping you about active voyages.
+        </FieldDescription>
+      </FieldContent>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Invalid
+
+`data-invalid` on the `Field` turns the label red; add a `FieldError` for the message.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Field data-invalid="true">
+        <Field orientation="horizontal" className="items-start py-3">
+          <Switch id="share-location" aria-invalid aria-describedby="share-location-error" />
+          <FieldLabel htmlFor="share-location" className="text-[1.0625rem] font-normal">Share location</FieldLabel>
+        </Field>
+        <FieldError id="share-location-error">You must enable this to continue.</FieldError>
+      </Field>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+
+    <Field data-invalid="true">
+      <Field orientation="horizontal" className="items-start py-3">
+        <Switch id="share-location" aria-invalid aria-describedby="share-location-error" />
+        <FieldLabel htmlFor="share-location" className="text-[1.0625rem] font-normal">
+          Share location
+        </FieldLabel>
+      </Field>
+      <FieldError id="share-location-error">You must enable this to continue.</FieldError>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Track size: 36×20, 44×24 or 52×28px. `lg` is a Here Be Dragons addition.",
+    },
+  }}
+/>
+
+`checked`, `defaultChecked`, `onCheckedChange`, `disabled`, `name`, `value` and every other prop go to
+the Radix Switch root. See the
+[Radix Switch documentation](https://www.radix-ui.com/primitives/docs/components/switch).

@@ -1,0 +1,236 @@
+---
+title: Stepper
+description: A number input flanked by decrement and increment buttons.
+---
+
+import {
+  StepperControlledDemo,
+  StepperDemo,
+  StepperDisabledDemo,
+  StepperInvalidDemo,
+  StepperSizesDemo,
+  StepperStepDemo,
+  StepperThinDemo,
+} from "@/components/examples/stepper-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+    import { Stepper } from "@/components/ui/stepper";
+
+    export function StepperDemo() {
+      return (
+        <Field className="w-64">
+          <FieldLabel htmlFor="quantity">Quantity</FieldLabel>
+          <Stepper id="quantity" defaultValue={1} min={0} max={10} />
+          <FieldDescription>Between 0 and 10.</FieldDescription>
+        </Field>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+A Here Be Dragons component: shadcn/ui has no stepper. It is a native `<input type="number">` with
+its own − and + buttons, so `id`, `name`, `required`, `aria-invalid` and the rest go straight to
+the input.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/stepper
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/stepper.json
+```
+
+## Usage
+
+```tsx
+import { Stepper } from "@/components/ui/stepper";
+```
+
+```tsx
+<Stepper defaultValue={1} min={0} max={10} onValueChange={(value) => console.log(value)} />
+```
+
+The input is the only tab stop: the buttons are for pointers, and the keyboard steps with the arrow
+keys, `PageUp` / `PageDown` for ten steps, and `Home` / `End` for `min` / `max`. Typing is left
+alone until it settles — `onValueChange` fires when a step, an arrow key or a blur commits a
+number, clamped to the bounds and rounded to the step's precision.
+
+## Examples
+
+### Sizes
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperSizesDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Stepper size="sm" defaultValue={1} min={0} max={10} aria-label="Small" />
+    <Stepper defaultValue={1} min={0} max={10} aria-label="Default" />
+    <Stepper size="lg" defaultValue={1} min={0} max={10} aria-label="Large" />
+    ```
+  </Tab>
+</Tabs>
+
+### Thin
+
+`variant="thin"` shrinks the control to the width of its digits so it can sit in a table cell or
+beside other fields. Wrap it in an inline column rather than a `Field`, which stretches its
+children to full width.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperThinDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="inline-flex flex-col items-start gap-1 font-sans">
+      <FieldLabel htmlFor="spell-level">Spell level</FieldLabel>
+      <Stepper id="spell-level" variant="thin" defaultValue={3} min={1} max={9} />
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### Step and bounds
+
+`step` sets the increment and the rounding; `min` and `max` clamp the value and disable the button
+at each end.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperStepDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="w-64">
+      <FieldLabel htmlFor="trim">Rudder trim</FieldLabel>
+      <Stepper id="trim" defaultValue={0} min={-1} max={1} step={0.5} />
+      <FieldDescription>Half-step increments between -1 and 1.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperInvalidDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="w-64" data-invalid="true">
+      <FieldLabel htmlFor="rations">Rations</FieldLabel>
+      <Stepper id="rations" aria-invalid defaultValue={0} min={0} />
+      <FieldError>At least one barrel is required.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field className="w-64" data-disabled="true">
+      <FieldLabel htmlFor="cannons">Cannons</FieldLabel>
+      <Stepper id="cannons" disabled defaultValue={2} />
+      <FieldDescription>Sealed by the quartermaster.</FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Controlled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <StepperControlledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [value, setValue] = React.useState(3);
+
+    <Field className="w-64">
+      <FieldLabel htmlFor="doubloons">Gold doubloons</FieldLabel>
+      <Stepper id="doubloons" value={value} onValueChange={setValue} min={0} max={20} />
+      <FieldDescription>Current haul: {value}</FieldDescription>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    value: {
+      type: "number",
+      description: "Controlled value.",
+    },
+    defaultValue: {
+      type: "number",
+      default: "0",
+      description: "Uncontrolled initial value.",
+    },
+    onValueChange: {
+      type: "(value: number) => void",
+      description:
+        "Called when a step, an arrow key or a blur commits a number — not on every keystroke. Use `onChange` for that.",
+    },
+    min: { type: "number", description: "Lower bound. Disables − at the bottom." },
+    max: { type: "number", description: "Upper bound. Disables + at the top." },
+    step: {
+      type: "number",
+      default: "1",
+      description: "Increment per step, and the decimal precision the value is rounded to.",
+    },
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Control height and type size, matching Input.",
+    },
+    variant: {
+      type: '"default" | "thin"',
+      default: '"default"',
+      description: "`thin` shrinks to the width of the digits instead of filling its column.",
+    },
+  }}
+/>
+
+`className` styles the bordered group; reach the field itself with `[&>input]:…`. Every other prop —
+`id`, `name`, `required`, `disabled`, `aria-invalid`, `onChange`, `onBlur` — is forwarded to the
+`<input type="number">`.

@@ -4,8 +4,8 @@ import { dirname, resolve } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-// GitHub Pages project sites are served under /<repo>. The deploy workflow sets
-// NEXT_PUBLIC_BASE_PATH to the repo name; empty = root-domain / local hosting.
+// Only for hosting under a sub-path (e.g. a GitHub Pages project site at /<repo>).
+// Production at ds.qrsed.com is root-hosted, so the deploy leaves this empty.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 /** @type {import('next').NextConfig} */

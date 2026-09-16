@@ -1,0 +1,152 @@
+---
+title: Kbd
+description: Used to display textual user input from keyboard.
+---
+
+import { ArrowUpIcon, CommandIcon } from "lucide-react";
+import { Kbd, KbdGroup } from "@/registry/new-york/kbd/kbd";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex flex-col items-center gap-4">
+        <KbdGroup>
+          <Kbd>⌘</Kbd>
+          <Kbd>⇧</Kbd>
+          <Kbd>⌥</Kbd>
+          <Kbd>⌃</Kbd>
+        </KbdGroup>
+        <KbdGroup>
+          <Kbd>Ctrl</Kbd>
+          <span>+</span>
+          <Kbd>B</Kbd>
+        </KbdGroup>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Kbd, KbdGroup } from "@/components/ui/kbd";
+
+    export function KbdDemo() {
+      return (
+        <div className="flex flex-col items-center gap-4">
+          <KbdGroup>
+            <Kbd>⌘</Kbd>
+            <Kbd>⇧</Kbd>
+            <Kbd>⌥</Kbd>
+            <Kbd>⌃</Kbd>
+          </KbdGroup>
+          <KbdGroup>
+            <Kbd>Ctrl</Kbd>
+            <span>+</span>
+            <Kbd>B</Kbd>
+          </KbdGroup>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/kbd
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/kbd.json
+```
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+```
+
+```tsx
+<Kbd>Ctrl</Kbd>
+```
+
+New in Here Be Dragons — there was no keyboard key before. It is drawn as a small raised parchment
+keycap in JetBrains Mono, with an ink edge and a one-pixel offset shadow echoing the buttons.
+
+## Examples
+
+### In Text
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="font-serif">
+        Press{" "}
+        <KbdGroup>
+          <Kbd>⌘</Kbd>
+          <Kbd>K</Kbd>
+        </KbdGroup>{" "}
+        to open the spellbook, or <Kbd>Esc</Kbd> to close it.
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <p>
+      Press{" "}
+      <KbdGroup>
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
+      </KbdGroup>{" "}
+      to open the spellbook, or <Kbd>Esc</Kbd> to close it.
+    </p>
+    ```
+  </Tab>
+</Tabs>
+
+### Icons
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <KbdGroup>
+        <Kbd>
+          <CommandIcon />
+        </Kbd>
+        <Kbd>
+          <ArrowUpIcon />
+        </Kbd>
+        <Kbd>P</Kbd>
+      </KbdGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ArrowUpIcon, CommandIcon } from "lucide-react";
+
+    <KbdGroup>
+      <Kbd>
+        <CommandIcon />
+      </Kbd>
+      <Kbd>
+        <ArrowUpIcon />
+      </Kbd>
+      <Kbd>P</Kbd>
+    </KbdGroup>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Input Group
+
+See [Input Group](/docs/components/input-group) — an inline-end addon holding a `Kbd` shows a
+shortcut inside a search field.
+
+## API Reference
+
+`Kbd` renders a `<kbd>` and `KbdGroup` a `<kbd>` wrapper; neither adds props. Inside an element with
+`data-slot="tooltip-content"` the key switches to a translucent cap that reads on the tooltip.

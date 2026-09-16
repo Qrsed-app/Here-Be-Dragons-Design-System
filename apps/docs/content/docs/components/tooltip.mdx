@@ -1,0 +1,183 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+---
+
+import {
+  TooltipDemo,
+  TooltipDisabledDemo,
+  TooltipRichDemo,
+  TooltipSideDemo,
+} from "@/components/examples/tooltip-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import {
+      Tooltip,
+      TooltipContent,
+      TooltipProvider,
+      TooltipTrigger,
+    } from "@/components/ui/tooltip";
+
+    export function TooltipDemo() {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="secondary">Hover</Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Add to the ship&apos;s log</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/tooltip
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/tooltip.json
+```
+
+## Usage
+
+Wrap the app (or the part that uses tooltips) in one `TooltipProvider`.
+
+```tsx
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+```
+
+```tsx
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger>Hover</TooltipTrigger>
+    <TooltipContent>
+      <p>Add to library</p>
+    </TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+## Examples
+
+### Side
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipSideDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TooltipProvider>
+      {(["top", "right", "bottom", "left"] as const).map((side) => (
+        <Tooltip key={side}>
+          <TooltipTrigger asChild>
+            <Button variant="secondary">{side}</Button>
+          </TooltipTrigger>
+          <TooltipContent side={side}>
+            <p>Placed on the {side}</p>
+          </TooltipContent>
+        </Tooltip>
+      ))}
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
+### Rich content
+
+The bubble wraps at 240px.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipRichDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="gold">Map legend</Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <strong>Here be dragons.</strong>
+          <br />
+          Uncharted waters beyond this point.
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled button
+
+A disabled button fires no pointer events, so wrap it in a focusable element and make that the
+trigger.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <TooltipDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span tabIndex={0} className="inline-block">
+            <Button variant="secondary" disabled>
+              Set sail
+            </Button>
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>The harbour master has not signed the papers</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### TooltipContent
+
+<TypeTable
+  type={{
+    sideOffset: {
+      type: "number",
+      default: "8",
+      description: "Gap in px between trigger and bubble. The arrow sits in the gap.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `Tooltip.Content`. `TooltipProvider` defaults `delayDuration` to
+`0`; `Tooltip`, `TooltipTrigger` and `TooltipProvider` take the props of their
+[Radix Tooltip](https://www.radix-ui.com/primitives/docs/components/tooltip) parts.

@@ -1,0 +1,362 @@
+---
+title: Chip
+description: A compact pill for tags, filters and attributes, with an optional icon, remove button or toggle state.
+---
+
+import { Chip, ChipToggle } from "@/registry/new-york/chip/chip";
+import { ChipRemovableDemo, ChipToggleDemo } from "@/components/examples/chip-demo";
+import { CheckIcon, FlagIcon, StarIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip>Cartography</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Chip } from "@/components/ui/chip";
+
+    export function ChipDemo() {
+      return <Chip>Cartography</Chip>;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+Here Be Dragons component — shadcn/ui has no chip. It follows the shadcn conventions: `variant` and
+`size` from `cva`, `asChild`, a `data-slot` on each part, and the pressable form built on the Radix
+Toggle primitive.
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/chip
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/chip.json
+```
+
+## Usage
+
+```tsx
+import { Chip, ChipRemove, ChipToggle } from "@/components/ui/chip";
+```
+
+```tsx
+<Chip variant="success">Verified</Chip>
+```
+
+## Examples
+
+### Variant
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip>Default</Chip>
+      <Chip variant="primary">Primary</Chip>
+      <Chip variant="success">Success</Chip>
+      <Chip variant="warning">Warning</Chip>
+      <Chip variant="destructive">Destructive</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip>Default</Chip>
+    <Chip variant="primary">Primary</Chip>
+    <Chip variant="success">Success</Chip>
+    <Chip variant="warning">Warning</Chip>
+    <Chip variant="destructive">Destructive</Chip>
+    ```
+  </Tab>
+</Tabs>
+
+### Outline
+
+`outline` drops the fill and moves the variant's colour to the border and text.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip outline>Default</Chip>
+      <Chip variant="primary" outline>
+        Primary
+      </Chip>
+      <Chip variant="success" outline>
+        Success
+      </Chip>
+      <Chip variant="warning" outline>
+        Warning
+      </Chip>
+      <Chip variant="destructive" outline>
+        Destructive
+      </Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip outline>Default</Chip>
+    <Chip variant="primary" outline>
+      Primary
+    </Chip>
+    <Chip variant="success" outline>
+      Success
+    </Chip>
+    <Chip variant="warning" outline>
+      Warning
+    </Chip>
+    <Chip variant="destructive" outline>
+      Destructive
+    </Chip>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip size="sm">Small</Chip>
+      <Chip>Default</Chip>
+      <Chip size="lg">Large</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip size="sm">Small</Chip>
+    <Chip>Default</Chip>
+    <Chip size="lg">Large</Chip>
+    ```
+  </Tab>
+</Tabs>
+
+### With Icon
+
+Put the icon before the label; the chip sizes it to 16px.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip variant="success"><CheckIcon />Verified</Chip>
+      <Chip variant="warning"><FlagIcon />Flagged</Chip>
+      <Chip variant="primary" outline><StarIcon />Featured</Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { CheckIcon, FlagIcon, StarIcon } from "lucide-react";
+
+    <Chip variant="success">
+      <CheckIcon />
+      Verified
+    </Chip>
+    <Chip variant="warning">
+      <FlagIcon />
+      Flagged
+    </Chip>
+    <Chip variant="primary" outline>
+      <StarIcon />
+      Featured
+    </Chip>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Removable
+
+Add a `ChipRemove` after the label and drop the chip from your state in its `onClick`. Name the chip
+in its `aria-label`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ChipRemovableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Chip, ChipRemove } from "@/components/ui/chip";
+
+    const INITIAL_TAGS = ["Compass", "Astrolabe", "Sextant", "Cartography"];
+
+    export function ChipRemovableDemo() {
+      const [tags, setTags] = React.useState(INITIAL_TAGS);
+
+      if (tags.length === 0) {
+        return (
+          <Chip asChild outline>
+            <button type="button" onClick={() => setTags(INITIAL_TAGS)}>
+              Reset tags
+            </button>
+          </Chip>
+        );
+      }
+
+      return (
+        <>
+          {tags.map((label) => (
+            <Chip key={label} variant="primary">
+              {label}
+              <ChipRemove
+                aria-label={`Remove ${label}`}
+                onClick={() => setTags((prev) => prev.filter((tag) => tag !== label))}
+              />
+            </Chip>
+          ))}
+        </>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Toggle
+
+`ChipToggle` is a pressable chip built on the Radix Toggle: a `<button>` with `aria-pressed` that
+fills with the primary colour when on.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ChipToggleDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { ChipToggle } from "@/components/ui/chip";
+
+    const FILTERS = ["Dragons", "Maps", "Lore", "Sea Monsters"];
+
+    export function ChipToggleDemo() {
+      const [selected, setSelected] = React.useState<string[]>(["Dragons"]);
+
+      return (
+        <>
+          {FILTERS.map((label) => (
+            <ChipToggle
+              key={label}
+              pressed={selected.includes(label)}
+              onPressedChange={(pressed) =>
+                setSelected((prev) => (pressed ? [...prev, label] : prev.filter((l) => l !== label)))
+              }
+            >
+              {label}
+            </ChipToggle>
+          ))}
+        </>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Long Labels
+
+Chips stop growing at 200px. Wrap a long label in a `truncate` span to end it with an ellipsis.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip>
+        <span className="truncate">The Cartographer of the Sunless Sea and Beyond</span>
+      </Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Chip>
+      <span className="truncate">The Cartographer of the Sunless Sea and Beyond</span>
+    </Chip>
+    ```
+  </Tab>
+</Tabs>
+
+### As Child
+
+Render a link or button with the chip's look.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Chip asChild variant="primary" outline><a href="#as-child"><StarIcon />Bestiary</a></Chip>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+    import { StarIcon } from "lucide-react";
+
+    <Chip asChild variant="primary" outline>
+      <Link href="/bestiary">
+        <StarIcon />
+        Bestiary
+      </Link>
+    </Chip>
+    ```
+
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Chip
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "primary" | "success" | "warning" | "destructive"',
+      default: '"default"',
+      description: "Colour.",
+    },
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Height, padding and type size (22px, 28px, 36px).",
+    },
+    outline: {
+      type: "boolean",
+      default: "false",
+      description: "Transparent fill; the variant colours the border and text.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element instead of a `<span>`, merging props and classes onto it (Radix Slot).",
+    },
+  }}
+/>
+
+Every other prop goes to the `<span>`. The exported `chipVariants` returns the same classes for use
+on other elements.
+
+### ChipToggle
+
+Takes the same `variant`, `size` and `outline` props as `Chip`, plus the Radix Toggle props
+`pressed`, `defaultPressed`, `onPressedChange` and `disabled`. See the
+[Radix Toggle](https://www.radix-ui.com/primitives/docs/components/toggle) documentation.
+
+### ChipRemove
+
+A `<button type="button">` with a 32px hit area around a 16px ✕. It defaults to
+`aria-label="Remove"` — pass one that names the chip. Children replace the icon; other props go to
+the `<button>`. Put it inside a `Chip`, never inside a `ChipToggle` (a button cannot contain a
+button).

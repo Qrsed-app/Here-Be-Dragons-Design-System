@@ -1,0 +1,281 @@
+---
+title: Calendar
+description: A date field component that allows users to enter and edit date.
+---
+
+import {
+  CalendarDemo,
+  CalendarDisabledDemo,
+  CalendarDropdownDemo,
+  CalendarMultipleDemo,
+  CalendarMultipleMonthsDemo,
+  CalendarRangeDemo,
+  CalendarWeekNumbersDemo,
+} from "@/components/examples/calendar-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import * as React from "react";
+
+    import { Calendar } from "@/components/ui/calendar";
+
+    export function CalendarDemo() {
+      const [date, setDate] = React.useState<Date | undefined>(new Date(1492, 7, 3));
+
+      return (
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          defaultMonth={new Date(1492, 7, 1)}
+          className="rounded-lg border border-border-subtle shadow-lg"
+        />
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/calendar
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/calendar.json
+```
+
+## Usage
+
+```tsx
+import { Calendar } from "@/components/ui/calendar";
+```
+
+```tsx
+<Calendar mode="single" selected={date} onSelect={setDate} />
+```
+
+The calendar is [React DayPicker](https://daypicker.dev) with the Here Be Dragons look: a raised
+parchment surface, a Cinzel month caption, round blood-red selected days, and a ring on the day the
+grid's arrow keys will move from. Everything DayPicker accepts — `mode`, `numberOfMonths`,
+`startMonth` / `endMonth`, `disabled`, `locale`, `formatters` — is accepted here.
+
+## Examples
+
+### Range
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarRangeDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import type { DateRange } from "react-day-picker";
+
+    const [range, setRange] = React.useState<DateRange | undefined>({
+      from: new Date(1492, 7, 3),
+      to: new Date(1492, 7, 12),
+    });
+
+    <Calendar
+      mode="range"
+      selected={range}
+      onSelect={setRange}
+      defaultMonth={new Date(1492, 7, 1)}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+The first and last day of a range are filled like a selected day; the days between them carry the
+run, and each edge half-fills its cell toward it.
+
+### Multiple months
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarMultipleMonthsDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Calendar
+      mode="range"
+      numberOfMonths={2}
+      selected={range}
+      onSelect={setRange}
+      defaultMonth={new Date(1492, 7, 1)}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+### Multiple dates
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarMultipleDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    const [dates, setDates] = React.useState<Date[] | undefined>([
+      new Date(1492, 7, 3),
+      new Date(1492, 7, 10),
+      new Date(1492, 7, 17),
+    ]);
+
+    <Calendar
+      mode="multiple"
+      selected={dates}
+      onSelect={setDates}
+      defaultMonth={new Date(1492, 7, 1)}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+### Month and year dropdowns
+
+`captionLayout="dropdown"` swaps the caption for month and year selects, bounded by `startMonth`
+and `endMonth`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarDropdownDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Calendar
+      mode="single"
+      captionLayout="dropdown"
+      startMonth={new Date(1490, 0)}
+      endMonth={new Date(1500, 11)}
+      selected={date}
+      onSelect={setDate}
+      defaultMonth={new Date(1492, 7, 1)}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled days
+
+Pass any DayPicker matcher to `disabled`. Disabled days keep their place in the grid and cannot be
+selected or focused.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarDisabledDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      defaultMonth={new Date(1492, 7, 1)}
+      disabled={[{ before: new Date(1492, 7, 5) }, { after: new Date(1492, 7, 25) }]}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+### Week numbers
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <CalendarWeekNumbersDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Calendar
+      mode="single"
+      showWeekNumber
+      defaultMonth={new Date(1492, 7, 1)}
+      className="rounded-lg border border-border-subtle shadow-lg"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+### Date picker
+
+A calendar in a popover is the [Date Picker](/docs/components/date-picker) pattern — trigger,
+panel, and an optional [Time Picker](/docs/components/time-picker) for the hour.
+
+## API Reference
+
+### Calendar
+
+<TypeTable
+  type={{
+    mode: {
+      type: '"single" | "multiple" | "range"',
+      description: "How many days can be selected. Pairs with `selected` and `onSelect`.",
+    },
+    showOutsideDays: {
+      type: "boolean",
+      default: "true",
+      description: "Render the leading and trailing days of the neighbouring months.",
+    },
+    captionLayout: {
+      type: '"label" | "dropdown" | "dropdown-months" | "dropdown-years"',
+      default: '"label"',
+      description: "Show the month and year as a caption or as select dropdowns.",
+    },
+    buttonVariant: {
+      type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "gold"',
+      default: '"ghost"',
+      description: "Button variant used for the previous and next month buttons.",
+    },
+    classNames: {
+      type: "Partial<Record<UI | DayFlag | SelectionState, string>>",
+      description:
+        "Per-element class overrides, merged over the Here Be Dragons defaults — `day`, `week`, `month_caption`, `range_middle` and the rest.",
+    },
+    formatters: {
+      type: "Partial<Formatters>",
+      description:
+        "Override the caption, weekday and day text. Weekdays default to the three-letter form the Here Be Dragons calendar has always used.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to `DayPicker` — see the
+[React DayPicker API](https://daypicker.dev/api/interfaces/DayPickerProps). The day cell size comes
+from a `--cell-size` custom property on the root, so `className="[--cell-size:--spacing(10)]"`
+scales the grid.
+
+### CalendarDayButton
+
+The single day button, exported so `components={{ DayButton: … }}` can wrap it. It takes DayPicker's
+`day` and `modifiers` plus the props of [Button](/docs/components/button).

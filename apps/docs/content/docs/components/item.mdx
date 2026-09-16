@@ -1,0 +1,592 @@
+---
+title: Item
+description: A versatile component for displaying content with media, title, description, and actions.
+---
+
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemHeader,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from "@/registry/new-york/item/item";
+import { Badge } from "@/registry/new-york/badge/badge";
+import { Button } from "@/registry/new-york/button/button";
+import { ItemSelectableDemo } from "@/components/examples/item-demo";
+import { ChevronRightIcon, ScrollTextIcon } from "lucide-react";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemGroup className="w-full max-w-md overflow-hidden rounded-lg border border-border-subtle">
+        <Item role="listitem">
+          <ItemContent>
+            <ItemTitle>Compass</ItemTitle>
+            <ItemDescription>Holds a steady bearing north</ItemDescription>
+          </ItemContent>
+        </Item>
+        <ItemSeparator />
+        <Item role="listitem">
+          <ItemContent>
+            <ItemTitle>Sextant</ItemTitle>
+            <ItemDescription>Fixes latitude from the stars</ItemDescription>
+          </ItemContent>
+        </Item>
+        <ItemSeparator />
+        <Item role="listitem">
+          <ItemContent>
+            <ItemTitle>Astrolabe</ItemTitle>
+            <ItemDescription>Predicts positions of stars</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import {
+      Item,
+      ItemContent,
+      ItemDescription,
+      ItemGroup,
+      ItemSeparator,
+      ItemTitle,
+    } from "@/components/ui/item";
+
+    export function ItemDemo() {
+      return (
+        <ItemGroup className="w-full max-w-md overflow-hidden rounded-lg border border-border-subtle">
+          <Item role="listitem">
+            <ItemContent>
+              <ItemTitle>Compass</ItemTitle>
+              <ItemDescription>Holds a steady bearing north</ItemDescription>
+            </ItemContent>
+          </Item>
+          <ItemSeparator />
+          <Item role="listitem">
+            <ItemContent>
+              <ItemTitle>Sextant</ItemTitle>
+              <ItemDescription>Fixes latitude from the stars</ItemDescription>
+            </ItemContent>
+          </Item>
+          <ItemSeparator />
+          <Item role="listitem">
+            <ItemContent>
+              <ItemTitle>Astrolabe</ItemTitle>
+              <ItemDescription>Predicts positions of stars</ItemDescription>
+            </ItemContent>
+          </Item>
+        </ItemGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/item
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/item.json
+```
+
+## Usage
+
+```tsx
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
+```
+
+```tsx
+<Item>
+  <ItemMedia variant="icon">
+    <Icon />
+  </ItemMedia>
+  <ItemContent>
+    <ItemTitle>Title</ItemTitle>
+    <ItemDescription>Description</ItemDescription>
+  </ItemContent>
+  <ItemActions>
+    <Button>Action</Button>
+  </ItemActions>
+</Item>
+```
+
+A plain-text `ItemTitle` and every `ItemDescription` stay on one line and end in an ellipsis when
+they run out of room. Add `whitespace-normal` to let them wrap.
+
+## Examples
+
+### Variant
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-md flex-col gap-4">
+        <Item>
+          <ItemContent>
+            <ItemTitle>Default</ItemTitle>
+            <ItemDescription>Transparent, for rows inside a list or card.</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item variant="outline">
+          <ItemContent>
+            <ItemTitle>Outline</ItemTitle>
+            <ItemDescription>A standalone row with a border.</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button variant="secondary" size="sm">
+              {"Open"}
+            </Button>
+          </ItemActions>
+        </Item>
+        <Item variant="muted">
+          <ItemContent>
+            <ItemTitle>Muted</ItemTitle>
+            <ItemDescription>A standalone row on a parchment fill.</ItemDescription>
+          </ItemContent>
+        </Item>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Item>
+      <ItemContent>
+        <ItemTitle>Default</ItemTitle>
+        <ItemDescription>Transparent, for rows inside a list or card.</ItemDescription>
+      </ItemContent>
+    </Item>
+    <Item variant="outline">
+      <ItemContent>
+        <ItemTitle>Outline</ItemTitle>
+        <ItemDescription>A standalone row with a border.</ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Button variant="secondary" size="sm">
+          Open
+        </Button>
+      </ItemActions>
+    </Item>
+    <Item variant="muted">
+      <ItemContent>
+        <ItemTitle>Muted</ItemTitle>
+        <ItemDescription>A standalone row on a parchment fill.</ItemDescription>
+      </ItemContent>
+    </Item>
+    ```
+  </Tab>
+</Tabs>
+
+### Size
+
+`sm` and `default` come from shadcn/ui; `lg` is a Here Be Dragons addition. The rows are 36, 48 and
+64 pixels tall at minimum.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemGroup className="w-full max-w-xs overflow-hidden rounded-lg border border-border-subtle">
+        <Item size="sm" role="listitem">
+          <ItemContent>
+            <ItemTitle>Small</ItemTitle>
+          </ItemContent>
+        </Item>
+        <ItemSeparator />
+        <Item role="listitem">
+          <ItemContent>
+            <ItemTitle>Default</ItemTitle>
+          </ItemContent>
+        </Item>
+        <ItemSeparator />
+        <Item size="lg" role="listitem">
+          <ItemContent>
+            <ItemTitle>Large</ItemTitle>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ItemGroup className="overflow-hidden rounded-lg border border-border-subtle">
+      <Item size="sm" role="listitem">
+        <ItemContent>
+          <ItemTitle>Small</ItemTitle>
+        </ItemContent>
+      </Item>
+      <ItemSeparator />
+      <Item role="listitem">
+        <ItemContent>
+          <ItemTitle>Default</ItemTitle>
+        </ItemContent>
+      </Item>
+      <ItemSeparator />
+      <Item size="lg" role="listitem">
+        <ItemContent>
+          <ItemTitle>Large</ItemTitle>
+        </ItemContent>
+      </Item>
+    </ItemGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Media and Actions
+
+`ItemActions` holds trailing text and controls. To reveal a control only on hover or keyboard focus,
+fade it in from the item's group.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemGroup className="w-full max-w-lg overflow-hidden rounded-lg border border-border-subtle">
+        <Item role="listitem">
+          <ItemMedia>🧭</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Magellan</ItemTitle>
+            <ItemDescription>First circumnavigation</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <span>1519</span>
+          </ItemActions>
+        </Item>
+        <ItemSeparator />
+        <Item role="listitem">
+          <ItemMedia variant="icon">
+            <ScrollTextIcon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>
+              Drake <Badge variant="warning">Privateer</Badge>
+            </ItemTitle>
+            <ItemDescription>Golden Hind</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <span>1577</span>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label="View voyage"
+              className="opacity-0 transition-opacity group-focus-within/item:opacity-100 group-hover/item:opacity-100"
+            >
+              <ChevronRightIcon />
+            </Button>
+          </ItemActions>
+        </Item>
+      </ItemGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { ChevronRightIcon, ScrollTextIcon } from "lucide-react";
+
+    <ItemGroup className="overflow-hidden rounded-lg border border-border-subtle">
+      <Item role="listitem">
+        <ItemMedia>🧭</ItemMedia>
+        <ItemContent>
+          <ItemTitle>Magellan</ItemTitle>
+          <ItemDescription>First circumnavigation</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <span>1519</span>
+        </ItemActions>
+      </Item>
+      <ItemSeparator />
+      <Item role="listitem">
+        <ItemMedia variant="icon">
+          <ScrollTextIcon />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>
+            Drake <Badge variant="warning">Privateer</Badge>
+          </ItemTitle>
+          <ItemDescription>Golden Hind</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <span>1577</span>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="View voyage"
+            className="opacity-0 transition-opacity group-focus-within/item:opacity-100 group-hover/item:opacity-100"
+          >
+            <ChevronRightIcon />
+          </Button>
+        </ItemActions>
+      </Item>
+    </ItemGroup>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Link
+
+Render a link with `asChild`. Mark the current page with `aria-current="page"` — the item gets a
+blood bar on its leading edge. For a list flush with its container's text edge, remove the horizontal
+padding.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemGroup className="w-full max-w-sm">
+        <Item asChild className="px-0 aria-[current=page]:pl-1">
+          <a href="#link" aria-current="page">
+            <ItemContent>
+              <ItemTitle>Overview</ItemTitle>
+            </ItemContent>
+          </a>
+        </Item>
+        <Item asChild className="px-0 aria-[current=page]:pl-1">
+          <a href="#link">
+            <ItemContent>
+              <ItemTitle>Charts</ItemTitle>
+            </ItemContent>
+          </a>
+        </Item>
+        <Item asChild className="px-0 aria-[current=page]:pl-1">
+          <a href="#link">
+            <ItemContent>
+              <ItemTitle>Voyages</ItemTitle>
+            </ItemContent>
+          </a>
+        </Item>
+      </ItemGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import Link from "next/link";
+
+    <ItemGroup>
+      <Item asChild className="px-0 aria-[current=page]:pl-1">
+        <Link href="/overview" aria-current="page">
+          <ItemContent>
+            <ItemTitle>Overview</ItemTitle>
+          </ItemContent>
+        </Link>
+      </Item>
+      <Item asChild className="px-0 aria-[current=page]:pl-1">
+        <Link href="/charts">
+          <ItemContent>
+            <ItemTitle>Charts</ItemTitle>
+          </ItemContent>
+        </Link>
+      </Item>
+      <Item asChild className="px-0 aria-[current=page]:pl-1">
+        <Link href="/voyages">
+          <ItemContent>
+            <ItemTitle>Voyages</ItemTitle>
+          </ItemContent>
+        </Link>
+      </Item>
+    </ItemGroup>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Selectable
+
+Buttons as items, with `aria-current="true"` on the chosen one. The secondary line is a `span`,
+not `ItemDescription`: that renders a `<p>`, which browsers reject inside a `<button>`. Use
+`ItemDescription` on an `Item` that is not a button.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemSelectableDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    "use client";
+
+    import * as React from "react";
+
+    import { Item, ItemContent, ItemGroup, ItemTitle } from "@/components/ui/item";
+
+    const ports = [
+      { value: "tortuga", name: "Tortuga", description: "Lawless free port" },
+      { value: "nassau", name: "Nassau", description: "Pirate republic" },
+      { value: "port-royal", name: "Port Royal", description: "Crown stronghold" },
+    ];
+
+    export function ItemSelectableDemo() {
+      const [selected, setSelected] = React.useState("nassau");
+
+      return (
+        <ItemGroup
+          role="group"
+          aria-label="Home port"
+          className="w-full max-w-md overflow-hidden rounded-lg border border-border-subtle"
+        >
+          {ports.map((port) => (
+            <Item key={port.value} asChild>
+              <button
+                type="button"
+                aria-current={selected === port.value ? "true" : undefined}
+                onClick={() => setSelected(port.value)}
+              >
+                <ItemContent>
+                  <ItemTitle>{port.name}</ItemTitle>
+                  {/* Not ItemDescription: it renders a <p>, which is invalid inside a <button>. */}
+                  <span className="font-sans text-[0.8125rem] leading-[1.35] text-muted-foreground">
+                    {port.description}
+                  </span>
+                </ItemContent>
+              </button>
+            </Item>
+          ))}
+        </ItemGroup>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <ItemGroup className="w-full max-w-sm overflow-hidden rounded-lg border border-border-subtle">
+        <Item asChild>
+          <button type="button">
+            <ItemContent>
+              <ItemTitle>Available route</ItemTitle>
+            </ItemContent>
+          </button>
+        </Item>
+        <Item aria-disabled="true">
+          <ItemContent>
+            <ItemTitle>Locked route</ItemTitle>
+            <ItemDescription>Requires a charter</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <ItemGroup className="overflow-hidden rounded-lg border border-border-subtle">
+      <Item asChild>
+        <button type="button">
+          <ItemContent>
+            <ItemTitle>Available route</ItemTitle>
+          </ItemContent>
+        </button>
+      </Item>
+      <Item aria-disabled="true">
+        <ItemContent>
+          <ItemTitle>Locked route</ItemTitle>
+          <ItemDescription>Requires a charter</ItemDescription>
+        </ItemContent>
+      </Item>
+    </ItemGroup>
+    ```
+  </Tab>
+</Tabs>
+
+### Header and Footer
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <Item variant="outline" className="w-full max-w-md">
+        <ItemHeader>
+          <span className="font-accent text-sm">Ship&apos;s log</span>
+          <span className="text-xs text-muted-foreground">Day 14</span>
+        </ItemHeader>
+        <ItemContent>
+          <ItemTitle>Calm seas</ItemTitle>
+          <ItemDescription>A steady wind from the south-east.</ItemDescription>
+        </ItemContent>
+        <ItemFooter>
+          <span className="text-xs text-muted-foreground">Logged by the first mate</span>
+        </ItemFooter>
+      </Item>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Item variant="outline">
+      <ItemHeader>
+        <span className="font-accent text-sm">Ship&apos;s log</span>
+        <span className="text-xs text-muted-foreground">Day 14</span>
+      </ItemHeader>
+      <ItemContent>
+        <ItemTitle>Calm seas</ItemTitle>
+        <ItemDescription>A steady wind from the south-east.</ItemDescription>
+      </ItemContent>
+      <ItemFooter>
+        <span className="text-xs text-muted-foreground">Logged by the first mate</span>
+      </ItemFooter>
+    </Item>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### Item
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "outline" | "muted"',
+      default: '"default"',
+      description: "Surface of the row.",
+    },
+    size: {
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+      description:
+        "Padding and minimum height (48, 36 or 64px). `lg` is a Here Be Dragons addition.",
+    },
+    asChild: {
+      type: "boolean",
+      default: "false",
+      description:
+        "Render the single child element (a link or button) instead of a `<div>` (Radix Slot).",
+    },
+  }}
+/>
+
+Set `aria-current` on the rendered element to mark the current item; `disabled` (buttons) or
+`aria-disabled` dims it.
+
+### ItemMedia
+
+<TypeTable
+  type={{
+    variant: {
+      type: '"default" | "icon" | "image"',
+      default: '"default"',
+      description: "`icon` frames a small icon; `image` crops an image to a 40px square.",
+    },
+  }}
+/>
+
+`ItemSeparator` takes the [Separator](/docs/components/separator) props. Every other part renders a
+`<div>` (`ItemDescription` a `<p>`) and takes that element's props.

@@ -1,0 +1,260 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+---
+
+import { Separator } from "@/registry/new-york/separator/separator";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm font-sans">
+        <div className="flex flex-col gap-1">
+          <div className="text-sm font-medium">Here Be Dragons</div>
+          <div className="text-sm text-muted-foreground">A bestiary of components for shadcn/ui.</div>
+        </div>
+        <Separator className="my-4" />
+        <div className="flex h-5 items-center text-sm">
+          <div>Lore</div>
+          <Separator orientation="vertical" />
+          <div>Maps</div>
+          <Separator orientation="vertical" />
+          <div>Spells</div>
+        </div>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Separator } from "@/components/ui/separator";
+
+    export function SeparatorDemo() {
+      return (
+        <div className="w-full max-w-sm font-sans">
+          <div className="flex flex-col gap-1">
+            <div className="text-sm font-medium">Here Be Dragons</div>
+            <div className="text-sm text-muted-foreground">A bestiary of components for shadcn/ui.</div>
+          </div>
+          <Separator className="my-4" />
+          <div className="flex h-5 items-center text-sm">
+            <div>Lore</div>
+            <Separator orientation="vertical" />
+            <div>Maps</div>
+            <Separator orientation="vertical" />
+            <div>Spells</div>
+          </div>
+        </div>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/separator
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/separator.json
+```
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator";
+```
+
+```tsx
+<Separator />
+```
+
+## Examples
+
+### Spacing
+
+Unlike upstream, the separator keeps the Here Be Dragons page rhythm: a horizontal rule carries
+`my-6` (24px above and below) and a vertical rule `mx-2`, one `1em` tall. Pass your own margin to
+change it, or `my-0` / `mx-0` to remove it.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col font-sans text-sm">
+        <span>Default rhythm</span>
+        <Separator />
+        <span>Tight</span>
+        <Separator className="my-2" />
+        <span>None</span>
+        <Separator className="my-0" />
+        <span>End</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <span>Default rhythm</span>
+    <Separator />
+    <span>Tight</span>
+    <Separator className="my-2" />
+    <span>None</span>
+    <Separator className="my-0" />
+    <span>End</span>
+    ```
+  </Tab>
+</Tabs>
+
+### Vertical
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex items-center font-sans">
+        <span>Left</span>
+        <Separator orientation="vertical" />
+        <span>Right</span>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <div className="flex items-center">
+      <span>Left</span>
+      <Separator orientation="vertical" />
+      <span>Right</span>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+### Variant
+
+Here Be Dragons addition — `subtle`, `strong` and `gold` rules. Separators are decorative, so the
+lighter tokens are intentional.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col">
+        <Separator className="my-3" />
+        <Separator variant="subtle" className="my-3" />
+        <Separator variant="strong" className="my-3" />
+        <Separator variant="gold" className="my-3" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Separator />
+    <Separator variant="subtle" />
+    <Separator variant="strong" />
+    <Separator variant="gold" />
+    ```
+  </Tab>
+</Tabs>
+
+### Line Style
+
+Here Be Dragons addition — `dashed` draws fine 4px dashes, `double` a 3px double rule. Both combine
+with every colour variant and with either orientation.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col">
+        <Separator lineStyle="dashed" className="my-3" />
+        <Separator lineStyle="double" className="my-3" />
+        <Separator lineStyle="double" variant="gold" className="my-3" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Separator lineStyle="dashed" />
+    <Separator lineStyle="double" />
+    <Separator lineStyle="double" variant="gold" />
+    ```
+  </Tab>
+</Tabs>
+
+### Labelled
+
+Here Be Dragons addition — children render as a small-caps label between two rules.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full flex-col">
+        <Separator>Section</Separator>
+        <Separator variant="gold">Chapter II</Separator>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Separator>Section</Separator>
+    <Separator variant="gold">Chapter II</Separator>
+    ```
+  </Tab>
+</Tabs>
+
+### Ornamental
+
+Here Be Dragons addition — a gold sigil between two fading rules, for breaking up long-form
+parchment text. It uses a larger `my-8` rhythm and is hidden from assistive technology.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full">
+        <Separator variant="ornamental">❖</Separator>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Separator variant="ornamental">❖</Separator>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+<TypeTable
+  type={{
+    orientation: {
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "Direction of the rule.",
+    },
+    decorative: {
+      type: "boolean",
+      default: "true",
+      description:
+        'When true the separator is purely visual (`role="none"`); set false for a semantic `role="separator"`.',
+    },
+    variant: {
+      type: '"default" | "subtle" | "strong" | "gold" | "ornamental"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Rule colour, or the ornamental sigil layout.",
+    },
+    lineStyle: {
+      type: '"solid" | "dashed" | "double"',
+      default: '"solid"',
+      description: "Here Be Dragons addition. Ignored by the ornamental variant.",
+    },
+    children: {
+      type: "ReactNode",
+      description:
+        "Here Be Dragons addition. A label (or, with `ornamental`, a sigil) centred between two rules.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the Radix
+[Separator](https://www.radix-ui.com/primitives/docs/components/separator) root.

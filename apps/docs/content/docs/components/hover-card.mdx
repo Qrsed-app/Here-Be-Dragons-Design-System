@@ -1,0 +1,156 @@
+---
+title: Hover Card
+description: For sighted users to preview content available behind a link.
+---
+
+import {
+  HoverCardDemo,
+  HoverCardNoArrowDemo,
+  HoverCardSideDemo,
+} from "@/components/examples/hover-card-demo";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <HoverCardDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Button } from "@/components/ui/button";
+    import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+
+    export function HoverCardDemo() {
+      return (
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button variant="link">@cartographer</Button>
+          </HoverCardTrigger>
+          <HoverCardContent>
+            <div className="flex flex-col gap-1">
+              <h4 className="font-accent text-[0.9375rem] leading-[1.35] font-bold tracking-[0.02em]">
+                The Cartographer
+              </h4>
+              <p className="text-sm leading-normal">Charts the Sea of Fallen Stars. Keeper of the western lighthouse.</p>
+              <p className="text-xs leading-normal text-muted-foreground">Joined in the Year of the Wyrm</p>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/hover-card
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/hover-card.json
+```
+
+## Usage
+
+```tsx
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+```
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent>The Cartographer charts the Sea of Fallen Stars.</HoverCardContent>
+</HoverCard>
+```
+
+## Examples
+
+### Side
+
+`openDelay` and `closeDelay` (in ms) tune how quickly the card follows the pointer.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <HoverCardSideDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    {(["top", "right", "bottom", "left"] as const).map((side) => (
+      <HoverCard key={side} openDelay={100} closeDelay={100}>
+        <HoverCardTrigger asChild>
+          <Button variant="secondary">{side}</Button>
+        </HoverCardTrigger>
+        <HoverCardContent side={side}>
+          <div className="flex flex-col gap-1">
+            <h4 className="font-accent text-[0.9375rem] leading-[1.35] font-bold tracking-[0.02em]">
+              The Cartographer
+            </h4>
+            <p className="text-sm leading-normal">Charts the Sea of Fallen Stars. Keeper of the western lighthouse.</p>
+            <p className="text-xs leading-normal text-muted-foreground">Joined in the Year of the Wyrm</p>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+    ))}
+    ```
+  </Tab>
+</Tabs>
+
+### Without arrow
+
+Here Be Dragons addition — `showArrow={false}`.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <HoverCardNoArrowDemo />
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link">@quartermaster</Button>
+      </HoverCardTrigger>
+      <HoverCardContent showArrow={false}>
+        <p className="text-sm leading-normal">Keeps the stores, the rum and the ledger.</p>
+      </HoverCardContent>
+    </HoverCard>
+    ```
+  </Tab>
+</Tabs>
+
+## API Reference
+
+### HoverCardContent
+
+<TypeTable
+  type={{
+    showArrow: {
+      type: "boolean",
+      default: "true",
+      description: "Draw the arrow on the edge facing the trigger. Here Be Dragons addition.",
+    },
+    sideOffset: {
+      type: "number",
+      default: "8",
+      description: "Gap in px between trigger and card; the arrow fills it.",
+    },
+    align: {
+      type: '"start" | "center" | "end"',
+      default: '"center"',
+      description: "Alignment against the trigger.",
+    },
+  }}
+/>
+
+Every other prop goes to Radix `HoverCard.Content`. `HoverCard` and `HoverCardTrigger` take the
+props of their [Radix Hover Card](https://www.radix-ui.com/primitives/docs/components/hover-card)
+parts.

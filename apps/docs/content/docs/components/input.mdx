@@ -1,0 +1,256 @@
+---
+title: Input
+description: Displays a form input field or a component that looks like an input field.
+---
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/registry/new-york/field/field";
+import { Input } from "@/registry/new-york/input/input";
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Input type="email" placeholder="dragon@example.com" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Input } from "@/components/ui/input";
+
+    export function InputDemo() {
+      return <Input type="email" placeholder="dragon@example.com" />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+```bash
+npx shadcn@latest add @hbd/input
+```
+
+The `@hbd` namespace needs a one-time `registries` entry in `components.json` — see
+[Installation](/docs/installation). Or add it by URL, no configuration needed:
+
+```bash
+npx shadcn@latest add http://localhost:3001/r/input.json
+```
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+```
+
+```tsx
+<Input />
+```
+
+`Input` renders a plain `<input>`: `ref`, `value` and the native `onChange(event)` work as usual,
+so `{...register("name")}` from react-hook-form needs no adapter.
+
+## Examples
+
+### Field
+
+Labels, descriptions and error messages are not `Input` props — compose them with
+[Field](/docs/components/field).
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="input-demo-user">Username</FieldLabel>
+          <Input id="input-demo-user" placeholder="username" />
+          <FieldDescription>Use 3–20 characters.</FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+    import { Input } from "@/components/ui/input";
+
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" placeholder="username" />
+      <FieldDescription>Use 3–20 characters.</FieldDescription>
+    </Field>
+    ```
+
+  </Tab>
+</Tabs>
+
+### Size
+
+Here Be Dragons addition. `size` takes `"sm" | "default" | "lg"` and replaces the native
+character-width attribute, which has no visible effect on a full-width input — upstream
+[Native Select](/docs/components/native-select) makes the same trade.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="flex w-full max-w-sm flex-col gap-4">
+        <Input size="sm" placeholder="Small" />
+        <Input placeholder="Default" />
+        <Input size="lg" placeholder="Large" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input size="sm" placeholder="Small" />
+    <Input placeholder="Default" />
+    <Input size="lg" placeholder="Large" />
+    ```
+  </Tab>
+</Tabs>
+
+### Invalid
+
+Set `aria-invalid` for the error look, and `data-invalid` on the surrounding `Field` to tint the
+label.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field data-invalid>
+          <FieldLabel htmlFor="input-demo-email">Email</FieldLabel>
+          <Input id="input-demo-email" type="email" aria-invalid defaultValue="dragon@example" />
+          <FieldError>That email is already taken.</FieldError>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-invalid>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input id="email" type="email" aria-invalid defaultValue="dragon@example" />
+      <FieldError>That email is already taken.</FieldError>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Valid
+
+Here Be Dragons addition. `data-valid` draws the success border and forest-green text; pair it
+with a green `FieldDescription` announced as a status.
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field>
+          <FieldLabel htmlFor="input-demo-valid">Email</FieldLabel>
+          <Input id="input-demo-valid" type="email" data-valid defaultValue="dragon@example.com" />
+          <FieldDescription role="status" className="text-forest-700">
+            {"Looks good!"}
+          </FieldDescription>
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input id="email" type="email" data-valid defaultValue="dragon@example.com" />
+      <FieldDescription role="status" className="text-forest-700">
+        Looks good!
+      </FieldDescription>
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Disabled
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Field data-disabled>
+          <FieldLabel htmlFor="input-demo-disabled">Disabled</FieldLabel>
+          <Input id="input-demo-disabled" placeholder="Unavailable" disabled />
+        </Field>
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Field data-disabled>
+      <FieldLabel htmlFor="disabled">Disabled</FieldLabel>
+      <Input id="disabled" placeholder="Unavailable" disabled />
+    </Field>
+    ```
+  </Tab>
+</Tabs>
+
+### Read Only
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Input defaultValue="Locked value" readOnly />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input defaultValue="Locked value" readOnly />
+    ```
+  </Tab>
+</Tabs>
+
+### File
+
+<Tabs items={["Preview", "Code"]}>
+  <Tab value="Preview">
+    <Preview>
+      <div className="w-full max-w-sm">
+        <Input type="file" />
+      </div>
+    </Preview>
+  </Tab>
+  <Tab value="Code">
+    ```tsx
+    <Input type="file" />
+    ```
+  </Tab>
+</Tabs>
+
+### Prefix, Suffix and Password Toggle
+
+The old `prefix`, `suffix` and password eye are now [Input Group](/docs/components/input-group)
+addons, and the character counter is a [Field](/docs/components/field) description.
+
+## API Reference
+
+<TypeTable
+  type={{
+    size: {
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "Here Be Dragons addition. Height, padding and type size.",
+    },
+    "aria-invalid": {
+      type: "boolean",
+      description: "Error border and blood-red text.",
+    },
+    "data-valid": {
+      type: "boolean",
+      description: "Here Be Dragons addition. Success border and forest-green text.",
+    },
+  }}
+/>
+
+Every other prop is forwarded to the `<input>` element.
